@@ -7,5 +7,5 @@
 #       or equal to the generated config header
 #
 linker.cmd: package/cfg/bigtime_pem4f.xdl
-	$(SED) 's"^\"\(package/cfg/bigtime_pem4fcfg.cmd\)\"$""\"C:/Users/Allen/workspace_CCS/EE319H_Final_Project/Debug/configPkg/\1\""' package/cfg/bigtime_pem4f.xdl > $@
+	$(SED) 's"^\"\(package/cfg/bigtime_pem4fcfg.cmd\)\"$""\"C:/Users/Allen/Documents/GitHub/EE319H-Final-Project-CCS/Debug/configPkg/\1\""' package/cfg/bigtime_pem4f.xdl > $@
 	-$(SETDATE) -r:max package/cfg/bigtime_pem4f.h compiler.opt compiler.opt.defs

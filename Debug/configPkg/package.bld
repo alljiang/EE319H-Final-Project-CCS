@@ -11,7 +11,7 @@ var makeAssembly = false;
 var Executable = xdc.module('xdc.bld.Executable');
 
 var exeOpts = new Executable.Attrs({
-        cfgScript: 'C:/Users/Allen/workspace_CCS/EE319H_Final_Project/bigtime.cfg',
+        cfgScript: 'C:/Users/Allen/Documents/GitHub/EE319H-Final-Project-CCS/bigtime.cfg',
         profile: 'release',
         cfgHome: 'configPkg',
 });
@@ -41,7 +41,7 @@ else {
 
 var thisObj = {
     cfg:        '../bigtime.cfg',
-    outputPath: 'C:/Users/Allen/workspace_CCS/EE319H_Final_Project/Debug/configPkg',
+    outputPath: 'C:/Users/Allen/Documents/GitHub/EE319H-Final-Project-CCS/Debug/configPkg',
     exeName:    'bigtime' + suffix,
     exeIntName: 'bigtime' + suffix.replace('.', '_'),
     targ:       targ,

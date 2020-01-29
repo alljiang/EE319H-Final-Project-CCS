@@ -58,7 +58,6 @@ Int main()
 {
     /* Construct BIOS objects */
     Task_Params taskParams;
-    Semaphore_Params semParams;
 
     System_printf("Starting!\n");
     System_flush();
