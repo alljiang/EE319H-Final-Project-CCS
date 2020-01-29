@@ -16,7 +16,8 @@ CMD_SRCS += \
 
 C_SRCS += \
 ../EK_TM4C123GXL.c \
-../ILI9341.c 
+../ILI9341.c \
+../SD_SPI.c 
 
 GEN_CMDS += \
 ./configPkg/linker.cmd 
@@ -30,7 +31,8 @@ GEN_MISC_DIRS += \
 
 C_DEPS += \
 ./EK_TM4C123GXL.d \
-./ILI9341.d 
+./ILI9341.d \
+./SD_SPI.d 
 
 GEN_OPTS += \
 ./configPkg/compiler.opt 
@@ -38,6 +40,7 @@ GEN_OPTS += \
 OBJS += \
 ./EK_TM4C123GXL.obj \
 ./ILI9341.obj \
+./SD_SPI.obj \
 ./start.obj 
 
 CPP_DEPS += \
@@ -49,11 +52,13 @@ GEN_MISC_DIRS__QUOTED += \
 OBJS__QUOTED += \
 "EK_TM4C123GXL.obj" \
 "ILI9341.obj" \
+"SD_SPI.obj" \
 "start.obj" 
 
 C_DEPS__QUOTED += \
 "EK_TM4C123GXL.d" \
-"ILI9341.d" 
+"ILI9341.d" \
+"SD_SPI.d" 
 
 CPP_DEPS__QUOTED += \
 "start.d" 
@@ -64,7 +69,8 @@ GEN_FILES__QUOTED += \
 
 C_SRCS__QUOTED += \
 "../EK_TM4C123GXL.c" \
-"../ILI9341.c" 
+"../ILI9341.c" \
+"../SD_SPI.c" 
 
 CPP_SRCS__QUOTED += \
 "../start.cpp" 

@@ -23,9 +23,15 @@
 #include "Board.h"
 
 SPI_Handle spi;
+SPI_Params params;
 SPI_Transaction transaction;
 
+const uint32_t SPI_Bitrate = 10000000;  // 10 MHz
+
 void ILI9341_initGeneral(void) {
+    SPI_Params_init(&params);
+    params.bitRate = SPI_Bitrate;
+
     startSPI();
 
     SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOA);
@@ -86,7 +92,7 @@ void chipSelect(bool select) {
 }
 
 void startSPI(void) {
-    spi = SPI_open(Board_SPI0, NULL);
+    spi = SPI_open(Board_SPI0, &params);
     if (spi == NULL) { System_abort("Error initializing SPI\n"); }
 }
 

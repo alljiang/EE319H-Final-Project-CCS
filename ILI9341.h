@@ -30,6 +30,7 @@ extern void ILI9341_softwareReset(void);
 extern void ILI9341_enableDisplay(bool enable);
 
 extern void setReadPin(bool isReadCommand);
+extern void chipSelect(bool select);
 extern void startSPI(void);
 extern void releaseSPI(void);
 extern void transferSPI(void);
