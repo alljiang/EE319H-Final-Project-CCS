@@ -128,74 +128,74 @@ package/%.xdc.inc package/%_configPkg.c package/%.defs.h: %.xdc $(PKGCFGS)
 	@$(MSG) generating interfaces for package configPkg" (because $@ is older than $(firstword $?))" ...
 	$(XSRUN) -f xdc/services/intern/cmd/build.xs $(MK_IDLOPTS) -m package/package.xdc.dep -i package/package.xdc.inc package.xdc
 
-.dlls,em4f .dlls: bigtime.pem4f
+.dlls,em4f .dlls: EE319H.pem4f
 
--include package/cfg/bigtime_pem4f.mak
--include package/cfg/bigtime_pem4f.cfg.mak
+-include package/cfg/EE319H_pem4f.mak
+-include package/cfg/EE319H_pem4f.cfg.mak
 ifeq (,$(MK_NOGENDEPS))
--include package/cfg/bigtime_pem4f.dep
+-include package/cfg/EE319H_pem4f.dep
 endif
-bigtime.pem4f: package/cfg/bigtime_pem4f.xdl
+EE319H.pem4f: package/cfg/EE319H_pem4f.xdl
 	@
 
 
 ifeq (,$(wildcard .libraries,em4f))
-bigtime.pem4f package/cfg/bigtime_pem4f.c: .libraries,em4f
+EE319H.pem4f package/cfg/EE319H_pem4f.c: .libraries,em4f
 endif
 
-package/cfg/bigtime_pem4f.c package/cfg/bigtime_pem4f.h package/cfg/bigtime_pem4f.xdl: override _PROG_NAME := bigtime.xem4f
-package/cfg/bigtime_pem4f.c: package/cfg/bigtime_pem4f.cfg
-package/cfg/bigtime_pem4f.xdc.inc: package/cfg/bigtime_pem4f.xdl
-package/cfg/bigtime_pem4f.xdl package/cfg/bigtime_pem4f.c: .interfaces
+package/cfg/EE319H_pem4f.c package/cfg/EE319H_pem4f.h package/cfg/EE319H_pem4f.xdl: override _PROG_NAME := EE319H.xem4f
+package/cfg/EE319H_pem4f.c: package/cfg/EE319H_pem4f.cfg
+package/cfg/EE319H_pem4f.xdc.inc: package/cfg/EE319H_pem4f.xdl
+package/cfg/EE319H_pem4f.xdl package/cfg/EE319H_pem4f.c: .interfaces
 
 clean:: clean,em4f
-	-$(RM) package/cfg/bigtime_pem4f.cfg
-	-$(RM) package/cfg/bigtime_pem4f.dep
-	-$(RM) package/cfg/bigtime_pem4f.c
-	-$(RM) package/cfg/bigtime_pem4f.xdc.inc
+	-$(RM) package/cfg/EE319H_pem4f.cfg
+	-$(RM) package/cfg/EE319H_pem4f.dep
+	-$(RM) package/cfg/EE319H_pem4f.c
+	-$(RM) package/cfg/EE319H_pem4f.xdc.inc
 
 clean,em4f::
-	-$(RM) bigtime.pem4f
-.executables,em4f .executables: bigtime.xem4f
+	-$(RM) EE319H.pem4f
+.executables,em4f .executables: EE319H.xem4f
 
-bigtime.xem4f: |bigtime.pem4f
+EE319H.xem4f: |EE319H.pem4f
 
--include package/cfg/bigtime.xem4f.mak
-bigtime.xem4f: package/cfg/bigtime_pem4f.oem4f 
+-include package/cfg/EE319H.xem4f.mak
+EE319H.xem4f: package/cfg/EE319H_pem4f.oem4f 
 	$(RM) $@
 	@$(MSG) lnkem4f $@ ...
 	$(RM) $(XDCCFGDIR)/$@.map
-	$(ti.targets.arm.elf.M4F.rootDir)/bin/armcl -fs $(XDCCFGDIR)$(dir $@). -q -u _c_int00 --silicon_version=7M4 -z --strict_compatibility=on  -o $@ package/cfg/bigtime_pem4f.oem4f   package/cfg/bigtime_pem4f.xdl  -w -c -m $(XDCCFGDIR)/$@.map -l $(ti.targets.arm.elf.M4F.rootDir)/lib/libc.a
+	$(ti.targets.arm.elf.M4F.rootDir)/bin/armcl -fs $(XDCCFGDIR)$(dir $@). -q -u _c_int00 --silicon_version=7M4 -z --strict_compatibility=on  -o $@ package/cfg/EE319H_pem4f.oem4f   package/cfg/EE319H_pem4f.xdl  -w -c -m $(XDCCFGDIR)/$@.map -l $(ti.targets.arm.elf.M4F.rootDir)/lib/libc.a
 	
-bigtime.xem4f: export C_DIR=
-bigtime.xem4f: PATH:=$(ti.targets.arm.elf.M4F.rootDir)/bin/;$(PATH)
-bigtime.xem4f: Path:=$(ti.targets.arm.elf.M4F.rootDir)/bin/;$(PATH)
+EE319H.xem4f: export C_DIR=
+EE319H.xem4f: PATH:=$(ti.targets.arm.elf.M4F.rootDir)/bin/;$(PATH)
+EE319H.xem4f: Path:=$(ti.targets.arm.elf.M4F.rootDir)/bin/;$(PATH)
 
-bigtime.test test,em4f test: bigtime.xem4f.test
+EE319H.test test,em4f test: EE319H.xem4f.test
 
-bigtime.xem4f.test:: bigtime.xem4f
+EE319H.xem4f.test:: EE319H.xem4f
 ifeq (,$(_TESTLEVEL))
-	@$(MAKE) -R -r --no-print-directory -f $(XDCROOT)/packages/xdc/bld/xdc.mak _TESTLEVEL=1 bigtime.xem4f.test
+	@$(MAKE) -R -r --no-print-directory -f $(XDCROOT)/packages/xdc/bld/xdc.mak _TESTLEVEL=1 EE319H.xem4f.test
 else
 	@$(MSG) running $<  ...
-	$(call EXEC.bigtime.xem4f, ) 
+	$(call EXEC.EE319H.xem4f, ) 
 endif
 
 clean,em4f::
-	-$(RM) $(wildcard .tmp,bigtime.xem4f,*)
+	-$(RM) $(wildcard .tmp,EE319H.xem4f,*)
 
 
 clean:: clean,em4f
 
 clean,em4f::
-	-$(RM) bigtime.xem4f
+	-$(RM) EE319H.xem4f
 %,copy:
 	@$(if $<,,$(MSG) don\'t know how to build $*; exit 1)
 	@$(MSG) cp $< $@
 	$(RM) $@
 	$(CP) $< $@
-bigtime_pem4f.oem4f,copy : package/cfg/bigtime_pem4f.oem4f
-bigtime_pem4f.sem4f,copy : package/cfg/bigtime_pem4f.sem4f
+EE319H_pem4f.oem4f,copy : package/cfg/EE319H_pem4f.oem4f
+EE319H_pem4f.sem4f,copy : package/cfg/EE319H_pem4f.sem4f
 
 $(XDCCFGDIR)%.c $(XDCCFGDIR)%.h $(XDCCFGDIR)%.xdl: $(XDCCFGDIR)%.cfg $(XDCROOT)/packages/xdc/cfg/Main.xs | .interfaces
 	@$(MSG) "configuring $(_PROG_NAME) from $< ..."

@@ -12,9 +12,9 @@ extern "C" {
 
 extern void SDSPI_initGeneral(void);
 
-extern void openFile(char* filename);
-extern void readFile(char* output, uint32_t numBytes);
-extern void closeFile(void);
+extern void SDSPI_openFile(char* filename);
+extern void SDSPI_readFile(char* output, uint32_t numBytes);
+extern void SDSPI_closeFile(void);
 
 extern void chipSelectSD(bool select);
 extern void startSDCard(void);

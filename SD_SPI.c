@@ -11,7 +11,6 @@
 #include <stdio.h>
 #include <stdbool.h>
 #include <string.h>
-#include <SD_SPI.h>
 #include <xdc/runtime/Diags.h>
 #include <xdc/runtime/System.h>
 
@@ -46,10 +45,15 @@ void SDSPI_initGeneral(void) {
     startSDCard();
 }
 
-void openFile(char* filename) {
-    chipSelectSD(true);
-    strcat(filename, fileHeader);
-    src = fopen(filename, "r");
+void SDSPI_openFile(char* filename) {
+    chipSelectSD(false);
+
+    uint8_t systemFilenameLength = strlen(fileHeader) + 1;
+    char systemFilename[systemFilenameLength];
+    strncat(systemFilename, fileHeader, systemFilenameLength);
+    systemFilenameLength += strlen(filename) + 1;
+    strncat(systemFilename, filename, systemFilenameLength);
+    src = fopen(systemFilename, "r");
     if(!src) {
         System_printf("File not found");
         System_flush();
@@ -57,7 +61,7 @@ void openFile(char* filename) {
     chipSelectSD(false);
 }
 
-void readFile(char* output, uint32_t numBytes) {
+void SDSPI_readFile(char* output, uint32_t numBytes) {
     chipSelectSD(true);
     uint32_t bytesRead;
     while(true) {
@@ -71,7 +75,7 @@ void readFile(char* output, uint32_t numBytes) {
     chipSelectSD(false);
 }
 
-void closeFile(void) {
+void SDSPI_closeFile(void) {
     chipSelectSD(true);
     fclose(src);
     chipSelectSD(false);
@@ -81,16 +85,17 @@ void closeFile(void) {
 // Sets CS pin of SD Card, MIGHT BE FLIPPED!
 void chipSelectSD(bool select) {
     if(select) {
-        GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_2, 0);
+        GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_2, GPIO_PIN_2);
     }
     else {
-        GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_2, GPIO_PIN_2);
+        GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_2, 0);
     }
 }
 
 void startSDCard(void) {
     chipSelectSD(true);
     SDSPI_Params_init(&sdspiParams);
+//    sdspiParams.bitRate = 12500000;
     sdspiHandle = SDSPI_open(Board_SDSPI0, 0, &sdspiParams);
     if (sdspiHandle == NULL) { System_abort("Error starting the SD card\n"); }
     else { System_printf("SD Card is mounted\n"); }

@@ -196,9 +196,12 @@ start.obj: C:/ti/tirtos_tivac_2_16_00_08/products/bios_6_45_01_29/packages/ti/sy
 start.obj: C:/ti/tirtos_tivac_2_16_00_08/products/bios_6_45_01_29/packages/ti/sysbios/knl/package/Task_SupportProxy.h
 start.obj: C:/ti/tirtos_tivac_2_16_00_08/products/bios_6_45_01_29/packages/ti/sysbios/knl/Clock.h
 start.obj: C:/ti/tirtos_tivac_2_16_00_08/products/bios_6_45_01_29/packages/ti/sysbios/knl/package/Clock_TimerProxy.h
+start.obj: C:/ti/tirtos_tivac_2_16_00_08/products/tidrivers_tivac_2_16_00_08/packages/ti/drivers/SDSPI.h
 start.obj: ../Board.h
 start.obj: ../EK_TM4C123GXL.h
 start.obj: ../ILI9341.h
+start.obj: ../SD_SPI.h
+start.obj: ../UART.h
 
 ../start.cpp: 
 C:/ti/ccs930/xdctools_3_60_02_34_core/packages/xdc/std.h: 
@@ -396,6 +399,9 @@ C:/ti/tirtos_tivac_2_16_00_08/products/bios_6_45_01_29/packages/ti/sysbios/knl/T
 C:/ti/tirtos_tivac_2_16_00_08/products/bios_6_45_01_29/packages/ti/sysbios/knl/package/Task_SupportProxy.h: 
 C:/ti/tirtos_tivac_2_16_00_08/products/bios_6_45_01_29/packages/ti/sysbios/knl/Clock.h: 
 C:/ti/tirtos_tivac_2_16_00_08/products/bios_6_45_01_29/packages/ti/sysbios/knl/package/Clock_TimerProxy.h: 
+C:/ti/tirtos_tivac_2_16_00_08/products/tidrivers_tivac_2_16_00_08/packages/ti/drivers/SDSPI.h: 
 ../Board.h: 
 ../EK_TM4C123GXL.h: 
 ../ILI9341.h: 
+../SD_SPI.h: 
+../UART.h: 

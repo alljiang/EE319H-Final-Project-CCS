@@ -96,7 +96,18 @@
 
 /* Content from ti.platforms.tiva (null): */
 
+/* Content from ti.sysbios.hal (null): */
+
 /* Content from ti.sysbios (null): */
+
+/* Content from ti.sysbios.family.arm.lm4 (null): */
+
+/* Content from ti.sysbios.family.arm.m3 (ti/sysbios/family/arm/m3/linkcmd.xdt): */
+-u _c_int00
+--retain "*(.resetVecs)"
+ti_sysbios_family_arm_m3_Hwi_nvic = 0xe000e000;
+
+/* Content from ti.sysbios.knl (null): */
 
 /* Content from ti.drivers.ports (null): */
 
@@ -107,17 +118,6 @@
 /* Content from ti.mw.wifi.cc3x00 (null): */
 
 /* Content from ti.mw (null): */
-
-/* Content from ti.sysbios.hal (null): */
-
-/* Content from ti.sysbios.family.arm.lm4 (null): */
-
-/* Content from ti.sysbios.family.arm.m3 (ti/sysbios/family/arm/m3/linkcmd.xdt): */
--u _c_int00
---retain "*(.resetVecs)"
-ti_sysbios_family_arm_m3_Hwi_nvic = 0xe000e000;
-
-/* Content from ti.sysbios.knl (null): */
 
 /* Content from ti.sysbios.gates (null): */
 

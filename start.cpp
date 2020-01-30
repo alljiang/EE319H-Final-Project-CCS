@@ -1,38 +1,3 @@
-/*
- * Copyright (c) 2015-2016, Texas Instruments Incorporated
- * All rights reserved.
- *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
- *
- * *  Redistributions of source code must retain the above copyright
- *    notice, this list of conditions and the following disclaimer.
- *
- * *  Redistributions in binary form must reproduce the above copyright
- *    notice, this list of conditions and the following disclaimer in the
- *    documentation and/or other materials provided with the distribution.
- *
- * *  Neither the name of Texas Instruments Incorporated nor the names of
- *    its contributors may be used to endorse or promote products derived
- *    from this software without specific prior written permission.
- *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
- * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
- * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
- * PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
- * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
- * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
- * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
- * OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
- * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
- * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
- * EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- */
-
-/*
- *  ======== bigtime.cpp ========
- */
 
 /* XDC module Headers */
 #include <xdc/std.h>
@@ -45,41 +10,51 @@
 #include <ti/sysbios/knl/Task.h>
 #include <ti/sysbios/knl/Clock.h>
 
+#include <ti/drivers/SDSPI.h>
+
 /* Example/Board Header files */
 #include "Board.h"
+
 #include "ILI9341.h"
+#include "SD_SPI.h"
+#include "UART.h"
 
-#define TASKSTACKSIZE   512
+#define TASKSTACKSIZE   768
 
-/*
- *  ======== main ========
- */
+Task_Struct task0Struct;
+Char task0Stack[TASKSTACKSIZE];
+
+Void taskFxn(UArg arg0, UArg arg1)
+{
+    ILI9341_initGeneral();
+
+    ILI9341_setPixel(50,50,0x31992);
+}
+
 Int main()
 {
-    /* Construct BIOS objects */
-    Task_Params taskParams;
-
     System_printf("Starting!\n");
     System_flush();
 
     Board_initGeneral();
     Board_initGPIO();
+    Board_initUART();
     Board_initSPI();
+    Board_initSDSPI();
+
+    SDSPI_initGeneral();
+    UART_start();
 
     System_printf("Board initialized\n");
     System_flush();
 
-    ILI9341_initGeneral();
-    System_printf("Board initialized\n");
-    System_flush();
+    Task_Params taskParams;
+    Task_Params_init(&taskParams);
+    taskParams.stackSize = TASKSTACKSIZE;
+    taskParams.stack = &task0Stack;
+    Task_construct(&task0Struct, (Task_FuncPtr)taskFxn, &taskParams, NULL);
 
     BIOS_start();    /* does not return */
-
-//    Task_Params_init(&taskParams);
-//    taskParams.priority = 1;
-//    taskParams.stackSize = TASKSTACKSIZE;
-//    taskParams.stack = &task0Stack;
-//    Task_construct(&task0Struct, (Task_FuncPtr)masterTaskFxn, &taskParams, NULL);
 
     return(0);
 }

@@ -8,7 +8,7 @@
   <dataTransportClassName>undefined</dataTransportClassName>
   <controlTransportClassName>undefined</controlTransportClassName>
   <loggers-length>0</loggers-length>
-  <modMap-length>31</modMap-length>
+  <modMap-length>35</modMap-length>
   <modMap key="xdc.runtime.Assert">
     <id>32770</id>
     <logger>null</logger>
@@ -79,88 +79,108 @@
     <logger>null</logger>
     <diagsMask>0000100000000000</diagsMask>
   </modMap>
+  <modMap key="xdc.runtime.Timestamp">
+    <id>32784</id>
+    <logger>null</logger>
+    <diagsMask>0000100000000000</diagsMask>
+  </modMap>
   <modMap key="ti.catalog.arm.cortexm4.tiva.ce.Boot">
-    <id>32789</id>
+    <id>32790</id>
     <logger>null</logger>
     <diagsMask>0000110000000000</diagsMask>
   </modMap>
   <modMap key="ti.sysbios.knl.Clock">
-    <id>32792</id>
-    <logger>null</logger>
-    <diagsMask>0000110000000000</diagsMask>
-  </modMap>
-  <modMap key="ti.sysbios.knl.Idle">
     <id>32793</id>
     <logger>null</logger>
     <diagsMask>0000110000000000</diagsMask>
   </modMap>
-  <modMap key="ti.sysbios.knl.Intrinsics">
+  <modMap key="ti.sysbios.knl.Idle">
     <id>32794</id>
     <logger>null</logger>
     <diagsMask>0000110000000000</diagsMask>
   </modMap>
-  <modMap key="ti.sysbios.knl.Queue">
+  <modMap key="ti.sysbios.knl.Intrinsics">
     <id>32795</id>
     <logger>null</logger>
     <diagsMask>0000110000000000</diagsMask>
   </modMap>
-  <modMap key="ti.sysbios.knl.Semaphore">
+  <modMap key="ti.sysbios.knl.Queue">
     <id>32796</id>
     <logger>null</logger>
     <diagsMask>0000110000000000</diagsMask>
   </modMap>
-  <modMap key="ti.sysbios.knl.Swi">
+  <modMap key="ti.sysbios.knl.Semaphore">
     <id>32797</id>
     <logger>null</logger>
     <diagsMask>0000110000000000</diagsMask>
   </modMap>
-  <modMap key="ti.sysbios.knl.Task">
+  <modMap key="ti.sysbios.knl.Swi">
     <id>32798</id>
     <logger>null</logger>
     <diagsMask>0000110000000000</diagsMask>
   </modMap>
-  <modMap key="ti.sysbios.hal.Hwi">
-    <id>32800</id>
+  <modMap key="ti.sysbios.knl.Task">
+    <id>32799</id>
     <logger>null</logger>
     <diagsMask>0000110000000000</diagsMask>
   </modMap>
-  <modMap key="ti.sysbios.BIOS">
+  <modMap key="ti.sysbios.hal.Hwi">
     <id>32801</id>
     <logger>null</logger>
     <diagsMask>0000110000000000</diagsMask>
   </modMap>
+  <modMap key="ti.sysbios.hal.Seconds">
+    <id>32802</id>
+    <logger>null</logger>
+    <diagsMask>0000110000000000</diagsMask>
+  </modMap>
+  <modMap key="ti.sysbios.BIOS">
+    <id>32803</id>
+    <logger>null</logger>
+    <diagsMask>0000110000000000</diagsMask>
+  </modMap>
   <modMap key="ti.sysbios.family.arm.m3.Hwi">
-    <id>32805</id>
-    <logger>null</logger>
-    <diagsMask>0000110000000000</diagsMask>
-  </modMap>
-  <modMap key="ti.sysbios.family.arm.m3.IntrinsicsSupport">
-    <id>32806</id>
-    <logger>null</logger>
-    <diagsMask>0000110000000000</diagsMask>
-  </modMap>
-  <modMap key="ti.sysbios.family.arm.m3.TaskSupport">
     <id>32807</id>
     <logger>null</logger>
     <diagsMask>0000110000000000</diagsMask>
   </modMap>
-  <modMap key="ti.sysbios.gates.GateHwi">
+  <modMap key="ti.sysbios.family.arm.m3.IntrinsicsSupport">
+    <id>32808</id>
+    <logger>null</logger>
+    <diagsMask>0000110000000000</diagsMask>
+  </modMap>
+  <modMap key="ti.sysbios.family.arm.m3.TaskSupport">
     <id>32809</id>
     <logger>null</logger>
     <diagsMask>0000110000000000</diagsMask>
   </modMap>
+  <modMap key="ti.sysbios.family.arm.lm4.Seconds">
+    <id>32811</id>
+    <logger>null</logger>
+    <diagsMask>0000110000000000</diagsMask>
+  </modMap>
+  <modMap key="ti.sysbios.family.arm.lm4.TimestampProvider">
+    <id>32812</id>
+    <logger>null</logger>
+    <diagsMask>0000100000000000</diagsMask>
+  </modMap>
+  <modMap key="ti.sysbios.family.arm.lm4.Timer">
+    <id>32813</id>
+    <logger>null</logger>
+    <diagsMask>0000110000000000</diagsMask>
+  </modMap>
+  <modMap key="ti.sysbios.gates.GateHwi">
+    <id>32815</id>
+    <logger>null</logger>
+    <diagsMask>0000110000000000</diagsMask>
+  </modMap>
   <modMap key="ti.sysbios.gates.GateMutex">
-    <id>32810</id>
+    <id>32816</id>
     <logger>null</logger>
     <diagsMask>0000110000000000</diagsMask>
   </modMap>
   <modMap key="ti.sysbios.heaps.HeapMem">
-    <id>32812</id>
-    <logger>null</logger>
-    <diagsMask>0000110000000000</diagsMask>
-  </modMap>
-  <modMap key="ti.sysbios.family.arm.lm4.Timer">
-    <id>32814</id>
+    <id>32818</id>
     <logger>null</logger>
     <diagsMask>0000110000000000</diagsMask>
   </modMap>

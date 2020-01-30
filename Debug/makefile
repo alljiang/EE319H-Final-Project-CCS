@@ -13,6 +13,7 @@ ORDERED_OBJS += \
 "./EK_TM4C123GXL.obj" \
 "./ILI9341.obj" \
 "./SD_SPI.obj" \
+"./UART.obj" \
 "./start.obj" \
 "../EK_TM4C123GXL.cmd" \
 $(GEN_CMDS__FLAG) \
@@ -160,8 +161,8 @@ EE319H-Final-Project-CCS.hex: $(EXE_OUTPUTS)
 # Other Targets
 clean:
 	-$(RM) $(BIN_OUTPUTS__QUOTED)$(GEN_FILES__QUOTED)$(EXE_OUTPUTS__QUOTED)
-	-$(RM) "EK_TM4C123GXL.obj" "ILI9341.obj" "SD_SPI.obj" "start.obj" 
-	-$(RM) "EK_TM4C123GXL.d" "ILI9341.d" "SD_SPI.d" 
+	-$(RM) "EK_TM4C123GXL.obj" "ILI9341.obj" "SD_SPI.obj" "UART.obj" "start.obj" 
+	-$(RM) "EK_TM4C123GXL.d" "ILI9341.d" "SD_SPI.d" "UART.d" 
 	-$(RM) "start.d" 
 	-$(RMDIR) $(GEN_MISC_DIRS__QUOTED)
 	-@echo 'Finished clean'

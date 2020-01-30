@@ -11,7 +11,7 @@ var makeAssembly = false;
 var Executable = xdc.module('xdc.bld.Executable');
 
 var exeOpts = new Executable.Attrs({
-        cfgScript: 'C:/Users/Allen/Documents/GitHub/EE319H-Final-Project-CCS/bigtime.cfg',
+        cfgScript: 'C:/Users/Allen/Documents/GitHub/EE319H-Final-Project-CCS/EE319H.cfg',
         profile: 'release',
         cfgHome: 'configPkg',
 });
@@ -20,7 +20,7 @@ exeOpts.cfgArgs = 'null';
 exeOpts.cfgArgsEncoded = true;
 
 var exe = Pkg[makeAssembly ? 'addAssembly': 'addExecutable'](
-    'bigtime',
+    'EE319H',
     targ,
     platform,
     exeOpts
@@ -40,10 +40,10 @@ else {
 }
 
 var thisObj = {
-    cfg:        '../bigtime.cfg',
+    cfg:        '../EE319H.cfg',
     outputPath: 'C:/Users/Allen/Documents/GitHub/EE319H-Final-Project-CCS/Debug/configPkg',
-    exeName:    'bigtime' + suffix,
-    exeIntName: 'bigtime' + suffix.replace('.', '_'),
+    exeName:    'EE319H' + suffix,
+    exeIntName: 'EE319H' + suffix.replace('.', '_'),
     targ:       targ,
     linkerCommandFile: 'linker.cmd',
     compilerOptFile: 'compiler.opt',

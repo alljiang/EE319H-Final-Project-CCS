@@ -9,7 +9,7 @@
  */
 
 
--l"C:\Users\Allen\Documents\GitHub\EE319H-Final-Project-CCS\Debug\configPkg\package\cfg\bigtime_pem4f.oem4f"
+-l"C:\Users\Allen\Documents\GitHub\EE319H-Final-Project-CCS\Debug\configPkg\package\cfg\EE319H_pem4f.oem4f"
 -l"C:/ti/tirtos_tivac_2_16_00_08/products/tidrivers_tivac_2_16_00_08/packages/ti/mw/wifi/cc3x00/lib/cc3x00_host_driver.aem4f"
 -l"C:/ti/tirtos_tivac_2_16_00_08/products/tidrivers_tivac_2_16_00_08/packages/ti/drivers/lib/drivers_tivaware.aem4f"
 -l"C:/ti/tirtos_tivac_2_16_00_08/products/tidrivers_tivac_2_16_00_08/packages/ti/drivers/lib/drivers_wifi_tivaware.aem4f"
@@ -96,7 +96,18 @@
 
 /* Content from ti.platforms.tiva (null): */
 
+/* Content from ti.sysbios.hal (null): */
+
 /* Content from ti.sysbios (null): */
+
+/* Content from ti.sysbios.family.arm.lm4 (null): */
+
+/* Content from ti.sysbios.family.arm.m3 (ti/sysbios/family/arm/m3/linkcmd.xdt): */
+-u _c_int00
+--retain "*(.resetVecs)"
+ti_sysbios_family_arm_m3_Hwi_nvic = 0xe000e000;
+
+/* Content from ti.sysbios.knl (null): */
 
 /* Content from ti.drivers.ports (null): */
 
@@ -107,17 +118,6 @@
 /* Content from ti.mw.wifi.cc3x00 (null): */
 
 /* Content from ti.mw (null): */
-
-/* Content from ti.sysbios.hal (null): */
-
-/* Content from ti.sysbios.family.arm.lm4 (null): */
-
-/* Content from ti.sysbios.family.arm.m3 (ti/sysbios/family/arm/m3/linkcmd.xdt): */
--u _c_int00
---retain "*(.resetVecs)"
-ti_sysbios_family_arm_m3_Hwi_nvic = 0xe000e000;
-
-/* Content from ti.sysbios.knl (null): */
 
 /* Content from ti.sysbios.gates (null): */
 
