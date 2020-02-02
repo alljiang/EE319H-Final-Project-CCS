@@ -34,7 +34,12 @@ Void taskFxn(UArg arg0, UArg arg1)
     ILI9341_initGeneral();
     ILI9341_fillScreen(0);
 
+    uint32_t rgb[] = {0xFFFFFF, 0xFF0000, 0x00FF00, 0x0000FF, 0xF0F000};
+    uint32_t num[] = {15, 30, 15, 30, 10};
 
+    for(int i = 5; i < 100; i++) {
+        ILI9341_drawHLineMulticolored(5, i, rgb, num, 5);
+    }
 
 //    for(int y = 0; y < 42; y++) {
 //        ILI9341_drawHLine(0, y, 160, 0b111111000000000000); //R

@@ -46,15 +46,15 @@ extern "C" {
 #define ILI9341_FRMCTR2     0xB2
 #define ILI9341_FRMCTR3     0xB3
 #define ILI9341_INVCTR      0xB4
-#define ILI9341_DFUNCTR     0xB6
+#define ILI9341_DISCTRL     0xB6
 
-#define ILI9341_PWCTR1      0xC0
-#define ILI9341_PWCTR2      0xC1
-#define ILI9341_PWCTR3      0xC2
-#define ILI9341_PWCTR4      0xC3
-#define ILI9341_PWCTR5      0xC4
-#define ILI9341_VMCTR1      0xC5
-#define ILI9341_VMCTR2      0xC7
+#define ILI9341_PWCTRL1      0xC0
+#define ILI9341_PWCTRL2      0xC1
+#define ILI9341_PWCTRL3      0xC2
+#define ILI9341_PWCTRL4      0xC3
+#define ILI9341_PWCTRL5      0xC4
+#define ILI9341_VMCTRL1      0xC5
+#define ILI9341_VMCTRL2      0xC7
 
 #define ILI9341_RDID1       0xDA
 #define ILI9341_RDID2       0xDB

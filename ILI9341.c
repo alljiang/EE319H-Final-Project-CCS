@@ -70,11 +70,11 @@ void ILI9341_initGeneral(void) {
 //  Reset using RST pin
     chipSelect(true);
     setResetPin(true);
-    delay(200);
+    delay(1);   // minimum of 10us
     setResetPin(false);
-    delay(200);
+    delay(1);   // minimum of 10us
     setResetPin(true);
-    delay(200);
+    delay(5);   // wait 5 ms before sending commands, 120 for slpout
     chipSelect(false);
 
     //  Initial LCD configuration
@@ -82,13 +82,11 @@ void ILI9341_initGeneral(void) {
 
 ///*
     writeCommand(ILI9341_SWRESET);  // software reset
-    delay(150);
+    delay(130); // wait 120ms
 
     writeCommand(ILI9341_SLPOUT);   // turn off sleep mode
-    delay(255);
-
-    writeCommand(ILI9341_PIXFMT);   // set pixel format to 18-bit
-    writeData(0b00000110);
+    delay(130); // wait 120ms (ST7735)
+//    delay(5);   // wait 5ms before sending next command, allow voltage to stabilize (ILI9341)
 
     writeCommand(ILI9341_FRMCTR1);
     writeData(0x01);
@@ -111,37 +109,32 @@ void ILI9341_initGeneral(void) {
     writeCommand(ILI9341_INVCTR);
     writeData(0x07);
 
-    writeCommand(ILI9341_PWCTR1);   // power control
-    writeData(0xA2);
+    writeCommand(ILI9341_PWCTRL1);   // power control
+    writeData(0b11111);
     writeData(0x02);
-    writeData(0x84);
 
-
-    writeCommand(ILI9341_PWCTR2);   // power control
+    writeCommand(ILI9341_PWCTRL2);   // power control
     writeData(0xC5);
 
-    writeCommand(ILI9341_PWCTR3);
+    writeCommand(ILI9341_PWCTRL3);
     writeData(0x0A);
     writeData(0x00);
 
-    writeCommand(ILI9341_PWCTR4);
+    writeCommand(ILI9341_PWCTRL4);
     writeData(0x8A);
     writeData(0x2A);
 
-    writeCommand(ILI9341_PWCTR5);
+    writeCommand(ILI9341_PWCTRL5);
     writeData(0x8A);
     writeData(0xEE);
 
-    writeCommand(ILI9341_VMCTR1);
+    writeCommand(ILI9341_VMCTRL1);
     writeData(0x0E);
 
     writeCommand(ILI9341_INVOFF);
 
     writeCommand(ILI9341_MADCTL);
     writeData(0xC8);
-
-    writeCommand(0x3A);
-    writeData(0x05);
 
     writeCommand(ILI9341_CASET);
     writeData(0x00);
@@ -195,7 +188,6 @@ void ILI9341_initGeneral(void) {
     delay(10);
 
     writeCommand(ILI9341_DISPON);
-    delay(100);
 
     writeCommand(ILI9341_PIXFMT);   // set pixel format to 18-bit
     writeData(0b00000110);
@@ -238,18 +230,23 @@ void ILI9341_initGeneral(void) {
     writeData(0x00);
 //*/
     /*
+    writeCommand(ILI9341_SWRESET);  // software reset
+    delay(130); // wait 120ms
 
-    writeCommand(ILI9341_PWCTR1);   // power control
-    writeData(0x23);
+    writeCommand(ILI9341_SLPOUT);
+    delay(120);
 
-    writeCommand(ILI9341_PWCTR2);   // power control
+    writeCommand(ILI9341_PWCTRL1);   // power control
+    writeData(0b000111);
+
+    writeCommand(ILI9341_PWCTRL2);   // power control
     writeData(0x10);
 
-    writeCommand(ILI9341_VMCTR1);   // vcm control
-    writeData(0x3e);
+    writeCommand(ILI9341_VMCTRL1);   // vcm control
+    writeData(0b0010100);
     writeData(0x28);
 
-    writeCommand(ILI9341_VMCTR2);   // vcm control 2
+    writeCommand(ILI9341_VMCTRL2);   // vcm control 2
     writeData(0x86);
 
     writeCommand(ILI9341_MADCTL);   // memory access control
@@ -259,16 +256,18 @@ void ILI9341_initGeneral(void) {
     writeData(0x00);
     writeData(0x18);
 
+    writeCommand(ILI9341_INVOFF);
+
     writeCommand(ILI9341_PIXFMT);   // set pixel format to 18-bit
     writeData(0b01100110);
 
-    writeCommand(ILI9341_DFUNCTR);  // display function control
+    writeCommand(ILI9341_DISCTRL);  // display function control
     writeData(0x08);
     writeData(0x82);
     writeData(0x27);
 
-    writeCommand(0xF2); // gamma function disable
-    writeData(0x01);
+//    writeCommand(0xF2); // gamma function disable
+//    writeData(0x01);
 
     writeCommand(ILI9341_GAMMASET); // gamma curve selected
     writeData(0x01);
@@ -307,11 +306,7 @@ void ILI9341_initGeneral(void) {
     writeData(0x36);
     writeData(0x0F);
 
-    writeCommand(ILI9341_FRMCTR1);  // framerate control 119hz
-    writeData(0x10);
 
-    writeCommand(ILI9341_SLPOUT);
-    delay(120);
 //    */
 
     endSPITransaction();
@@ -370,7 +365,7 @@ void ILI9341_drawVLine(uint32_t x, uint32_t y, uint32_t l, uint32_t rgb) {
 void ILI9341_drawHLineMulticolored(uint32_t x, uint32_t y, uint32_t *rgb, uint32_t *num, uint32_t n) {
     if((x >= ILI9341_TFTWIDTH) || (y >= ILI9341_TFTHEIGHT)) return;
 
-    uint32_t i;
+    int i;
     uint32_t l = 0;
     for(i = 0; i < n; i++) {
         l += num[i];
@@ -384,7 +379,7 @@ void ILI9341_drawHLineMulticolored(uint32_t x, uint32_t y, uint32_t *rgb, uint32
 
     uint32_t j;
     uint32_t loops;
-    for(i = 0; i < n; i++) {
+    for(i = n-1; i >= 0; i--) {
         loops = num[i];
         for(j = 0; j < loops && l-- > 0; j++) {
             ILI9341_setColor(rgb[i]);
@@ -406,7 +401,7 @@ void ILI9341_fillRect(uint32_t x, uint32_t y, uint32_t w, uint32_t h, uint32_t r
     ILI9341_setCoords(x, y, x+w, y+h);
 
     uint32_t i;
-    for(i = 0; i < ILI9341_TFTWIDTH*ILI9341_TFTHEIGHT; i++) {
+    for(i = 0; i < w * h; i++) {
         ILI9341_setColor(rgb);
     }
 
@@ -438,17 +433,28 @@ void ILI9341_setColor(uint32_t rgb) {
 }
 
 void ILI9341_setCoords(uint16_t x0, uint16_t y0, uint16_t x1, uint16_t y1) {
+//    x0 = ILI9341_TFTWIDTH - x0;
+//    x1 = ILI9341_TFTWIDTH - x1;
+//    y0 = ILI9341_TFTHEIGHT - y0;
+//    y1 = ILI9341_TFTHEIGHT - y1;
+
+    x0 = 160 - x0;
+    x1 = 160 - x1;
+
+    y0 = 128 - y0;
+    y1 = 128 - y1;
+
     writeCommand(ILI9341_CASET); // Column addr set
-    writeData(y0>>8);
-    writeData(y0);     // YSTART
     writeData(y1>>8);
-    writeData(y1);     // YEND
+    writeData(y1);     // YSTART
+    writeData(y0>>8);
+    writeData(y0);     // YEND
 
     writeCommand(ILI9341_PASET); // Row addr set
-    writeData(x0>>8);
-    writeData(x0);     // XSTART
     writeData(x1>>8);
-    writeData(x1);     // XEND
+    writeData(x1);     // XSTART
+    writeData(x0>>8);
+    writeData(x0);     // XEND
 
     writeCommand(ILI9341_RAMWR);    // write to RAM
 }
