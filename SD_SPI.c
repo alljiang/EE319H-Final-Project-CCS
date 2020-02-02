@@ -41,8 +41,6 @@ void SDSPI_initGeneral(void) {
     SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOF);
     GPIOPinTypeGPIOOutput(GPIO_PORTF_BASE, GPIO_PIN_2);
     chipSelectSD(false);
-
-    startSDCard();
 }
 
 void SDSPI_openFile(char* filename) {
@@ -92,16 +90,17 @@ void chipSelectSD(bool select) {
     }
 }
 
-void startSDCard(void) {
+void SDSPI_startSDCard(void) {
     chipSelectSD(true);
     SDSPI_Params_init(&sdspiParams);
 //    sdspiParams.bitRate = 12500000;
     sdspiHandle = SDSPI_open(Board_SDSPI0, 0, &sdspiParams);
     if (sdspiHandle == NULL) { System_abort("Error starting the SD card\n"); }
     else { System_printf("SD Card is mounted\n"); }
+    System_flush();
     chipSelectSD(false);
 }
 
-void releaseSDCard(void) {
+void SDSPI_releaseSDCard(void) {
     SDSPI_close(sdspiHandle);
 }

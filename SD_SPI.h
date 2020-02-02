@@ -17,8 +17,8 @@ extern void SDSPI_readFile(char* output, uint32_t numBytes);
 extern void SDSPI_closeFile(void);
 
 extern void chipSelectSD(bool select);
-extern void startSDCard(void);
-extern void releaseSDCard(void);
+extern void SDSPI_startSDCard(void);
+extern void SDSPI_releaseSDCard(void);
 
 #ifdef __cplusplus
 }

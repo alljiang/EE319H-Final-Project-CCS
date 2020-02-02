@@ -26,9 +26,46 @@ Char task0Stack[TASKSTACKSIZE];
 
 Void taskFxn(UArg arg0, UArg arg1)
 {
-    ILI9341_initGeneral();
+//    SDSPI_startSDCard();
+//
+//    char filename[] = "test.txt";
+//    SDSPI_openFile(filename);
 
-    ILI9341_setPixel(50,50,0x31992);
+    ILI9341_initGeneral();
+    ILI9341_fillScreen(0);
+
+
+
+//    for(int y = 0; y < 42; y++) {
+//        ILI9341_drawHLine(0, y, 160, 0b111111000000000000); //R
+//        ILI9341_drawHLine(0, y, 160, 0b000000111111000000); //G
+//        ILI9341_drawHLine(0, y, 160, 0b000000000000111111); //B
+//        for(int c = 0; c < 160; c++) {
+//            ILI9341_drawPixel(r,c,0b111111000000000000); //R
+//            ILI9341_drawPixel(r,c,0b000000111111000000); //G
+//            ILI9341_drawPixel(r,c,0b000000000000111111); //B
+//        }
+//    }
+//    for(int y = 42; y < 87; y++) {
+//        ILI9341_drawHLine(0, y, 160, 0b111111000000000000); //R
+//        ILI9341_drawHLine(0, y, 160, 0b000000111111000000); //G
+//        ILI9341_drawHLine(0, y, 160, 0b000000000000111111); //B
+//        for(int c = 0; c < 160; c++) {
+//            ILI9341_drawPixel(r,c,0b111111000000000000); //R
+//            ILI9341_drawPixel(r,c,0b000000111111000000); //G
+//            ILI9341_drawPixel(r,c,0b000000000000111111); //B
+//        }
+//    }
+//    for(int y = 87; y < 128; y++) {
+//        ILI9341_drawHLine(0, y, 160, 0b111111000000000000); //R
+//        ILI9341_drawHLine(0, y, 160, 0b000000111111000000); //G
+//        ILI9341_drawHLine(0, y, 160, 0b000000000000111111); //B
+//        for(int c = 0; c < 160; c++) {
+//            ILI9341_drawPixel(r,c,0b111111000000000000); //R
+//            ILI9341_drawPixel(r,c,0b000000111111000000); //G
+//            ILI9341_drawPixel(r,c,0b000000000000111111); //B
+//        }
+//    }
 }
 
 Int main()
@@ -38,12 +75,12 @@ Int main()
 
     Board_initGeneral();
     Board_initGPIO();
-    Board_initUART();
     Board_initSPI();
+    Board_initUART();
     Board_initSDSPI();
 
-    SDSPI_initGeneral();
     UART_start();
+    SDSPI_initGeneral();
 
     System_printf("Board initialized\n");
     System_flush();
@@ -51,6 +88,7 @@ Int main()
     Task_Params taskParams;
     Task_Params_init(&taskParams);
     taskParams.stackSize = TASKSTACKSIZE;
+    taskParams.priority = 1;
     taskParams.stack = &task0Stack;
     Task_construct(&task0Struct, (Task_FuncPtr)taskFxn, &taskParams, NULL);
 

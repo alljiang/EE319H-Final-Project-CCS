@@ -80,7 +80,56 @@ extern void ILI9341_initGeneral(void);
  *  @param      y       y-coordinate of pixel
  *  @param      rgb     6-6-6 RGB value of pixel
  */
-extern void ILI9341_setPixel(uint32_t x, uint32_t y, uint32_t rgb);
+extern void ILI9341_drawPixel(uint32_t x, uint32_t y, uint32_t rgb);
+
+/*
+ *  @brief      Sets individual pixel on LCD
+ *
+ *  @param      x       x-coordinate of left-most pixel
+ *  @param      y       y-coordinate of line
+ *  @param      l       length of line in pixels
+ *  @param      rgb     6-6-6 RGB value of pixel
+ */
+extern void ILI9341_drawHLine(uint32_t x, uint32_t y, uint32_t l, uint32_t rgb);
+
+/*
+ *  @brief      Sets individual pixel on LCD
+ *
+ *  @param      x       x-coordinate of line
+ *  @param      y       y-coordinate of bottom-most pixel
+ *  @param      l       length of line in pixels
+ *  @param      rgb     6-6-6 RGB value of pixel
+ */
+extern void ILI9341_drawVLine(uint32_t x, uint32_t y, uint32_t l, uint32_t rgb);
+
+/*
+ *  @brief       Draws a multi-colored line, optimized for efficiency
+ *
+ *  @param      x       x-coordinate of left-most pixel
+ *  @param      y       y-coordinate of line
+ *  @param      *rgb    pointer to array of RGB values (parallel to num, must be same array length)
+ *  @param      *num    pointer to array of number of pixels corresponding to each RGB color
+ *  @param      n       size of array
+ */
+extern void ILI9341_drawHLineMulticolored(uint32_t x, uint32_t y, uint32_t *rgb, uint32_t *num, uint32_t n);
+
+/*
+ *  @brief      Draws a single-color rectangle
+ *
+ *  @param      x       x-coordinate of bottom-left pixel
+ *  @param      y       y-coordinate of bottom-left pixel
+ *  @param      w       width of rectangle
+ *  @param      h       height of rectangle
+ *  @param      rgb     RGB color
+ */
+extern void ILI9341_fillRect(uint32_t x, uint32_t y, uint32_t w, uint32_t h, uint32_t rgb);
+
+/*
+ * @brief       Fills entire screen with one color
+ *
+ * @param       rgb     RGB value
+ */
+extern void ILI9341_fillScreen(uint32_t rgb);
 
 /*
  *  @brief      Sends coordinate information to LCD
@@ -111,16 +160,19 @@ extern void ILI9341_softwareReset(void);
  */
 extern void ILI9341_enableDisplay(bool enable);
 
-extern void writeCommand(uint8_t c);
 extern void setCommandPin(bool isCommand);
 extern void setResetPin(bool reset);
 extern void chipSelect(bool select);
+
 extern void beginSPITransaction(void);
 extern void endSPITransaction(void);
 extern void transferSPI(void);
+
 extern void writeCommand(uint8_t c);
 extern void writeData(uint8_t d);
+extern void writeData8(uint8_t d);
 extern void writeData16(uint16_t d);
+
 extern void delay(uint32_t ms);
 
 #ifdef __cplusplus
