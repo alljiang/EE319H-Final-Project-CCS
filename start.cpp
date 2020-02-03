@@ -35,23 +35,20 @@ Void taskFxn(UArg arg0, UArg arg1)
     ILI9341_initGeneral();
     ILI9341_fillScreen(0);
     uint32_t t1 = millis();
-//    ILI9341_fillScreen(0);
-//    ILI9341_fillScreen(0xFFF);
-//    ILI9341_fillScreen(0);
-//    ILI9341_fillScreen(0xFFF);
-//    ILI9341_fillScreen(0);
-//    ILI9341_fillScreen(0xFFF);
-//    ILI9341_fillScreen(0);
-//    ILI9341_fillScreen(0xFFF);
-//    ILI9341_fillScreen(0);
-//    ILI9341_fillScreen(0xFFF);
-//    ILI9341_fillScreen(0);
-//    ILI9341_fillScreen(0xFFF);
-//    ILI9341_fillScreen(0);
-//    ILI9341_fillScreen(0xFFF);
-//    for(int i = 0 ; i < 100; i++) {
-//        writeData(0);
-//    }
+    ILI9341_fillScreen(0);
+    ILI9341_fillScreen(0xFFF);
+    ILI9341_fillScreen(0);
+    ILI9341_fillScreen(0xFFF);
+    ILI9341_fillScreen(0);
+    ILI9341_fillScreen(0xFFF);
+    ILI9341_fillScreen(0);
+    ILI9341_fillScreen(0xFFF);
+    ILI9341_fillScreen(0);
+    ILI9341_fillScreen(0xFFF);
+    ILI9341_fillScreen(0);
+    ILI9341_fillScreen(0xFFF);
+    ILI9341_fillScreen(0);
+    ILI9341_fillScreen(0xFFF);
     uint32_t t2 = millis();
 
     uint32_t rgb[] = {0xFFFFFF, 0xFF0000, 0x00FF00, 0x0000FF, 0xF0F000};

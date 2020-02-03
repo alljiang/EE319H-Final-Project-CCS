@@ -39,31 +39,55 @@
 #include "driverlib/gpio.h"
 #include "driverlib/sysctl.h"
 
+#include "tm4c123gh6pm.h"
 #include "ILI9341.h"
 #include "Utils.h"
 #include "Board.h"
 
-SPI_Handle spi;
-SPI_Params params;
-SPI_Transaction transaction;
-
-uint8_t txBuffer[100];
-uint8_t rxBuffer[100];
-
-const uint32_t SPI_Bitrate = 20000000;  // 20 MHz
-bool spiOpen = true;
-
-void spiCallback(SPI_Handle handle,
-                 SPI_Transaction * transaction) {
-    chipSelect(false);
-    spiOpen = true;
-}
+#define TFT_CS                  (*((volatile uint32_t *)0x40004020))
+#define TFT_CS_LOW              0           // CS normally controlled by hardware
 
 void ILI9341_initGeneral(void) {
-    SPI_Params_init(&params);
-    params.bitRate = SPI_Bitrate;
-//    params.transferMode = SPI_MODE_CALLBACK;
-//    params.transferCallbackFxn = &spiCallback;
+
+    SYSCTL_RCGCSSI_R |= 0x01;  // activate SSI0
+    SYSCTL_RCGCGPIO_R |= 0x01; // activate port A
+    while((SYSCTL_PRGPIO_R&0x01)==0){}; // allow time for clock to start
+
+    GPIO_PORTA_DIR_R |= 0x8;             // make PA3 out
+    GPIO_PORTA_AFSEL_R &= ~0x8;          // disable alt funct on PA3
+    GPIO_PORTA_DEN_R |= 0x8;             // enable digital I/O on PA3
+
+    //  Reset using RST pin
+    chipSelect(true);
+    setResetPin(true);
+    delay(250);   // minimum of 10us
+    setResetPin(false);
+    delay(250);   // minimum of 10us
+    setResetPin(true);
+    delay(250);   // wait 5 ms before sending commands, 120 for slpout
+
+    // initialize SSI0
+    GPIO_PORTA_AFSEL_R |= 0x2C;           // enable alt funct on PA2,3,5
+    GPIO_PORTA_DEN_R |= 0x2C;             // enable digital I/O on PA2,3,5
+
+    // configure PA2,3,5 as SSI
+    GPIO_PORTA_PCTL_R = (GPIO_PORTA_PCTL_R&0xFF0F00FF)+0x00202200;
+    GPIO_PORTA_AMSEL_R &= ~0x2C;          // disable analog functionality on PA2,3,5
+    SSI0_CR1_R &= ~SSI_CR1_SSE;           // disable SSI
+    SSI0_CR1_R &= ~SSI_CR1_MS;            // master mode
+
+    // configure for system clock/PLL baud clock source
+    SSI0_CC_R = (SSI0_CC_R&~SSI_CC_CS_M)+SSI_CC_CS_SYSPLL;
+
+    SSI0_CPSR_R = (SSI0_CPSR_R&~SSI_CPSR_CPSDVSR_M)+4; // must be even number   // 80/(10*(1+0)) = 8 MHz (slower than 4 MHz)
+    SSI0_CR0_R &= ~(SSI_CR0_SCR_M |       // SCR = 0 (8 Mbps data rate)
+                  SSI_CR0_SPH |         // SPH = 0
+                  SSI_CR0_SPO);         // SPO = 0
+                                        // FRF = Freescale format
+    SSI0_CR0_R = (SSI0_CR0_R&~SSI_CR0_FRF_M)+SSI_CR0_FRF_MOTO;
+                                        // DSS = 8-bit data
+    SSI0_CR0_R = (SSI0_CR0_R&~SSI_CR0_DSS_M)+SSI_CR0_DSS_8;
+    SSI0_CR1_R |= SSI_CR1_SSE;            // enable SSI
 
     SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOA);
     SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOC);
@@ -71,25 +95,15 @@ void ILI9341_initGeneral(void) {
     GPIOPinTypeGPIOOutput(GPIO_PORTA_BASE, GPIO_PIN_3 | GPIO_PIN_7 | GPIO_PIN_6);
     GPIOPinTypeGPIOOutput(GPIO_PORTC_BASE, GPIO_PIN_4 | GPIO_PIN_5);
 
-//  Reset using RST pin
-    chipSelect(true);
-    setResetPin(true);
-    delay(1);   // minimum of 10us
-    setResetPin(false);
-    delay(1);   // minimum of 10us
-    setResetPin(true);
-    delay(5);   // wait 5 ms before sending commands, 120 for slpout
-    chipSelect(false);
-
     //  Initial LCD configuration
     beginSPITransaction();
 
 ///*
     writeCommand(ILI9341_SWRESET);  // software reset
-    delay(130); // wait 120ms
+    delay(250); // wait 120ms
 
     writeCommand(ILI9341_SLPOUT);   // turn off sleep mode
-    delay(130); // wait 120ms (ST7735)
+    delay(250); // wait 120ms (ST7735)
 //    delay(5);   // wait 5ms before sending next command, allow voltage to stabilize (ILI9341)
 
     writeCommand(ILI9341_FRMCTR1);
@@ -189,14 +203,14 @@ void ILI9341_initGeneral(void) {
     writeData(0x10);
 
     writeCommand(ILI9341_NORON);
-    delay(10);
-
-    writeCommand(ILI9341_DISPON);
+    delay(20);
 
     writeCommand(ILI9341_PIXFMT);   // set pixel format to 18-bit
     writeData(0b00000110); //18-bit
 
-//*/
+    writeCommand(ILI9341_DISPON);
+    delay(250);
+
     /* idek what these do
     writeCommand(0xEF);
     writeData(0x03);
@@ -312,7 +326,6 @@ void ILI9341_initGeneral(void) {
 
 
 //    */
-
     endSPITransaction();
 }
 
@@ -422,16 +435,9 @@ void ILI9341_setColor(uint32_t rgb) {
     uint8_t g = (rgb & 0x003F00) >> 8;
     uint8_t b = (rgb & 0x00003F);
 
-    setCommandPin(false);
-    transaction.count = 3;
-
-    txBuffer[0] = b << 2;
-    txBuffer[1] = g << 2;
-    txBuffer[2] = r << 2;
-
-    transaction.txBuf = (Ptr)txBuffer;
-    transaction.rxBuf = (Ptr)rxBuffer;
-    transferSPI();
+    writeData8(b << 2, true);
+    writeData8(g << 2, false);
+    writeData8(r << 2, false);
 }
 
 void ILI9341_setCoords(uint16_t x0, uint16_t y0, uint16_t x1, uint16_t y1) {
@@ -463,8 +469,12 @@ void ILI9341_setCoords(uint16_t x0, uint16_t y0, uint16_t x1, uint16_t y1) {
 void ILI9341_enableDisplay(bool enable) {
     beginSPITransaction();
 
+    chipSelect(true);
+
     if(enable) { writeCommand(ILI9341_DISPON); }
     else { writeCommand(ILI9341_DISPOFF); }
+
+    chipSelect(false);
 
     endSPITransaction();
 }
@@ -495,6 +505,8 @@ void setResetPin(bool reset) {
 // PC4  - CS of board 2
 // Sets CS pin of both LCDs
 void chipSelect(bool select) {
+    while((SSI0_SR_R&SSI_SR_BSY)==SSI_SR_BSY){};
+
     if(select) {
         GPIOPinWrite(GPIO_PORTA_BASE, GPIO_PIN_3, 0);
         GPIOPinWrite(GPIO_PORTC_BASE, GPIO_PIN_4, 0);
@@ -506,73 +518,34 @@ void chipSelect(bool select) {
 }
 
 void writeCommand(uint8_t c) {
+    while((SSI0_SR_R&SSI_SR_TNF)==0){};   // wait until transmit FIFO not full
     setCommandPin(true);
-    transaction.count = 1;
+    chipSelect(true);
+    SSI0_DR_R = c;
 
-    txBuffer[0] = c;
-
-    transaction.txBuf = (Ptr)txBuffer;
-    transaction.rxBuf = (Ptr)rxBuffer;
-    transferSPI();
+    // wait until SSI0 not busy/transmit FIFO empty
+    while((SSI0_SR_R&SSI_SR_BSY)==SSI_SR_BSY){};
+    chipSelect(false);
 }
 
 void writeData8(uint8_t d, bool setDC) {
-//    while(&0x00000002)==0){};   // wait until transmit FIFO not full
-//    SSI0_DR_R = c;
-
+    while((SSI0_SR_R&SSI_SR_TNF)==0){};   // wait until transmit FIFO not full
     if(setDC) setCommandPin(false);
-
-    transaction.count = 1;
-
-    txBuffer[0] = d;
-
-    transaction.txBuf = (Ptr)txBuffer;
-    transaction.rxBuf = (Ptr)rxBuffer;
-
-    transferSPI();
+    chipSelect(true);
+    SSI0_DR_R = d;
+    while((SSI0_SR_R&SSI_SR_BSY)==SSI_SR_BSY){};
+    chipSelect(false);
 }
 
-void writeData16(uint16_t d) {
-    setCommandPin(false);
-    transaction.count = 2;
-
-    txBuffer[0] = d >> 8;
-    txBuffer[1] = d & 0xFF;
-
-    transaction.txBuf = (Ptr)txBuffer;
-    transaction.rxBuf = (Ptr)rxBuffer;
-    transferSPI();
-}
-
+// make sure you've ran beginSPITransaction
 void writeData(uint8_t d) {
     writeData8(d, true);
 }
 
 void beginSPITransaction(void) {
-    spi = SPI_open(Board_SPI0, &params);
-    if (spi == NULL) { System_abort("Error initializing SPI\n"); }
+    SYSCTL_RCGCSSI_R |= 0x01;  // activate SSI0
 }
 
 void endSPITransaction(void) {
-    SPI_close(spi);
-}
-
-void readSPI(uint32_t numBytes) {
-    transaction.count = numBytes;
-    transaction.txBuf = NULL;
-    transaction.rxBuf = (Ptr)rxBuffer;
-    transferSPI();
-}
-
-// transfers SPI stuff using the global SPI handle and SPI transaction
-void transferSPI() {
-    while(!spiOpen) {}
-    chipSelect(true);
-//    spiOpen = false;
-    bool transferOK = SPI_transfer(spi, &transaction);
-    if(!transferOK) {
-        System_printf("SPI Transfer Failed");
-        System_flush();
-    }
-    chipSelect(false);
+    SYSCTL_RCGCSSI_R &= ~0x01;  // deactivate SSI0
 }
