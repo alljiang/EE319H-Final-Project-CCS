@@ -7,15 +7,15 @@
  *      ST7735
  *   LED-: GND
  *   LED+: 3.3V
- *  SD_CS: PF2, SD CS
- *   MOSI: PA5, SD MOSI
- *   MISO: PA4, SD MISO
+ *  SD_CS:
+ *   MOSI:
+ *   MISO:
  *    SCK: PA2, SD clock
  *     CS: PA3
  *    SCL: PA2
  *    SDA: PA5
- *     A0: PA7
- *  RESET: PA6
+ *     A0: PA6
+ *  RESET: PA7
  *     NC: not connected
  *     NC: not connected
  *     NC: not connected
