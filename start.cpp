@@ -18,6 +18,7 @@
 #include "ILI9341.h"
 #include "SD_SPI.h"
 #include "UART.h"
+#include "Utils.h"
 
 #define TASKSTACKSIZE   768
 
@@ -33,44 +34,36 @@ Void taskFxn(UArg arg0, UArg arg1)
 
     ILI9341_initGeneral();
     ILI9341_fillScreen(0);
+    uint32_t t1 = millis();
+//    ILI9341_fillScreen(0);
+//    ILI9341_fillScreen(0xFFF);
+//    ILI9341_fillScreen(0);
+//    ILI9341_fillScreen(0xFFF);
+//    ILI9341_fillScreen(0);
+//    ILI9341_fillScreen(0xFFF);
+//    ILI9341_fillScreen(0);
+//    ILI9341_fillScreen(0xFFF);
+//    ILI9341_fillScreen(0);
+//    ILI9341_fillScreen(0xFFF);
+//    ILI9341_fillScreen(0);
+//    ILI9341_fillScreen(0xFFF);
+//    ILI9341_fillScreen(0);
+//    ILI9341_fillScreen(0xFFF);
+//    for(int i = 0 ; i < 100; i++) {
+//        writeData(0);
+//    }
+    uint32_t t2 = millis();
 
     uint32_t rgb[] = {0xFFFFFF, 0xFF0000, 0x00FF00, 0x0000FF, 0xF0F000};
-    uint32_t num[] = {15, 30, 15, 30, 10};
+    uint32_t num[] = {15, 60, 15, 30, 40};
 
-    for(int i = 5; i < 100; i++) {
-        ILI9341_drawHLineMulticolored(5, i, rgb, num, 5);
+    t1 = millis();
+    for(int i = 0; i <= 128; i++) {
+        ILI9341_drawHLineMulticolored(0, i, rgb, num, 5);
     }
+    t2 = millis();
 
-//    for(int y = 0; y < 42; y++) {
-//        ILI9341_drawHLine(0, y, 160, 0b111111000000000000); //R
-//        ILI9341_drawHLine(0, y, 160, 0b000000111111000000); //G
-//        ILI9341_drawHLine(0, y, 160, 0b000000000000111111); //B
-//        for(int c = 0; c < 160; c++) {
-//            ILI9341_drawPixel(r,c,0b111111000000000000); //R
-//            ILI9341_drawPixel(r,c,0b000000111111000000); //G
-//            ILI9341_drawPixel(r,c,0b000000000000111111); //B
-//        }
-//    }
-//    for(int y = 42; y < 87; y++) {
-//        ILI9341_drawHLine(0, y, 160, 0b111111000000000000); //R
-//        ILI9341_drawHLine(0, y, 160, 0b000000111111000000); //G
-//        ILI9341_drawHLine(0, y, 160, 0b000000000000111111); //B
-//        for(int c = 0; c < 160; c++) {
-//            ILI9341_drawPixel(r,c,0b111111000000000000); //R
-//            ILI9341_drawPixel(r,c,0b000000111111000000); //G
-//            ILI9341_drawPixel(r,c,0b000000000000111111); //B
-//        }
-//    }
-//    for(int y = 87; y < 128; y++) {
-//        ILI9341_drawHLine(0, y, 160, 0b111111000000000000); //R
-//        ILI9341_drawHLine(0, y, 160, 0b000000111111000000); //G
-//        ILI9341_drawHLine(0, y, 160, 0b000000000000111111); //B
-//        for(int c = 0; c < 160; c++) {
-//            ILI9341_drawPixel(r,c,0b111111000000000000); //R
-//            ILI9341_drawPixel(r,c,0b000000111111000000); //G
-//            ILI9341_drawPixel(r,c,0b000000000000111111); //B
-//        }
-//    }
+    millis();
 }
 
 Int main()

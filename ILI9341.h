@@ -170,10 +170,8 @@ extern void transferSPI(void);
 
 extern void writeCommand(uint8_t c);
 extern void writeData(uint8_t d);
-extern void writeData8(uint8_t d);
+extern void writeData8(uint8_t d, bool setDC);
 extern void writeData16(uint16_t d);
-
-extern void delay(uint32_t ms);
 
 #ifdef __cplusplus
 }

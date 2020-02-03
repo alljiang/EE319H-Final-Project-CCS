@@ -97,6 +97,7 @@ ILI9341.obj: C:/ti/tirtos_tivac_2_16_00_08/products/TivaWare_C_Series-2.1.1.71b/
 ILI9341.obj: C:/ti/tirtos_tivac_2_16_00_08/products/TivaWare_C_Series-2.1.1.71b/driverlib/gpio.h
 ILI9341.obj: C:/ti/tirtos_tivac_2_16_00_08/products/TivaWare_C_Series-2.1.1.71b/driverlib/sysctl.h
 ILI9341.obj: ../ILI9341.h
+ILI9341.obj: ../Utils.h
 ILI9341.obj: ../Board.h
 ILI9341.obj: ../EK_TM4C123GXL.h
 
@@ -197,5 +198,6 @@ C:/ti/tirtos_tivac_2_16_00_08/products/TivaWare_C_Series-2.1.1.71b/driverlib/deb
 C:/ti/tirtos_tivac_2_16_00_08/products/TivaWare_C_Series-2.1.1.71b/driverlib/gpio.h: 
 C:/ti/tirtos_tivac_2_16_00_08/products/TivaWare_C_Series-2.1.1.71b/driverlib/sysctl.h: 
 ../ILI9341.h: 
+../Utils.h: 
 ../Board.h: 
 ../EK_TM4C123GXL.h: 

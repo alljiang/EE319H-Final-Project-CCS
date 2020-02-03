@@ -18,7 +18,8 @@ C_SRCS += \
 ../EK_TM4C123GXL.c \
 ../ILI9341.c \
 ../SD_SPI.c \
-../UART.c 
+../UART.c \
+../Utils.c 
 
 GEN_CMDS += \
 ./configPkg/linker.cmd 
@@ -34,7 +35,8 @@ C_DEPS += \
 ./EK_TM4C123GXL.d \
 ./ILI9341.d \
 ./SD_SPI.d \
-./UART.d 
+./UART.d \
+./Utils.d 
 
 GEN_OPTS += \
 ./configPkg/compiler.opt 
@@ -44,6 +46,7 @@ OBJS += \
 ./ILI9341.obj \
 ./SD_SPI.obj \
 ./UART.obj \
+./Utils.obj \
 ./start.obj 
 
 CPP_DEPS += \
@@ -57,13 +60,15 @@ OBJS__QUOTED += \
 "ILI9341.obj" \
 "SD_SPI.obj" \
 "UART.obj" \
+"Utils.obj" \
 "start.obj" 
 
 C_DEPS__QUOTED += \
 "EK_TM4C123GXL.d" \
 "ILI9341.d" \
 "SD_SPI.d" \
-"UART.d" 
+"UART.d" \
+"Utils.d" 
 
 CPP_DEPS__QUOTED += \
 "start.d" 
@@ -76,7 +81,8 @@ C_SRCS__QUOTED += \
 "../EK_TM4C123GXL.c" \
 "../ILI9341.c" \
 "../SD_SPI.c" \
-"../UART.c" 
+"../UART.c" \
+"../Utils.c" 
 
 CPP_SRCS__QUOTED += \
 "../start.cpp" 

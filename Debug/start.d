@@ -202,6 +202,7 @@ start.obj: ../EK_TM4C123GXL.h
 start.obj: ../ILI9341.h
 start.obj: ../SD_SPI.h
 start.obj: ../UART.h
+start.obj: ../Utils.h
 
 ../start.cpp: 
 C:/ti/ccs930/xdctools_3_60_02_34_core/packages/xdc/std.h: 
@@ -405,3 +406,4 @@ C:/ti/tirtos_tivac_2_16_00_08/products/tidrivers_tivac_2_16_00_08/packages/ti/dr
 ../ILI9341.h: 
 ../SD_SPI.h: 
 ../UART.h: 
+../Utils.h: 

@@ -40,13 +40,8 @@
 #include "driverlib/sysctl.h"
 
 #include "ILI9341.h"
+#include "Utils.h"
 #include "Board.h"
-
-/* Allocate buffers in .dma section of memory for concerto devices */
-#ifdef MWARE
-#pragma DATA_SECTION(txBuffer, ".dma");
-#pragma DATA_SECTION(rxBuffer, ".dma");
-#endif
 
 SPI_Handle spi;
 SPI_Params params;
@@ -56,10 +51,19 @@ uint8_t txBuffer[100];
 uint8_t rxBuffer[100];
 
 const uint32_t SPI_Bitrate = 20000000;  // 20 MHz
+bool spiOpen = true;
+
+void spiCallback(SPI_Handle handle,
+                 SPI_Transaction * transaction) {
+    chipSelect(false);
+    spiOpen = true;
+}
 
 void ILI9341_initGeneral(void) {
     SPI_Params_init(&params);
     params.bitRate = SPI_Bitrate;
+//    params.transferMode = SPI_MODE_CALLBACK;
+//    params.transferCallbackFxn = &spiCallback;
 
     SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOA);
     SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOC);
@@ -190,7 +194,7 @@ void ILI9341_initGeneral(void) {
     writeCommand(ILI9341_DISPON);
 
     writeCommand(ILI9341_PIXFMT);   // set pixel format to 18-bit
-    writeData(0b00000110);
+    writeData(0b00000110); //18-bit
 
 //*/
     /* idek what these do
@@ -391,10 +395,10 @@ void ILI9341_drawHLineMulticolored(uint32_t x, uint32_t y, uint32_t *rgb, uint32
 
 //  coordinate is bottom-left of rectange
 void ILI9341_fillRect(uint32_t x, uint32_t y, uint32_t w, uint32_t h, uint32_t rgb) {
-    if((x >= ILI9341_TFTWIDTH) || (y >= ILI9341_TFTHEIGHT)) return;
+    if((x > ILI9341_TFTWIDTH) || (y > ILI9341_TFTHEIGHT)) return;
 
-    if(x + w >= ILI9341_TFTWIDTH) w = ILI9341_TFTWIDTH - x - 1;
-    if(y + h >= ILI9341_TFTHEIGHT) h = ILI9341_TFTHEIGHT - y - 1;
+    if(x + w >= ILI9341_TFTWIDTH) w = ILI9341_TFTWIDTH - x;
+    if(y + h >= ILI9341_TFTHEIGHT) h = ILI9341_TFTHEIGHT - y;
 
     beginSPITransaction();
 
@@ -410,12 +414,10 @@ void ILI9341_fillRect(uint32_t x, uint32_t y, uint32_t w, uint32_t h, uint32_t r
 
 void ILI9341_fillScreen(uint32_t rgb) {
 //    ILI9341_fillRect(0, 0, ILI9341_TFTWIDTH-1, ILI9341_TFTHEIGHT-1, rgb);
-    ILI9341_fillRect(0, 0, 160-1, 128-1, rgb);
+    ILI9341_fillRect(0, 0, 160, 128, rgb);
 }
 
 void ILI9341_setColor(uint32_t rgb) {
-//    writeCommand(ILI9341_RAMWR);    // write to RAM
-
     uint8_t r = (rgb & 0x3F0000) >> 16;
     uint8_t g = (rgb & 0x003F00) >> 8;
     uint8_t b = (rgb & 0x00003F);
@@ -440,21 +442,20 @@ void ILI9341_setCoords(uint16_t x0, uint16_t y0, uint16_t x1, uint16_t y1) {
 
     x0 = 160 - x0;
     x1 = 160 - x1;
-
     y0 = 128 - y0;
     y1 = 128 - y1;
 
     writeCommand(ILI9341_CASET); // Column addr set
     writeData(y1>>8);
-    writeData(y1);     // YSTART
-    writeData(y0>>8);
-    writeData(y0);     // YEND
+    writeData8(y1, false);     // YSTART
+    writeData8(y0>>8, false);
+    writeData8(y0, false);     // YEND
 
     writeCommand(ILI9341_PASET); // Row addr set
     writeData(x1>>8);
-    writeData(x1);     // XSTART
-    writeData(x0>>8);
-    writeData(x0);     // XEND
+    writeData8(x1, false);     // XSTART
+    writeData8(x0>>8, false);
+    writeData8(x0, false);     // XEND
 
     writeCommand(ILI9341_RAMWR);    // write to RAM
 }
@@ -468,17 +469,14 @@ void ILI9341_enableDisplay(bool enable) {
     endSPITransaction();
 }
 
-// PA7  - D/C of board 1
-// PC5  - D/C of board 2
+// PA7  - D/C of LCD
 // sets D/C pin     false: data (high)     true: command (low)
 void setCommandPin(bool isCommand) {
     if(isCommand) {
         GPIOPinWrite(GPIO_PORTA_BASE, GPIO_PIN_7, 0);
-//        GPIOPinWrite(GPIO_PORTC_BASE, GPIO_PIN_5, 0);
     }
     else {
         GPIOPinWrite(GPIO_PORTA_BASE, GPIO_PIN_7, GPIO_PIN_7);
-//        GPIOPinWrite(GPIO_PORTC_BASE, GPIO_PIN_5, GPIO_PIN_5);
     }
 }
 
@@ -518,8 +516,12 @@ void writeCommand(uint8_t c) {
     transferSPI();
 }
 
-void writeData8(uint8_t d) {
-    setCommandPin(false);
+void writeData8(uint8_t d, bool setDC) {
+//    while(&0x00000002)==0){};   // wait until transmit FIFO not full
+//    SSI0_DR_R = c;
+
+    if(setDC) setCommandPin(false);
+
     transaction.count = 1;
 
     txBuffer[0] = d;
@@ -543,7 +545,7 @@ void writeData16(uint16_t d) {
 }
 
 void writeData(uint8_t d) {
-    writeData8(d);
+    writeData8(d, true);
 }
 
 void beginSPITransaction(void) {
@@ -555,15 +557,6 @@ void endSPITransaction(void) {
     SPI_close(spi);
 }
 
-// transfers SPI stuff using the global SPI handle and SPI transaction
-void transferSPI() {
-    chipSelect(true);
-    bool transferOK = SPI_transfer(spi, &transaction);
-    if(!transferOK) { System_printf("SPI Transfer Failed"); }
-    System_flush();
-    chipSelect(false);
-}
-
 void readSPI(uint32_t numBytes) {
     transaction.count = numBytes;
     transaction.txBuf = NULL;
@@ -571,7 +564,15 @@ void readSPI(uint32_t numBytes) {
     transferSPI();
 }
 
-void delay(uint32_t ms) {
-    ms *= 6666;    // convert to system cycles
-    for(; ms > 0; ms--) {}
+// transfers SPI stuff using the global SPI handle and SPI transaction
+void transferSPI() {
+    while(!spiOpen) {}
+    chipSelect(true);
+//    spiOpen = false;
+    bool transferOK = SPI_transfer(spi, &transaction);
+    if(!transferOK) {
+        System_printf("SPI Transfer Failed");
+        System_flush();
+    }
+    chipSelect(false);
 }
