@@ -20,8 +20,6 @@
 #include "UART.h"
 #include "Utils.h"
 
-#include "ST7735.h"
-
 #define TASKSTACKSIZE   768
 
 Task_Struct task0Struct;
