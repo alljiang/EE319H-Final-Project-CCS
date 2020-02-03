@@ -5,9 +5,6 @@
  *  January 2020
  */
 
-#ifdef __cplusplus
-extern "C" {
-#endif
 
 
 #define ILI9341_NOP         0x00
@@ -69,9 +66,8 @@ extern "C" {
 
 /*
  *  @brief      Initializes the LCD screen
- *  LIST ALL THE STUFF IT DOES HERE
  */
-extern void ILI9341_initGeneral(void);
+extern void ILI9341_init(void);
 
 /*
  *  @brief      Sets individual pixel on LCD
@@ -139,14 +135,14 @@ extern void ILI9341_fillScreen(uint32_t rgb);
  *  @param      x1      x-coordinate of bottom right pixel
  *  @param      y1      y-coordinate of bottom right pixel
  */
-extern void ILI9341_setCoords(uint16_t x0, uint16_t y0, uint16_t x1, uint16_t y1);
+//extern void ILI9341_setCoords(uint16_t x0, uint16_t y0, uint16_t x1, uint16_t y1);
 
 /*
  *  @brief      Sends color information to LCD
  *
  *  @param      rgb     6-6-6 rgb color
  */
-extern void ILI9341_setColor(uint32_t rgb);
+//extern void ILI9341_setColor(uint32_t rgb);
 
 /*
  *  @brief      Command, resets the software on the LCD
@@ -160,17 +156,8 @@ extern void ILI9341_softwareReset(void);
  */
 extern void ILI9341_enableDisplay(bool enable);
 
-extern void setCommandPin(bool isCommand);
-extern void setResetPin(bool reset);
-extern void chipSelect(bool select);
+extern void commandList(const uint8_t *addr);
 
 extern void beginSPITransaction(void);
 extern void endSPITransaction(void);
 
-extern void writeCommand(uint8_t c);
-extern void writeData(uint8_t d);
-extern void writeData8(uint8_t d, bool setDC);
-
-#ifdef __cplusplus
-}
-#endif

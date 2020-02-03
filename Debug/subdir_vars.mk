@@ -9,6 +9,8 @@ CFG_SRCS += \
 ../EE319H.cfg 
 
 CPP_SRCS += \
+../ILI9341.cpp \
+../ST7735.cpp \
 ../start.cpp 
 
 CMD_SRCS += \
@@ -16,7 +18,6 @@ CMD_SRCS += \
 
 C_SRCS += \
 ../EK_TM4C123GXL.c \
-../ILI9341.c \
 ../SD_SPI.c \
 ../UART.c \
 ../Utils.c 
@@ -33,7 +34,6 @@ GEN_MISC_DIRS += \
 
 C_DEPS += \
 ./EK_TM4C123GXL.d \
-./ILI9341.d \
 ./SD_SPI.d \
 ./UART.d \
 ./Utils.d 
@@ -45,11 +45,14 @@ OBJS += \
 ./EK_TM4C123GXL.obj \
 ./ILI9341.obj \
 ./SD_SPI.obj \
+./ST7735.obj \
 ./UART.obj \
 ./Utils.obj \
 ./start.obj 
 
 CPP_DEPS += \
+./ILI9341.d \
+./ST7735.d \
 ./start.d 
 
 GEN_MISC_DIRS__QUOTED += \
@@ -59,18 +62,20 @@ OBJS__QUOTED += \
 "EK_TM4C123GXL.obj" \
 "ILI9341.obj" \
 "SD_SPI.obj" \
+"ST7735.obj" \
 "UART.obj" \
 "Utils.obj" \
 "start.obj" 
 
 C_DEPS__QUOTED += \
 "EK_TM4C123GXL.d" \
-"ILI9341.d" \
 "SD_SPI.d" \
 "UART.d" \
 "Utils.d" 
 
 CPP_DEPS__QUOTED += \
+"ILI9341.d" \
+"ST7735.d" \
 "start.d" 
 
 GEN_FILES__QUOTED += \
@@ -79,12 +84,13 @@ GEN_FILES__QUOTED += \
 
 C_SRCS__QUOTED += \
 "../EK_TM4C123GXL.c" \
-"../ILI9341.c" \
 "../SD_SPI.c" \
 "../UART.c" \
 "../Utils.c" 
 
 CPP_SRCS__QUOTED += \
+"../ILI9341.cpp" \
+"../ST7735.cpp" \
 "../start.cpp" 
 
 
