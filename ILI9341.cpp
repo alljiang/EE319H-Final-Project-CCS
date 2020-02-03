@@ -57,7 +57,7 @@
 #define DELAY 0x80
 
 const uint8_t
-  cmd[] = {                 // Init for 7735R, part 1 (red or green tab)
+  cmd_st7735[] = {                 // Init for 7735R, part 1 (red or green tab)
     21,                       // 15 commands in list:
     ILI9341_SWRESET,   DELAY,  //  1: Software reset, 0 args, w/delay
       150,                    //     150 ms delay
@@ -114,124 +114,45 @@ const uint8_t
     ILI9341_DISPON ,    DELAY, //  4: Main screen turn on, no args w/delay
       100 };                 //     16-bit color
 
+static const uint8_t init_commands[] = {
+    20,
+    0xEF, 3, 0x03, 0x80, 0x02,
+    0xCF, 3, 0x00, 0XC1, 0X30,
+    0xED, 4, 0x64, 0x03, 0X12, 0X81,
+    0xE8, 3, 0x85, 0x00, 0x78,
+    0xCB, 5, 0x39, 0x2C, 0x00, 0x34, 0x02,
+    0xF7, 1, 0x20,
+    0xEA, 2, 0x00, 0x00,
+    ILI9341_SWRESET,   DELAY, 150, // Software reset
+    ILI9341_PWCTRL1, 1, 0b000111, //0x23, // Power control
+    ILI9341_PWCTRL2, 1, 0x10, // Power control
+    ILI9341_VMCTRL1, 2, 0b0010100, 0x28, //0x3e, 0x28, // VCM control
+    ILI9341_VMCTRL2, 1, 0x86, // VCM control2
+    ILI9341_MADCTL, 1, 0x48, // Memory Access Control
+    ILI9341_PIXFMT, 1, 0b01010101,
+    ILI9341_INVOFF, 0,
+    ILI9341_DISCTRL, 5, 0x08, 0x82, 0x27, // Display Function Control
+        0xF2, 0x00, // Gamma Function Disable
+    ILI9341_GAMMASET, 1, 0x01, // Gamma curve selected
+    ILI9341_GMCTRP1, 15, 0x0F, 0x31, 0x2B, 0x0C, 0x0E, 0x08,
+        0x4E, 0xF1, 0x37, 0x07, 0x10, 0x03, 0x0E, 0x09, 0x00, // Set Gamma
+    ILI9341_GMCTRN1, 15, 0x00, 0x0E, 0x14, 0x03, 0x11, 0x07,
+        0x31, 0xC1, 0x48, 0x08, 0x0F, 0x0C, 0x31, 0x36, 0x0F, // Set Gamma
+    ILI9341_FRMCTR1, 2, 0x00, 0x10, // FrameRate Control 119Hz
+    ILI9341_NORON, DELAY, 10,  // Normal display on, 10ms delay
+    ILI9341_DISPON, DELAY, 100
+};
+
 void DNU(void) {
 
     //  Initial LCD configuration
     beginSPITransaction();
-
-    /* idek what these do
-    writeCommand(0xEF);
-    writeData(0x03);
-    writeData(0x80);
-    writeData(0x02);
-
-    writeCommand(0xCF);
-    writeData(0x00);
-    writeData(0xC1);
-    writeData(0x30);
-
-    writeCommand(0xED);
-    writeData(0x64);
-    writeData(0x03);
-    writeData(0x12);
-    writeData(0x81);
-
-    writeCommand(0xE8);
-    writeData(0x85);
-    writeData(0x00);
-    writeData(0x78);
-
-    writeCommand(0xCB);
-    writeData(0x39);
-    writeData(0x2C);
-    writeData(0x00);
-    writeData(0x34);
-    writeData(0x02);
-
-    writeCommand(0xF7);
-    writeData(0x20);
-
-    writeCommand(0xEA);
-    writeData(0x00);
-    writeData(0x00);
-     */
     /*
     writeCommand(ILI9341_SWRESET);  // software reset
     delay(130); // wait 120ms
 
     writeCommand(ILI9341_SLPOUT);
     delay(120);
-
-    writeCommand(ILI9341_PWCTRL1);   // power control
-    writeData(0b000111);
-
-    writeCommand(ILI9341_PWCTRL2);   // power control
-    writeData(0x10);
-
-    writeCommand(ILI9341_VMCTRL1);   // vcm control
-    writeData(0b0010100);
-    writeData(0x28);
-
-    writeCommand(ILI9341_VMCTRL2);   // vcm control 2
-    writeData(0x86);
-
-    writeCommand(ILI9341_MADCTL);   // memory access control
-    writeData(0x48);
-
-    writeCommand(ILI9341_FRMCTR1);  // frame control
-    writeData(0x00);
-    writeData(0x18);
-
-    writeCommand(ILI9341_INVOFF);
-
-    writeCommand(ILI9341_PIXFMT);   // set pixel format to 18-bit
-    writeData(0b01100110);
-
-    writeCommand(ILI9341_DISCTRL);  // display function control
-    writeData(0x08);
-    writeData(0x82);
-    writeData(0x27);
-
-//    writeCommand(0xF2); // gamma function disable
-//    writeData(0x01);
-
-    writeCommand(ILI9341_GAMMASET); // gamma curve selected
-    writeData(0x01);
-
-    writeCommand(ILI9341_GMCTRP1);  // set gamma
-    writeData(0x0F);
-    writeData(0x31);
-    writeData(0x2B);
-    writeData(0x0C);
-    writeData(0x0E);
-    writeData(0x08);
-    writeData(0x4E);
-    writeData(0xF1);
-    writeData(0x37);
-    writeData(0x07);
-    writeData(0x10);
-    writeData(0x03);
-    writeData(0x0E);
-    writeData(0x09);
-    writeData(0x00);
-
-    writeCommand(ILI9341_GMCTRN1);  // set gamma
-    writeData(0x00);
-    writeData(0x0E);
-    writeData(0x14);
-    writeData(0x03);
-    writeData(0x11);
-    writeData(0x07);
-    writeData(0x31);
-    writeData(0xC1);
-    writeData(0x48);
-    writeData(0x08);
-    writeData(0x0F);
-    writeData(0x0C);
-    writeData(0x31);
-    writeData(0x36);
-    writeData(0x0F);
-
 //    */
 }
 
@@ -252,16 +173,18 @@ static void writeData(uint8_t d) {
 }
 
 void static ILI9341_setColor(uint32_t rgb) {
-    /*
+    /* // 18-bit, 6-6-6
     uint8_t r = (rgb & 0x3F0000) >> 16;
     uint8_t g = (rgb & 0x003F00) >> 8;
     uint8_t b = (rgb & 0x00003F);
 
-//    writeData(b << 2);
-//    writeData(g << 2);
-//    writeData(r << 2);
+    writeData(b << 2);
+    writeData(g << 2);
+    writeData(r << 2);
 
     */
+
+      // 16-bit, 5-6-5
     uint8_t r = (rgb & 0xF80000) >> 19;
     uint8_t g = (rgb & 0x00FC00) >> 10;
     uint8_t b = (rgb & 0x0000F8) >> 3;
@@ -271,15 +194,15 @@ void static ILI9341_setColor(uint32_t rgb) {
 }
 
 void static ILI9341_setCoords(uint16_t x0, uint16_t y0, uint16_t x1, uint16_t y1) {
-//    x0 = ILI9341_TFTWIDTH - x0;
-//    x1 = ILI9341_TFTWIDTH - x1;
-//    y0 = ILI9341_TFTHEIGHT - y0;
-//    y1 = ILI9341_TFTHEIGHT - y1;
+    x0 = ILI9341_TFTWIDTH - x0;
+    x1 = ILI9341_TFTWIDTH - x1;
+    y0 = ILI9341_TFTHEIGHT - y0;
+    y1 = ILI9341_TFTHEIGHT - y1;
 
-    x0 = 160 - x0;
-    x1 = 160 - x1;
-    y0 = 128 - y0;
-    y1 = 128 - y1;
+//    x0 = ST7735_TFTWIDTH - x0;
+//    x1 = ST7735_TFTWIDTH - x1;
+//    y0 = ST7735_TFTHEIGHT - y0;
+//    y1 = ST7735_TFTHEIGHT - y1;
 
     writeCommand(ILI9341_CASET); // Column addr set
     writeData(y1>>8);
@@ -346,7 +269,7 @@ void ILI9341_init() {
     SSI0_CR0_R = (SSI0_CR0_R&~SSI_CR0_DSS_M)+SSI_CR0_DSS_8;
     SSI0_CR1_R |= SSI_CR1_SSE;            // enable SSI
 
-    commandList(cmd);
+    commandList(cmd_st7735);
 
     ILI9341_fillScreen(0);                 // set screen to black
 }
@@ -393,7 +316,6 @@ void ILI9341_drawPixel(uint32_t x, uint32_t y, uint32_t rgb) {
 //  Coordinate is left-most pixel of line
 void ILI9341_drawHLine(uint32_t x, uint32_t y, uint32_t l, uint32_t rgb) {
     if((x >= ILI9341_TFTWIDTH) || (y >= ILI9341_TFTHEIGHT)) return;
-
     if(x + l >= ILI9341_TFTWIDTH) l = ILI9341_TFTWIDTH-x-1;
 
     beginSPITransaction();
@@ -411,7 +333,6 @@ void ILI9341_drawHLine(uint32_t x, uint32_t y, uint32_t l, uint32_t rgb) {
 //  Coordinate is bottom pixel of line
 void ILI9341_drawVLine(uint32_t x, uint32_t y, uint32_t l, uint32_t rgb) {
     if((x >= ILI9341_TFTWIDTH) || (y >= ILI9341_TFTHEIGHT)) return;
-
     if(y + l >= ILI9341_TFTHEIGHT) l = ILI9341_TFTHEIGHT-y-1;
 
     beginSPITransaction();
@@ -427,7 +348,7 @@ void ILI9341_drawVLine(uint32_t x, uint32_t y, uint32_t l, uint32_t rgb) {
 }
 
 void ILI9341_drawHLineMulticolored(uint32_t x, uint32_t y, uint32_t *rgb, uint32_t *num, uint32_t n) {
-    if((x >= ILI9341_TFTWIDTH) || (y >= ILI9341_TFTHEIGHT)) return;
+    if((x > ILI9341_TFTWIDTH) || (y > ILI9341_TFTHEIGHT)) return;
 
     int i;
     uint32_t l = 0;
@@ -472,8 +393,8 @@ void ILI9341_fillRect(uint32_t x, uint32_t y, uint32_t w, uint32_t h, uint32_t r
 }
 
 void ILI9341_fillScreen(uint32_t rgb) {
-//    ILI9341_fillRect(0, 0, ILI9341_TFTWIDTH-1, ILI9341_TFTHEIGHT-1, rgb);
-    ILI9341_fillRect(0, 0, 160, 128, rgb);
+    ILI9341_fillRect(0, 0, ILI9341_TFTWIDTH-1, ILI9341_TFTHEIGHT-1, rgb);
+//    ILI9341_fillRect(0, 0, ST7735_TFTHEIGHT, ST7735_TFTWIDTH, rgb);
 }
 
 void beginSPITransaction(void) {
