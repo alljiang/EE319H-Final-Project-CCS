@@ -481,5 +481,6 @@ void beginSPITransaction(void) {
 }
 
 void endSPITransaction(void) {
+    while((SSI0_SR_R&SSI_SR_BSY)==SSI_SR_BSY){};
     SYSCTL_RCGCSSI_R &= ~0x01;  // deactivate SSI0
 }

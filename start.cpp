@@ -58,9 +58,9 @@ Void taskFxn(UArg arg0, UArg arg1)
 //    uint32_t num[] = {15, 60, 15, 30, 40};
 //
 //    t1 = millis();
-    for(int i = 0; i <= 128; i++) {
-        ILI9341_drawHLineMulticolored(0, i, rgb, num, 5);
-    }
+//    for(int i = 0; i <= 128; i++) {
+//        ILI9341_drawHLineMulticolored(0, i, rgb, num, 5);
+//    }
 //    t2 = millis();
 //
 //    millis();
@@ -71,14 +71,14 @@ Void taskFxn(UArg arg0, UArg arg1)
 
     beginSPITransaction();
 
-    ILI9341_fillScreen(0xFF0000);                 // set screen to black
-    ILI9341_fillScreen(0x0000FF);                 // set screen to black
-    ILI9341_fillScreen(0xFF0000);                 // set screen to black
-    ILI9341_fillScreen(0x0000FF);                 // set screen to black
-    ILI9341_fillScreen(0xFF0000);                 // set screen to black
-    ILI9341_fillScreen(0x0000FF);                 // set screen to black
-    ILI9341_fillScreen(0xFF0000);                 // set screen to black
-    ILI9341_fillScreen(0x0000FF);                 // set screen to black
+//    ILI9341_fillScreen(0xFF0000);                 // set screen to black
+//    ILI9341_fillScreen(0x0000FF);                 // set screen to black
+//    ILI9341_fillScreen(0xFF0000);                 // set screen to black
+//    ILI9341_fillScreen(0x0000FF);                 // set screen to black
+//    ILI9341_fillScreen(0xFF0000);                 // set screen to black
+//    ILI9341_fillScreen(0x0000FF);                 // set screen to black
+//    ILI9341_fillScreen(0xFF0000);                 // set screen to black
+//    ILI9341_fillScreen(0x0000FF);                 // set screen to black
 
 //    ST7735_FillScreen(0);                 // set screen to black
 //    ST7735_FillScreen(0xFFF);                 // set screen to black
@@ -89,7 +89,22 @@ Void taskFxn(UArg arg0, UArg arg1)
 //    ST7735_FillScreen(0);                 // set screen to black
 //    ST7735_FillScreen(0xFFF);                 // set screen to black
 
-//    endSPITransaction();
+    uint32_t rgb[] = {0xF0F01F, 0xFF0000, 0x000F00, 0x0000FF, 0xF0F000};
+    uint32_t num[] = {15, 60, 15, 30, 40};
+
+    uint32_t rgb2[] = {0xFF00FF, 0xF000B2, 0xF0C000, 0x2F00F0, 0xF0F0F0};
+    uint32_t num2[] = {60, 15, 30, 40, 15};
+
+    for(int j = 0; j < 1000; j++) {
+        for(int i = 0; i <= 128; i++) {
+            ILI9341_drawHLineMulticolored(0, i, rgb, num, 5);
+        }
+        for(int i = 0; i <= 128; i++) {
+            ILI9341_drawHLineMulticolored(0, i, rgb2, num2, 5);
+        }
+    }
+
+    endSPITransaction();
 
     uint32_t t2 = millis();
 
