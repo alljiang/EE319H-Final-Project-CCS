@@ -19,6 +19,7 @@
 #include "SD_SPI.h"
 #include "UART.h"
 #include "Utils.h"
+#include "Data/image.h"
 
 #define TASKSTACKSIZE   768
 
@@ -36,21 +37,50 @@ Void taskFxn(UArg arg0, UArg arg1)
     uint32_t t1 = millis();
 
     beginSPITransaction();
+    ILI9341_fillScreen(0);
 
-    uint32_t rgb[] = {0xFF0000, 0x00FF00, 0x0000FF, 0xFF0000, 0x00FF00};
-    uint32_t num[] = {30, 120, 60, 30, 80};
+    uint32_t currentY = 80;
 
-    uint32_t rgb2[] = {0xFF00FF, 0xF000B2, 0xF0C000, 0x2F00F0, 0xF0F0F0};
-    uint32_t num2[] = {120, 60, 30, 80, 30};
+    uint32_t frame, row;
+    for(int i = 0; i < 1000; i++) {
+        for(frame = 0; frame <2 ; frame++) {
+            row = 0;
+            int startingRow = frame * 32;
+            currentY = 80;
+            for(row = startingRow; row < startingRow + 32; row++) {
+                uint16_t rgb[50];
+                uint16_t num[50];
 
-    for(int j = 0; j < 10; j++) {
-        for(int i = 0; i <= 240; i++) {
-            ILI9341_drawHLineMulticolored(0, i, rgb, num, 5);
-        }
-        for(int i = 0; i <= 240; i++) {
-            ILI9341_drawHLineMulticolored(0, i, rgb2, num2, 5);
+                int numColors = falling[row][0];
+
+                for(int n = 0; n < numColors; n++) {
+    //                rgb[n] = dash[row][n*2+1];
+    //                num[n] = dash[row][n*2+2];
+                    rgb[n] = falling[row][n*2+1];
+                    num[n] = falling[row][n*2+2];
+
+                }
+
+                ILI9341_drawHLineMulticolored_indexed(5, currentY--, rgb, num, numColors);
+            }
+            delay(100);
         }
     }
+
+//    uint32_t rgb[] = {0xFF0000, 0x00FF00, 0x0000FF, 0xFF0000, 0x00FF00};
+//    uint32_t num[] = {30, 120, 60, 30, 80};
+//
+//    uint32_t rgb2[] = {0xFF00FF, 0xF000B2, 0xF0C000, 0x2F00F0, 0xF0F0F0};
+//    uint32_t num2[] = {120, 60, 30, 80, 30};
+//
+//    for(int j = 0; j < 10; j++) {
+//        for(int i = 0; i <= 240; i++) {
+//            ILI9341_drawHLineMulticolored(0, i, rgb, num, 5);
+//        }
+//        for(int i = 0; i <= 240; i++) {
+//            ILI9341_drawHLineMulticolored(0, i, rgb2, num2, 5);
+//        }
+//    }
 
     endSPITransaction();
 

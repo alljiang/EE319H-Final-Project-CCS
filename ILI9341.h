@@ -111,6 +111,8 @@ extern void ILI9341_drawVLine(uint32_t x, uint32_t y, uint32_t l, uint32_t rgb);
  */
 extern void ILI9341_drawHLineMulticolored(uint32_t x, uint32_t y, uint32_t *rgb, uint32_t *num, uint32_t n);
 
+extern void ILI9341_drawHLineMulticolored_indexed(uint32_t x, uint32_t y, uint16_t *rgb, uint16_t *num, uint32_t n);
+
 /*
  *  @brief      Draws a single-color rectangle
  *
