@@ -21,6 +21,24 @@
  *     NC: not connected
  *    VCC: 3.3V
  *    GND: GND
+ *
+ *
+ *    ILI9341
+ *    VCC: 3.3V
+ *    GND: GND
+ *     CS: PA3
+ *  RESET: PA7
+ *     DC: PA6
+ *   MOSI: PA5
+ *    SCK: PA2
+ *    LED: 3.3V
+ *   MISO: -
+ *  T_CLK: -
+ *   T_CS: -
+ *  T_DIN: -
+ *   T_DO: -
+ *  T_IRQ: --
+
  */
 
 #include <stdlib.h>
@@ -62,7 +80,7 @@ const uint8_t
     ILI9341_SWRESET,   DELAY,  //  1: Software reset, 0 args, w/delay
       150,                    //     150 ms delay
     ILI9341_SLPOUT ,   DELAY,  //  2: Out of sleep mode, 0 args, w/delay
-      255,                    //     500 ms delay
+      255,                    //
     ILI9341_FRMCTR1, 3      ,  //  3: Frame rate ctrl - normal mode, 3 args:
       0x01, 0x2C, 0x2D,       //     Rate = fosc/(1x2+40) * (LINE+2C+2D)
     ILI9341_FRMCTR2, 3      ,  //  4: Frame rate control - idle mode, 3 args:
@@ -114,47 +132,39 @@ const uint8_t
     ILI9341_DISPON ,    DELAY, //  4: Main screen turn on, no args w/delay
       100 };                 //     16-bit color
 
-static const uint8_t init_commands[] = {
-    20,
-    0xEF, 3, 0x03, 0x80, 0x02,
-    0xCF, 3, 0x00, 0XC1, 0X30,
-    0xED, 4, 0x64, 0x03, 0X12, 0X81,
-    0xE8, 3, 0x85, 0x00, 0x78,
+static const uint8_t cmd_ili9341[] = {
+    25,
+
+    ILI9341_SWRESET, DELAY, 150, // Software reset
+
     0xCB, 5, 0x39, 0x2C, 0x00, 0x34, 0x02,
-    0xF7, 1, 0x20,
+    0xCF, 3, 0x00, 0xC1, 0x30,
+    0xEF, 3, 0x03, 0x80, 0x02,
+    0xE8, 3, 0x85, 0x00, 0x78,
     0xEA, 2, 0x00, 0x00,
-    ILI9341_SWRESET,   DELAY, 150, // Software reset
-    ILI9341_PWCTRL1, 1, 0b000111, //0x23, // Power control
+    0xCF, 3, 0x00, 0XC1, 0X30,
+    0xED, 4, 0x64, 0x03, 0x12, 0x81,
+    0xF7, 1, 0x20,
+
+    ILI9341_PWCTRL1, 1, 0x23, // Power control
     ILI9341_PWCTRL2, 1, 0x10, // Power control
-    ILI9341_VMCTRL1, 2, 0b0010100, 0x28, //0x3e, 0x28, // VCM control
+    ILI9341_VMCTRL1, 2, 0x3E, 0x28, //0x3e, 0x28, // VCM control
     ILI9341_VMCTRL2, 1, 0x86, // VCM control2
     ILI9341_MADCTL, 1, 0x48, // Memory Access Control
-    ILI9341_PIXFMT, 1, 0b01010101,
+    ILI9341_PIXFMT, 1, 0x55, //16-bit    0x66 24-bit
     ILI9341_INVOFF, 0,
-    ILI9341_DISCTRL, 5, 0x08, 0x82, 0x27, // Display Function Control
-        0xF2, 0x00, // Gamma Function Disable
+    ILI9341_FRMCTR1, 2, 0x00, 0x10, // FrameRate Control 119Hz
+    ILI9341_DISCTRL, 4, 0x08, 0x82, 0x27, 0x00, // Display Function Control
+    0x30, 4, 0x00, 0x00, 0x01, 0x3F,
+    0xF2, 1, 0x00,
     ILI9341_GAMMASET, 1, 0x01, // Gamma curve selected
     ILI9341_GMCTRP1, 15, 0x0F, 0x31, 0x2B, 0x0C, 0x0E, 0x08,
         0x4E, 0xF1, 0x37, 0x07, 0x10, 0x03, 0x0E, 0x09, 0x00, // Set Gamma
     ILI9341_GMCTRN1, 15, 0x00, 0x0E, 0x14, 0x03, 0x11, 0x07,
         0x31, 0xC1, 0x48, 0x08, 0x0F, 0x0C, 0x31, 0x36, 0x0F, // Set Gamma
-    ILI9341_FRMCTR1, 2, 0x00, 0x10, // FrameRate Control 119Hz
-    ILI9341_NORON, DELAY, 10,  // Normal display on, 10ms delay
+    ILI9341_SLPOUT, DELAY, 200,  // Normal display on, 10ms delay
     ILI9341_DISPON, DELAY, 100
 };
-
-void DNU(void) {
-
-    //  Initial LCD configuration
-    beginSPITransaction();
-    /*
-    writeCommand(ILI9341_SWRESET);  // software reset
-    delay(130); // wait 120ms
-
-    writeCommand(ILI9341_SLPOUT);
-    delay(120);
-//    */
-}
 
 static void writeCommand(uint8_t c) {
                                         // wait until SSI0 not busy/transmit FIFO empty
@@ -225,6 +235,8 @@ static void deselect(void) {
   TFT_CS = TFT_CS_HIGH;
 }
 
+// init
+//------------------------------------------------------------------
 void ILI9341_init() {
     SYSCTL_RCGCSSI_R |= 0x01;  // activate SSI0
     SYSCTL_RCGCGPIO_R |= 0x01; // activate port A
@@ -259,7 +271,7 @@ void ILI9341_init() {
 
                                         // SysClk/(CPSDVSR*(1+SCR))
                                         // 80/(10*(1+0)) = 8 MHz (slower than 4 MHz)
-    SSI0_CPSR_R = (SSI0_CPSR_R&~SSI_CPSR_CPSDVSR_M)+4; // must be even number
+    SSI0_CPSR_R = (SSI0_CPSR_R&~SSI_CPSR_CPSDVSR_M)+2; // must be even number
     SSI0_CR0_R &= ~(SSI_CR0_SCR_M |       // SCR = 0 (8 Mbps data rate)
                   SSI_CR0_SPH |         // SPH = 0
                   SSI_CR0_SPO);         // SPO = 0
@@ -269,7 +281,8 @@ void ILI9341_init() {
     SSI0_CR0_R = (SSI0_CR0_R&~SSI_CR0_DSS_M)+SSI_CR0_DSS_8;
     SSI0_CR1_R |= SSI_CR1_SSE;            // enable SSI
 
-    commandList(cmd_st7735);
+//    commandList(cmd_st7735);
+    commandList(cmd_ili9341);
 
     ILI9341_fillScreen(0);                 // set screen to black
 }
