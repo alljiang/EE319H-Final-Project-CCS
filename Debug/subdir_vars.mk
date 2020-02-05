@@ -10,7 +10,6 @@ CFG_SRCS += \
 
 CPP_SRCS += \
 ../ILI9341.cpp \
-../ST7735.cpp \
 ../start.cpp 
 
 CMD_SRCS += \
@@ -45,14 +44,12 @@ OBJS += \
 ./EK_TM4C123GXL.obj \
 ./ILI9341.obj \
 ./SD_SPI.obj \
-./ST7735.obj \
 ./UART.obj \
 ./Utils.obj \
 ./start.obj 
 
 CPP_DEPS += \
 ./ILI9341.d \
-./ST7735.d \
 ./start.d 
 
 GEN_MISC_DIRS__QUOTED += \
@@ -62,7 +59,6 @@ OBJS__QUOTED += \
 "EK_TM4C123GXL.obj" \
 "ILI9341.obj" \
 "SD_SPI.obj" \
-"ST7735.obj" \
 "UART.obj" \
 "Utils.obj" \
 "start.obj" 
@@ -75,7 +71,6 @@ C_DEPS__QUOTED += \
 
 CPP_DEPS__QUOTED += \
 "ILI9341.d" \
-"ST7735.d" \
 "start.d" 
 
 GEN_FILES__QUOTED += \
@@ -90,7 +85,6 @@ C_SRCS__QUOTED += \
 
 CPP_SRCS__QUOTED += \
 "../ILI9341.cpp" \
-"../ST7735.cpp" \
 "../start.cpp" 
 
 

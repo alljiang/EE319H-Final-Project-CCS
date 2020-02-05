@@ -1,6 +1,7 @@
 # FIXED
 
 ILI9341.obj: ../ILI9341.cpp
+ILI9341.obj: C:/Users/Allen/Documents/GitHub/EE319H-Final-Project-CCS/data/colors.h
 ILI9341.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_18.12.4.LTS/include/libcxx/stdlib.h
 ILI9341.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_18.12.4.LTS/include/libcxx/__config
 ILI9341.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_18.12.4.LTS/include/libcxx/__config_site
@@ -110,9 +111,9 @@ ILI9341.obj: ../ILI9341.h
 ILI9341.obj: ../Utils.h
 ILI9341.obj: ../Board.h
 ILI9341.obj: ../EK_TM4C123GXL.h
-ILI9341.obj: ../Data/colors.h
 
 ../ILI9341.cpp: 
+C:/Users/Allen/Documents/GitHub/EE319H-Final-Project-CCS/data/colors.h: 
 C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_18.12.4.LTS/include/libcxx/stdlib.h: 
 C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_18.12.4.LTS/include/libcxx/__config: 
 C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_18.12.4.LTS/include/libcxx/__config_site: 
@@ -222,4 +223,3 @@ C:/ti/tirtos_tivac_2_16_00_08/products/TivaWare_C_Series-2.1.1.71b/driverlib/sys
 ../Utils.h: 
 ../Board.h: 
 ../EK_TM4C123GXL.h: 
-../Data/colors.h: 
