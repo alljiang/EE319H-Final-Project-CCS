@@ -1,5 +1,6 @@
 
 /* XDC module Headers */
+#include <data/image.h>
 #include <xdc/std.h>
 #include <xdc/runtime/Diags.h>
 #include <xdc/runtime/System.h>
@@ -19,7 +20,6 @@
 #include "SD_SPI.h"
 #include "UART.h"
 #include "Utils.h"
-#include "Data/image.h"
 
 #define TASKSTACKSIZE   768
 

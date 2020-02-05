@@ -41,6 +41,7 @@
 
  */
 
+#include <data/colors.h>
 #include <stdlib.h>
 
 /* XDC module Headers */
@@ -61,7 +62,6 @@
 #include "ILI9341.h"
 #include "Utils.h"
 #include "Board.h"
-#include "Data/colors.h"
 
 #define TFT_CS                  (*((volatile uint32_t *)0x40004020))
 #define TFT_CS_LOW              0           // CS normally controlled by hardware
