@@ -35,70 +35,42 @@ SDSPI_Handle sdspiHandle;
 SDSPI_Params sdspiParams;
 
 FILE *src;
-char fileHeader[] = "fat:0:";
 
 void SDSPI_initGeneral(void) {
-    SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOF);
-    GPIOPinTypeGPIOOutput(GPIO_PORTF_BASE, GPIO_PIN_2);
-    chipSelectSD(false);
+    SDSPI_Params_init(&sdspiParams);
+//    sdspiParams.bitRate = 12500000;
 }
 
-void SDSPI_openFile(char* filename) {
-    chipSelectSD(false);
+void SDSPI_openFile(char filename[]) {
+    char systemFilename[75] = "fat:0:";
+    strcat(systemFilename, filename);
 
-    uint8_t systemFilenameLength = strlen(fileHeader) + 1;
-    char systemFilename[systemFilenameLength];
-    strncat(systemFilename, fileHeader, systemFilenameLength);
-    systemFilenameLength += strlen(filename) + 1;
-    strncat(systemFilename, filename, systemFilenameLength);
     src = fopen(systemFilename, "r");
+
     if(!src) {
         System_printf("File not found");
         System_flush();
     }
-    chipSelectSD(false);
 }
 
-void SDSPI_readFile(char* output, uint32_t numBytes) {
-    chipSelectSD(true);
+void SDSPI_readFile(char* buffer, uint32_t numBytes) {
     uint32_t bytesRead;
-    while(true) {
-        bytesRead = fread(output, 1, numBytes, src);
-        if(bytesRead == 0) {
-            System_printf("Read Error or End of File");
-            System_flush();
-            break;
-        }
+    bytesRead = fread(buffer, numBytes, 1, src);
+    if(bytesRead == 0) {
+        System_printf("Read Error or End of File");
+        System_flush();
     }
-    chipSelectSD(false);
 }
 
 void SDSPI_closeFile(void) {
-    chipSelectSD(true);
     fclose(src);
-    chipSelectSD(false);
-}
-
-// PF2
-// Sets CS pin of SD Card, MIGHT BE FLIPPED!
-void chipSelectSD(bool select) {
-    if(select) {
-        GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_2, GPIO_PIN_2);
-    }
-    else {
-        GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_2, 0);
-    }
 }
 
 void SDSPI_startSDCard(void) {
-    chipSelectSD(true);
-    SDSPI_Params_init(&sdspiParams);
-//    sdspiParams.bitRate = 12500000;
     sdspiHandle = SDSPI_open(Board_SDSPI0, 0, &sdspiParams);
     if (sdspiHandle == NULL) { System_abort("Error starting the SD card\n"); }
     else { System_printf("SD Card is mounted\n"); }
     System_flush();
-    chipSelectSD(false);
 }
 
 void SDSPI_releaseSDCard(void) {
