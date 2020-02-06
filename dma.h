@@ -69,7 +69,7 @@
 /*
  *  @brief      Initializes the LCD screen
  */
-extern void ILI9341_init(void);
+extern void DMAILI9341_init(void);
 
 /*
  *  @brief      Sets individual pixel on LCD
@@ -78,7 +78,7 @@ extern void ILI9341_init(void);
  *  @param      y       y-coordinate of pixel
  *  @param      rgb     6-6-6 RGB value of pixel
  */
-extern void ILI9341_drawPixel(uint32_t x, uint32_t y, uint32_t rgb);
+extern void DMAILI9341_drawPixel(uint32_t x, uint32_t y, uint32_t rgb);
 
 /*
  *  @brief      Sets individual pixel on LCD
@@ -88,7 +88,7 @@ extern void ILI9341_drawPixel(uint32_t x, uint32_t y, uint32_t rgb);
  *  @param      l       length of line in pixels
  *  @param      rgb     6-6-6 RGB value of pixel
  */
-extern void ILI9341_drawHLine(uint32_t x, uint32_t y, uint32_t l, uint32_t rgb);
+extern void DMAILI9341_drawHLine(uint32_t x, uint32_t y, uint32_t l, uint32_t rgb);
 
 /*
  *  @brief      Sets individual pixel on LCD
@@ -98,7 +98,7 @@ extern void ILI9341_drawHLine(uint32_t x, uint32_t y, uint32_t l, uint32_t rgb);
  *  @param      l       length of line in pixels
  *  @param      rgb     6-6-6 RGB value of pixel
  */
-extern void ILI9341_drawVLine(uint32_t x, uint32_t y, uint32_t l, uint32_t rgb);
+extern void DMAILI9341_drawVLine(uint32_t x, uint32_t y, uint32_t l, uint32_t rgb);
 
 /*
  *  @brief       Draws a multi-colored line, optimized for efficiency
@@ -109,9 +109,7 @@ extern void ILI9341_drawVLine(uint32_t x, uint32_t y, uint32_t l, uint32_t rgb);
  *  @param      *num    pointer to array of number of pixels corresponding to each RGB color
  *  @param      n       size of array
  */
-extern void ILI9341_drawHLineMulticolored(uint32_t x, uint32_t y, uint32_t *rgb, uint32_t *num, uint32_t n);
-
-extern void ILI9341_drawHLineMulticolored_indexed(uint32_t x, uint32_t y, uint16_t *rgb, uint16_t *num, uint32_t n);
+extern void DMAILI9341_drawHLineMulticolored(uint32_t x, uint32_t y, uint32_t *rgb, uint32_t *num, uint32_t n);
 
 /*
  *  @brief      Draws a single-color rectangle
@@ -122,14 +120,14 @@ extern void ILI9341_drawHLineMulticolored_indexed(uint32_t x, uint32_t y, uint16
  *  @param      h       height of rectangle
  *  @param      rgb     RGB color
  */
-extern void ILI9341_fillRect(uint32_t x, uint32_t y, uint32_t w, uint32_t h, uint32_t rgb);
+extern void DMAILI9341_fillRect(uint32_t x, uint32_t y, uint32_t w, uint32_t h, uint32_t rgb);
 
 /*
  * @brief       Fills entire screen with one color
  *
  * @param       rgb     RGB value
  */
-extern void ILI9341_fillScreen(uint32_t rgb);
+extern void DMAILI9341_fillScreen(uint32_t rgb);
 
 /*
  *  @brief      Sends coordinate information to LCD
@@ -151,17 +149,17 @@ extern void ILI9341_fillScreen(uint32_t rgb);
 /*
  *  @brief      Command, resets the software on the LCD
  */
-extern void ILI9341_softwareReset(void);
+extern void DMAILI9341_softwareReset(void);
 
 /*
  *  @brief      Command, turns display on and off
  *
  *  @param      enable    Enables or disables display
  */
-extern void ILI9341_enableDisplay(bool enable);
+extern void DMAILI9341_enableDisplay(bool enable);
 
-extern void commandList(const uint8_t *addr);
+extern void DMAcommandList(const uint8_t *addr);
 
-extern void beginSPITransaction(void);
-extern void endSPITransaction(void);
+extern void DMAbeginSPITransaction(void);
+extern void DMAendSPITransaction(void);
 
