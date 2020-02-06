@@ -20,7 +20,6 @@
 #include "SD_SPI.h"
 #include "UART.h"
 #include "Utils.h"
-#include "dma.h"
 
 #define TASKSTACKSIZE   768
 
@@ -29,24 +28,24 @@ Char task0Stack[TASKSTACKSIZE];
 
 Void taskFxn(UArg arg0, UArg arg1)
 {
-    SDSPI_startSDCard();
-
-    char filename[] = "kirby.txt";
-    SDSPI_openFile(filename);
-
-    char buffer[100];
-    SDSPI_readFile(buffer, 200);
-
-    System_printf(buffer);
-    System_flush();
-
+//    SDSPI_startSDCard();
+//
+//    char filename[] = "kirby.txt";
+//    SDSPI_openFile(filename);
+//
+//    char buffer[100];
+//    SDSPI_readFile(buffer, 200);
+//
+//    System_printf(buffer);
+//    System_flush();
+//
 //    SDSPI_releaseSDCard();
 
-    DMAILI9341_init();
+    ILI9341_init();
     uint32_t t1 = millis();
 
     beginSPITransaction();
-    DMAILI9341_fillScreen(0);
+    ILI9341_fillScreen(0);
 
     uint32_t currentY = 80;
 
@@ -68,7 +67,7 @@ Void taskFxn(UArg arg0, UArg arg1)
 
                 }
 
-                ILI9341_drawHLineMulticolored_indexed(5, currentY--, rgb, num, numColors);
+                ILI9341_drawHLineMulticolored_indexed(5+5*i, currentY--, rgb, num, numColors);
             }
             delay(100);
         }

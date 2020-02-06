@@ -253,11 +253,11 @@ void ILI9341_init() {
     GPIO_PORTA_AMSEL_R &= ~0xC8;          // disable analog functionality on PA3,6,7
     TFT_CS = TFT_CS_LOW;
     RESET = RESET_HIGH;
-    delay(500);
+    delay(10);
     RESET = RESET_LOW;
-    delay(500);
+    delay(20);
     RESET = RESET_HIGH;
-    delay(500);
+    delay(150);
 
     // initialize SSI0
     GPIO_PORTA_AFSEL_R |= 0x2C;           // enable alt funct on PA2,3,5

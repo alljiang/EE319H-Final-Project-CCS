@@ -10,7 +10,6 @@ CFG_SRCS += \
 
 CPP_SRCS += \
 ../ILI9341.cpp \
-../dma.cpp \
 ../start.cpp 
 
 CMD_SRCS += \
@@ -47,12 +46,10 @@ OBJS += \
 ./SD_SPI.obj \
 ./UART.obj \
 ./Utils.obj \
-./dma.obj \
 ./start.obj 
 
 CPP_DEPS += \
 ./ILI9341.d \
-./dma.d \
 ./start.d 
 
 GEN_MISC_DIRS__QUOTED += \
@@ -64,7 +61,6 @@ OBJS__QUOTED += \
 "SD_SPI.obj" \
 "UART.obj" \
 "Utils.obj" \
-"dma.obj" \
 "start.obj" 
 
 C_DEPS__QUOTED += \
@@ -75,7 +71,6 @@ C_DEPS__QUOTED += \
 
 CPP_DEPS__QUOTED += \
 "ILI9341.d" \
-"dma.d" \
 "start.d" 
 
 GEN_FILES__QUOTED += \
@@ -90,7 +85,6 @@ C_SRCS__QUOTED += \
 
 CPP_SRCS__QUOTED += \
 "../ILI9341.cpp" \
-"../dma.cpp" \
 "../start.cpp" 
 
 
