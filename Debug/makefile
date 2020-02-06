@@ -15,7 +15,6 @@ ORDERED_OBJS += \
 "./SD_SPI.obj" \
 "./UART.obj" \
 "./Utils.obj" \
-"./dma.obj" \
 "./start.obj" \
 "./ST7735/ST7735.obj" \
 "../EK_TM4C123GXL.cmd" \
@@ -166,9 +165,9 @@ EE319H-Final-Project-CCS.hex: $(EXE_OUTPUTS)
 # Other Targets
 clean:
 	-$(RM) $(BIN_OUTPUTS__QUOTED)$(GEN_FILES__QUOTED)$(EXE_OUTPUTS__QUOTED)
-	-$(RM) "EK_TM4C123GXL.obj" "ILI9341.obj" "SD_SPI.obj" "UART.obj" "Utils.obj" "dma.obj" "start.obj" "ST7735\ST7735.obj" 
+	-$(RM) "EK_TM4C123GXL.obj" "ILI9341.obj" "SD_SPI.obj" "UART.obj" "Utils.obj" "start.obj" "ST7735\ST7735.obj" 
 	-$(RM) "EK_TM4C123GXL.d" "SD_SPI.d" "UART.d" "Utils.d" 
-	-$(RM) "ILI9341.d" "dma.d" "start.d" "ST7735\ST7735.d" 
+	-$(RM) "ILI9341.d" "start.d" "ST7735\ST7735.d" 
 	-$(RMDIR) $(GEN_MISC_DIRS__QUOTED)
 	-@echo 'Finished clean'
 	-@echo ' '

@@ -41,7 +41,6 @@
 
  */
 
-#include <data/colors.h>
 #include <stdlib.h>
 
 /* XDC module Headers */
@@ -51,87 +50,33 @@
 
 /* TI-RTOS Header files */
 #include <ti/drivers/GPIO.h>
+#include <ti/sysbios/BIOS.h>
 #include <ti/drivers/SPI.h>
+#include <ti/sysbios/knl/Semaphore.h>
 
 #include "inc/hw_memmap.h"
 #include "driverlib/debug.h"
 #include "driverlib/gpio.h"
 #include "driverlib/sysctl.h"
 
-#include "tm4c123gh6pm.h"
-#include "ILI9341.h"
 #include "Utils.h"
 #include "Board.h"
-
-#define TFT_CS                  (*((volatile uint32_t *)0x40004020))
-#define TFT_CS_LOW              0           // CS normally controlled by hardware
-#define TFT_CS_HIGH             0x08
-#define DC                      (*((volatile uint32_t *)0x40004100))
-#define DC_COMMAND              0
-#define DC_DATA                 0x40
-#define RESET                   (*((volatile uint32_t *)0x40004200))
-#define RESET_LOW               0
-#define RESET_HIGH              0x80
+#include "colors.h"
+#include "ILI9341.h"
 
 #define DELAY 0x80
 
-const uint8_t
-  cmd_st7735[] = {                 // Init for 7735R, part 1 (red or green tab)
-    21,                       // 15 commands in list:
-    ILI9341_SWRESET,   DELAY,  //  1: Software reset, 0 args, w/delay
-      150,                    //     150 ms delay
-    ILI9341_SLPOUT ,   DELAY,  //  2: Out of sleep mode, 0 args, w/delay
-      255,                    //
-    ILI9341_FRMCTR1, 3      ,  //  3: Frame rate ctrl - normal mode, 3 args:
-      0x01, 0x2C, 0x2D,       //     Rate = fosc/(1x2+40) * (LINE+2C+2D)
-    ILI9341_FRMCTR2, 3      ,  //  4: Frame rate control - idle mode, 3 args:
-      0x01, 0x2C, 0x2D,       //     Rate = fosc/(1x2+40) * (LINE+2C+2D)
-    ILI9341_FRMCTR3, 6      ,  //  5: Frame rate ctrl - partial mode, 6 args:
-      0x01, 0x2C, 0x2D,       //     Dot inversion mode
-      0x01, 0x2C, 0x2D,       //     Line inversion mode
-    ILI9341_INVCTR , 1      ,  //  6: Display inversion ctrl, 1 arg, no delay:
-      0x07,                   //     No inversion
-    ILI9341_PWCTRL1 , 3      ,  //  7: Power control, 3 args, no delay:
-      0xA2,
-      0x02,                   //     -4.6V
-      0x84,                   //     AUTO mode
-    ILI9341_PWCTRL2 , 1      ,  //  8: Power control, 1 arg, no delay:
-      0xC5,                   //     VGH25 = 2.4C VGSEL = -10 VGH = 3 * AVDD
-    ILI9341_PWCTRL3 , 2      ,  //  9: Power control, 2 args, no delay:
-      0x0A,                   //     Opamp current small
-      0x00,                   //     Boost frequency
-    ILI9341_PWCTRL4 , 2      ,  // 10: Power control, 2 args, no delay:
-      0x8A,                   //     BCLK/2, Opamp current small & Medium low
-      0x2A,
-    ILI9341_PWCTRL5 , 2      ,  // 11: Power control, 2 args, no delay:
-      0x8A, 0xEE,
-    ILI9341_VMCTRL1 , 1      ,  // 12: Power control, 1 arg, no delay:
-      0x0E,
-    ILI9341_INVOFF , 0      ,  // 13: Don't invert display, no args, no delay
-    ILI9341_MADCTL , 1      ,  // 14: Memory access control (directions), 1 arg:
-      0xC8,                   //     row addr/col addr, bottom to top refresh
-    ILI9341_PIXFMT , 1      ,  // 15: set color mode, 1 arg, no delay:
-    0b00000101,
-    ILI9341_CASET  , 4      ,  //  1: Column addr set, 4 args, no delay:
-      0x00, 0x00,             //     XSTART = 0
-      0x00, 0x7F,             //     XEND = 127
-    ILI9341_PASET  , 4      ,  //  2: Row addr set, 4 args, no delay:
-      0x00, 0x00,             //     XSTART = 0
-      0x00, 0x9F,                        //  4 commands in list:
-    ILI9341_GMCTRP1, 16      , //  1: Magical unicorn dust, 16 args, no delay:
-      0x02, 0x1c, 0x07, 0x12,
-      0x37, 0x32, 0x29, 0x2d,
-      0x29, 0x25, 0x2B, 0x39,
-      0x00, 0x01, 0x03, 0x10,
-    ILI9341_GMCTRN1, 16      , //  2: Sparkles and rainbows, 16 args, no delay:
-      0x03, 0x1d, 0x07, 0x06,
-      0x2E, 0x2C, 0x29, 0x2D,
-      0x2E, 0x2E, 0x37, 0x3F,
-      0x00, 0x00, 0x02, 0x10,
-    ILI9341_NORON  ,    DELAY, //  3: Normal display on, no args, w/delay
-      10,                     //     10 ms delay
-    ILI9341_DISPON ,    DELAY, //  4: Main screen turn on, no args w/delay
-      100 };                 //     16-bit color
+SPI_Handle spi;
+SPI_Params params;
+SPI_Transaction transaction;
+
+uint8_t txBuffer[1000];
+uint8_t rxBuffer[100];
+
+Semaphore_Struct semStruct;
+Semaphore_Handle semHandle;
+
+bool cmdPinHigh;
 
 static const uint8_t cmd_ili9341[] = {
     25,
@@ -167,41 +112,67 @@ static const uint8_t cmd_ili9341[] = {
     ILI9341_DISPON, DELAY, 100
 };
 
+void setCommandPin(bool isCommand) {
+    if(isCommand) {
+        if(cmdPinHigh) {
+            Semaphore_pend(semHandle, BIOS_WAIT_FOREVER);
+            Semaphore_post(semHandle);
+        }
+        GPIOPinWrite(GPIO_PORTA_BASE, GPIO_PIN_6, 0);
+        cmdPinHigh = false;
+    }
+    else {
+        if(!cmdPinHigh) {
+            Semaphore_pend(semHandle, BIOS_WAIT_FOREVER);
+            Semaphore_post(semHandle);
+        }
+        GPIOPinWrite(GPIO_PORTA_BASE, GPIO_PIN_6, GPIO_PIN_6);
+        cmdPinHigh = true;
+    }
+}
+
+void transferSPI() {
+    Semaphore_pend(semHandle, BIOS_WAIT_FOREVER);
+    SPI_transfer(spi, &transaction);
+}
+
 static void writeCommand(uint8_t c) {
-                                        // wait until SSI0 not busy/transmit FIFO empty
-  while((SSI0_SR_R&SSI_SR_BSY)==SSI_SR_BSY){};
-  TFT_CS = TFT_CS_LOW;
-  DC = DC_COMMAND;
-  SSI0_DR_R = c;                        // data out
-                                        // wait until SSI0 not busy/transmit FIFO empty
-  while((SSI0_SR_R&SSI_SR_BSY)==SSI_SR_BSY){};
+    setCommandPin(true);
+    transaction.count = 1;
+
+    txBuffer[0] = c;
+
+    transaction.txBuf = (Ptr)txBuffer;
+    transaction.rxBuf = (Ptr)rxBuffer;
+    transferSPI();
 }
 
 static void writeData(uint8_t d) {
-  while((SSI0_SR_R&SSI_SR_TNF)==0){};   // wait until transmit FIFO not full
-  DC = DC_DATA;
-  SSI0_DR_R = d;                        // data out
+    setCommandPin(false);
+    transaction.count = 1;
+
+    txBuffer[0] = d;
+
+    transaction.txBuf = (Ptr)txBuffer;
+    transaction.rxBuf = (Ptr)rxBuffer;
+
+    transferSPI();
 }
 
 void static ILI9341_setColor(uint32_t rgb) {
-    /* // 18-bit, 6-6-6
-    uint8_t r = (rgb & 0x3F0000) >> 16;
-    uint8_t g = (rgb & 0x003F00) >> 8;
-    uint8_t b = (rgb & 0x00003F);
-
-    writeData(b << 2);
-    writeData(g << 2);
-    writeData(r << 2);
-
-    */
-
       // 16-bit, 5-6-5
     uint8_t r = (rgb & 0xF80000) >> 19;
     uint8_t g = (rgb & 0x00FC00) >> 10;
     uint8_t b = (rgb & 0x0000F8) >> 3;
 
-    writeData((r << 3) | (g >> 3));
-    writeData((g << 5) | (b));
+    setCommandPin(false);
+    transaction.count = 2;
+
+    txBuffer[0] = (r << 3) | (g >> 3);
+    txBuffer[1] = (g << 5) | (b);
+    transaction.txBuf = (Ptr)txBuffer;
+    transferSPI();
+
 }
 
 void static ILI9341_setCoords(uint16_t x0, uint16_t y0, uint16_t x1, uint16_t y1) {
@@ -216,73 +187,84 @@ void static ILI9341_setCoords(uint16_t x0, uint16_t y0, uint16_t x1, uint16_t y1
 //    y1 = ST7735_TFTHEIGHT - y1;
 
     writeCommand(ILI9341_CASET); // Column addr set
-    writeData(y0>>8);
-    writeData(y0);     // YSTART
-    writeData(y1>>8);
-    writeData(y1);     // YEND
+
+    setCommandPin(false);
+    transaction.count = 4;
+
+    txBuffer[0] = y0>>8;
+    txBuffer[1] = y0;
+    txBuffer[2] = y1 >> 8;
+    txBuffer[3] = y1;
+    transaction.txBuf = (Ptr)txBuffer;
+    transferSPI();
 
     writeCommand(ILI9341_PASET); // Row addr set
-    writeData(x0>>8);
-    writeData(x0);     // XSTART
-    writeData(x1>>8);
-    writeData(x1);     // XEND
+
+    setCommandPin(false);
+    transaction.count = 4;
+
+    txBuffer[0] = x0>>8;
+    txBuffer[1] = x0;
+    txBuffer[2] = x1 >> 8;
+    txBuffer[3] = x1;
+    transaction.txBuf = (Ptr)txBuffer;
+    transferSPI();
 
     writeCommand(ILI9341_RAMWR);    // write to RAM
 }
 
-static void deselect(void) {
-    // wait until SSI0 not busy/transmit FIFO empty
-  while((SSI0_SR_R&SSI_SR_BSY)==SSI_SR_BSY){};
-  TFT_CS = TFT_CS_HIGH;
+
+void chipSelect(bool select) {
+    if(select) {
+        GPIOPinWrite(GPIO_PORTA_BASE, GPIO_PIN_3, 0);
+    }
+    else {
+        GPIOPinWrite(GPIO_PORTA_BASE, GPIO_PIN_3, GPIO_PIN_3);
+    }
+}
+
+void setResetPin(bool reset) {
+    if(reset) {
+        GPIOPinWrite(GPIO_PORTA_BASE, GPIO_PIN_7, GPIO_PIN_7);
+    }
+    else {
+        GPIOPinWrite(GPIO_PORTA_BASE, GPIO_PIN_7, 0);
+    }
+}
+
+void SPICallback(SPI_Handle handle, SPI_Transaction * transaction) {
+    Semaphore_post(semHandle);
 }
 
 // init
 //------------------------------------------------------------------
 void ILI9341_init() {
-    SYSCTL_RCGCSSI_R |= 0x01;  // activate SSI0
-    SYSCTL_RCGCGPIO_R |= 0x01; // activate port A
-    while((SYSCTL_PRGPIO_R&0x01)==0){}; // allow time for clock to start
 
-    // toggle RST low to reset; CS low so it'll listen to us
-    // SSI0Fss is temporarily used as GPIO
-    GPIO_PORTA_DIR_R |= 0xC8;             // make PA3,6,7 out
-    GPIO_PORTA_AFSEL_R &= ~0xC8;          // disable alt funct on PA3,6,7
-    GPIO_PORTA_DEN_R |= 0xC8;             // enable digital I/O on PA3,6,7
-                                        // configure PA3,6,7 as GPIO
-    GPIO_PORTA_PCTL_R = (GPIO_PORTA_PCTL_R&0x00FF0FFF)+0x00000000;
-    GPIO_PORTA_AMSEL_R &= ~0xC8;          // disable analog functionality on PA3,6,7
-    TFT_CS = TFT_CS_LOW;
-    RESET = RESET_HIGH;
-    delay(500);
-    RESET = RESET_LOW;
-    delay(500);
-    RESET = RESET_HIGH;
-    delay(500);
+    SPI_Params_init(&params);
+    params.bitRate = 2000000;
+    params.transferMode = SPI_MODE_CALLBACK;
+    params.transferCallbackFxn = &SPICallback;
 
-    // initialize SSI0
-    GPIO_PORTA_AFSEL_R |= 0x2C;           // enable alt funct on PA2,3,5
-    GPIO_PORTA_DEN_R |= 0x2C;             // enable digital I/O on PA2,3,5
-                                        // configure PA2,3,5 as SSI
-    GPIO_PORTA_PCTL_R = (GPIO_PORTA_PCTL_R&0xFF0F00FF)+0x00202200;
-    GPIO_PORTA_AMSEL_R &= ~0x2C;          // disable analog functionality on PA2,3,5
-    SSI0_CR1_R &= ~SSI_CR1_SSE;           // disable SSI
-    SSI0_CR1_R &= ~SSI_CR1_MS;            // master mode
-                                        // configure for system clock/PLL baud clock source
-    SSI0_CC_R = (SSI0_CC_R&~SSI_CC_CS_M)+SSI_CC_CS_SYSPLL;
+    Semaphore_Params semParams;
+    Semaphore_Params_init(&semParams);
+    Semaphore_construct(&semStruct, 1, &semParams);
+    semHandle = Semaphore_handle(&semStruct);
 
-                                        // SysClk/(CPSDVSR*(1+SCR))
-                                        // 80/(10*(1+0)) = 8 MHz (slower than 4 MHz)
-    SSI0_CPSR_R = (SSI0_CPSR_R&~SSI_CPSR_CPSDVSR_M)+4; // must be even number
-    SSI0_CR0_R &= ~(SSI_CR0_SCR_M |       // SCR = 0 (8 Mbps data rate)
-                  SSI_CR0_SPH |         // SPH = 0
-                  SSI_CR0_SPO);         // SPO = 0
-                                        // FRF = Freescale format
-    SSI0_CR0_R = (SSI0_CR0_R&~SSI_CR0_FRF_M)+SSI_CR0_FRF_MOTO;
-                                        // DSS = 8-bit data
-    SSI0_CR0_R = (SSI0_CR0_R&~SSI_CR0_DSS_M)+SSI_CR0_DSS_8;
-    SSI0_CR1_R |= SSI_CR1_SSE;            // enable SSI
+    SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOA);
 
-//    commandList(cmd_st7735);
+    GPIOPinTypeGPIOOutput(GPIO_PORTA_BASE, GPIO_PIN_7 | GPIO_PIN_6);
+
+//  Reset using RST pin
+    setResetPin(true);
+    delay(5);
+    setResetPin(false);
+    delay(20);
+    setResetPin(true);
+    delay(150);
+
+    //  Initial LCD configuration
+    beginSPITransaction();
+
     commandList(cmd_ili9341);
 
     ILI9341_fillScreen(0);                 // set screen to black
@@ -297,12 +279,12 @@ void commandList(const uint8_t *addr) {
 
   numCommands = *(addr++);               // Number of commands to follow
   while(numCommands--) {                 // For each command...
-    writeCommand(*(addr++));             //   Read, issue command
+      writeCommand(*(addr++));             //   Read, issue command
     numArgs  = *(addr++);                //   Number of args to follow
     ms       = numArgs & DELAY;          //   If hibit set, delay follows args
     numArgs &= ~DELAY;                   //   Mask out delay bit
     while(numArgs--) {                   //   For each argument...
-      writeData(*(addr++));              //     Read, issue argument
+        writeData(*(addr++));              //     Read, issue argument
     }
 
     if(ms) {
@@ -317,14 +299,9 @@ void commandList(const uint8_t *addr) {
 void ILI9341_drawPixel(uint32_t x, uint32_t y, uint32_t rgb) {
     if((x > ILI9341_TFTWIDTH) || (y > ILI9341_TFTHEIGHT)) return;
 
-    beginSPITransaction();
-
     ILI9341_setCoords(x,y,x,y);
 
     ILI9341_setColor(rgb);
-
-    deselect();
-    endSPITransaction();
 }
 
 //  Coordinate is left-most pixel of line
@@ -332,16 +309,12 @@ void ILI9341_drawHLine(uint32_t x, uint32_t y, uint32_t l, uint32_t rgb) {
     if((x > ILI9341_TFTWIDTH) || (y > ILI9341_TFTHEIGHT)) return;
     if(x + l > ILI9341_TFTWIDTH) l = ILI9341_TFTWIDTH-x;
 
-    beginSPITransaction();
-
     ILI9341_setCoords(x,y,x+l,y);
 
     uint32_t i;
     for(i = 0; i < l; i++) {
         ILI9341_setColor(rgb);
     }
-    deselect();
-    endSPITransaction();
 }
 
 //  Coordinate is bottom pixel of line
@@ -349,16 +322,12 @@ void ILI9341_drawVLine(uint32_t x, uint32_t y, uint32_t l, uint32_t rgb) {
     if((x > ILI9341_TFTWIDTH) || (y > ILI9341_TFTHEIGHT)) return;
     if(y + l > ILI9341_TFTHEIGHT) l = ILI9341_TFTHEIGHT-y;
 
-    beginSPITransaction();
-
     ILI9341_setCoords(x,y,x,y+l);
 
     int i;
     for(i = 0; i < l; i++) {
         ILI9341_setColor(rgb);
     }
-    deselect();
-    endSPITransaction();
 }
 
 //  Coordinate is left-most pixel of line
@@ -371,21 +340,31 @@ void ILI9341_drawHLineMulticolored(uint32_t x, uint32_t y, uint32_t *rgb, uint32
         l += num[i];
     }
 
-    if(x + l >= ILI9341_TFTWIDTH) l = ILI9341_TFTWIDTH-x-1;
-
-    beginSPITransaction();
+    if(x + l > ILI9341_TFTWIDTH) {
+        l = ILI9341_TFTWIDTH-x;
+    }
 
     ILI9341_setCoords(x,y,x+l,y);
 
     uint32_t j;
     uint32_t loops;
+    uint16_t index = 0;
     for(i = n-1; i >= 0; i--) {
         loops = num[i];
         for(j = 0; j < loops && l-- > 0; j++) {
-            ILI9341_setColor(rgb[i]);
+            uint32_t rgbVal = rgb[i];
+            uint8_t r = (rgbVal & 0xF80000) >> 16;
+            uint8_t g = (rgbVal & 0x00FC00) >> 10;
+            uint8_t b = (rgbVal & 0x0000F8) >> 3;
+
+            txBuffer[index++] = (r) | (g >> 3);
+            txBuffer[index++] = (g << 5) | (b);
         }
     }
-    deselect();
+    setCommandPin(false);
+    transaction.count = index;
+    transaction.txBuf = (Ptr)txBuffer;
+    transferSPI();
 }
 
 /*
@@ -401,9 +380,7 @@ void ILI9341_drawHLineMulticolored_indexed(uint32_t x, uint32_t y, uint16_t *rgb
         l += num[i];
     }
 
-    if(x + l >= ILI9341_TFTWIDTH) l = ILI9341_TFTWIDTH-x;
-
-    beginSPITransaction();
+    if(x + l > ILI9341_TFTWIDTH) l = ILI9341_TFTWIDTH-x;
 
     //  trim beginning
     if(colors[rgb[n-1]] == (uint32_t) -1) {
@@ -427,21 +404,25 @@ void ILI9341_drawHLineMulticolored_indexed(uint32_t x, uint32_t y, uint16_t *rgb
 
     uint16_t j;
     uint16_t loops;
+    uint16_t index = 0;
     for(i = startOffset; i < n; i++) {
         loops = num[i];
-
         for(j = 0; j < loops && l-- > 0; j++) {
             uint32_t actualcolor = colors[rgb[i]];
             if(actualcolor != (uint32_t)-1) {
-                ILI9341_setColor(actualcolor);
+                uint8_t r = (actualcolor & 0xF80000) >> 16;
+                uint8_t g = (actualcolor & 0x00FC00) >> 10;
+                uint8_t b = (actualcolor & 0x0000F8) >> 3;
+
+                txBuffer[index++] = (r) | (g >> 3);
+                txBuffer[index++] = (g << 5) | (b);
             }
             else {
-                ILI9341_setColor(0);
-//                ILI9341_setColor(0x00FF00);
+                txBuffer[index++] = 0;
+                txBuffer[index++] = 0;
             }
         }
     }
-    deselect();
 }
 
 //  coordinate is bottom-left of rectangle
@@ -451,8 +432,6 @@ void ILI9341_fillRect(uint32_t x, uint32_t y, uint32_t w, uint32_t h, uint32_t r
     if(x + w >= ILI9341_TFTWIDTH) w = ILI9341_TFTWIDTH - x;
     if(y + h >= ILI9341_TFTHEIGHT) h = ILI9341_TFTHEIGHT - y;
 
-    beginSPITransaction();
-
     ILI9341_setCoords(x, y, x+w, y+h);
 
     for(y = h; y > 0; y--) {
@@ -460,19 +439,18 @@ void ILI9341_fillRect(uint32_t x, uint32_t y, uint32_t w, uint32_t h, uint32_t r
             ILI9341_setColor(rgb);
         }
     }
-    deselect();
 }
 
 void ILI9341_fillScreen(uint32_t rgb) {
     ILI9341_fillRect(0, 0, ILI9341_TFTWIDTH, ILI9341_TFTHEIGHT, rgb);
-//    ILI9341_fillRect(0, 0, ST7735_TFTHEIGHT, ST7735_TFTWIDTH, rgb);
 }
 
-void beginSPITransaction(void) {
-    SYSCTL_RCGCSSI_R |= 0x01;  // activate SSI0
+void beginSPITransaction() {
+    spi = SPI_open(Board_SPI0, &params);
+    if (spi == NULL) { System_abort("Error initializing SPI\n"); }
 }
 
-void endSPITransaction(void) {
-    while((SSI0_SR_R&SSI_SR_BSY)==SSI_SR_BSY){};
-    SYSCTL_RCGCSSI_R &= ~0x01;  // deactivate SSI0
+void endSPITransaction() {
+    SPI_close(spi);
 }
+

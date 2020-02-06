@@ -204,7 +204,6 @@ start.obj: ../ILI9341.h
 start.obj: ../SD_SPI.h
 start.obj: ../UART.h
 start.obj: ../Utils.h
-start.obj: ../dma.h
 
 ../start.cpp: 
 C:/Users/Allen/Documents/GitHub/EE319H-Final-Project-CCS/data/image.h: 
@@ -410,4 +409,3 @@ C:/ti/tirtos_tivac_2_16_00_08/products/tidrivers_tivac_2_16_00_08/packages/ti/dr
 ../SD_SPI.h: 
 ../UART.h: 
 ../Utils.h: 
-../dma.h: 

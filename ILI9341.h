@@ -18,7 +18,7 @@
 #define ILI9341_NORON         0x13
 
 #define ILI9341_RDMODE        0x0A
-#define ILI9341_RDMADCTL      0x0B
+#define ILI9341_RDCTL      0x0B
 #define ILI9341_RDPIXFMT      0x0C
 #define ILI9341_RDIMGFMT      0x0D
 #define ILI9341_RDSELFDIAG    0x0F
