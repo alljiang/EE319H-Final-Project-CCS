@@ -162,6 +162,3 @@ extern void ILI9341_enableDisplay(bool enable);
 
 extern void commandList(const uint8_t *addr);
 
-extern void beginSPITransaction(void);
-extern void endSPITransaction(void);
-

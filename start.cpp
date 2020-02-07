@@ -1,6 +1,7 @@
 
 /* XDC module Headers */
 #include <data/image.h>
+#include <driver/SD.h>
 #include <xdc/std.h>
 #include <xdc/runtime/Diags.h>
 #include <xdc/runtime/System.h>
@@ -10,16 +11,16 @@
 #include <ti/sysbios/knl/Semaphore.h>
 #include <ti/sysbios/knl/Task.h>
 #include <ti/sysbios/knl/Clock.h>
-
 #include <ti/drivers/SDSPI.h>
 
 /* Example/Board Header files */
 #include "driver/Board.h"
 
 #include "driver/ILI9341.h"
-#include "driver/SD_SPI.h"
 #include "driver/UART.h"
 #include "driver/Utils.h"
+#include "driver/SD.h"
+#include "driver/SRAM.h"
 
 #define TASKSTACKSIZE   768
 
@@ -28,50 +29,50 @@ Char task0Stack[TASKSTACKSIZE];
 
 Void taskFxn(UArg arg0, UArg arg1)
 {
-//    SDSPI_startSDCard();
+//    SD_startSDCard();
 //
 //    char filename[] = "kirby.txt";
-//    SDSPI_openFile(filename);
+//    SD_openFile(filename);
 //
 //    char buffer[100];
-//    SDSPI_readFile(buffer, 200);
+//    SD_readFile(buffer, 200);
 //
 //    System_printf(buffer);
 //    System_flush();
 //
-//    SDSPI_releaseSDCard();
+//    SD_releaseSDCard();
 
-    ILI9341_init();
-    uint32_t t1 = millis();
-
-    beginSPITransaction();
-    ILI9341_fillScreen(0);
-
-    uint32_t currentY = 80;
-
-    uint32_t frame, row;
-    for(int i = 0; i < 1000; i++) {
-        for(frame = 0; frame <2 ; frame++) {
-            row = 0;
-            int startingRow = frame * 32;
-            currentY = 80;
-            for(row = startingRow; row < startingRow + 32; row++) {
-                uint16_t rgb[50];
-                uint16_t num[50];
-
-                int numColors = falling[row][0];
-
-                for(int n = 0; n < numColors; n++) {
-                    rgb[n] = falling[row][n*2+1];
-                    num[n] = falling[row][n*2+2];
-
-                }
-
-                ILI9341_drawHLineMulticolored_indexed(3, currentY--, rgb, num, numColors);
-            }
-            delay(100);
-        }
-    }
+//    ILI9341_init();
+//    uint32_t t1 = millis();
+//
+//    beginSPITransaction();
+//    ILI9341_fillScreen(0);
+//
+//    uint32_t currentY = 80;
+//
+//    uint32_t frame, row;
+//    for(int i = 0; i < 1000; i++) {
+//        for(frame = 0; frame <2 ; frame++) {
+//            row = 0;
+//            int startingRow = frame * 32;
+//            currentY = 80;
+//            for(row = startingRow; row < startingRow + 32; row++) {
+//                uint16_t rgb[50];
+//                uint16_t num[50];
+//
+//                int numColors = falling[row][0];
+//
+//                for(int n = 0; n < numColors; n++) {
+//                    rgb[n] = falling[row][n*2+1];
+//                    num[n] = falling[row][n*2+2];
+//
+//                }
+//
+//                ILI9341_drawHLineMulticolored_indexed(3, currentY--, rgb, num, numColors);
+//            }
+//            delay(100);
+//        }
+//    }
 
 //    uint32_t rgb[] = {0xFF0000, 0x00FF00, 0x0000FF, 0xFF0000, 0x00FF00};
 //    uint32_t num[] = {30, 120, 60, 30, 80};
@@ -88,7 +89,17 @@ Void taskFxn(UArg arg0, UArg arg1)
 //        }
 //    }
 
-    endSPITransaction();
+    SRAM_init();
+    SRAM_read(0x11F0F, 10, NULL);
+
+    uint8_t arr[530];
+    arr[255] = 0xFE;
+    arr[256] = 0xFF;
+    arr[511] = 0xCE;
+    arr[512] = 0xCF;
+    arr[529] = 0xAA;
+
+    SRAM_write(0x11F0F, 530, arr);
 
     uint32_t t2 = millis();
 }
@@ -105,7 +116,7 @@ Int main()
     Board_initSDSPI();
 
     UART_start();
-    SDSPI_initGeneral();
+    SD_init();
 
     System_printf("Board initialized\n");
     System_flush();

@@ -75,6 +75,9 @@
 
 #define DELAY 0x80
 
+void beginSPITransaction();
+void endSPITransaction();
+
 const uint8_t
   cmd_st7735[] = {                 // Init for 7735R, part 1 (red or green tab)
     21,                       // 15 commands in list:
