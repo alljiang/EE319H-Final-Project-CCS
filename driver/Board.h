@@ -37,7 +37,7 @@
 extern "C" {
 #endif
 
-#include "EK_TM4C123GXL.h"
+#include <driver/EK_TM4C123GXL.h>
 
 #define Board_initDMA               EK_TM4C123GXL_initDMA
 #define Board_initGeneral           EK_TM4C123GXL_initGeneral

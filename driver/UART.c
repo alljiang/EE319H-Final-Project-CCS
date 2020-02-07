@@ -4,16 +4,15 @@
  */
 
 /* XDCtools Header files */
+#include <driver/Board.h>
+#include <driver/UART.h>
 #include <xdc/std.h>
 #include <xdc/runtime/System.h>
 
 #include <ti/drivers/GPIO.h>
 #include <ti/drivers/UART.h>
 
-#include "Board.h"
-
 #include <stdint.h>
-#include "UART.h"
 
 UART_Handle uart;
 UART_Params uartParams;

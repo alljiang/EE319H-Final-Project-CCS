@@ -4,14 +4,13 @@
  */
 
 /* XDCtools Header files */
+#include <driver/Board.h>
+#include <driver/Utils.h>
 #include <xdc/std.h>
 #include <xdc/runtime/System.h>
 #include <ti/sysbios/knl/Task.h>
 #include <ti/sysbios/BIOS.h>
 #include <ti/sysbios/knl/Clock.h>
-
-#include "Board.h"
-#include "Utils.h"
 
 #include <stdint.h>
 

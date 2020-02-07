@@ -10,14 +10,14 @@ GEN_OPTS__FLAG := --cmd_file="configPkg/compiler.opt"
 GEN_CMDS__FLAG := -l"configPkg/linker.cmd"
 
 ORDERED_OBJS += \
-"./EK_TM4C123GXL.obj" \
-"./ILI9341.obj" \
-"./SD_SPI.obj" \
-"./UART.obj" \
-"./Utils.obj" \
 "./start.obj" \
-"./ST7735/ST7735.obj" \
-"../EK_TM4C123GXL.cmd" \
+"./driver/EK_TM4C123GXL.obj" \
+"./driver/ILI9341.obj" \
+"./driver/SD_SPI.obj" \
+"./driver/UART.obj" \
+"./driver/Utils.obj" \
+"./driver/ST7735/ST7735.obj" \
+"../driver/EK_TM4C123GXL.cmd" \
 $(GEN_CMDS__FLAG) \
 -l"C:/ti/tirtos_tivac_2_16_00_08/products/TivaWare_C_Series-2.1.1.71b/grlib/ccs/Debug/grlib.lib" \
 -l"C:/ti/tirtos_tivac_2_16_00_08/products/TivaWare_C_Series-2.1.1.71b/usblib/ccs/Debug/usblib.lib" \
@@ -32,9 +32,11 @@ RMDIR := RMDIR /S/Q
 # All of the sources participating in the build are defined here
 -include sources.mk
 -include subdir_vars.mk
--include ST7735/subdir_vars.mk
+-include driver/subdir_vars.mk
+-include driver/ST7735/subdir_vars.mk
 -include subdir_rules.mk
--include ST7735/subdir_rules.mk
+-include driver/subdir_rules.mk
+-include driver/ST7735/subdir_rules.mk
 -include objects.mk
 
 ifneq ($(MAKECMDGOALS),clean)
@@ -165,9 +167,9 @@ EE319H-Final-Project-CCS.hex: $(EXE_OUTPUTS)
 # Other Targets
 clean:
 	-$(RM) $(BIN_OUTPUTS__QUOTED)$(GEN_FILES__QUOTED)$(EXE_OUTPUTS__QUOTED)
-	-$(RM) "EK_TM4C123GXL.obj" "ILI9341.obj" "SD_SPI.obj" "UART.obj" "Utils.obj" "start.obj" "ST7735\ST7735.obj" 
-	-$(RM) "EK_TM4C123GXL.d" "SD_SPI.d" "UART.d" "Utils.d" 
-	-$(RM) "ILI9341.d" "start.d" "ST7735\ST7735.d" 
+	-$(RM) "start.obj" "driver\EK_TM4C123GXL.obj" "driver\ILI9341.obj" "driver\SD_SPI.obj" "driver\UART.obj" "driver\Utils.obj" "driver\ST7735\ST7735.obj" 
+	-$(RM) "driver\EK_TM4C123GXL.d" "driver\SD_SPI.d" "driver\UART.d" "driver\Utils.d" 
+	-$(RM) "start.d" "driver\ILI9341.d" "driver\ST7735\ST7735.d" 
 	-$(RMDIR) $(GEN_MISC_DIRS__QUOTED)
 	-@echo 'Finished clean'
 	-@echo ' '

@@ -42,6 +42,10 @@
  */
 
 #include <data/colors.h>
+#include <driver/Board.h>
+#include <driver/ILI9341.h>
+#include <driver/tm4c123gh6pm.h>
+#include <driver/Utils.h>
 #include <stdlib.h>
 
 /* XDC module Headers */
@@ -58,10 +62,6 @@
 #include "driverlib/gpio.h"
 #include "driverlib/sysctl.h"
 
-#include "tm4c123gh6pm.h"
-#include "ILI9341.h"
-#include "Utils.h"
-#include "Board.h"
 
 #define TFT_CS                  (*((volatile uint32_t *)0x40004020))
 #define TFT_CS_LOW              0           // CS normally controlled by hardware

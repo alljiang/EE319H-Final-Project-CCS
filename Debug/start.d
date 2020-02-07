@@ -198,12 +198,12 @@ start.obj: C:/ti/tirtos_tivac_2_16_00_08/products/bios_6_45_01_29/packages/ti/sy
 start.obj: C:/ti/tirtos_tivac_2_16_00_08/products/bios_6_45_01_29/packages/ti/sysbios/knl/Clock.h
 start.obj: C:/ti/tirtos_tivac_2_16_00_08/products/bios_6_45_01_29/packages/ti/sysbios/knl/package/Clock_TimerProxy.h
 start.obj: C:/ti/tirtos_tivac_2_16_00_08/products/tidrivers_tivac_2_16_00_08/packages/ti/drivers/SDSPI.h
-start.obj: ../Board.h
-start.obj: ../EK_TM4C123GXL.h
-start.obj: ../ILI9341.h
-start.obj: ../SD_SPI.h
-start.obj: ../UART.h
-start.obj: ../Utils.h
+start.obj: ../driver/Board.h
+start.obj: C:/Users/Allen/Documents/GitHub/EE319H-Final-Project-CCS/driver/EK_TM4C123GXL.h
+start.obj: ../driver/ILI9341.h
+start.obj: ../driver/SD_SPI.h
+start.obj: ../driver/UART.h
+start.obj: ../driver/Utils.h
 
 ../start.cpp: 
 C:/Users/Allen/Documents/GitHub/EE319H-Final-Project-CCS/data/image.h: 
@@ -403,9 +403,9 @@ C:/ti/tirtos_tivac_2_16_00_08/products/bios_6_45_01_29/packages/ti/sysbios/knl/p
 C:/ti/tirtos_tivac_2_16_00_08/products/bios_6_45_01_29/packages/ti/sysbios/knl/Clock.h: 
 C:/ti/tirtos_tivac_2_16_00_08/products/bios_6_45_01_29/packages/ti/sysbios/knl/package/Clock_TimerProxy.h: 
 C:/ti/tirtos_tivac_2_16_00_08/products/tidrivers_tivac_2_16_00_08/packages/ti/drivers/SDSPI.h: 
-../Board.h: 
-../EK_TM4C123GXL.h: 
-../ILI9341.h: 
-../SD_SPI.h: 
-../UART.h: 
-../Utils.h: 
+../driver/Board.h: 
+C:/Users/Allen/Documents/GitHub/EE319H-Final-Project-CCS/driver/EK_TM4C123GXL.h: 
+../driver/ILI9341.h: 
+../driver/SD_SPI.h: 
+../driver/UART.h: 
+../driver/Utils.h: 

@@ -6,6 +6,8 @@
  */
 
 /* XDC module Headers */
+#include <driver/Board.h>
+#include <driver/SD_SPI.h>
 #include <xdc/std.h>
 #include <stdlib.h>
 #include <stdio.h>
@@ -23,8 +25,6 @@
 #include "driverlib/gpio.h"
 #include "driverlib/sysctl.h"
 
-#include "Board.h"
-#include "SD_SPI.h"
 
 /* Buffer size used for the file copy process */
 #ifndef CPY_BUFF_SIZE

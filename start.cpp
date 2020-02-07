@@ -14,12 +14,12 @@
 #include <ti/drivers/SDSPI.h>
 
 /* Example/Board Header files */
-#include "Board.h"
+#include "driver/Board.h"
 
-#include "ILI9341.h"
-#include "SD_SPI.h"
-#include "UART.h"
-#include "Utils.h"
+#include "driver/ILI9341.h"
+#include "driver/SD_SPI.h"
+#include "driver/UART.h"
+#include "driver/Utils.h"
 
 #define TASKSTACKSIZE   768
 
@@ -67,7 +67,7 @@ Void taskFxn(UArg arg0, UArg arg1)
 
                 }
 
-                ILI9341_drawHLineMulticolored_indexed(5+5*i, currentY--, rgb, num, numColors);
+                ILI9341_drawHLineMulticolored_indexed(3, currentY--, rgb, num, numColors);
             }
             delay(100);
         }
