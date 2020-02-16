@@ -12,15 +12,21 @@
 #include <ti/sysbios/knl/Task.h>
 #include <ti/sysbios/knl/Clock.h>
 #include <ti/drivers/SDSPI.h>
+#include <ti/drivers/GPIO.h>
 
 /* Example/Board Header files */
 #include "driver/Board.h"
+#include "inc/hw_memmap.h"
+#include "driverlib/debug.h"
+#include "driverlib/gpio.h"
+#include "driverlib/sysctl.h"
 
 #include "driver/ILI9341.h"
 #include "driver/UART.h"
 #include "driver/Utils.h"
 #include "driver/SD.h"
 #include "driver/SRAM.h"
+#include "driver/Audio.h"
 
 #define TASKSTACKSIZE   768
 
@@ -35,7 +41,7 @@ Void taskFxn(UArg arg0, UArg arg1)
 //    SD_openFile(filename);
 //
 //    char buffer[100];
-//    SD_readFile(buffer, 200);
+//    SD_readFile(200, buffer);
 //
 //    System_printf(buffer);
 //    System_flush();
@@ -45,7 +51,6 @@ Void taskFxn(UArg arg0, UArg arg1)
 //    ILI9341_init();
 //    uint32_t t1 = millis();
 //
-//    beginSPITransaction();
 //    ILI9341_fillScreen(0);
 //
 //    uint32_t currentY = 80;
@@ -89,17 +94,26 @@ Void taskFxn(UArg arg0, UArg arg1)
 //        }
 //    }
 
-    SRAM_init();
-    SRAM_read(0x11F0F, 10, NULL);
+//    SRAM_init();
+//    SRAM_read(0x11F0F, 10, NULL);
+//
+//    uint8_t arr[530];
+//    arr[255] = 0xFE;
+//    arr[256] = 0xFF;
+//    arr[511] = 0xCE;
+//    arr[512] = 0xCF;
+//    arr[529] = 0xAA;
+//
+//    SRAM_write(0x11F0F, 530, arr);
 
-    uint8_t arr[530];
-    arr[255] = 0xFE;
-    arr[256] = 0xFF;
-    arr[511] = 0xCE;
-    arr[512] = 0xCF;
-    arr[529] = 0xAA;
-
-    SRAM_write(0x11F0F, 530, arr);
+    while(1) {
+        uint32_t t1 = micros();
+        Audio_write(0b00000000);
+        sleepMicros(100);
+        Audio_write(0b11111111);
+        uint32_t t2 = micros();
+        sleepMicros(100);
+    }
 
     uint32_t t2 = millis();
 }
@@ -115,6 +129,9 @@ Int main()
     Board_initUART();
     Board_initSDSPI();
 
+    SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOB);
+
+    Audio_init();
     UART_start();
     SD_init();
 

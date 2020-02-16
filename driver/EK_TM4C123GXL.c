@@ -410,8 +410,8 @@ void EK_TM4C123GXL_initSDSPI(void)
      * These GPIOs are connected to PB6 and PB7 and need to be brought into a
      * GPIO input state so they don't interfere with SPI communications.
      */
-    GPIOPinTypeGPIOInput(GPIO_PORTD_BASE, GPIO_PIN_0);
-    GPIOPinTypeGPIOInput(GPIO_PORTD_BASE, GPIO_PIN_1);
+//    GPIOPinTypeGPIOInput(GPIO_PORTD_BASE, GPIO_PIN_0);
+//    GPIOPinTypeGPIOInput(GPIO_PORTD_BASE, GPIO_PIN_1);
 
     SDSPI_init();
 }

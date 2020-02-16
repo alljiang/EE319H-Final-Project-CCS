@@ -14,24 +14,36 @@
 
 #include <stdint.h>
 
-void delay(uint32_t ms) {
+void sleep(uint32_t ms) {
     ms = msToTicks(ms);    // convert to system cycles
-    for(; ms > 0; ms--) {}
-//    Task_sleep(ms);
+    Task_sleep(ms);
+}
+
+void sleepMicros(uint32_t us) {
+    us = usToTicks(us);
+    Task_sleep(us);
 }
 
 uint32_t ticksToMicros(uint32_t ticks) {
-    return ticks / 6.667;
+    return ticks * 50;
 }
 
 uint32_t ticksToMillis(uint32_t ticks) {
-    return ticks / 6667;
+    return ticks / 20;
 }
 
 uint32_t msToTicks(uint32_t ms) {
-    return ms * 6667;
+    return ms * 20;
+}
+
+uint32_t usToTicks(uint32_t us) {
+    return us / 50;
 }
 
 uint32_t millis() {
-    return Clock_getTicks();
+    return ticksToMillis(Clock_getTicks());
+}
+
+uint32_t micros() {
+    return ticksToMicros(Clock_getTicks());
 }

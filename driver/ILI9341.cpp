@@ -23,21 +23,24 @@
  *    GND: GND
  *
  *
- *    ILI9341
- *    VCC: 3.3V
- *    GND: GND
- *     CS: PA3
- *  RESET: PA7
- *     DC: PA6
- *   MOSI: PA5
- *    SCK: PA2
- *    LED: 3.3V
- *   MISO: -
- *  T_CLK: -
- *   T_CS: -
- *  T_DIN: -
- *   T_DO: -
- *  T_IRQ: --
+ *
+ *
+ *              ILI9341
+ *
+ *                       T_IRQ: --
+ *                        T_DO: -
+ *                       T_DIN: -
+ *  SD_SCK: PB4           T_CS: -
+ * SD_MISO: PB6          T_CLK: -
+ * SD_MOSI: PB7           MISO: -
+ *   SD_CS: PB5            LED: 3.3V
+ *                         SCK: PA2
+ *                        MOSI: PA5
+ *                          DC: PA6
+ *                       RESET: PA7
+ *                          CS: PA3
+ *                         GND: GND
+ *                         VCC: 3.3V
 
  */
 
@@ -256,11 +259,11 @@ void ILI9341_init() {
     GPIO_PORTA_AMSEL_R &= ~0xC8;          // disable analog functionality on PA3,6,7
     TFT_CS = TFT_CS_LOW;
     RESET = RESET_HIGH;
-    delay(10);
+    sleep(10);
     RESET = RESET_LOW;
-    delay(20);
+    sleep(20);
     RESET = RESET_HIGH;
-    delay(150);
+    sleep(150);
 
     // initialize SSI0
     GPIO_PORTA_AFSEL_R |= 0x2C;           // enable alt funct on PA2,3,5
@@ -275,7 +278,8 @@ void ILI9341_init() {
 
                                         // SysClk/(CPSDVSR*(1+SCR))
                                         // 80/(10*(1+0)) = 8 MHz (slower than 4 MHz)
-    SSI0_CPSR_R = (SSI0_CPSR_R&~SSI_CPSR_CPSDVSR_M)+4; // must be even number
+//    SSI0_CPSR_R = (SSI0_CPSR_R&~SSI_CPSR_CPSDVSR_M)+4; // must be even number
+    SSI0_CPSR_R = (SSI0_CPSR_R&~SSI_CPSR_CPSDVSR_M)+40; // must be even number
     SSI0_CR0_R &= ~(SSI_CR0_SCR_M |       // SCR = 0 (8 Mbps data rate)
                   SSI_CR0_SPH |         // SPH = 0
                   SSI_CR0_SPO);         // SPO = 0
@@ -311,7 +315,7 @@ void commandList(const uint8_t *addr) {
     if(ms) {
       ms = *(addr++);             // Read post-command delay time (ms)
       if(ms == 255) ms = 500;     // If 255, delay for 500 ms
-      delay(ms);
+      sleep(ms);
     }
   }
 }

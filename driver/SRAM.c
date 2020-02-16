@@ -3,6 +3,12 @@
  *  Allen Jiang
  *  319H: Intro to Embedded Systems
  *  February 2020
+ *
+ *    SCK: PD0
+ *     CS: PD1
+ *   MISO: PD2
+ *   MOSI: PD3
+ *
  */
 
 /* XDC module Headers */
@@ -49,7 +55,7 @@ void SRAM_init() {
     params.bitRate = 100000;
     params.transferMode = SPI_MODE_CALLBACK;
     params.transferCallbackFxn = &SPICallback;
-    spi = SPI_open(EK_TM4C123GXL_SPI0, &params);
+    spi = SPI_open(EK_TM4C123GXL_SPI3, &params);
 
     if (spi == NULL) {
         System_abort("Error initializing SPI\n");
@@ -78,7 +84,7 @@ void SRAM_read(uint32_t address, uint32_t numBytes, uint8_t* buffer) {
     transaction.txBuf = (Ptr)txBuffer;
     transaction.rxBuf = (Ptr)(buffer);    // Make sure to throw out first 4 bytes of data!
 
-    transferSPI();
+    transferSPI_blocking();
 }
 
 void SRAM_write(uint32_t address, uint32_t numBytes, uint8_t* buffer) {
