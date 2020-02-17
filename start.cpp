@@ -1,6 +1,5 @@
 
 /* XDC module Headers */
-#include <data/image.h>
 #include <driver/SD.h>
 #include <xdc/std.h>
 #include <xdc/runtime/Diags.h>
@@ -27,12 +26,15 @@
 #include "driver/SRAM.h"
 #include "driver/Audio.h"
 
-#define TASKSTACKSIZE   768
+#define TASKSTACKSIZE   384
 
 Task_Struct task0Struct;
-Char task0Stack[TASKSTACKSIZE];
+Task_Struct audioTaskStruct;
 
-Void taskFxn(UArg arg0, UArg arg1)
+Char task0Stack[TASKSTACKSIZE];
+Char audioTaskStack[TASKSTACKSIZE];
+
+void taskFxn(UArg arg0, UArg arg1)
 {
 //    SD_startSDCard();
 //
@@ -106,45 +108,22 @@ Void taskFxn(UArg arg0, UArg arg1)
 //
 //    SRAM_write(0x11F0F, 530, arr);
 
-//    int audioIndex;
-//    bool last = true;
-//    for(audioIndex = 0; audioIndex < 175450; audioIndex++) {
-//        Audio_write(smash[audioIndex]);
-//        if(last) {
-//            sleepMicros(50);
-//            last = false;
-//        }
-//        else {
-//            sleepMicros(40);
-//            last = true;
-//        }
-//    }
-//    while(1) {
-//        for(uint8_t i = 0; i < 255; i++) {
-//            Audio_write(i);
-//            sleepMicros(10);
-//        }
-//        for(uint8_t i = 255; i > 0; i--) {
-//            Audio_write(i);
-//            sleepMicros(10);
-//        }
-
-//        Audio_write(0x0F);
-//        for(audioIndex = 0; audioIndex < 200000; audioIndex++) {
-//                Audio_write(smash[audioIndex]);
-//                for(uint32_t i = 0; i < 15; i++) {}
-//        //        sleepMicros(10);
-//            }
-//        uint32_t t1 = micros();
-//
-//        sleepMicros(100);
-//
-//        uint32_t t2 = micros();
-//        sleepMicros(100);
-//    }
-
-
     while(1);
+}
+
+void audioTaskFxn(UArg arg0, UArg arg1)
+{
+    AudioSendable sendable;
+
+    sendable.soundIndex = 0;
+    sendable.startIndex = 0;
+    sendable.endIndex = -1;
+    sendable.frames = 0;
+    Audio_playSendable(sendable);
+
+//    delay(5000);
+//    sendable.soundIndex = 1;
+//    Audio_playSendable(sendable);
 }
 
 Int main()
@@ -170,9 +149,14 @@ Int main()
     Task_Params taskParams;
     Task_Params_init(&taskParams);
     taskParams.stackSize = TASKSTACKSIZE;
-    taskParams.priority = 1;
+
+    taskParams.priority = 5;
     taskParams.stack = &task0Stack;
     Task_construct(&task0Struct, (Task_FuncPtr)taskFxn, &taskParams, NULL);
+
+    taskParams.priority = 3;
+    taskParams.stack = &audioTaskStack;
+    Task_construct(&audioTaskStruct, (Task_FuncPtr)taskFxn, &taskParams, NULL);
 
     BIOS_start();    /* does not return */
 

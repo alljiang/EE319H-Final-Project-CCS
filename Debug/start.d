@@ -1,7 +1,7 @@
 # FIXED
 
 start.obj: ../start.cpp
-start.obj: C:/Users/Allen/Documents/GitHub/EE319H-Final-Project-CCS/data/image.h
+start.obj: C:/Users/Allen/Documents/GitHub/EE319H-Final-Project-CCS/driver/SD.h
 start.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_18.12.4.LTS/include/libcxx/stdint.h
 start.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_18.12.4.LTS/include/libcxx/__config
 start.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_18.12.4.LTS/include/libcxx/__config_site
@@ -14,7 +14,6 @@ start.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_18.12.4.LTS/include/sys/_t
 start.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_18.12.4.LTS/include/machine/_types.h
 start.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_18.12.4.LTS/include/machine/_stdint.h
 start.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_18.12.4.LTS/include/sys/_stdint.h
-start.obj: C:/Users/Allen/Documents/GitHub/EE319H-Final-Project-CCS/driver/SD.h
 start.obj: C:/ti/ccs930/xdctools_3_60_02_34_core/packages/xdc/std.h
 start.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_18.12.4.LTS/include/stdarg.h
 start.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_18.12.4.LTS/include/libcxx/stddef.h
@@ -205,6 +204,7 @@ start.obj: C:/ti/tirtos_tivac_2_16_00_08/products/TivaWare_C_Series-2.1.1.71b/dr
 start.obj: C:/ti/tirtos_tivac_2_16_00_08/products/TivaWare_C_Series-2.1.1.71b/driverlib/gpio.h
 start.obj: C:/ti/tirtos_tivac_2_16_00_08/products/TivaWare_C_Series-2.1.1.71b/driverlib/sysctl.h
 start.obj: ../driver/ILI9341.h
+start.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_18.12.4.LTS/include/libcxx/cstdint
 start.obj: ../driver/UART.h
 start.obj: ../driver/Utils.h
 start.obj: ../driver/SD.h
@@ -214,9 +214,10 @@ start.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_18.12.4.LTS/include/libcxx
 start.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_18.12.4.LTS/include/stdbool.h
 start.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_18.12.4.LTS/include/libcxx/stddef.h
 start.obj: ../driver/Audio.h
+start.obj: C:/Users/Allen/Documents/GitHub/EE319H-Final-Project-CCS/data/metadata.h
 
 ../start.cpp: 
-C:/Users/Allen/Documents/GitHub/EE319H-Final-Project-CCS/data/image.h: 
+C:/Users/Allen/Documents/GitHub/EE319H-Final-Project-CCS/driver/SD.h: 
 C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_18.12.4.LTS/include/libcxx/stdint.h: 
 C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_18.12.4.LTS/include/libcxx/__config: 
 C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_18.12.4.LTS/include/libcxx/__config_site: 
@@ -229,7 +230,6 @@ C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_18.12.4.LTS/include/sys/_types.h:
 C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_18.12.4.LTS/include/machine/_types.h: 
 C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_18.12.4.LTS/include/machine/_stdint.h: 
 C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_18.12.4.LTS/include/sys/_stdint.h: 
-C:/Users/Allen/Documents/GitHub/EE319H-Final-Project-CCS/driver/SD.h: 
 C:/ti/ccs930/xdctools_3_60_02_34_core/packages/xdc/std.h: 
 C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_18.12.4.LTS/include/stdarg.h: 
 C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_18.12.4.LTS/include/libcxx/stddef.h: 
@@ -420,6 +420,7 @@ C:/ti/tirtos_tivac_2_16_00_08/products/TivaWare_C_Series-2.1.1.71b/driverlib/deb
 C:/ti/tirtos_tivac_2_16_00_08/products/TivaWare_C_Series-2.1.1.71b/driverlib/gpio.h: 
 C:/ti/tirtos_tivac_2_16_00_08/products/TivaWare_C_Series-2.1.1.71b/driverlib/sysctl.h: 
 ../driver/ILI9341.h: 
+C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_18.12.4.LTS/include/libcxx/cstdint: 
 ../driver/UART.h: 
 ../driver/Utils.h: 
 ../driver/SD.h: 
@@ -429,3 +430,4 @@ C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_18.12.4.LTS/include/libcxx/stdbool.h:
 C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_18.12.4.LTS/include/stdbool.h: 
 C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_18.12.4.LTS/include/libcxx/stddef.h: 
 ../driver/Audio.h: 
+C:/Users/Allen/Documents/GitHub/EE319H-Final-Project-CCS/data/metadata.h: 

@@ -44,11 +44,11 @@
 
  */
 
-#include <data/colors.h>
 #include <driver/Board.h>
 #include <driver/ILI9341.h>
 #include <driver/tm4c123gh6pm.h>
 #include <driver/Utils.h>
+#include <metadata.h>
 #include <stdlib.h>
 
 /* XDC module Headers */

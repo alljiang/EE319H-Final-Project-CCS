@@ -5,6 +5,8 @@
  *  January 2020
  */
 
+#include <cstdint>
+
 
 
 #define ILI9341_NOP           0x00
