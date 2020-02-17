@@ -34,7 +34,7 @@
 
 uint16_t audioFIFOBuffer[FIFOBufferSize];
 uint16_t FIFO_Start = 0;    //  inclusive
-uint16_t FIFO_End = 0;  //  uninclusive, wraps around to 0 after reaching FIFOBufferSize+1
+uint16_t FIFO_Size = 0;
 
 Clock_Struct audioClkStruct;
 Clock_Struct SDClkStruct;
@@ -46,7 +46,7 @@ FILE *src;
 struct AudioSendable audioSlots[NumAudioSlots];
 
 void audioClkFxn(UArg arg0) {
-    if(FIFO_Start == FIFO_End) return;
+    if(FIFO_Size == 0) return;
 
     //  write to DAC
     Audio_DAC_write(audioFIFOBuffer[FIFO_Start]);
@@ -54,10 +54,12 @@ void audioClkFxn(UArg arg0) {
     //  reset the FIFO location
     audioFIFOBuffer[FIFO_Start] = 0;
 
-    //  increment FIFO_start
+    //  increment to next location in FIFO
     FIFO_Start++;
-    if(FIFO_Start == FIFOBufferSize)
-        FIFO_Start = 0;
+    FIFO_Size--;
+
+    //  wrap around FIFO_Start
+    if(FIFO_Start == FIFOBufferSize) FIFO_Start = 0;
 
     //  add extra loops to compensate for faster frequency of clock fxn than 44.1khz
     uint8_t i;
@@ -65,7 +67,7 @@ void audioClkFxn(UArg arg0) {
 }
 
 void SDClkFxn(UArg arg0) {
-    uint8_t buffer[FIFOBufferSize/2+50];
+    uint8_t buffer[FIFOBufferSize/2+10];
     int32_t i;
     for(i = 0; i < NumAudioSlots; i++) {
         //  skip if audio finished or uninitialized
@@ -82,25 +84,26 @@ void SDClkFxn(UArg arg0) {
         src = fopen(systemFilename, "r");
         if(!src) { System_printf("File not found"); System_flush(); }
 
-        //  read numFrames
+        //  read numFrames as a 32-bit integer
         fread(buffer, 4, 1, src);
         uint32_t numFrames =
-                buffer[0] << 24 +
-                buffer[1] << 16 +
-                buffer[2] << 8  +
-                buffer[3];
+                (buffer[0] << 24) +
+                (buffer[1] << 16) +
+                (buffer[2] << 8)  +
+                (buffer[3]);
         audioSlots[i].frames = numFrames;
 
         //  if end index is undefined, play entire song
         if(audioSlots[i].endIndex == -1) audioSlots[i].endIndex = numFrames;
 
-        //  destory already played values
+        //  destroy already played values
         fread(buffer, audioSlots[i].startIndex, 1, src);
 
         //  calculate how many bytes to read
         uint16_t bytesToRead = FIFOBufferSize/2;
-        if(bytesToRead > audioSlots[i].endIndex - audioSlots[i].startIndex) {
-            bytesToRead = audioSlots[i].endIndex - audioSlots[i].startIndex;
+        uint16_t totalBytesRemaining = audioSlots[i].endIndex - audioSlots[i].startIndex;
+        if(bytesToRead > totalBytesRemaining) {
+            bytesToRead = totalBytesRemaining;
         }
 
         //  read in bytes
@@ -108,13 +111,11 @@ void SDClkFxn(UArg arg0) {
 
         //  add to FIFO buffer
         for(i = 0; i < bytesToRead; i++) {
-            audioFIFOBuffer[FIFO_End] += buffer[i];
+            //  if buffer full, skip
+            if(FIFO_Size == FIFOBufferSize) continue;
 
-            if(FIFO_End > FIFOBufferSize) {
-                FIFO_End = 0;
-            }
+            audioFIFOBuffer[(FIFO_Start + FIFO_Size++) % FIFOBufferSize] += buffer[i];
         }
-        audioSlots[i].startIndex += bytesToRead;
 
         fclose(src);
     }

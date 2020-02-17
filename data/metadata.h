@@ -58,9 +58,3 @@ struct Animation {
     uint8_t animationIndex;
 };
 
-struct AudioSendable {
-    uint16_t soundIndex;
-    uint32_t startIndex;
-    int32_t endIndex;   // if endIndex == -1, play entire song
-    uint32_t frames;
-};

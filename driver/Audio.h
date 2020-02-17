@@ -12,6 +12,13 @@
 extern "C" {
 #endif
 
+struct AudioSendable {
+    uint16_t soundIndex;
+    uint32_t startIndex;
+    int32_t endIndex;   // if endIndex == -1, play entire song
+    uint32_t frames;
+};
+
 //  DAC pins, smaller index == smaller resistor value
 const uint32_t dac_pins[8][2] = {
                            {GPIO_PORTB_BASE, GPIO_PIN_0},
