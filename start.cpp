@@ -10,7 +10,6 @@
 #include <ti/sysbios/BIOS.h>
 #include <ti/sysbios/knl/Semaphore.h>
 #include <ti/sysbios/knl/Task.h>
-#include <ti/sysbios/knl/Clock.h>
 #include <ti/drivers/SDSPI.h>
 #include <ti/drivers/GPIO.h>
 
@@ -50,6 +49,7 @@ Void taskFxn(UArg arg0, UArg arg1)
 
 //    ILI9341_init();
 //    uint32_t t1 = millis();
+//    uint32_t t2 = millis();
 //
 //    ILI9341_fillScreen(0);
 //
@@ -106,16 +106,45 @@ Void taskFxn(UArg arg0, UArg arg1)
 //
 //    SRAM_write(0x11F0F, 530, arr);
 
-    while(1) {
-        uint32_t t1 = micros();
-        Audio_write(0b00000000);
-        sleepMicros(100);
-        Audio_write(0b11111111);
-        uint32_t t2 = micros();
-        sleepMicros(100);
-    }
+//    int audioIndex;
+//    bool last = true;
+//    for(audioIndex = 0; audioIndex < 175450; audioIndex++) {
+//        Audio_write(smash[audioIndex]);
+//        if(last) {
+//            sleepMicros(50);
+//            last = false;
+//        }
+//        else {
+//            sleepMicros(40);
+//            last = true;
+//        }
+//    }
+//    while(1) {
+//        for(uint8_t i = 0; i < 255; i++) {
+//            Audio_write(i);
+//            sleepMicros(10);
+//        }
+//        for(uint8_t i = 255; i > 0; i--) {
+//            Audio_write(i);
+//            sleepMicros(10);
+//        }
 
-    uint32_t t2 = millis();
+//        Audio_write(0x0F);
+//        for(audioIndex = 0; audioIndex < 200000; audioIndex++) {
+//                Audio_write(smash[audioIndex]);
+//                for(uint32_t i = 0; i < 15; i++) {}
+//        //        sleepMicros(10);
+//            }
+//        uint32_t t1 = micros();
+//
+//        sleepMicros(100);
+//
+//        uint32_t t2 = micros();
+//        sleepMicros(100);
+//    }
+
+
+    while(1);
 }
 
 Int main()

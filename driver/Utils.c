@@ -25,19 +25,19 @@ void sleepMicros(uint32_t us) {
 }
 
 uint32_t ticksToMicros(uint32_t ticks) {
-    return ticks * 50;
+    return ticks * 10;
 }
 
 uint32_t ticksToMillis(uint32_t ticks) {
-    return ticks / 20;
+    return ticks / 100;
 }
 
 uint32_t msToTicks(uint32_t ms) {
-    return ms * 20;
+    return ms * 100;
 }
 
 uint32_t usToTicks(uint32_t us) {
-    return us / 50;
+    return us / 10;
 }
 
 uint32_t millis() {
