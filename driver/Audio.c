@@ -42,12 +42,13 @@ Clock_Struct SDClkStruct;
 
 SDSPI_Handle sdspiHandle;
 SDSPI_Params sdspiParams;
+struct AudioSendable audioSlots[32];
 FILE *src;
 
-struct AudioSendable audioSlots[NumAudioSlots];
-uint8_t buffer[1500];
+uint8_t buffer[1000];
 
 void audioClkFxn(UArg arg0) {
+
     if(FIFO_Size == 0) return;
 
     //  write to DAC
@@ -68,8 +69,9 @@ void audioClkFxn(UArg arg0) {
     for(i = 0; i < 2; i++) {}
 }
 
-void SDClkFxn(UArg arg0) {
+void SDClkFxn() {
     int32_t i;
+    int32_t t1 = micros();
     for(i = 0; i < NumAudioSlots; i++) {
         //  skip if audio finished or uninitialized
         if(audioSlots[i].startIndex == audioSlots[i].endIndex) {
@@ -93,7 +95,7 @@ void SDClkFxn(UArg arg0) {
             systemFilename[strIndex++] = fileTail[j];
         }
         systemFilename[strIndex] = '\0';
-//        src = fopen(systemFilename, "r");
+        src = fopen(systemFilename, "r");
         char inputfile[] = "fat:0:menu.txt";
         src = fopen(inputfile, "r");
         if(!src) { System_printf("File not found"); System_flush(); }
@@ -111,7 +113,7 @@ void SDClkFxn(UArg arg0) {
         if(audioSlots[i].endIndex == -1) audioSlots[i].endIndex = numFrames;
 
         //  destroy already played values
-        fread(buffer, audioSlots[i].startIndex, 1, src);
+        fread(buffer, 1, audioSlots[i].startIndex, src);
 
         //  calculate how many bytes to read
         uint16_t bytesToRead = FIFOBufferSize/2;
@@ -121,7 +123,7 @@ void SDClkFxn(UArg arg0) {
         }
 
         //  read in bytes
-        fread(buffer, bytesToRead, 1, src);
+        fread(buffer, 1, bytesToRead, src);
 
         //  add to FIFO buffer
         for(j = 0; j < bytesToRead; j++) {
@@ -133,6 +135,7 @@ void SDClkFxn(UArg arg0) {
 
         fclose(src);
     }
+    int32_t t2 = micros();
 }
 
 void Audio_init() {
@@ -148,7 +151,7 @@ void Audio_init() {
     clkParams.period = 2;
     clkParams.startFlag = TRUE;
 
-//    Clock_construct(&audioClkStruct, (Clock_FuncPtr)audioClkFxn, 1, &clkParams);
+    Clock_construct(&audioClkStruct, (Clock_FuncPtr)audioClkFxn, 1, &clkParams);
 
     //  whenever FIFO is half-full/half-empty, read in the next set of audio
 //    clkParams.period = FIFOBufferSize * 100000 / 2 / AudioBitrate;
@@ -163,9 +166,9 @@ void Audio_init() {
     else { System_printf("SD Card is mounted\n"); }
     System_flush();
 
-    for(i = 0; i < NumAudioSlots; i++) {
-        Audio_destroySendable(i);
-    }
+//    for(i = 0; i < NumAudioSlots; i++) {
+//        Audio_destroySendable(i);
+//    }
 
 
 }

@@ -27,13 +27,15 @@
 #include "driver/Audio.h"
 
 #define TASKSTACKSIZE   384
+#define BIGTASKSTACKSIZE    3000
 
 Task_Struct task0Struct;
 Task_Struct audioTaskStruct;
-Task_Struct audioSDTaskStruct;
+Task_Struct audioLoopTaskStruct;
 
 Char task0Stack[TASKSTACKSIZE];
 Char audioTaskStack[TASKSTACKSIZE];
+Char audioLoopTaskStack[BIGTASKSTACKSIZE];
 
 void taskFxn(UArg arg0, UArg arg1)
 {
@@ -111,10 +113,14 @@ void taskFxn(UArg arg0, UArg arg1)
 
 //    while(1);
 }
-bool readSD;
+
 void audioTaskFxn(UArg arg0, UArg arg1)
 {
-    Audio_init();
+    uint8_t i;
+    for(i = 0; i < 32; i++) {
+        Audio_destroySendable(i);
+    }
+
     AudioSendable sendable;
 
     sendable.soundIndex = 0;
@@ -122,15 +128,19 @@ void audioTaskFxn(UArg arg0, UArg arg1)
     sendable.endIndex = -1;
     sendable.frames = 0;
     Audio_playSendable(sendable);
-    SDClkFxn(arg1);
 
-    while(1) {
-        for(int i = 0; i < 1000; i++) {}
-    }
 
 //    delay(5000);
 //    sendable.soundIndex = 1;
 //    Audio_playSendable(sendable);
+}
+
+void audioLoopTaskFxn(UArg arg0, UArg arg1) {
+    Audio_init();
+
+    while(1) {
+        SDClkFxn();
+    }
 }
 
 Int main()
@@ -163,6 +173,10 @@ Int main()
     taskParams.priority = 5;
     taskParams.stack = &audioTaskStack;
     Task_construct(&audioTaskStruct, (Task_FuncPtr)audioTaskFxn, &taskParams, NULL);
+
+    taskParams.priority = 4;
+    taskParams.stack = &audioLoopTaskStack;
+    Task_construct(&audioLoopTaskStruct, (Task_FuncPtr)audioLoopTaskFxn, &taskParams, NULL);
 
     BIOS_start();    /* does not return */
 
