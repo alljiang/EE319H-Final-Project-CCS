@@ -20,17 +20,18 @@ struct AudioSendable {
 };
 
 //  DAC pins, smaller index == smaller resistor value
-const uint32_t dac_pins[8][2] = {
-                           {GPIO_PORTB_BASE, GPIO_PIN_0},
-                           {GPIO_PORTB_BASE, GPIO_PIN_1},
-                           {GPIO_PORTB_BASE, GPIO_PIN_2},
-                           {GPIO_PORTB_BASE, GPIO_PIN_3},
-                           {GPIO_PORTB_BASE, GPIO_PIN_4},
-                           {GPIO_PORTB_BASE, GPIO_PIN_5},
-                           {GPIO_PORTB_BASE, GPIO_PIN_6},
-                           {GPIO_PORTB_BASE, GPIO_PIN_7},
-};
+//const uint32_t dac_pins[8][2] = {
+//                           {GPIO_PORTA_BASE, GPIO_PIN_2},
+//                           {GPIO_PORTD_BASE, GPIO_PIN_7},
+//                           {GPIO_PORTD_BASE, GPIO_PIN_6},
+//                           {GPIO_PORTC_BASE, GPIO_PIN_7},
+//                           {GPIO_PORTC_BASE, GPIO_PIN_6},
+//                           {GPIO_PORTB_BASE, GPIO_PIN_3},
+//                           {GPIO_PORTF_BASE, GPIO_PIN_3},
+//                           {GPIO_PORTF_BASE, GPIO_PIN_2},
+//};
 
+extern void SDClkFxn(UArg arg0);
 extern void Audio_init();
 extern int8_t Audio_playSendable(struct AudioSendable sendable);
 extern void Audio_destroySendable(int8_t slotID);

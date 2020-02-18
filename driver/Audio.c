@@ -6,27 +6,26 @@
  */
 
 /* XDC module Headers */
-#include <driver/Board.h>
-#include <xdc/std.h>
-#include <stdlib.h>
-#include <stdint.h>
 #include <stdio.h>
-#include <stdbool.h>
 #include <string.h>
-#include <xdc/runtime/Diags.h>
+#include <stdlib.h>
+#include <stdbool.h>
+#include <stdint.h>
+
 #include <xdc/runtime/System.h>
 
+//#include "inc/hw_memmap.h"
+//#include "driverlib/gpio.h"
+
 /* TI-RTOS Header files */
+#include <ti/sysbios/BIOS.h>
+#include <ti/sysbios/knl/Clock.h>
 #include <ti/drivers/GPIO.h>
 #include <ti/drivers/SDSPI.h>
-#include <ti/sysbios/knl/Clock.h>
 
-#include "inc/hw_memmap.h"
-#include "driverlib/debug.h"
-#include "driverlib/gpio.h"
-#include "driverlib/sysctl.h"
-
+#include "Board.h"
 #include "Audio.h"
+#include "Utils.h"
 
 #define AudioBitrate 44100
 #define FIFOBufferSize 2000
@@ -39,36 +38,65 @@ uint16_t FIFO_Size = 0;
 Clock_Struct audioClkStruct;
 Clock_Struct SDClkStruct;
 
-SDSPI_Handle sdspiHandle;
-SDSPI_Params sdspiParams;
-FILE *src;
-
 struct AudioSendable audioSlots[NumAudioSlots];
 
 void audioClkFxn(UArg arg0) {
-    if(FIFO_Size == 0) return;
+    if(FIFO_Size != 0) {
 
-    //  write to DAC
-    Audio_DAC_write(audioFIFOBuffer[FIFO_Start]);
+        //  write to DAC
+        Audio_DAC_write(audioFIFOBuffer[FIFO_Start]);
 
-    //  reset the FIFO location
-    audioFIFOBuffer[FIFO_Start] = 0;
+        //  reset the FIFO location
+        audioFIFOBuffer[FIFO_Start] = 0;
 
-    //  increment to next location in FIFO
-    FIFO_Start++;
-    FIFO_Size--;
+        //  increment to next location in FIFO
+        FIFO_Start++;
+        FIFO_Size--;
 
-    //  wrap around FIFO_Start
-    if(FIFO_Start == FIFOBufferSize) FIFO_Start = 0;
+        //  wrap around FIFO_Start
+        if(FIFO_Start == FIFOBufferSize) FIFO_Start = 0;
 
-    //  add extra loops to compensate for faster frequency of clock fxn than 44.1khz
-    uint8_t i;
-    for(i = 0; i < 2; i++) {}
+        //  add extra loops to compensate for faster frequency of clock fxn than 44.1khz
+        uint8_t i;
+//        for(i = 0; i < 2; i++) {}
+
+    }
 }
 
 void SDClkFxn(UArg arg0) {
-    uint8_t buffer[FIFOBufferSize/2+10];
-    int32_t i;
+    SDSPI_Handle sdspiHandle;
+    SDSPI_Params sdspiParams;
+    FILE *src;
+
+    char inputfile[] = "fat:0:menu.txt";
+
+    /* Variables to keep track of the file copy progress */
+    unsigned int bytesRead = 0;
+    unsigned int bytesWritten = 0;
+    unsigned int filesize;
+    unsigned int totalBytesCopied = 0;
+
+    /* Mount and register the SD Card */
+    SDSPI_Params_init(&sdspiParams);
+    sdspiHandle = SDSPI_open(Board_SDSPI0, 0, &sdspiParams);
+    if (sdspiHandle == NULL) {
+        System_abort("Error starting the SD card\n");
+    }
+    else {
+        System_printf("Drive %u is mounted\n", 0);
+    }
+
+    /* Try to open the source file */
+    src = fopen(inputfile, "r");
+    if (!src) {
+        System_printf("no");
+    }
+    System_flush();
+
+    return;
+
+    uint8_t buffer[1100];
+    int8_t i;
     for(i = 0; i < NumAudioSlots; i++) {
         //  skip if audio finished or uninitialized
         if(audioSlots[i].startIndex == audioSlots[i].endIndex) {
@@ -77,12 +105,28 @@ void SDClkFxn(UArg arg0) {
         }
 
         //  open file
-        char systemFilename[75] = "fat:0:";
-        char fileTail[6] = ".audio";
-        strcat(systemFilename, sounds[audioSlots[i].soundIndex]);
-        strcat(systemFilename, fileTail);
-        src = fopen(systemFilename, "r");
-        if(!src) { System_printf("File not found"); System_flush(); }
+        char systemFilename[30];
+        char fileHeader[] = "fat:0:";
+        char fileTail[] = ".txt";
+        uint8_t strIndex = 0;
+        uint16_t j;
+        for(j = 0; fileHeader[j] != '\0'; j++) {    //  header
+            systemFilename[strIndex++] = fileHeader[j];
+        }
+        for(j = 0; soundNames[audioSlots[i].soundIndex][j] != '\0'; j++) {  //  filename body
+            systemFilename[strIndex++] = soundNames[audioSlots[i].soundIndex][j];
+        }
+        for(j = 0; fileTail[j] != '\0'; j++) {    //  tail/filetype
+            systemFilename[strIndex++] = fileTail[j];
+        }
+        systemFilename[strIndex] = '\0';
+
+        char inputfile[] = "fat:0:menu.txt";
+        src = fopen(inputfile, "r");
+//        src = fopen(systemFilename, "r");
+        if(!src) { System_printf("File not found\n"); System_flush(); }
+        System_printf("ok\n");
+        System_flush();
 
         //  read numFrames as a 32-bit integer
         fread(buffer, 4, 1, src);
@@ -97,11 +141,11 @@ void SDClkFxn(UArg arg0) {
         if(audioSlots[i].endIndex == -1) audioSlots[i].endIndex = numFrames;
 
         //  destroy already played values
-        fread(buffer, audioSlots[i].startIndex, 1, src);
+        fread(NULL, audioSlots[i].startIndex, 1, src);
 
         //  calculate how many bytes to read
-        uint16_t bytesToRead = FIFOBufferSize/2;
-        uint16_t totalBytesRemaining = audioSlots[i].endIndex - audioSlots[i].startIndex;
+        uint32_t bytesToRead = FIFOBufferSize/2;
+        uint32_t totalBytesRemaining = audioSlots[i].endIndex - audioSlots[i].startIndex;
         if(bytesToRead > totalBytesRemaining) {
             bytesToRead = totalBytesRemaining;
         }
@@ -110,11 +154,11 @@ void SDClkFxn(UArg arg0) {
         fread(buffer, bytesToRead, 1, src);
 
         //  add to FIFO buffer
-        for(i = 0; i < bytesToRead; i++) {
+        for(j = 0; j < bytesToRead; j++) {
             //  if buffer full, skip
             if(FIFO_Size == FIFOBufferSize) continue;
 
-            audioFIFOBuffer[(FIFO_Start + FIFO_Size++) % FIFOBufferSize] += buffer[i];
+            audioFIFOBuffer[(FIFO_Start + FIFO_Size++) % FIFOBufferSize] += buffer[j];
         }
 
         fclose(src);
@@ -124,29 +168,29 @@ void SDClkFxn(UArg arg0) {
 void Audio_init() {
     //  Set GPIO pins
     uint8_t i;
-    for(i = 0; i < 8; i++) {
-        GPIOPinTypeGPIOOutput(dac_pins[i][0], dac_pins[i][1]);
-    }
+//    for(i = 0; i < 8; i++) {
+//        GPIOPinTypeGPIOOutput(dac_pins[i][0], dac_pins[i][1]);
+//    }
 
     //  Initialize periodic clock with period = 12us
-    Clock_Params clkParams;
-    Clock_Params_init(&clkParams);
-    clkParams.period = 2;
-    clkParams.startFlag = TRUE;
+//    Clock_Params clkParams;
+//    Clock_Params_init(&clkParams);
+//    clkParams.period = 2;
+//    clkParams.startFlag = TRUE;
 
-    Clock_construct(&audioClkStruct, (Clock_FuncPtr)audioClkFxn, 1, &clkParams);
+//    Clock_construct(&audioClkStruct, (Clock_FuncPtr)audioClkFxn, 1, &clkParams);
 
     //  whenever FIFO is half-full/half-empty, read in the next set of audio
-    clkParams.period = FIFOBufferSize * 100000 / 2 / AudioBitrate;
-    clkParams.startFlag = TRUE;
-    Clock_construct(&SDClkStruct, (Clock_FuncPtr)SDClkFxn, 1, &clkParams);
+//    clkParams.period = FIFOBufferSize * 100000 / 2 / AudioBitrate;
+//    clkParams.startFlag = TRUE;
+//    Clock_construct(&SDClkStruct, (Clock_FuncPtr)SDClkFxn, 1, &clkParams);
 
     //  Initialize SD Card
-    SDSPI_Params_init(&sdspiParams);
-    sdspiHandle = SDSPI_open(Board_SDSPI0, 0, &sdspiParams);
-    if (sdspiHandle == NULL) { System_abort("Error starting the SD card\n"); }
-    else { System_printf("SD Card is mounted\n"); }
-    System_flush();
+//    SDSPI_Params_init(&sdspiParams);
+//    sdspiHandle = SDSPI_open(Board_SDSPI0, 0, &sdspiParams);
+//    if (sdspiHandle == NULL) { System_abort("Error starting the SD card\n"); }
+//    else { System_printf("SD Card is mounted\n"); }
+//    System_flush();
 
     for(i = 0; i < NumAudioSlots; i++) {
         Audio_destroySendable(i);
@@ -177,7 +221,7 @@ void Audio_DAC_write(uint16_t mapping) {
     uint8_t i;
     for(i = 0; i < 8; i++) {
         uint8_t output = (mapping >> (7-i)) & 1;
-        if(output) output = dac_pins[i][1];
-        GPIOPinWrite(dac_pins[i][0], dac_pins[i][1], output);
+//        if(output) output = dac_pins[i][1];
+//        GPIOPinWrite(dac_pins[i][0], dac_pins[i][1], output);
     }
 }

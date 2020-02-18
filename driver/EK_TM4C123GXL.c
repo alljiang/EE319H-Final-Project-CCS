@@ -368,7 +368,7 @@ const SDSPITiva_HWAttrs sdspiTivaHWattrs[EK_TM4C123GXL_SDSPICOUNT] = {
         .portMOSI = GPIO_PORTB_BASE,
         .pinMOSI = GPIO_PIN_7,
         .portCS = GPIO_PORTB_BASE,
-        .pinCS = GPIO_PIN_2,
+        .pinCS = GPIO_PIN_5,
     }
 };
 

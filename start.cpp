@@ -1,7 +1,8 @@
 
 /* XDC module Headers */
-#include <driver/SD.h>
 #include <xdc/std.h>
+#include <stdlib.h>
+#include <stdio.h>
 #include <xdc/runtime/Diags.h>
 #include <xdc/runtime/System.h>
 
@@ -26,7 +27,7 @@
 #include "driver/SRAM.h"
 #include "driver/Audio.h"
 
-#define TASKSTACKSIZE   384
+#define TASKSTACKSIZE   768
 
 Task_Struct task0Struct;
 Task_Struct audioTaskStruct;
@@ -108,18 +109,22 @@ void taskFxn(UArg arg0, UArg arg1)
 //
 //    SRAM_write(0x11F0F, 530, arr);
 
-    while(1);
+//    while(1);
 }
 
 void audioTaskFxn(UArg arg0, UArg arg1)
 {
-    AudioSendable sendable;
 
-    sendable.soundIndex = 0;
-    sendable.startIndex = 0;
-    sendable.endIndex = -1;
-    sendable.frames = 0;
-    Audio_playSendable(sendable);
+//    Audio_init();
+
+//    AudioSendable sendable;
+//
+//    sendable.soundIndex = 1;
+//    sendable.startIndex = 0;
+//    sendable.endIndex = -1;
+//    sendable.frames = 0;
+//    Audio_playSendable(sendable);
+    SDClkFxn(arg0);
 
 //    delay(5000);
 //    sendable.soundIndex = 1;
@@ -133,15 +138,13 @@ Int main()
 
     Board_initGeneral();
     Board_initGPIO();
-    Board_initSPI();
-    Board_initUART();
+
+//    Board_initSPI();
+//    Board_initUART();
     Board_initSDSPI();
 
-    SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOB);
-
-    Audio_init();
-    UART_start();
-    SD_init();
+//    UART_start();
+//    SD_init();
 
     System_printf("Board initialized\n");
     System_flush();
@@ -150,13 +153,13 @@ Int main()
     Task_Params_init(&taskParams);
     taskParams.stackSize = TASKSTACKSIZE;
 
-    taskParams.priority = 5;
-    taskParams.stack = &task0Stack;
-    Task_construct(&task0Struct, (Task_FuncPtr)taskFxn, &taskParams, NULL);
+//    taskParams.priority = 2;
+//    taskParams.stack = &task0Stack;
+//    Task_construct(&task0Struct, (Task_FuncPtr)taskFxn, &taskParams, NULL);
 
-    taskParams.priority = 3;
+    taskParams.priority = 1;
     taskParams.stack = &audioTaskStack;
-    Task_construct(&audioTaskStruct, (Task_FuncPtr)taskFxn, &taskParams, NULL);
+    Task_construct(&audioTaskStruct, (Task_FuncPtr)audioTaskFxn, &taskParams, NULL);
 
     BIOS_start();    /* does not return */
 
