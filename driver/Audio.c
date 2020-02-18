@@ -77,11 +77,24 @@ void SDClkFxn(UArg arg0) {
         }
 
         //  open file
-        char systemFilename[75] = "fat:0:";
-        char fileTail[6] = ".audio";
-        strcat(systemFilename, sounds[audioSlots[i].soundIndex]);
-        strcat(systemFilename, fileTail);
-        src = fopen(systemFilename, "r");
+        char systemFilename[30];
+        char fileHeader[] = "fat:0:";
+        char fileTail[] = ".txt";
+        uint8_t strIndex = 0;
+        uint16_t j;
+        for(j = 0; fileHeader[j] != '\0'; j++) {    //  header
+            systemFilename[strIndex++] = fileHeader[j];
+        }
+        for(j = 0; soundNames[audioSlots[i].soundIndex][j] != '\0'; j++) {  //  filename body
+            systemFilename[strIndex++] = soundNames[audioSlots[i].soundIndex][j];
+        }
+        for(j = 0; fileTail[j] != '\0'; j++) {    //  tail/filetype
+            systemFilename[strIndex++] = fileTail[j];
+        }
+        systemFilename[strIndex] = '\0';
+//        src = fopen(systemFilename, "r");
+        char inputfile[] = "fat:0:menu.txt";
+        src = fopen(inputfile, "r");
         if(!src) { System_printf("File not found"); System_flush(); }
 
         //  read numFrames as a 32-bit integer
@@ -134,12 +147,12 @@ void Audio_init() {
     clkParams.period = 2;
     clkParams.startFlag = TRUE;
 
-    Clock_construct(&audioClkStruct, (Clock_FuncPtr)audioClkFxn, 1, &clkParams);
+//    Clock_construct(&audioClkStruct, (Clock_FuncPtr)audioClkFxn, 1, &clkParams);
 
     //  whenever FIFO is half-full/half-empty, read in the next set of audio
-    clkParams.period = FIFOBufferSize * 100000 / 2 / AudioBitrate;
-    clkParams.startFlag = TRUE;
-    Clock_construct(&SDClkStruct, (Clock_FuncPtr)SDClkFxn, 1, &clkParams);
+//    clkParams.period = FIFOBufferSize * 100000 / 2 / AudioBitrate;
+//    clkParams.startFlag = TRUE;
+//    Clock_construct(&SDClkStruct, (Clock_FuncPtr)SDClkFxn, 1, &clkParams);
 
     //  Initialize SD Card
     SDSPI_Params_init(&sdspiParams);

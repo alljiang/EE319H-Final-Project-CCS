@@ -113,6 +113,7 @@ void taskFxn(UArg arg0, UArg arg1)
 
 void audioTaskFxn(UArg arg0, UArg arg1)
 {
+    Audio_init();
     AudioSendable sendable;
 
     sendable.soundIndex = 0;
@@ -120,6 +121,7 @@ void audioTaskFxn(UArg arg0, UArg arg1)
     sendable.endIndex = -1;
     sendable.frames = 0;
     Audio_playSendable(sendable);
+    SDClkFxn(arg1);
 
 //    delay(5000);
 //    sendable.soundIndex = 1;
@@ -139,7 +141,6 @@ Int main()
 
     SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOB);
 
-    Audio_init();
     UART_start();
     SD_init();
 
@@ -150,13 +151,13 @@ Int main()
     Task_Params_init(&taskParams);
     taskParams.stackSize = TASKSTACKSIZE;
 
-    taskParams.priority = 5;
+    taskParams.priority = 4;
     taskParams.stack = &task0Stack;
     Task_construct(&task0Struct, (Task_FuncPtr)taskFxn, &taskParams, NULL);
 
-    taskParams.priority = 3;
+    taskParams.priority = 5;
     taskParams.stack = &audioTaskStack;
-    Task_construct(&audioTaskStruct, (Task_FuncPtr)taskFxn, &taskParams, NULL);
+    Task_construct(&audioTaskStruct, (Task_FuncPtr)audioTaskFxn, &taskParams, NULL);
 
     BIOS_start();    /* does not return */
 

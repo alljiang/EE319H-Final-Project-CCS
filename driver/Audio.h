@@ -31,6 +31,7 @@ const uint32_t dac_pins[8][2] = {
                            {GPIO_PORTB_BASE, GPIO_PIN_7},
 };
 
+extern void SDClkFxn(UArg arg0);
 extern void Audio_init();
 extern int8_t Audio_playSendable(struct AudioSendable sendable);
 extern void Audio_destroySendable(int8_t slotID);
