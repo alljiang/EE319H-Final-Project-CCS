@@ -27,7 +27,6 @@
 #include "driverlib/sysctl.h"
 
 #include "Audio.h"
-#include "Utils.h"
 
 #define AudioBitrate 44100
 #define FIFOBufferSize 2000
@@ -68,7 +67,7 @@ void audioClkFxn(UArg arg0) {
 }
 
 void SDClkFxn(UArg arg0) {
-    uint8_t buffer[1500];
+    uint8_t buffer[FIFOBufferSize/2+10];
     int32_t i;
     for(i = 0; i < NumAudioSlots; i++) {
         //  skip if audio finished or uninitialized
@@ -82,7 +81,7 @@ void SDClkFxn(UArg arg0) {
         char fileHeader[] = "fat:0:";
         char fileTail[] = ".txt";
         uint8_t strIndex = 0;
-        uint32_t j;
+        uint16_t j;
         for(j = 0; fileHeader[j] != '\0'; j++) {    //  header
             systemFilename[strIndex++] = fileHeader[j];
         }
@@ -124,11 +123,11 @@ void SDClkFxn(UArg arg0) {
         fread(buffer, bytesToRead, 1, src);
 
         //  add to FIFO buffer
-        for(j = 0; j < bytesToRead; j++) {
+        for(i = 0; i < bytesToRead; i++) {
             //  if buffer full, skip
             if(FIFO_Size == FIFOBufferSize) continue;
 
-            audioFIFOBuffer[(FIFO_Start + FIFO_Size++) % FIFOBufferSize] += buffer[j];
+            audioFIFOBuffer[(FIFO_Start + FIFO_Size++) % FIFOBufferSize] += buffer[i];
         }
 
         fclose(src);
@@ -152,7 +151,6 @@ void Audio_init() {
 
     //  whenever FIFO is half-full/half-empty, read in the next set of audio
 //    clkParams.period = FIFOBufferSize * 100000 / 2 / AudioBitrate;
-//    clkParams.period = 200;
 //    clkParams.startFlag = TRUE;
 //    Clock_construct(&SDClkStruct, (Clock_FuncPtr)SDClkFxn, 1, &clkParams);
 
@@ -166,12 +164,6 @@ void Audio_init() {
     for(i = 0; i < NumAudioSlots; i++) {
         Audio_destroySendable(i);
     }
-
-
-}
-
-void Audio_closeSD() {
-    SDSPI_close(sdspiHandle);
 }
 
 //  returns the index of the sendable slot, -1 if all slots full
