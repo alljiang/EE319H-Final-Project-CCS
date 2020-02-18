@@ -30,6 +30,7 @@
 
 Task_Struct task0Struct;
 Task_Struct audioTaskStruct;
+Task_Struct audioSDTaskStruct;
 
 Char task0Stack[TASKSTACKSIZE];
 Char audioTaskStack[TASKSTACKSIZE];
@@ -108,9 +109,9 @@ void taskFxn(UArg arg0, UArg arg1)
 //
 //    SRAM_write(0x11F0F, 530, arr);
 
-    while(1);
+//    while(1);
 }
-
+bool readSD;
 void audioTaskFxn(UArg arg0, UArg arg1)
 {
     Audio_init();
@@ -122,6 +123,10 @@ void audioTaskFxn(UArg arg0, UArg arg1)
     sendable.frames = 0;
     Audio_playSendable(sendable);
     SDClkFxn(arg1);
+
+    while(1) {
+        for(int i = 0; i < 1000; i++) {}
+    }
 
 //    delay(5000);
 //    sendable.soundIndex = 1;
@@ -142,7 +147,7 @@ Int main()
     SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOB);
 
     UART_start();
-    SD_init();
+//    SD_init();
 
     System_printf("Board initialized\n");
     System_flush();
@@ -151,11 +156,11 @@ Int main()
     Task_Params_init(&taskParams);
     taskParams.stackSize = TASKSTACKSIZE;
 
-    taskParams.priority = 4;
-    taskParams.stack = &task0Stack;
-    Task_construct(&task0Struct, (Task_FuncPtr)taskFxn, &taskParams, NULL);
+//    taskParams.priority = 4;
+//    taskParams.stack = &task0Stack;
+//    Task_construct(&task0Struct, (Task_FuncPtr)taskFxn, &taskParams, NULL);
 
-    taskParams.priority = 5;
+    taskParams.priority = 2;
     taskParams.stack = &audioTaskStack;
     Task_construct(&audioTaskStruct, (Task_FuncPtr)audioTaskFxn, &taskParams, NULL);
 
