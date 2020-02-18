@@ -160,7 +160,7 @@ Int main()
 //    taskParams.stack = &task0Stack;
 //    Task_construct(&task0Struct, (Task_FuncPtr)taskFxn, &taskParams, NULL);
 
-    taskParams.priority = 2;
+    taskParams.priority = 5;
     taskParams.stack = &audioTaskStack;
     Task_construct(&audioTaskStruct, (Task_FuncPtr)audioTaskFxn, &taskParams, NULL);
 

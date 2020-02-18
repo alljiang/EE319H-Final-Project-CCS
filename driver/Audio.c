@@ -45,6 +45,7 @@ SDSPI_Params sdspiParams;
 FILE *src;
 
 struct AudioSendable audioSlots[NumAudioSlots];
+uint8_t buffer[1500];
 
 void audioClkFxn(UArg arg0) {
     if(FIFO_Size == 0) return;
@@ -68,7 +69,6 @@ void audioClkFxn(UArg arg0) {
 }
 
 void SDClkFxn(UArg arg0) {
-    uint8_t buffer[1500];
     int32_t i;
     for(i = 0; i < NumAudioSlots; i++) {
         //  skip if audio finished or uninitialized
@@ -168,10 +168,6 @@ void Audio_init() {
     }
 
 
-}
-
-void Audio_closeSD() {
-    SDSPI_close(sdspiHandle);
 }
 
 //  returns the index of the sendable slot, -1 if all slots full
