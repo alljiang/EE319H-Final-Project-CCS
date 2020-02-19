@@ -23,8 +23,8 @@ struct AudioSendable {
 
 //  DAC pins, smaller index == smaller resistor value
 const uint32_t dac_pins[8][2] = {
+                           {GPIO_PORTA_BASE, GPIO_PIN_3},
                            {GPIO_PORTA_BASE, GPIO_PIN_2},
-                           {GPIO_PORTD_BASE, GPIO_PIN_7},
                            {GPIO_PORTD_BASE, GPIO_PIN_6},
                            {GPIO_PORTC_BASE, GPIO_PIN_7},
                            {GPIO_PORTC_BASE, GPIO_PIN_6},
