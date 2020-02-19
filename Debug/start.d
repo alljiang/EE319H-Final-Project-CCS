@@ -214,6 +214,8 @@ start.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_18.12.4.LTS/include/libcxx
 start.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_18.12.4.LTS/include/stdbool.h
 start.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_18.12.4.LTS/include/libcxx/stddef.h
 start.obj: ../driver/Audio.h
+start.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_18.12.4.LTS/include/libcxx/stdio.h
+start.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_18.12.4.LTS/include/stdio.h
 start.obj: C:/Users/Allen/Documents/GitHub/EE319H-Final-Project-CCS/data/metadata.h
 
 ../start.cpp: 
@@ -430,4 +432,6 @@ C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_18.12.4.LTS/include/libcxx/stdbool.h:
 C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_18.12.4.LTS/include/stdbool.h: 
 C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_18.12.4.LTS/include/libcxx/stddef.h: 
 ../driver/Audio.h: 
+C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_18.12.4.LTS/include/libcxx/stdio.h: 
+C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_18.12.4.LTS/include/stdio.h: 
 C:/Users/Allen/Documents/GitHub/EE319H-Final-Project-CCS/data/metadata.h: 

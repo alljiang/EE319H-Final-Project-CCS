@@ -26,8 +26,8 @@
 #include "driver/SRAM.h"
 #include "driver/Audio.h"
 
-#define TASKSTACKSIZE   384
-#define BIGTASKSTACKSIZE    3000
+#define TASKSTACKSIZE   1000
+#define BIGTASKSTACKSIZE    4000
 
 Task_Struct task0Struct;
 Task_Struct audioTaskStruct;
@@ -116,6 +116,7 @@ void taskFxn(UArg arg0, UArg arg1)
 
 void audioTaskFxn(UArg arg0, UArg arg1)
 {
+    Audio_initSD();
     uint8_t i;
     for(i = 0; i < 32; i++) {
         Audio_destroySendable(i);
@@ -123,7 +124,7 @@ void audioTaskFxn(UArg arg0, UArg arg1)
 
     AudioSendable sendable;
 
-    sendable.soundIndex = 0;
+    sendable.soundIndex = 1;
     sendable.startIndex = 0;
     sendable.endIndex = -1;
     sendable.frames = 0;
@@ -153,8 +154,6 @@ Int main()
     Board_initSPI();
     Board_initUART();
     Board_initSDSPI();
-
-    SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOB);
 
     UART_start();
 //    SD_init();

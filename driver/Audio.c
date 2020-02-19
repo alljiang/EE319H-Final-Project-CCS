@@ -30,8 +30,11 @@
 #include "Utils.h"
 
 #define AudioBitrate 44100
-#define FIFOBufferSize 2000
+#define FIFOBufferSize 400
 #define NumAudioSlots 32
+
+const char fileHeader[] = "fat:0:";
+const char fileTail[] = ".txt";
 
 uint16_t audioFIFOBuffer[FIFOBufferSize];
 uint16_t FIFO_Start = 0;    //  inclusive
@@ -43,13 +46,14 @@ Clock_Struct SDClkStruct;
 SDSPI_Handle sdspiHandle;
 SDSPI_Params sdspiParams;
 struct AudioSendable audioSlots[32];
-FILE *src;
 
-uint8_t buffer[1000];
+uint8_t buffer[250];
 
 void audioClkFxn(UArg arg0) {
 
-    if(FIFO_Size == 0) return;
+    if(FIFO_Size == 0) {
+        return;
+    }
 
     //  write to DAC
     Audio_DAC_write(audioFIFOBuffer[FIFO_Start]);
@@ -70,70 +74,46 @@ void audioClkFxn(UArg arg0) {
 }
 
 void SDClkFxn() {
-    int32_t i;
+    int32_t slot;
     int32_t t1 = micros();
-    for(i = 0; i < NumAudioSlots; i++) {
+    for(slot = 0; slot < NumAudioSlots; slot++) {
         //  skip if audio finished or uninitialized
-        if(audioSlots[i].startIndex == audioSlots[i].endIndex) {
-            Audio_destroySendable(i);
+        if(audioSlots[slot].startIndex == audioSlots[slot].endIndex) {
+            Audio_destroySendable(slot);
             continue;
         }
 
-        //  open file
-        char systemFilename[30];
-        char fileHeader[] = "fat:0:";
-        char fileTail[] = ".txt";
-        uint8_t strIndex = 0;
-        uint32_t j;
-        for(j = 0; fileHeader[j] != '\0'; j++) {    //  header
-            systemFilename[strIndex++] = fileHeader[j];
-        }
-        for(j = 0; soundNames[audioSlots[i].soundIndex][j] != '\0'; j++) {  //  filename body
-            systemFilename[strIndex++] = soundNames[audioSlots[i].soundIndex][j];
-        }
-        for(j = 0; fileTail[j] != '\0'; j++) {    //  tail/filetype
-            systemFilename[strIndex++] = fileTail[j];
-        }
-        systemFilename[strIndex] = '\0';
-        src = fopen(systemFilename, "r");
-        char inputfile[] = "fat:0:menu.txt";
-        src = fopen(inputfile, "r");
-        if(!src) { System_printf("File not found"); System_flush(); }
-
         //  read numFrames as a 32-bit integer
-        fread(buffer, 4, 1, src);
+        if(!audioSlots[slot].file) continue;
+        fread(buffer, 4, 1, audioSlots[slot].file);
         uint32_t numFrames =
                 (buffer[0] << 24) +
                 (buffer[1] << 16) +
                 (buffer[2] << 8)  +
                 (buffer[3]);
-        audioSlots[i].frames = numFrames;
+        audioSlots[slot].frames = numFrames;
 
         //  if end index is undefined, play entire song
-        if(audioSlots[i].endIndex == -1) audioSlots[i].endIndex = numFrames;
-
-        //  destroy already played values
-        fread(buffer, 1, audioSlots[i].startIndex, src);
+        if(audioSlots[slot].endIndex == -1) audioSlots[slot].endIndex = numFrames;
 
         //  calculate how many bytes to read
         uint16_t bytesToRead = FIFOBufferSize/2;
-        uint16_t totalBytesRemaining = audioSlots[i].endIndex - audioSlots[i].startIndex;
+        uint16_t totalBytesRemaining = audioSlots[slot].endIndex - audioSlots[slot].startIndex;
         if(bytesToRead > totalBytesRemaining) {
             bytesToRead = totalBytesRemaining;
         }
 
         //  read in bytes
-        fread(buffer, 1, bytesToRead, src);
+        fread(buffer, 1, bytesToRead, audioSlots[slot].file);
 
         //  add to FIFO buffer
+        uint32_t j;
         for(j = 0; j < bytesToRead; j++) {
             //  if buffer full, skip
             if(FIFO_Size == FIFOBufferSize) continue;
 
             audioFIFOBuffer[(FIFO_Start + FIFO_Size++) % FIFOBufferSize] += buffer[j];
         }
-
-        fclose(src);
     }
     int32_t t2 = micros();
 }
@@ -159,18 +139,20 @@ void Audio_init() {
 //    clkParams.startFlag = TRUE;
 //    Clock_construct(&SDClkStruct, (Clock_FuncPtr)SDClkFxn, 1, &clkParams);
 
-    //  Initialize SD Card
-    SDSPI_Params_init(&sdspiParams);
-    sdspiHandle = SDSPI_open(Board_SDSPI0, 0, &sdspiParams);
-    if (sdspiHandle == NULL) { System_abort("Error starting the SD card\n"); }
-    else { System_printf("SD Card is mounted\n"); }
-    System_flush();
-
 //    for(i = 0; i < NumAudioSlots; i++) {
 //        Audio_destroySendable(i);
 //    }
 
 
+}
+
+void Audio_initSD() {
+    //  Initialize SD Card
+   SDSPI_Params_init(&sdspiParams);
+   sdspiHandle = SDSPI_open(Board_SDSPI0, 0, &sdspiParams);
+   if (sdspiHandle == NULL) { System_abort("Error starting the SD card\n"); }
+   else { System_printf("SD Card is mounted\n"); }
+   System_flush();
 }
 
 //  returns the index of the sendable slot, -1 if all slots full
@@ -180,9 +162,33 @@ int8_t Audio_playSendable(struct AudioSendable sendable) {
     for(slot = 0; slot < NumAudioSlots; slot++) {
         if(audioSlots[slot].startIndex == audioSlots[slot].endIndex) break;
     }
-    if(slot >= NumAudioSlots) return -1;
+    if(slot >= NumAudioSlots) return -1;    //  return -1 if all slots full
+
+    //  open file
+    char systemFilename[30];
+    uint8_t strIndex = 0;
+    uint32_t j;
+    for(j = 0; fileHeader[j] != '\0'; j++) {    //  header
+        systemFilename[strIndex++] = fileHeader[j];
+    }
+    for(j = 0; soundNames[audioSlots[slot].soundIndex][j] != '\0'; j++) {  //  filename body
+        systemFilename[strIndex++] = soundNames[audioSlots[slot].soundIndex][j];
+    }
+    for(j = 0; fileTail[j] != '\0'; j++) {    //  tail/filetype
+        systemFilename[strIndex++] = fileTail[j];
+    }
+    systemFilename[strIndex] = '\0';
+
+    sendable.file = fopen(systemFilename, "r");
+
+    if(!sendable.file) {
+        System_printf("File not found or is busy");
+        System_flush();
+        return -1;
+    }
 
     audioSlots[slot] = sendable;
+    fread(buffer, 4, 1, audioSlots[slot].file);
     return slot;
 }
 
@@ -190,6 +196,11 @@ void Audio_destroySendable(int8_t slotID) {
     if(slotID < 0) return;
     audioSlots[slotID].startIndex = 0;
     audioSlots[slotID].endIndex = 0;
+
+    if(audioSlots[slotID].file != NULL) {
+        //  close file if open
+        fclose(audioSlots[slotID].file);
+    }
 }
 
 //  8 bit, MSB = smallest resistance, greatest voltage
