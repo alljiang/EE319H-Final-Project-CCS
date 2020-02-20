@@ -29,11 +29,10 @@ const uint32_t dac_pins[8][2] = {
                            {GPIO_PORTC_BASE, GPIO_PIN_7},
                            {GPIO_PORTC_BASE, GPIO_PIN_6},
                            {GPIO_PORTB_BASE, GPIO_PIN_3},
-                           {GPIO_PORTF_BASE, GPIO_PIN_3},
-                           {GPIO_PORTF_BASE, GPIO_PIN_2},
+                           {GPIO_PORTE_BASE, GPIO_PIN_3},
+                           {GPIO_PORTE_BASE, GPIO_PIN_2},
 };
 
-extern void SDClkFxn();
 extern void Audio_init();
 extern void Audio_initSD();
 extern void Audio_closeSD();

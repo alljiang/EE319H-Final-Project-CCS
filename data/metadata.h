@@ -7,7 +7,7 @@ const char soundNames[100][10] = {
                                         {"menu"},
                                         {"321go"},
                                         {"smash"},
-                                        {},
+                                        {"sine"},
                                         {},
                                         {},
                                         {},

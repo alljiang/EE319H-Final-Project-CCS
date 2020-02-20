@@ -124,24 +124,18 @@ void audioTaskFxn(UArg arg0, UArg arg1)
 
     AudioSendable sendable;
 
-    sendable.soundIndex = 2;
+    sendable.soundIndex = 0;
     sendable.startIndex = 0;
     sendable.endIndex = -1;
     sendable.frames = 0;
     Audio_playSendable(sendable);
 
+    Audio_init();
+
 
 //    delay(5000);
 //    sendable.soundIndex = 1;
 //    Audio_playSendable(sendable);
-}
-
-void audioLoopTaskFxn(UArg arg0, UArg arg1) {
-    Audio_init();
-
-    while(1) {
-        SDClkFxn();
-    }
 }
 
 Int main()
@@ -179,10 +173,6 @@ Int main()
     taskParams.priority = 5;
     taskParams.stack = &audioTaskStack;
     Task_construct(&audioTaskStruct, (Task_FuncPtr)audioTaskFxn, &taskParams, NULL);
-
-    taskParams.priority = 4;
-    taskParams.stack = &audioLoopTaskStack;
-    Task_construct(&audioLoopTaskStruct, (Task_FuncPtr)audioLoopTaskFxn, &taskParams, NULL);
 
     BIOS_start();    /* does not return */
 
