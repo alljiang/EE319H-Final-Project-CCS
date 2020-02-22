@@ -156,12 +156,12 @@ Int main()
     Board_initUART();
     Board_initSDSPI();
 
-    SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOA);
-    SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOB);
-    SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOC);
-    SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOD);
-    SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOE);
-    SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOF);
+//    SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOA);
+//    SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOB);
+//    SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOC);
+//    SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOD);
+//    SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOE);
+//    SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOF);
 
     UART_start();
 //    SD_init();
