@@ -125,17 +125,15 @@ void audioTaskFxn(UArg arg0, UArg arg1)
         Audio_destroySendable(i);
     }
 
-    AudioSendable sendable;
+    AudioParams audioparams;
+    Audio_initParams(&audioparams);
 
-    sendable.soundIndex = 2;
-    sendable.startIndex = 0;
-    sendable.endIndex = -1;
-    sendable.frames = 0;
-    Audio_playSendable(sendable);
+    audioparams.soundIndex = 0;
+    Audio_playSendable(audioparams);
 
-//    sleep(5000);
-//    sendable.soundIndex = 2;
-//    Audio_playSendable(sendable);
+    sleep(5000);
+    audioparams.soundIndex = 1;
+    Audio_playSendable(audioparams);
 }
 
 void audioLoopTaskFxn(UArg arg0, UArg arg1) {

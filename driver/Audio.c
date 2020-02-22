@@ -6,6 +6,7 @@
  */
 
 /* XDC module Headers */
+#include <driver/Audio.h>
 #include "rom.h"
 #include <driver/Board.h>
 #include <xdc/std.h>
@@ -33,7 +34,6 @@
 #include "driverlib/debug.h"
 #include "driverlib/gpio.h"
 
-#include "Audio.h"
 #include "Utils.h"
 
 #define AudioBitrate 8000
@@ -53,7 +53,7 @@ uint32_t g_ui32Flags;
 
 SDSPI_Handle Audio_sdspiHandle;
 SDSPI_Params Audio_sdspiParams;
-struct AudioSendable audioSlots[32];
+struct AudioParams audioSlots[32];
 
 uint8_t readBuffer[FIFOBufferSize];
 
@@ -61,11 +61,7 @@ uint8_t nextSound = 0;
 bool readingSD = false;
 
 void audioISR(UArg arg) {
-
     if(FIFO_Size == 0) {
-//        audioSDISR();
-        uint32_t asdfasdf = micros();
-        micros();
         return;
     }
 
@@ -85,9 +81,8 @@ void audioISR(UArg arg) {
 
 void ReadSDFIFO() {
     int32_t slot;
-    uint32_t maxBytesRead = 0;
+    int32_t maxBytesRead = 0;
     for(slot = 0; slot < NumAudioSlots; slot++) {
-        uint32_t bytesRead = 0;
         //  skip if audio finished or uninitialized
         if(audioSlots[slot].startIndex == audioSlots[slot].endIndex) {
             //  only destroy the sendable if it has not been destroyed yet
@@ -106,41 +101,31 @@ void ReadSDFIFO() {
         }
 
         //  read in bytes
-        int32_t t1 = micros();
         fread(readBuffer, 1, bytesToRead, audioSlots[slot].file);
-        int32_t t2 = micros();
 
         //  add to FIFO buffer
         uint32_t j;
         for(j = 0; j < bytesToRead; j++) {
-            audioFIFOBuffer[(FIFO_Start + FIFO_Size) % FIFOBufferSize] += readBuffer[j];
-            FIFO_Size++;
-            bytesRead++;
+            audioFIFOBuffer[(FIFO_Start + FIFO_Size+j) % FIFOBufferSize] += readBuffer[j];
         }
 
         //  move up audio starting index
         audioSlots[slot].startIndex += bytesToRead;
 
-        if(bytesRead > maxBytesRead) maxBytesRead = bytesRead;
+        if(bytesToRead > maxBytesRead) {
+            FIFO_Size += bytesToRead - maxBytesRead;
+            maxBytesRead = bytesToRead;
+        }
     }
-//    FIFO_Size += maxBytesRead;
 }
 
 void Audio_init() {
 
     //  Set GPIO pins
-//    uint8_t i;
-//    for(i = 0; i < 8; i++) {
-//        GPIOPinTypeGPIOOutput(dac_pins[i][0], dac_pins[i][1]);
-//    }
-    GPIOPinTypeGPIOOutput(dac_pins[0][0], dac_pins[0][1]);
-    GPIOPinTypeGPIOOutput(dac_pins[1][0], dac_pins[1][1]);
-    GPIOPinTypeGPIOOutput(dac_pins[2][0], dac_pins[2][1]);
-    GPIOPinTypeGPIOOutput(dac_pins[3][0], dac_pins[3][1]);
-    GPIOPinTypeGPIOOutput(dac_pins[4][0], dac_pins[4][1]);
-    GPIOPinTypeGPIOOutput(dac_pins[5][0], dac_pins[5][1]);
-    GPIOPinTypeGPIOOutput(dac_pins[6][0], dac_pins[6][1]);
-    GPIOPinTypeGPIOOutput(dac_pins[7][0], dac_pins[7][1]);
+    uint8_t i;
+    for(i = 0; i < 8; i++) {
+        GPIOPinTypeGPIOOutput(dac_pins[i][0], dac_pins[i][1]);
+    }
 }
 
 void Audio_initSD() {
@@ -153,7 +138,7 @@ void Audio_initSD() {
 }
 
 //  returns the index of the sendable slot, -1 if all slots full
-int8_t Audio_playSendable(struct AudioSendable sendable) {
+int8_t Audio_playSendable(struct AudioParams sendable) {
     int8_t slot;
     //find first available slot
     for(slot = 0; slot < NumAudioSlots; slot++) {
@@ -216,10 +201,16 @@ void Audio_DAC_write(uint16_t mapping) {
 //    System_printf("\"%d\"\n", mapping);
 //    System_flush();
     if(mapping == 0) return;
-    uint8_t i;
-    for(i = 0; i < 8; i++) {
-        uint8_t output = (mapping >> (7-i)) & 1;
-        if(output) output = dac_pins[i][1];
-        GPIOPinWrite(dac_pins[i][0], dac_pins[i][1], output);
+    int8_t i;
+    for(i = 7; i >= 0; i--) {
+        uint8_t output = (mapping >> (i)) & 1;
+        if(output) output = dac_pins[7-i][1];
+        GPIOPinWrite(dac_pins[7-i][0], dac_pins[7-i][1], output);
     }
+}
+
+//  Sets default values of audio params
+void Audio_initParams(struct AudioParams* params) {
+    params->startIndex = 0;
+    params->endIndex = -1;
 }

@@ -7,16 +7,20 @@
 
 #include <stdint.h>
 #include <stdio.h>
+#include <xdc/std.h>
+#include <stdbool.h>
 #include "metadata.h"
+#include "inc/hw_memmap.h"
+#include "driverlib/gpio.h"
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-struct AudioSendable {
+struct AudioParams {
     uint16_t soundIndex;
     uint32_t startIndex;
-    int32_t endIndex;   // if endIndex == -1, play entire song
+    int32_t endIndex;   // in frames. if endIndex == -1, play entire song
     uint32_t frames;
     FILE* file;
 };
@@ -38,9 +42,10 @@ extern void ReadSDFIFO();
 extern void Audio_init();
 extern void Audio_initSD();
 extern void Audio_closeSD();
-extern int8_t Audio_playSendable(struct AudioSendable sendable);
+extern int8_t Audio_playSendable(struct AudioParams sendable);
 extern void Audio_destroySendable(int8_t slotID);
 extern void Audio_DAC_write(uint16_t mapping);
+extern void Audio_initParams(struct AudioParams* params);
 
 #ifdef __cplusplus
 }
