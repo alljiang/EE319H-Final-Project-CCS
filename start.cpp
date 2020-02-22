@@ -120,19 +120,16 @@ void taskFxn(UArg arg0, UArg arg1)
 void audioTaskFxn(UArg arg0, UArg arg1)
 {
     Audio_initSD();
-    uint8_t i;
-    for(i = 0; i < 32; i++) {
-        Audio_destroySendable(i);
-    }
+    Audio_destroyAllAudio();
 
     AudioParams audioparams;
     Audio_initParams(&audioparams);
 
-    audioparams.soundIndex = 0;
+    audioparams.soundIndex = 4;
     Audio_playSendable(audioparams);
 
-    sleep(5000);
-    audioparams.soundIndex = 1;
+//    sleep(2000);
+    audioparams.soundIndex = 5;
     Audio_playSendable(audioparams);
 }
 

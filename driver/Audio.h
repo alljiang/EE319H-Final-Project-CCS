@@ -22,6 +22,7 @@ struct AudioParams {
     uint32_t startIndex;
     int32_t endIndex;   // in frames. if endIndex == -1, play entire song
     uint32_t frames;
+    int32_t FIFO_size;   // -1 means not set
     FILE* file;
 };
 
@@ -43,7 +44,8 @@ extern void Audio_init();
 extern void Audio_initSD();
 extern void Audio_closeSD();
 extern int8_t Audio_playSendable(struct AudioParams sendable);
-extern void Audio_destroySendable(int8_t slotID);
+extern void Audio_destroyAudio(int8_t slotID);
+extern void Audio_destroyAllAudio();
 extern void Audio_DAC_write(uint16_t mapping);
 extern void Audio_initParams(struct AudioParams* params);
 

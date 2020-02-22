@@ -39,7 +39,7 @@
 #define AudioBitrate 8000
 #define FIFOBufferSize 2048
 
-#define NumAudioSlots 32
+#define NumAudioSlots 12
 
 const char fileHeader[] = "fat:0:";
 const char fileTail[] = ".txt";
@@ -48,12 +48,12 @@ bool FIFOBufferInUse = false;
 
 uint16_t audioFIFOBuffer[FIFOBufferSize];
 uint16_t FIFO_Start = 0;    //  inclusive
-uint16_t FIFO_Size = 0;
+uint16_t FIFO_Max_Size = 0; //  length of the longest audio
 uint32_t g_ui32Flags;
 
 SDSPI_Handle Audio_sdspiHandle;
 SDSPI_Params Audio_sdspiParams;
-struct AudioParams audioSlots[32];
+struct AudioParams audioSlots[NumAudioSlots];
 
 uint8_t readBuffer[FIFOBufferSize];
 
@@ -61,7 +61,7 @@ uint8_t nextSound = 0;
 bool readingSD = false;
 
 void audioISR(UArg arg) {
-    if(FIFO_Size == 0) {
+    if(FIFO_Max_Size == 0) {
         return;
     }
 
@@ -73,7 +73,16 @@ void audioISR(UArg arg) {
 
     //  increment to next location in FIFO
     FIFO_Start++;
-    FIFO_Size--;
+    FIFO_Max_Size--;
+
+    // subtract size from all slots
+    int32_t slot;
+    for(slot = 0; slot < NumAudioSlots; slot++) {
+        //  skip if audio finished or uninitialized
+        if(audioSlots[slot].FIFO_size > 0) {
+            audioSlots[slot].FIFO_size--;
+        }
+    }
 
     //  wrap around FIFO_Start
     if(FIFO_Start == FIFOBufferSize) FIFO_Start = 0;
@@ -81,17 +90,21 @@ void audioISR(UArg arg) {
 
 void ReadSDFIFO() {
     int32_t slot;
-    int32_t maxBytesRead = 0;
     for(slot = 0; slot < NumAudioSlots; slot++) {
         //  skip if audio finished or uninitialized
         if(audioSlots[slot].startIndex == audioSlots[slot].endIndex) {
             //  only destroy the sendable if it has not been destroyed yet
-            if(audioSlots[slot].startIndex != 0) Audio_destroySendable(slot);
+            if(audioSlots[slot].startIndex != 0) Audio_destroyAudio(slot);
             continue;
         }
 
+        //  set FIFO end position if this is the first run
+        if(audioSlots[slot].FIFO_size < 0) {
+            audioSlots[slot].FIFO_size = FIFO_Start;
+        }
+
         //  Get number of bytes to read between remaining size of FIFO buffer or remaining size of audio
-        uint16_t bytesToRead = FIFOBufferSize-FIFO_Size;
+        uint16_t bytesToRead = FIFOBufferSize-audioSlots[slot].FIFO_size;
         uint32_t totalBytesRemaining = audioSlots[slot].endIndex - audioSlots[slot].startIndex;
         if(totalBytesRemaining < bytesToRead) {
             bytesToRead = totalBytesRemaining;
@@ -106,15 +119,16 @@ void ReadSDFIFO() {
         //  add to FIFO buffer
         uint32_t j;
         for(j = 0; j < bytesToRead; j++) {
-            audioFIFOBuffer[(FIFO_Start + FIFO_Size+j) % FIFOBufferSize] += readBuffer[j];
+            audioFIFOBuffer[(FIFO_Start + audioSlots[slot].FIFO_size++)
+                            % FIFOBufferSize] += readBuffer[j];
         }
 
         //  move up audio starting index
         audioSlots[slot].startIndex += bytesToRead;
 
-        if(bytesToRead > maxBytesRead) {
-            FIFO_Size += bytesToRead - maxBytesRead;
-            maxBytesRead = bytesToRead;
+//          keep track of max size for the audio to stop on completion
+        if(FIFO_Max_Size < audioSlots[slot].FIFO_size) {
+            FIFO_Max_Size = audioSlots[slot].FIFO_size;
         }
     }
 }
@@ -184,8 +198,8 @@ int8_t Audio_playSendable(struct AudioParams sendable) {
     return slot;
 }
 
-void Audio_destroySendable(int8_t slotID) {
-    if(slotID < 0) return;
+void Audio_destroyAudio(int8_t slotID) {
+    if(slotID < 0 || slotID >= NumAudioSlots) return;
     audioSlots[slotID].startIndex = 0;
     audioSlots[slotID].endIndex = 0;
 
@@ -195,11 +209,18 @@ void Audio_destroySendable(int8_t slotID) {
     }
 }
 
+void Audio_destroyAllAudio() {
+    uint8_t i;
+    for(i = 0; i < NumAudioSlots; i++) {
+        Audio_destroyAudio(i);
+    }
+}
+
 int count = 0;
 //  8 bit, MSB = smallest resistance, greatest voltage
 void Audio_DAC_write(uint16_t mapping) {
-//    System_printf("\"%d\"\n", mapping);
-//    System_flush();
+    System_printf("\"%d\"\n", mapping);
+    System_flush();
     if(mapping == 0) return;
     int8_t i;
     for(i = 7; i >= 0; i--) {
@@ -213,4 +234,5 @@ void Audio_DAC_write(uint16_t mapping) {
 void Audio_initParams(struct AudioParams* params) {
     params->startIndex = 0;
     params->endIndex = -1;
+    params->FIFO_size = -1;
 }
