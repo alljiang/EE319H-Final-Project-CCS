@@ -108,7 +108,7 @@
 
 //#include <stdio.h>
 #include <driver/ST7735/ST7735.h>
-#include <driver/v_tm4c123gh6pm.h>
+#include <driver/tm4c123gh6pm.h>
 #include <stdint.h>
 
 // 16 rows (0 to 15) and 21 characters (0 to 20)

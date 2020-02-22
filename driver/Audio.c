@@ -6,19 +6,15 @@
  */
 
 /* XDC module Headers */
-#include "rom.h"
 #include <driver/Board.h>
 #include <xdc/std.h>
-#include <xdc/runtime/Error.h>
-#include <xdc/runtime/Diags.h>
-#include <xdc/runtime/System.h>
-#include <xdc/cfg/global.h>
-
 #include <stdlib.h>
 #include <stdint.h>
 #include <stdio.h>
 #include <stdbool.h>
 #include <string.h>
+#include <xdc/runtime/Diags.h>
+#include <xdc/runtime/System.h>
 
 /* TI-RTOS Header files */
 #include <ti/drivers/GPIO.h>
@@ -27,18 +23,17 @@
 #include <ti/sysbios/knl/Semaphore.h>
 #include <ti/sysbios/knl/Task.h>
 #include <ti/sysbios/BIOS.h>
-#include <ti/sysbios/hal/Timer.h>
 
 #include "inc/hw_memmap.h"
 #include "driverlib/debug.h"
 #include "driverlib/gpio.h"
+#include "driverlib/sysctl.h"
 
 #include "Audio.h"
 #include "Utils.h"
 
-#define AudioBitrate 8000
-#define FIFOBufferSize 512
-
+#define AudioBitrate 44100
+#define FIFOBufferSize 50
 #define NumAudioSlots 32
 
 const char fileHeader[] = "fat:0:";
@@ -49,65 +44,75 @@ bool FIFOBufferInUse = false;
 uint16_t audioFIFOBuffer[FIFOBufferSize];
 uint16_t FIFO_Start = 0;    //  inclusive
 uint16_t FIFO_Size = 0;
-uint32_t g_ui32Flags;
 
-SDSPI_Handle Audio_sdspiHandle;
-SDSPI_Params Audio_sdspiParams;
+Clock_Struct audioClkStruct;
+Clock_Struct SDClkStruct;
+
+SDSPI_Handle sdspiHandle;
+SDSPI_Params sdspiParams;
 struct AudioSendable audioSlots[32];
 
-uint8_t readBuffer[FIFOBufferSize];
+uint8_t buffer[1100];
+
+uint16_t misses = 0;
+uint16_t hits = 0;
 
 uint8_t nextSound = 0;
-bool readingSD = false;
 
-void audioISR(UArg arg) {
+void audioClkFxn(UArg arg0) {
 
-    if(FIFO_Size == 0) {
-        ReadSDFIFO();
-        return;
-    }
-
-    //  write to DAC
-    Audio_DAC_write(audioFIFOBuffer[FIFO_Start]);
-
-    //  reset the FIFO location
-    audioFIFOBuffer[FIFO_Start] = 0;
-
-    //  increment to next location in FIFO
-    FIFO_Start++;
-    FIFO_Size--;
-
-    //  wrap around FIFO_Start
-    if(FIFO_Start == FIFOBufferSize) FIFO_Start = 0;
-
-//    Audio_DAC_write(nextSound);
-//    nextSound = 0;
-//    int32_t slot;
-//    for(slot = 0; slot < NumAudioSlots; slot++) {
-//        //  skip if audio finished or uninitialized
-//        if(audioSlots[slot].startIndex == audioSlots[slot].endIndex) {
-//            //  only destroy the sendable if it has not been destroyed yet
-//            if(audioSlots[slot].startIndex != 0) Audio_destroySendable(slot);
-//            continue;
-//        }
-//        fread(buffer, 1, 1, audioSlots[slot].file);
-//
-//        nextSound += buffer[0];
-//
-//        //  move up audio starting index
-//        audioSlots[slot].startIndex += 1;
+//    if(FIFO_Size == 0) {
+//        return;
 //    }
 //
-//    //  add extra loops to compensate for faster frequency of clock fxn than 44.1khz
-//    uint8_t i;
-//    for(i = 0; i < 63; i++) {}
+//    if(FIFOBufferInUse) {
+//        misses++;
+//        return;
+//    }
+//    FIFOBufferInUse = true;
+//    hits++;
+//
+//    //  write to DAC
+//    Audio_DAC_write(audioFIFOBuffer[FIFO_Start]);
+//
+//    //  reset the FIFO location
+//    audioFIFOBuffer[FIFO_Start] = 0;
+//
+//    //  increment to next location in FIFO
+//    FIFO_Start++;
+//    FIFO_Size--;
+//
+//    //  wrap around FIFO_Start
+//    if(FIFO_Start == FIFOBufferSize) FIFO_Start = 0;
+//
+//    FIFOBufferInUse = false;
+
+    Audio_DAC_write(nextSound);
+    nextSound = 0;
+    int32_t slot;
+    for(slot = 0; slot < NumAudioSlots; slot++) {
+        //  skip if audio finished or uninitialized
+        if(audioSlots[slot].startIndex == audioSlots[slot].endIndex) {
+            //  only destroy the sendable if it has not been destroyed yet
+            if(audioSlots[slot].startIndex != 0) Audio_destroySendable(slot);
+            continue;
+        }
+        fread(buffer, 1, 1, audioSlots[slot].file);
+
+        nextSound += buffer[0];
+
+        //  move up audio starting index
+        audioSlots[slot].startIndex += 1;
+    }
+
+    //  add extra loops to compensate for faster frequency of clock fxn than 44.1khz
+    uint8_t i;
+    for(i = 0; i < 65; i++) {}
 }
 
-void ReadSDFIFO() {
+void SDClkFxn() {
     int32_t slot;
-    uint32_t maxBytesRead = 0;
     for(slot = 0; slot < NumAudioSlots; slot++) {
-        uint32_t bytesRead = 0;
         //  skip if audio finished or uninitialized
         if(audioSlots[slot].startIndex == audioSlots[slot].endIndex) {
             //  only destroy the sendable if it has not been destroyed yet
@@ -121,65 +126,60 @@ void ReadSDFIFO() {
         if(totalBytesRemaining < bytesToRead) {
             bytesToRead = totalBytesRemaining;
         }
-//        if(bytesToRead < 512) continue;
-//        else bytesToRead = 512*(bytesToRead/512);
 
         //  read in bytes
         int32_t t1 = micros();
-        fread(readBuffer, 1, bytesToRead, audioSlots[slot].file);
+        fread(buffer, 1, bytesToRead, audioSlots[slot].file);
         int32_t t2 = micros();
+
+        if(FIFOBufferInUse) continue;
+        FIFOBufferInUse = true;
 
         //  add to FIFO buffer
         uint32_t j;
         for(j = 0; j < bytesToRead; j++) {
-            audioFIFOBuffer[(FIFO_Start + FIFO_Size) % FIFOBufferSize] += readBuffer[j];
-            FIFO_Size++;
-            bytesRead++;
+            //  if buffer full, skip
+            if(FIFO_Size == FIFOBufferSize) continue;
+
+            audioFIFOBuffer[(FIFO_Start + FIFO_Size++) % FIFOBufferSize] += buffer[j];
         }
+
+        FIFOBufferInUse = false;
 
         //  move up audio starting index
         audioSlots[slot].startIndex += bytesToRead;
-
-        if(bytesRead > maxBytesRead) maxBytesRead = bytesRead;
     }
-//    FIFO_Size += maxBytesRead;
 }
 
 void Audio_init() {
 
     //  Set GPIO pins
-//    uint8_t i;
-//    for(i = 0; i < 8; i++) {
-//        GPIOPinTypeGPIOOutput(dac_pins[i][0], dac_pins[i][1]);
-//    }
-    GPIOPinTypeGPIOOutput(dac_pins[0][0], dac_pins[0][1]);
-    GPIOPinTypeGPIOOutput(dac_pins[1][0], dac_pins[1][1]);
-    GPIOPinTypeGPIOOutput(dac_pins[2][0], dac_pins[2][1]);
-    GPIOPinTypeGPIOOutput(dac_pins[3][0], dac_pins[3][1]);
-    GPIOPinTypeGPIOOutput(dac_pins[4][0], dac_pins[4][1]);
-    GPIOPinTypeGPIOOutput(dac_pins[5][0], dac_pins[5][1]);
-    GPIOPinTypeGPIOOutput(dac_pins[6][0], dac_pins[6][1]);
-    GPIOPinTypeGPIOOutput(dac_pins[7][0], dac_pins[7][1]);
+    uint8_t i;
+    for(i = 0; i < 8; i++) {
+        GPIOPinTypeGPIOOutput(dac_pins[i][0], dac_pins[i][1]);
+    }
 
-    //  Set up timer
-//    Timer_Params timerParams;
-//    Timer_Handle myTimer;
-//    Error_Block eb;
+    //  Initialize periodic clock with period = 12us
+    Clock_Params clkParams;
+    Clock_Params_init(&clkParams);
+    clkParams.period = 12;
+    clkParams.startFlag = TRUE;
 
-//    Error_init(&eb);
-//    Timer_Params_init(&timerParams);
-//    timerParams.period = 10;
-//    timerParams.periodType = Timer_PeriodType_MICROSECS;
-//    timerParams.arg = 1;
-//    myTimer = Timer_create(Timer_ANY, audioISR, &timerParams, &eb);
-//    if (myTimer == NULL) { System_abort("Timer create failed"); }
+    Clock_construct(&audioClkStruct, (Clock_FuncPtr)audioClkFxn, 13, &clkParams);
+
+    //  whenever FIFO is half-full/half-empty, read in the next set of audio
+//    clkParams.period = FIFOBufferSize * 100000 / 2 / AudioBitrate;
+//    clkParams.period = 200;
+//    clkParams.startFlag = TRUE;
+//    Clock_construct(&SDClkStruct, (Clock_FuncPtr)SDClkFxn, 1, &clkParams);
+
 }
 
 void Audio_initSD() {
     //  Initialize SD Card
-   SDSPI_Params_init(&Audio_sdspiParams);
-   Audio_sdspiHandle = SDSPI_open(Board_SDSPI0, 0, &Audio_sdspiParams);
-   if (Audio_sdspiHandle == NULL) { System_abort("Error starting the SD card\n"); }
+   SDSPI_Params_init(&sdspiParams);
+   sdspiHandle = SDSPI_open(Board_SDSPI0, 0, &sdspiParams);
+   if (sdspiHandle == NULL) { System_abort("Error starting the SD card\n"); }
    else { System_printf("SD Card is mounted\n"); }
    System_flush();
 }
@@ -216,12 +216,12 @@ int8_t Audio_playSendable(struct AudioSendable sendable) {
         return -1;
     }
 
-    fread(readBuffer, 4, 1, sendable.file);
+    fread(buffer, 4, 1, sendable.file);
     uint32_t numFrames =
-            (readBuffer[0] << 24) +
-            (readBuffer[1] << 16) +
-            (readBuffer[2] << 8)  +
-            (readBuffer[3]);
+            (buffer[0] << 24) +
+            (buffer[1] << 16) +
+            (buffer[2] << 8)  +
+            (buffer[3]);
     sendable.frames = numFrames;
 
     //  if end index is undefined, play entire song
@@ -242,12 +242,10 @@ void Audio_destroySendable(int8_t slotID) {
     }
 }
 
-int count = 0;
 //  8 bit, MSB = smallest resistance, greatest voltage
 void Audio_DAC_write(uint16_t mapping) {
 //    System_printf("\"%d\"\n", mapping);
 //    System_flush();
-    if(mapping == 0) return;
     uint8_t i;
     for(i = 0; i < 8; i++) {
         uint8_t output = (mapping >> (7-i)) & 1;

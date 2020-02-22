@@ -1,23 +1,20 @@
 
 /* XDC module Headers */
+#include <driver/SD.h>
 #include <xdc/std.h>
 #include <xdc/runtime/Diags.h>
 #include <xdc/runtime/System.h>
-#include <xdc/runtime/Error.h>
 
 /* BIOS module Headers */
 #include <ti/sysbios/BIOS.h>
 #include <ti/sysbios/knl/Semaphore.h>
 #include <ti/sysbios/knl/Task.h>
-#include <ti/sysbios/hal/Hwi.h>
 #include <ti/drivers/SDSPI.h>
 #include <ti/drivers/GPIO.h>
 
 /* Example/Board Header files */
 #include "driver/Board.h"
 #include "inc/hw_memmap.h"
-#include "inc/hw_types.h"
-#include "inc/hw_ints.h"
 #include "driverlib/debug.h"
 #include "driverlib/gpio.h"
 #include "driverlib/sysctl.h"
@@ -127,22 +124,18 @@ void audioTaskFxn(UArg arg0, UArg arg1)
 
     AudioSendable sendable;
 
-    sendable.soundIndex = 3;
+    sendable.soundIndex = 0;
     sendable.startIndex = 0;
     sendable.endIndex = -1;
     sendable.frames = 0;
     Audio_playSendable(sendable);
 
-//    sleep(5000);
-//    sendable.soundIndex = 2;
-//    Audio_playSendable(sendable);
-}
-
-void audioLoopTaskFxn(UArg arg0, UArg arg1) {
     Audio_init();
 
-//    while(1) {
-//    }
+
+//    delay(5000);
+//    sendable.soundIndex = 1;
+//    Audio_playSendable(sendable);
 }
 
 Int main()
@@ -156,12 +149,12 @@ Int main()
     Board_initUART();
     Board_initSDSPI();
 
-//    SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOA);
-//    SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOB);
-//    SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOC);
-//    SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOD);
-//    SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOE);
-//    SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOF);
+    SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOA);
+    SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOB);
+    SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOC);
+    SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOD);
+    SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOE);
+    SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOF);
 
     UART_start();
 //    SD_init();
@@ -180,10 +173,6 @@ Int main()
     taskParams.priority = 5;
     taskParams.stack = &audioTaskStack;
     Task_construct(&audioTaskStruct, (Task_FuncPtr)audioTaskFxn, &taskParams, NULL);
-
-    taskParams.priority = 4;
-    taskParams.stack = &audioLoopTaskStack;
-    Task_construct(&audioLoopTaskStruct, (Task_FuncPtr)audioLoopTaskFxn, &taskParams, NULL);
 
     BIOS_start();    /* does not return */
 
