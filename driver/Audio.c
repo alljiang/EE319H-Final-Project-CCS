@@ -37,7 +37,7 @@
 #include "Utils.h"
 
 #define AudioBitrate 8000
-#define FIFOBufferSize 512
+#define FIFOBufferSize 2048
 
 #define NumAudioSlots 32
 
@@ -63,7 +63,9 @@ bool readingSD = false;
 void audioISR(UArg arg) {
 
     if(FIFO_Size == 0) {
-//        ReadSDFIFO();
+//        audioSDISR();
+        uint32_t asdfasdf = micros();
+        micros();
         return;
     }
 
@@ -79,28 +81,6 @@ void audioISR(UArg arg) {
 
     //  wrap around FIFO_Start
     if(FIFO_Start == FIFOBufferSize) FIFO_Start = 0;
-
-//    Audio_DAC_write(nextSound);
-//    nextSound = 0;
-//    int32_t slot;
-//    for(slot = 0; slot < NumAudioSlots; slot++) {
-//        //  skip if audio finished or uninitialized
-//        if(audioSlots[slot].startIndex == audioSlots[slot].endIndex) {
-//            //  only destroy the sendable if it has not been destroyed yet
-//            if(audioSlots[slot].startIndex != 0) Audio_destroySendable(slot);
-//            continue;
-//        }
-//        fread(buffer, 1, 1, audioSlots[slot].file);
-//
-//        nextSound += buffer[0];
-//
-//        //  move up audio starting index
-//        audioSlots[slot].startIndex += 1;
-//    }
-//
-//    //  add extra loops to compensate for faster frequency of clock fxn than 44.1khz
-//    uint8_t i;
-//    for(i = 0; i < 63; i++) {}
 }
 
 void ReadSDFIFO() {
@@ -161,19 +141,6 @@ void Audio_init() {
     GPIOPinTypeGPIOOutput(dac_pins[5][0], dac_pins[5][1]);
     GPIOPinTypeGPIOOutput(dac_pins[6][0], dac_pins[6][1]);
     GPIOPinTypeGPIOOutput(dac_pins[7][0], dac_pins[7][1]);
-
-    //  Set up timer
-//    Timer_Params timerParams;
-//    Timer_Handle myTimer;
-//    Error_Block eb;
-
-//    Error_init(&eb);
-//    Timer_Params_init(&timerParams);
-//    timerParams.period = 10;
-//    timerParams.periodType = Timer_PeriodType_MICROSECS;
-//    timerParams.arg = 1;
-//    myTimer = Timer_create(Timer_ANY, audioISR, &timerParams, &eb);
-//    if (myTimer == NULL) { System_abort("Timer create failed"); }
 }
 
 void Audio_initSD() {
@@ -248,7 +215,7 @@ int count = 0;
 void Audio_DAC_write(uint16_t mapping) {
 //    System_printf("\"%d\"\n", mapping);
 //    System_flush();
-//    if(mapping == 0) return;
+    if(mapping == 0) return;
     uint8_t i;
     for(i = 0; i < 8; i++) {
         uint8_t output = (mapping >> (7-i)) & 1;
