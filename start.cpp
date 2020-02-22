@@ -127,7 +127,7 @@ void audioTaskFxn(UArg arg0, UArg arg1)
 
     AudioSendable sendable;
 
-    sendable.soundIndex = 3;
+    sendable.soundIndex = 2;
     sendable.startIndex = 0;
     sendable.endIndex = -1;
     sendable.frames = 0;
@@ -141,8 +141,9 @@ void audioTaskFxn(UArg arg0, UArg arg1)
 void audioLoopTaskFxn(UArg arg0, UArg arg1) {
     Audio_init();
 
-//    while(1) {
-//    }
+    while(1) {
+        ReadSDFIFO();
+    }
 }
 
 Int main()

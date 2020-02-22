@@ -63,7 +63,7 @@ bool readingSD = false;
 void audioISR(UArg arg) {
 
     if(FIFO_Size == 0) {
-        ReadSDFIFO();
+//        ReadSDFIFO();
         return;
     }
 
@@ -121,8 +121,9 @@ void ReadSDFIFO() {
         if(totalBytesRemaining < bytesToRead) {
             bytesToRead = totalBytesRemaining;
         }
-//        if(bytesToRead < 512) continue;
-//        else bytesToRead = 512*(bytesToRead/512);
+        if(bytesToRead >= 512) {
+            bytesToRead = 512*(bytesToRead/512);    // read in multiples of 512 bytes (1 page)
+        }
 
         //  read in bytes
         int32_t t1 = micros();
@@ -247,7 +248,7 @@ int count = 0;
 void Audio_DAC_write(uint16_t mapping) {
 //    System_printf("\"%d\"\n", mapping);
 //    System_flush();
-    if(mapping == 0) return;
+//    if(mapping == 0) return;
     uint8_t i;
     for(i = 0; i < 8; i++) {
         uint8_t output = (mapping >> (7-i)) & 1;
