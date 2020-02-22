@@ -109,9 +109,9 @@ void ReadSDFIFO() {
         if(totalBytesRemaining < bytesToRead) {
             bytesToRead = totalBytesRemaining;
         }
-        if(bytesToRead >= 512) {
-            bytesToRead = 512*(bytesToRead/512);    // read in multiples of 512 bytes (1 page)
-        }
+//        if(bytesToRead >= 512) {
+//            bytesToRead = 512*(bytesToRead/512);    // read in multiples of 512 bytes (1 page)
+//        }
 
         //  read in bytes
         fread(readBuffer, 1, bytesToRead, audioSlots[slot].file);
@@ -126,7 +126,7 @@ void ReadSDFIFO() {
         //  move up audio starting index
         audioSlots[slot].startIndex += bytesToRead;
 
-//          keep track of max size for the audio to stop on completion
+//          keep track of max size for the audio to stop when nothing's left
         if(FIFO_Max_Size < audioSlots[slot].FIFO_size) {
             FIFO_Max_Size = audioSlots[slot].FIFO_size;
         }
@@ -220,7 +220,6 @@ int count = 0;
 //  8 bit, MSB = smallest resistance, greatest voltage
 void Audio_DAC_write(uint16_t mapping) {
     System_printf("\"%d\"\n", mapping);
-    System_flush();
     if(mapping == 0) return;
     int8_t i;
     for(i = 7; i >= 0; i--) {
