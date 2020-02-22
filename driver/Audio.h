@@ -33,6 +33,8 @@ const uint32_t dac_pins[8][2] = {
                            {GPIO_PORTE_BASE, GPIO_PIN_2},
 };
 
+extern void audioISR(UArg arg);
+extern void ReadSDFIFO();
 extern void Audio_init();
 extern void Audio_initSD();
 extern void Audio_closeSD();

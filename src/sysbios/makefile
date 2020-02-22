@@ -16,7 +16,7 @@ BIOS_INC  = -I"C:/ti/tirtos_tivac_2_16_00_08/products/bios_6_45_01_29/packages/"
 
 TARGET_INC = -I"C:/ti/tirtos_tivac_2_16_00_08/products/bios_6_45_01_29/packages/"
 
-INCS = $(BIOS_INC) $(TARGET_INC)  --include_path="C:/Users/Allen/Documents/GitHub/EE319H-Final-Project-CCS/data" --include_path="C:/Users/Allen/Documents/GitHub/EE319H-Final-Project-CCS" --include_path="C:/Users/Allen/Documents/GitHub/EE319H-Final-Project-CCS" --include_path="C:/ti/tirtos_tivac_2_16_00_08/products/TivaWare_C_Series-2.1.1.71b" --include_path="C:/ti/tirtos_tivac_2_16_00_08/products/bios_6_45_01_29/packages/ti/sysbios/posix" --include_path="C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_18.12.4.LTS/include" 
+INCS = $(BIOS_INC) $(TARGET_INC)  --include_path="C:/ti" --include_path="C:/Users/Allen/Documents/GitHub/EE319H-Final-Project-CCS/data" --include_path="C:/Users/Allen/Documents/GitHub/EE319H-Final-Project-CCS" --include_path="C:/Users/Allen/Documents/GitHub/EE319H-Final-Project-CCS" --include_path="C:/ti/tirtos_tivac_2_16_00_08/products/TivaWare_C_Series-2.1.1.71b" --include_path="C:/ti/tirtos_tivac_2_16_00_08/products/bios_6_45_01_29/packages/ti/sysbios/posix" --include_path="C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_18.12.4.LTS/include" 
 
 CC = C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_18.12.4.LTS/bin/armcl -c $(CCOPTS) -I C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_18.12.4.LTS/include
 ASM = C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_18.12.4.LTS/bin/armcl -c $(CCOPTS) -I C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_18.12.4.LTS/include
@@ -53,7 +53,7 @@ m3_TaskSupport_asm.obj: family/arm/m3/TaskSupport_asm.sv7M makefile
 	$(ASSEMBLE) --output_file=m3_TaskSupport_asm.obj
 
 
-BIOS.obj: BIOS.c knl/Clock.c knl/Idle.c knl/Intrinsics.c knl/Queue.c knl/Semaphore.c knl/Swi.c knl/Swi_andn.c knl/Task.c hal/Hwi.c hal/Hwi_stack.c hal/Hwi_startup.c hal/Seconds.c family/arm/m3/Hwi.c family/arm/m3/TaskSupport.c family/arm/lm4/Seconds.c family/arm/lm4/TimestampProvider.c family/arm/lm4/Timer.c gates/GateHwi.c gates/GateMutex.c heaps/HeapMem.c makefile
+BIOS.obj: BIOS.c knl/Clock.c knl/Idle.c knl/Intrinsics.c knl/Queue.c knl/Semaphore.c knl/Swi.c knl/Swi_andn.c knl/Task.c hal/Hwi.c hal/Hwi_stack.c hal/Hwi_startup.c hal/Seconds.c hal/Timer.c family/arm/m3/Hwi.c family/arm/m3/TaskSupport.c family/arm/lm4/Seconds.c family/arm/lm4/TimestampProvider.c family/arm/lm4/Timer.c gates/GateHwi.c gates/GateMutex.c heaps/HeapMem.c makefile
 	@-$(call RM, $@)
 	@echo clem4f $< ...
 	@$(CC) $(BIOS_DEFS) $(XOPTS) $(INCS) \
@@ -70,6 +70,7 @@ BIOS.obj: BIOS.c knl/Clock.c knl/Idle.c knl/Intrinsics.c knl/Queue.c knl/Semapho
 	$(BIOS_ROOT)hal/Hwi_stack.c \
 	$(BIOS_ROOT)hal/Hwi_startup.c \
 	$(BIOS_ROOT)hal/Seconds.c \
+	$(BIOS_ROOT)hal/Timer.c \
 	$(BIOS_ROOT)family/arm/m3/Hwi.c \
 	$(BIOS_ROOT)family/arm/m3/TaskSupport.c \
 	$(BIOS_ROOT)family/arm/lm4/Seconds.c \

@@ -18,6 +18,7 @@ ORDERED_OBJS += \
 "./driver/SRAM.obj" \
 "./driver/UART.obj" \
 "./driver/Utils.obj" \
+"./driver/PLL/PLL.obj" \
 "./driver/ST7735/ST7735.obj" \
 "../driver/EK_TM4C123GXL.cmd" \
 $(GEN_CMDS__FLAG) \
@@ -35,9 +36,11 @@ RMDIR := RMDIR /S/Q
 -include sources.mk
 -include subdir_vars.mk
 -include driver/subdir_vars.mk
+-include driver/PLL/subdir_vars.mk
 -include driver/ST7735/subdir_vars.mk
 -include subdir_rules.mk
 -include driver/subdir_rules.mk
+-include driver/PLL/subdir_rules.mk
 -include driver/ST7735/subdir_rules.mk
 -include objects.mk
 
@@ -155,7 +158,7 @@ all: $(OBJS) $(CMD_SRCS) $(GEN_CMDS)
 EE319H-Final-Project-CCS.out: $(OBJS) $(CMD_SRCS) $(GEN_CMDS)
 	@echo 'Building target: "$@"'
 	@echo 'Invoking: ARM Linker'
-	"C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_18.12.4.LTS/bin/armcl" -mv7M4 --code_state=16 --float_support=FPv4SPD16 -me --define=ccs="ccs" --define=PART_TM4C123GH6PM --define=ccs --define=TIVAWARE -g --gcc --diag_warning=225 --diag_warning=255 --diag_wrap=off --display_error_number --gen_func_subsections=on --abi=eabi -z -m"EE319H-Final-Project-CCS.map" --heap_size=0 --stack_size=512 -i"C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_18.12.4.LTS/lib" -i"C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_18.12.4.LTS/include" --reread_libs --diag_wrap=off --display_error_number --warn_sections --xml_link_info="EE319H-Final-Project-CCS_linkInfo.xml" --rom_model -o "EE319H-Final-Project-CCS.out" $(ORDERED_OBJS)
+	"C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_18.12.4.LTS/bin/armcl" -mv7M4 --code_state=16 --float_support=FPv4SPD16 -me -Ooff --opt_for_speed=0 --fp_mode=relaxed --define=ccs="ccs" --define=PART_TM4C123GH6PM --define=ccs --define=TIVAWARE -g --gcc --diag_warning=225 --diag_warning=255 --diag_wrap=off --display_error_number --gen_func_subsections=on --abi=eabi -z -m"EE319H-Final-Project-CCS.map" --heap_size=0 --stack_size=512 -i"C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_18.12.4.LTS/lib" -i"C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_18.12.4.LTS/include" --reread_libs --diag_wrap=off --display_error_number --warn_sections --xml_link_info="EE319H-Final-Project-CCS_linkInfo.xml" --rom_model -o "EE319H-Final-Project-CCS.out" $(ORDERED_OBJS)
 	@echo 'Finished building target: "$@"'
 	@echo ' '
 
@@ -169,8 +172,8 @@ EE319H-Final-Project-CCS.hex: $(EXE_OUTPUTS)
 # Other Targets
 clean:
 	-$(RM) $(BIN_OUTPUTS__QUOTED)$(GEN_FILES__QUOTED)$(EXE_OUTPUTS__QUOTED)
-	-$(RM) "start.obj" "driver\Audio.obj" "driver\EK_TM4C123GXL.obj" "driver\ILI9341.obj" "driver\SD.obj" "driver\SRAM.obj" "driver\UART.obj" "driver\Utils.obj" "driver\ST7735\ST7735.obj" 
-	-$(RM) "driver\Audio.d" "driver\EK_TM4C123GXL.d" "driver\SD.d" "driver\SRAM.d" "driver\UART.d" "driver\Utils.d" 
+	-$(RM) "start.obj" "driver\Audio.obj" "driver\EK_TM4C123GXL.obj" "driver\ILI9341.obj" "driver\SD.obj" "driver\SRAM.obj" "driver\UART.obj" "driver\Utils.obj" "driver\PLL\PLL.obj" "driver\ST7735\ST7735.obj" 
+	-$(RM) "driver\Audio.d" "driver\EK_TM4C123GXL.d" "driver\SD.d" "driver\SRAM.d" "driver\UART.d" "driver\Utils.d" "driver\PLL\PLL.d" 
 	-$(RM) "start.d" "driver\ILI9341.d" "driver\ST7735\ST7735.d" 
 	-$(RMDIR) $(GEN_MISC_DIRS__QUOTED)
 	-@echo 'Finished clean'

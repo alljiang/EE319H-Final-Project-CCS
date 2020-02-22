@@ -125,5 +125,6 @@ GEN_OPTS__QUOTED :=
 SUBDIRS := \
 . \
 driver \
+driver/PLL \
 driver/ST7735 \
 
