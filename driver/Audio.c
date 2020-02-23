@@ -56,17 +56,17 @@ SDSPI_Params Audio_sdspiParams;
 struct AudioParams audioSlots[NumAudioSlots];
 
 uint8_t readBuffer[FIFOBufferSize];
-
-uint8_t nextSound = 0;
-bool readingSD = false;
+uint8_t numAudio = 0;
 
 void audioISR(UArg arg) {
-    if(FIFO_Max_Size == 0) {
+    if(FIFO_Max_Size == 0 || numAudio == 0) {
         return;
     }
 
     //  write to DAC
-    Audio_DAC_write(audioFIFOBuffer[FIFO_Start]);
+    uint16_t toWrite = audioFIFOBuffer[FIFO_Start] / numAudio;
+    if(toWrite > 255) toWrite = 255;
+    Audio_DAC_write(toWrite);
 
     //  reset the FIFO location
     audioFIFOBuffer[FIFO_Start] = 0;
@@ -89,6 +89,7 @@ void audioISR(UArg arg) {
 }
 
 void ReadSDFIFO() {
+    uint8_t numAudioRead = 0;
     int32_t slot;
     for(slot = 0; slot < NumAudioSlots; slot++) {
         //  skip if audio finished or uninitialized
@@ -130,7 +131,9 @@ void ReadSDFIFO() {
         if(FIFO_Max_Size < audioSlots[slot].FIFO_size) {
             FIFO_Max_Size = audioSlots[slot].FIFO_size;
         }
+        numAudioRead++;
     }
+    numAudio = numAudioRead;
 }
 
 void Audio_init() {
@@ -219,7 +222,7 @@ void Audio_destroyAllAudio() {
 int count = 0;
 //  8 bit, MSB = smallest resistance, greatest voltage
 void Audio_DAC_write(uint16_t mapping) {
-    System_printf("\"%d\"\n", mapping);
+//    System_printf("\"%d\"\n", mapping);
     if(mapping == 0) return;
     int8_t i;
     for(i = 7; i >= 0; i--) {

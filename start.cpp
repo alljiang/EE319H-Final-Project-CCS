@@ -128,18 +128,13 @@ void audioTaskFxn(UArg arg0, UArg arg1)
     audioparams.soundIndex = 4;
     Audio_playSendable(audioparams);
 
-//    sleep(2000);
+    sleep(2000);
     audioparams.soundIndex = 5;
     Audio_playSendable(audioparams);
-
-    uint8_t i = 0;
-    for(; i < 10; i++) {
-        sleep(10000);
-        System_flush();
-    }
 }
 
 void audioLoopTaskFxn(UArg arg0, UArg arg1) {
+    Task_sleep(500);
     Audio_init();
 
     while(1) {
