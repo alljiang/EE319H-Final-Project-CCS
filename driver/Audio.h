@@ -44,7 +44,7 @@ extern void ReadSDFIFO();
 extern void Audio_init();
 extern void Audio_initSD();
 extern void Audio_closeSD();
-extern int8_t Audio_playSendable(struct AudioParams sendable);
+extern int8_t Audio_playAudio(struct AudioParams sendable);
 extern void Audio_destroyAudio(int8_t slotID);
 extern void Audio_destroyAllAudio();
 extern void Audio_DAC_write(uint16_t mapping);

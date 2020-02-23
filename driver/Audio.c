@@ -155,7 +155,7 @@ void Audio_initSD() {
 }
 
 //  returns the index of the sendable slot, -1 if all slots full
-int8_t Audio_playSendable(struct AudioParams sendable) {
+int8_t Audio_playAudio(struct AudioParams sendable) {
     int8_t slot;
     //find first available slot
     for(slot = 0; slot < NumAudioSlots; slot++) {

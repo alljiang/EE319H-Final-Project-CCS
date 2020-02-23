@@ -126,13 +126,25 @@ void audioTaskFxn(UArg arg0, UArg arg1)
     Audio_initParams(&audioparams);
 
     audioparams.soundIndex = 0;
-    audioparams.volume = 0.4;
-    Audio_playSendable(audioparams);
+    audioparams.volume = 0.5;
+    int8_t background = Audio_playAudio(audioparams);
 
-    sleep(2000);
+    sleep(10000);
+    audioparams.soundIndex = 1;
+    audioparams.volume = 1;
+    int8_t countdown = Audio_playAudio(audioparams);
+    sleep(10000);
+    Audio_destroyAudio(background);
+
+    audioparams.soundIndex = 4;
+    audioparams.volume = 1;
+    int8_t beep = Audio_playAudio(audioparams);
+    sleep(3000);
+    Audio_destroyAudio(beep);
+
     audioparams.soundIndex = 2;
-    audioparams.volume = 0.4;
-    Audio_playSendable(audioparams);
+    audioparams.volume = 1;
+    int8_t song = Audio_playAudio(audioparams);
 }
 
 void audioLoopTaskFxn(UArg arg0, UArg arg1) {
