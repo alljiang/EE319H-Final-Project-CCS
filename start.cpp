@@ -125,11 +125,13 @@ void audioTaskFxn(UArg arg0, UArg arg1)
     AudioParams audioparams;
     Audio_initParams(&audioparams);
 
-    audioparams.soundIndex = 4;
+    audioparams.soundIndex = 0;
+    audioparams.volume = 0.4;
     Audio_playSendable(audioparams);
 
     sleep(2000);
-    audioparams.soundIndex = 5;
+    audioparams.soundIndex = 2;
+    audioparams.volume = 0.4;
     Audio_playSendable(audioparams);
 }
 

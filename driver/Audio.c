@@ -121,7 +121,7 @@ void ReadSDFIFO() {
         uint32_t j;
         for(j = 0; j < bytesToRead; j++) {
             audioFIFOBuffer[(FIFO_Start + audioSlots[slot].FIFO_size++)
-                            % FIFOBufferSize] += readBuffer[j];
+                            % FIFOBufferSize] += (uint8_t)(readBuffer[j] * audioSlots[slot].volume);
         }
 
         //  move up audio starting index
@@ -237,4 +237,5 @@ void Audio_initParams(struct AudioParams* params) {
     params->startIndex = 0;
     params->endIndex = -1;
     params->FIFO_size = -1;
+    params->volume = 1;
 }

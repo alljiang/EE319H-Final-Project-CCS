@@ -23,6 +23,7 @@ struct AudioParams {
     int32_t endIndex;   // in frames. if endIndex == -1, play entire song
     uint32_t frames;
     int32_t FIFO_size;   // -1 means not set
+    float volume;
     FILE* file;
 };
 
