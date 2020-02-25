@@ -183,7 +183,6 @@ void audioLoopTaskFxn(UArg arg0, UArg arg1) {
 
     while(1) {
         ReadSDFIFO();
-        sleep(5);
     }
 }
 
