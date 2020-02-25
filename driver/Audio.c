@@ -36,7 +36,7 @@
 
 #include "Utils.h"
 
-#define FIFOBufferSize 2048
+#define FIFOBufferSize 4192
 #define audioMiddle 128
 
 #define NumAudioSlots 12
@@ -67,7 +67,7 @@ void audioISR(UArg arg) {
 
 //      write to DAC
     uint16_t toWrite = audioFIFOBuffer[FIFO_Start] / numAudio;
-    if(toWrite > 0 && toWrite <= 255) {
+    if(toWrite <= 255) {
         Audio_DAC_write(toWrite);
     }
 
@@ -117,10 +117,9 @@ void ReadSDFIFO() {
         if(totalBytesRemaining < bytesToRead) {
             bytesToRead = totalBytesRemaining;
         }
-        if(bytesToRead > 512) bytesToRead = 512;
-//        if(bytesToRead >= 512) {
-//            bytesToRead = 512*(bytesToRead/512);    // read in multiples of 512 bytes (1 page)
-//        }
+        if(bytesToRead >= 512) {
+            bytesToRead = 512*(bytesToRead/512);    // read in multiples of 512 bytes (1 page)
+        }
 
         //  read in bytes
         fread(readBuffer, 1, bytesToRead, audioSlots[slot].file);
