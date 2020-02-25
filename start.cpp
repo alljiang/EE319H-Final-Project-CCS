@@ -127,12 +127,10 @@ void audioTaskFxn(UArg arg0, UArg arg1)
 
     audioparams.soundIndex = 1;
     audioparams.volume = 1;
-    Audio_playAudio(audioparams);
-
 
     for(int i = 0; i < 1000; i++) {
-        sleep(5000);
         Audio_playAudio(audioparams);
+        sleep(5000);
     }
 
 //    sleep(500);
