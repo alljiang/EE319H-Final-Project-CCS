@@ -123,7 +123,8 @@ void ReadSDFIFO() {
 //        }
 
         //  read in bytes
-        fread(readBuffer, 1, bytesToRead, audioSlots[slot].file);
+        uint32_t bytesActuallyRead = fread(readBuffer, 1, bytesToRead, audioSlots[slot].file);
+        if(bytesActuallyRead == 0) continue;    // something's wrong
 
         //  add to FIFO buffer
         uint32_t j;
@@ -162,6 +163,10 @@ void Audio_initSD() {
    System_flush();
 }
 
+/*
+ * if program crashes while trying to play more audio, try increasing heap size in cfg
+ * file or increasing task stack size
+ */
 //  returns the index of the sendable slot, -1 if all slots full
 int8_t Audio_playAudio(struct AudioParams sendable) {
     int8_t slot;

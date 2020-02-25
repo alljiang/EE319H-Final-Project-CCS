@@ -29,7 +29,7 @@
 #include "driver/SRAM.h"
 #include "driver/Audio.h"
 
-#define TASKSTACKSIZE   1000
+#define TASKSTACKSIZE   4000
 #define BIGTASKSTACKSIZE    4000
 
 Task_Struct task0Struct;
@@ -125,26 +125,16 @@ void audioTaskFxn(UArg arg0, UArg arg1)
     AudioParams audioparams;
     Audio_initParams(&audioparams);
 
-    audioparams.soundIndex = 1;
-    audioparams.volume = 1;
-    Audio_playAudio(audioparams);
-
-    sleep(500);
-
-    audioparams.soundIndex = 1;
-    audioparams.volume = 1;
-    Audio_playAudio(audioparams);
-    sleep(500);
-
-    audioparams.soundIndex = 1;
-    audioparams.volume = 1;
-    Audio_playAudio(audioparams);
-
-    sleep(4000);
-
     audioparams.soundIndex = 0;
-    audioparams.volume = 0.2;
+    audioparams.volume = 1;
     Audio_playAudio(audioparams);
+
+    for(int i = 0; i < 10; i++) {
+        sleep(1000);
+        audioparams.soundIndex = 1;
+        audioparams.volume = 1;
+        Audio_playAudio(audioparams);
+    }
 
     audioparams.soundIndex = 0;
     audioparams.volume = 0.5;
