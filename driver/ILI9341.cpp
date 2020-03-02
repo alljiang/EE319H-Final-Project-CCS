@@ -202,6 +202,9 @@ void static ILI9341_setColor(uint32_t rgb) {
     */
 
       // 16-bit, 5-6-5
+    //    uint8_t r = (rgb & 0xF80000) >> 19;
+    //    uint8_t g = (rgb & 0x00FC00) >> 10;
+    //    uint8_t b = (rgb & 0x0000F8) >> 3;
     uint8_t r = (rgb & 0xF80000) >> 19;
     uint8_t g = (rgb & 0x00FC00) >> 10;
     uint8_t b = (rgb & 0x0000F8) >> 3;
@@ -278,8 +281,8 @@ void ILI9341_init() {
 
                                         // SysClk/(CPSDVSR*(1+SCR))
                                         // 80/(10*(1+0)) = 8 MHz (slower than 4 MHz)
-//    SSI0_CPSR_R = (SSI0_CPSR_R&~SSI_CPSR_CPSDVSR_M)+4; // must be even number
-    SSI0_CPSR_R = (SSI0_CPSR_R&~SSI_CPSR_CPSDVSR_M)+40; // must be even number
+    SSI0_CPSR_R = (SSI0_CPSR_R&~SSI_CPSR_CPSDVSR_M)+4; // must be even number
+//    SSI0_CPSR_R = (SSI0_CPSR_R&~SSI_CPSR_CPSDVSR_M)+40; // must be even number
     SSI0_CR0_R &= ~(SSI_CR0_SCR_M |       // SCR = 0 (8 Mbps data rate)
                   SSI_CR0_SPH |         // SPH = 0
                   SSI_CR0_SPO);         // SPO = 0

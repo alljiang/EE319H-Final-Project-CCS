@@ -29,18 +29,13 @@
 #include "driver/SRAM.h"
 #include "driver/Audio.h"
 
-#define TASKSTACKSIZE   4000
-#define BIGTASKSTACKSIZE    4000
+#define TASKSTACKSIZE 8000
 
-Task_Struct task0Struct;
-Task_Struct audioTaskStruct;
-Task_Struct audioLoopTaskStruct;
+Task_Struct taskStruct;
 
-Char task0Stack[TASKSTACKSIZE];
-Char audioTaskStack[TASKSTACKSIZE];
-Char audioLoopTaskStack[BIGTASKSTACKSIZE];
+Char taskStack[TASKSTACKSIZE];
 
-void taskFxn(UArg arg0, UArg arg1)
+void mainTaskFxn(UArg arg0, UArg arg1)
 {
 //    SD_startSDCard();
 //
@@ -54,119 +49,61 @@ void taskFxn(UArg arg0, UArg arg1)
 //    System_flush();
 //
 //    SD_releaseSDCard();
-
-//    ILI9341_init();
-//    uint32_t t1 = millis();
-//    uint32_t t2 = millis();
-//
-//    ILI9341_fillScreen(0);
-//
-//    uint32_t currentY = 80;
-//
-//    uint32_t frame, row;
-//    for(int i = 0; i < 1000; i++) {
-//        for(frame = 0; frame <2 ; frame++) {
-//            row = 0;
-//            int startingRow = frame * 32;
-//            currentY = 80;
-//            for(row = startingRow; row < startingRow + 32; row++) {
-//                uint16_t rgb[50];
-//                uint16_t num[50];
-//
-//                int numColors = falling[row][0];
-//
-//                for(int n = 0; n < numColors; n++) {
-//                    rgb[n] = falling[row][n*2+1];
-//                    num[n] = falling[row][n*2+2];
-//
-//                }
-//
-//                ILI9341_drawHLineMulticolored_indexed(3, currentY--, rgb, num, numColors);
-//            }
-//            delay(100);
-//        }
-//    }
-
-//    uint32_t rgb[] = {0xFF0000, 0x00FF00, 0x0000FF, 0xFF0000, 0x00FF00};
-//    uint32_t num[] = {30, 120, 60, 30, 80};
-//
-//    uint32_t rgb2[] = {0xFF00FF, 0xF000B2, 0xF0C000, 0x2F00F0, 0xF0F0F0};
-//    uint32_t num2[] = {120, 60, 30, 80, 30};
-//
-//    for(int j = 0; j < 10; j++) {
-//        for(int i = 0; i <= 240; i++) {
-//            ILI9341_drawHLineMulticolored(0, i, rgb, num, 5);
-//        }
-//        for(int i = 0; i <= 240; i++) {
-//            ILI9341_drawHLineMulticolored(0, i, rgb2, num2, 5);
-//        }
-//    }
-
-//    SRAM_init();
-//    SRAM_read(0x11F0F, 10, NULL);
-//
-//    uint8_t arr[530];
-//    arr[255] = 0xFE;
-//    arr[256] = 0xFF;
-//    arr[511] = 0xCE;
-//    arr[512] = 0xCF;
-//    arr[529] = 0xAA;
-//
-//    SRAM_write(0x11F0F, 530, arr);
-
-//    while(1);
 }
 
-void audioTaskFxn(UArg arg0, UArg arg1)
+void taskFxn(UArg arg0, UArg arg1)
 {
-    Audio_initSD();
-    Audio_destroyAllAudio();
-
-    AudioParams audioparams;
-    Audio_initParams(&audioparams);
-
-    audioparams.soundIndex = 0;
-    audioparams.volume = 1;
-    Audio_playAudio(audioparams);
-
-    for(int i = 0; i < 10; i++) {
-        sleep(1000);
-        audioparams.soundIndex = 1;
-        audioparams.volume = 1;
-        Audio_playAudio(audioparams);
-    }
-
-    audioparams.soundIndex = 0;
-    audioparams.volume = 0.5;
-    int8_t background = Audio_playAudio(audioparams);
-
-    sleep(10000);
-    audioparams.soundIndex = 1;
-    audioparams.volume = 1;
-    int8_t countdown = Audio_playAudio(audioparams);
-
-    sleep(10000);
-    Audio_destroyAudio(background);
-
-    audioparams.soundIndex = 4;
-    audioparams.volume = 1;
-    int8_t beep = Audio_playAudio(audioparams);
-    sleep(3000);
-    Audio_destroyAudio(beep);
-
-    audioparams.soundIndex = 2;
-    audioparams.volume = 1;
-    int8_t song = Audio_playAudio(audioparams);
-}
-
-void audioLoopTaskFxn(UArg arg0, UArg arg1) {
-    Task_sleep(500);
-    Audio_init();
+    ILI9341_init();
 
     while(1) {
-        ReadSDFIFO();
-        sleep(1);
+        ILI9341_fillScreen(0);
+        Task_sleep(1000);
+        ILI9341_fillScreen(0xFFFFFFF);
+        Task_sleep(1000);
     }
+
+//    Audio_initSD();
+//    Audio_destroyAllAudio();
+//
+//    AudioParams audioparams;
+//    Audio_initParams(&audioparams);
+//
+//    audioparams.soundIndex = 0;
+//    audioparams.volume = 0.5;
+//    int8_t background = Audio_playAudio(audioparams);
+//
+//    for(int i = 0; i < 10; i++) {
+//        sleep(1000);
+//        audioparams.soundIndex = 1;
+//        audioparams.volume = 1;
+//        Audio_playAudio(audioparams);
+//    }
+//
+//    sleep(10000);
+//    audioparams.soundIndex = 1;
+//    audioparams.volume = 1;
+//    int8_t countdown = Audio_playAudio(audioparams);
+//
+//    sleep(10000);
+//    Audio_destroyAudio(background);
+//
+//    audioparams.soundIndex = 4;
+//    audioparams.volume = 1;
+//    int8_t beep = Audio_playAudio(audioparams);
+//    sleep(3000);
+//    Audio_destroyAudio(beep);
+//
+//    audioparams.soundIndex = 2;
+//    audioparams.volume = 1;
+//    int8_t song = Audio_playAudio(audioparams);
+//
+//    Task_sleep(500);
+//    Audio_init();
+//
+//    while(1) {
+//        ReadSDFIFO();
+//        sleep(1);
+//    }
 }
 
 Int main()
@@ -197,17 +134,9 @@ Int main()
     Task_Params_init(&taskParams);
     taskParams.stackSize = TASKSTACKSIZE;
 
-//    taskParams.priority = 4;
-//    taskParams.stack = &task0Stack;
-//    Task_construct(&task0Struct, (Task_FuncPtr)taskFxn, &taskParams, NULL);
-
     taskParams.priority = 5;
-    taskParams.stack = &audioTaskStack;
-    Task_construct(&audioTaskStruct, (Task_FuncPtr)audioTaskFxn, &taskParams, NULL);
-
-    taskParams.priority = 4;
-    taskParams.stack = &audioLoopTaskStack;
-    Task_construct(&audioLoopTaskStruct, (Task_FuncPtr)audioLoopTaskFxn, &taskParams, NULL);
+    taskParams.stack = &taskStack;
+    Task_construct(&taskStruct, (Task_FuncPtr)taskFxn, &taskParams, NULL);
 
     BIOS_start();    /* does not return */
 
