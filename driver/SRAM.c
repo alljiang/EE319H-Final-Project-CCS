@@ -19,12 +19,12 @@
 #include <stdio.h>
 #include <stdbool.h>
 #include <string.h>
+#include <string.h>
 #include <xdc/runtime/Diags.h>
 #include <xdc/runtime/System.h>
 
 /* TI-RTOS Header files */
 #include <ti/drivers/GPIO.h>
-#include <ti/sysbios/knl/Semaphore.h>
 #include <ti/sysbios/BIOS.h>
 
 #include "inc/hw_memmap.h"
@@ -37,9 +37,6 @@
 SPI_Handle SRAM_spi;
 SPI_Params SRAM_spi_params;
 SPI_Transaction SRAM_transaction;
-
-Semaphore_Struct semStruct;
-Semaphore_Handle semHandle;
 
 uint8_t SRAM_txBuffer[300];
 
@@ -65,7 +62,7 @@ void SRAM_init() {
 void SRAM_read(uint32_t address, uint32_t numBytes, uint8_t* buffer) {
     SRAM_transaction.count = numBytes + 4;
     SRAM_txBuffer[0] = IS25LP080D_NORD;
-    SRAM_txBuffer[1] = (address & 0x0F0000) >> 16;
+    SRAM_txBuffer[1] = (address & 0xFF0000) >> 16;
     SRAM_txBuffer[2] = (address & 0x00FF00) >> 8;
     SRAM_txBuffer[3] = (address & 0x0000FF);
 
@@ -76,19 +73,21 @@ void SRAM_read(uint32_t address, uint32_t numBytes, uint8_t* buffer) {
 }
 
 void SRAM_write(uint32_t address, uint32_t numBytes, uint8_t* buffer) {
-    SRAM_writeCommand(IS25LP080D_WREN);   // Write enable
-//    GPIOPinWrite(GPIO_PORTE_BASE, GPIO_PIN_4, 0);
-//    SRAM_writeCommandCS(IS25LP080D_PP, false);
-
     uint16_t i;
+    while(numBytes > 0) {
+        SRAM_writeCommand(IS25LP080D_WREN);   // Write enable
+        int16_t bytesAvailableThisPage = 256-(address % 256);
 
-    while(numBytes > 256) {
-        SRAM_transaction.count = 256 + 4;
+        uint16_t bytesThisPage;
+        if(numBytes > bytesAvailableThisPage) bytesThisPage = bytesAvailableThisPage;
+        else bytesThisPage = numBytes;
+
+        SRAM_transaction.count = bytesThisPage + 4;
         SRAM_txBuffer[0] = IS25LP080D_PP;
         SRAM_txBuffer[1] = (address & 0x0F0000) >> 16;
         SRAM_txBuffer[2] = (address & 0x00FF00) >> 8;
         SRAM_txBuffer[3] = (address & 0x0000FF);
-        for(i = 0; i < 256; i++) {
+        for(i = 0; i < bytesThisPage; i++) {
             SRAM_txBuffer[i+4] = buffer[i];
         }
 
@@ -97,26 +96,10 @@ void SRAM_write(uint32_t address, uint32_t numBytes, uint8_t* buffer) {
 
         SRAM_transferSPI();
 
-        numBytes -= 256;
-        address += 256;
-        buffer += 256;
+        numBytes -= bytesThisPage;
+        address += bytesThisPage;
+        buffer += bytesThisPage;
     }
-
-    SRAM_transaction.count = numBytes;
-    SRAM_txBuffer[0] = IS25LP080D_PP;
-    SRAM_txBuffer[1] = (address & 0x0F0000) >> 16;
-    SRAM_txBuffer[2] = (address & 0x00FF00) >> 8;
-    SRAM_txBuffer[3] = (address & 0x0000FF);
-    for(i = 0; i < numBytes; i++) {
-        SRAM_txBuffer[i+4] = buffer[i];
-    }
-
-    SRAM_transaction.txBuf = (Ptr) SRAM_txBuffer;
-    SRAM_transaction.rxBuf = NULL;
-
-    SRAM_transferSPI();
-
-    SRAM_writeCommand(IS25LP080D_WRDI);   // Write disable
 }
 
 void SRAM_writeCommandCS(uint8_t cmd, bool setCS) {

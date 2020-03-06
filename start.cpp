@@ -97,21 +97,6 @@ void taskFxn(UArg arg0, UArg arg1)
 //
 //    memset(buffy, 0x55, 100);
 //
-//    buffy[0] = 0xAA;
-//    SRAM_write(0, 1, buffy);
-//    buffy[0] = 0;
-//    SRAM_read(0, 1, buffy);
-//
-//    buffy[0] = 0xBB;
-//    SRAM_write(0, 1, buffy);
-//    buffy[0] = 0;
-//    SRAM_read(0, 1, buffy);
-//
-//    buffy[0] = 0xCC;
-//    SRAM_write(0, 1, buffy);
-//    buffy[0] = 0;
-//    SRAM_read(0, 1, buffy);
-
 //    buffy[0] = 0xAB;
 //    buffy[1] = 0xCD;
 //    buffy[25] = 0x12;
@@ -121,13 +106,9 @@ void taskFxn(UArg arg0, UArg arg1)
 //    SRAM_write(0, 50, buffy);
 
     memset(buffy, 0x88, 100);
-
-    Task_sleep(1);
-
     SRAM_read(0, 50, buffy);
 
     memset(buffy, 0x88, 100);
-
     SRAM_read(0, 50, buffy);
 }
 
