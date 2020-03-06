@@ -13,6 +13,8 @@
 #include <ti/drivers/SDSPI.h>
 #include <ti/drivers/GPIO.h>
 
+#include <string.h>
+
 /* Example/Board Header files */
 #include "driver/Board.h"
 #include "inc/hw_memmap.h"
@@ -35,32 +37,16 @@ Task_Struct taskStruct;
 
 Char taskStack[TASKSTACKSIZE];
 
-void mainTaskFxn(UArg arg0, UArg arg1)
-{
-//    SD_startSDCard();
-//
-//    char filename[] = "kirby.txt";
-//    SD_openFile(filename);
-//
-//    char buffer[100];
-//    SD_readFile(200, buffer);
-//
-//    System_printf(buffer);
-//    System_flush();
-//
-//    SD_releaseSDCard();
-}
-
 void taskFxn(UArg arg0, UArg arg1)
 {
-    ILI9341_init();
-
-    while(1) {
-        ILI9341_fillScreen(0);
-        Task_sleep(1000);
-        ILI9341_fillScreen(0xFFFFFFF);
-        Task_sleep(1000);
-    }
+//    ILI9341_init();
+//
+//    while(1) {
+//        ILI9341_fillScreen(0);
+//        Task_sleep(1000);
+//        ILI9341_fillScreen(0xFFFFFFF);
+//        Task_sleep(1000);
+//    }
 
 //    Audio_initSD();
 //    Audio_destroyAllAudio();
@@ -104,6 +90,26 @@ void taskFxn(UArg arg0, UArg arg1)
 //        ReadSDFIFO();
 //        sleep(1);
 //    }
+
+    SRAM_init();
+
+    uint8_t buffy[100];
+
+    memset(buffy, 0x55, 100);
+
+    buffy[0] = 0xAB;
+    buffy[1] = 0xCD;
+    buffy[25] = 0x12;
+    buffy[27] = 0x34;
+    buffy[49] = 0xEF;
+
+    SRAM_write(0, 50, buffy);
+
+    memset(buffy, 0x88, 100);
+
+    Task_sleep(1);
+
+    SRAM_read(0, 50, buffy);
 }
 
 Int main()
@@ -114,8 +120,8 @@ Int main()
     Board_initGeneral();
     Board_initGPIO();
     Board_initSPI();
-    Board_initUART();
-    Board_initSDSPI();
+//    Board_initUART();
+//    Board_initSDSPI();
 
     SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOA);
     SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOB);
@@ -124,7 +130,7 @@ Int main()
     SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOE);
     SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOF);
 
-    UART_start();
+//    UART_start();
 //    SD_init();
 
     System_printf("Board initialized\n");

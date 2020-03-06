@@ -67,10 +67,8 @@ extern "C" {
 extern void SRAM_init();
 extern void SRAM_read(uint32_t address, uint32_t numBytes, uint8_t* buffer);
 extern void SRAM_write(uint32_t address, uint32_t numBytes, uint8_t* buffer);
-extern void SPICallback(SPI_Handle handle, SPI_Transaction * transaction);
-extern void transferSPI();
-extern void transferSPI_blocking();
-extern void writeCommand(uint8_t cmd);
+extern void SRAM_transferSPI();
+extern void SRAM_writeCommand(uint8_t cmd);
 
 
 #ifdef __cplusplus

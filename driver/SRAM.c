@@ -34,120 +34,101 @@
 
 #include "SRAM.h"
 
-SPI_Handle spi;
-SPI_Params params;
-SPI_Transaction transaction;
-
-uint8_t txBufferGlobal[1];
+SPI_Handle SRAM_spi;
+SPI_Params SRAM_spi_params;
+SPI_Transaction SRAM_transaction;
 
 Semaphore_Struct semStruct;
 Semaphore_Handle semHandle;
-bool transferComplete = true;
 
-void SPICallback(SPI_Handle handle, SPI_Transaction * transaction) {
-    Semaphore_post(semHandle);
-    transferComplete = true;
-}
+uint8_t SRAM_txBuffer[300];
 
 void SRAM_init() {
 
-    SPI_Params_init(&params);
-    params.bitRate = 100000;
-    params.transferMode = SPI_MODE_CALLBACK;
-    params.transferCallbackFxn = &SPICallback;
-    spi = SPI_open(EK_TM4C123GXL_SPI3, &params);
+    SPI_Params_init(&SRAM_spi_params);
+    SRAM_spi_params.bitRate = 1000000;
+    SRAM_spi = SPI_open(EK_TM4C123GXL_SPI3, &SRAM_spi_params);
 
-    if (spi == NULL) {
+    if (SRAM_spi == NULL) {
         System_abort("Error initializing SPI\n");
         System_flush();
     }
 
+    GPIOPinTypeGPIOOutput(GPIO_PORTE_BASE, GPIO_PIN_4);
+    GPIOPinWrite(GPIO_PORTE_BASE, GPIO_PIN_4, GPIO_PIN_4);
 
-    Semaphore_Params semParams;
-    Semaphore_Params_init(&semParams);
-    Semaphore_construct(&semStruct, 1, &semParams);
-    semHandle = Semaphore_handle(&semStruct);
-
-    writeCommand(IS25LP080D_WREN);   // Write enable
-    writeCommand(IS25LP080D_CER);    // Erases entire memory array
-    writeCommand(IS25LP080D_WRDI);   // Write disable
+    SRAM_writeCommand(IS25LP080D_WREN);   // Write enable
+    SRAM_writeCommand(IS25LP080D_CER);    // Erases entire memory array
+    SRAM_writeCommand(IS25LP080D_WRDI);   // Write disable
 }
 
 void SRAM_read(uint32_t address, uint32_t numBytes, uint8_t* buffer) {
-    uint8_t txBuffer[4];
-    transaction.count = numBytes + 4;
-    txBuffer[0] = IS25LP080D_NORD;
-    txBuffer[1] = (address & 0x0F0000) >> 16;
-    txBuffer[2] = (address & 0x00FF00) >> 8;
-    txBuffer[3] = (address & 0x0000FF);
+    SRAM_transaction.count = numBytes + 4;
+    SRAM_txBuffer[0] = IS25LP080D_NORD;
+    SRAM_txBuffer[1] = (address & 0x0F0000) >> 16;
+    SRAM_txBuffer[2] = (address & 0x00FF00) >> 8;
+    SRAM_txBuffer[3] = (address & 0x0000FF);
 
-    transaction.txBuf = (Ptr)txBuffer;
-    transaction.rxBuf = (Ptr)(buffer);    // Make sure to throw out first 4 bytes of data!
+    SRAM_transaction.txBuf = (Ptr)SRAM_txBuffer;
+    SRAM_transaction.rxBuf = (Ptr)(buffer);    // Make sure to throw out first 4 bytes of data!
 
-    transferSPI_blocking();
+    SRAM_transferSPI();
 }
 
 void SRAM_write(uint32_t address, uint32_t numBytes, uint8_t* buffer) {
-    writeCommand(IS25LP080D_WREN);   // Write enable
+    SRAM_writeCommand(IS25LP080D_WREN);   // Write enable
 
-    uint8_t txBuffer[300];
     uint16_t i;
 
     while(numBytes > 256) {
-        transaction.count = 256 + 4;
-        txBuffer[0] = IS25LP080D_PP;
-        txBuffer[1] = (address & 0x0F0000) >> 16;
-        txBuffer[2] = (address & 0x00FF00) >> 8;
-        txBuffer[3] = (address & 0x0000FF);
+        SRAM_transaction.count = 256 + 4;
+        SRAM_txBuffer[0] = IS25LP080D_PP;
+        SRAM_txBuffer[1] = (address & 0x0F0000) >> 16;
+        SRAM_txBuffer[2] = (address & 0x00FF00) >> 8;
+        SRAM_txBuffer[3] = (address & 0x0000FF);
         for(i = 0; i < 256; i++) {
-            txBuffer[i+4] = buffer[i];
+            SRAM_txBuffer[i+4] = buffer[i];
         }
 
-        transaction.txBuf = (Ptr) txBuffer;
-        transaction.rxBuf = NULL;
+        SRAM_transaction.txBuf = (Ptr) SRAM_txBuffer;
+        SRAM_transaction.rxBuf = NULL;
 
-        transferSPI_blocking();
+        SRAM_transferSPI();
 
         numBytes -= 256;
         address += 256;
         buffer += 256;
     }
 
-    transaction.count = numBytes;
-    txBuffer[0] = IS25LP080D_PP;
-    txBuffer[1] = (address & 0x0F0000) >> 16;
-    txBuffer[2] = (address & 0x00FF00) >> 8;
-    txBuffer[3] = (address & 0x0000FF);
+    SRAM_transaction.count = numBytes;
+    SRAM_txBuffer[0] = IS25LP080D_PP;
+    SRAM_txBuffer[1] = (address & 0x0F0000) >> 16;
+    SRAM_txBuffer[2] = (address & 0x00FF00) >> 8;
+    SRAM_txBuffer[3] = (address & 0x0000FF);
     for(i = 0; i < numBytes; i++) {
-        txBuffer[i+4] = buffer[i];
+        SRAM_txBuffer[i+4] = buffer[i];
     }
 
-    transaction.txBuf = (Ptr) txBuffer;
-    transaction.rxBuf = NULL;
+    SRAM_transaction.txBuf = (Ptr) SRAM_txBuffer;
+    SRAM_transaction.rxBuf = NULL;
 
-    transferSPI_blocking();
+    SRAM_transferSPI();
 
-    writeCommand(IS25LP080D_WRDI);   // Write disable
+    SRAM_writeCommand(IS25LP080D_WRDI);   // Write disable
 }
 
-void writeCommand(uint8_t cmd) {
-    transaction.count = 1;
-    txBufferGlobal[0] = cmd;
-    transaction.txBuf = (Ptr) txBufferGlobal;
-    transaction.rxBuf = NULL;
+void SRAM_writeCommand(uint8_t cmd) {
+    SRAM_txBuffer[0] = cmd;
 
-    transferSPI_blocking();
+    SRAM_transaction.txBuf = (Ptr) SRAM_txBuffer;
+    SRAM_transaction.rxBuf = NULL;
+    SRAM_transaction.count = 1;
+
+    SRAM_transferSPI();
 }
 
-void transferSPI() {
-    Semaphore_pend(semHandle, BIOS_WAIT_FOREVER);
-    transferComplete = false;
-    SPI_transfer(spi, &transaction);
-}
-
-void transferSPI_blocking() {
-    Semaphore_pend(semHandle, BIOS_WAIT_FOREVER);
-    transferComplete = false;
-    SPI_transfer(spi, &transaction);
-    while(!transferComplete) {}
+void SRAM_transferSPI() {
+    GPIOPinWrite(GPIO_PORTE_BASE, GPIO_PIN_4, 0);
+    SPI_transfer(SRAM_spi, &SRAM_transaction);
+    GPIOPinWrite(GPIO_PORTE_BASE, GPIO_PIN_4, GPIO_PIN_4);
 }
