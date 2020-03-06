@@ -57,9 +57,9 @@ void SRAM_init() {
     GPIOPinTypeGPIOOutput(GPIO_PORTE_BASE, GPIO_PIN_4);
     GPIOPinWrite(GPIO_PORTE_BASE, GPIO_PIN_4, GPIO_PIN_4);
 
-    SRAM_writeCommand(IS25LP080D_WREN);   // Write enable
-    SRAM_writeCommand(IS25LP080D_CER);    // Erases entire memory array
-    SRAM_writeCommand(IS25LP080D_WRDI);   // Write disable
+//    SRAM_writeCommand(IS25LP080D_WREN);   // Write enable
+//    SRAM_writeCommand(IS25LP080D_CER);    // Erases entire memory array
+//    SRAM_writeCommand(IS25LP080D_WRDI);   // Write disable
 }
 
 void SRAM_read(uint32_t address, uint32_t numBytes, uint8_t* buffer) {
@@ -77,6 +77,8 @@ void SRAM_read(uint32_t address, uint32_t numBytes, uint8_t* buffer) {
 
 void SRAM_write(uint32_t address, uint32_t numBytes, uint8_t* buffer) {
     SRAM_writeCommand(IS25LP080D_WREN);   // Write enable
+//    GPIOPinWrite(GPIO_PORTE_BASE, GPIO_PIN_4, 0);
+//    SRAM_writeCommandCS(IS25LP080D_PP, false);
 
     uint16_t i;
 
@@ -117,18 +119,28 @@ void SRAM_write(uint32_t address, uint32_t numBytes, uint8_t* buffer) {
     SRAM_writeCommand(IS25LP080D_WRDI);   // Write disable
 }
 
-void SRAM_writeCommand(uint8_t cmd) {
+void SRAM_writeCommandCS(uint8_t cmd, bool setCS) {
     SRAM_txBuffer[0] = cmd;
 
     SRAM_transaction.txBuf = (Ptr) SRAM_txBuffer;
     SRAM_transaction.rxBuf = NULL;
     SRAM_transaction.count = 1;
 
-    SRAM_transferSPI();
+    SRAM_transferSPICS(setCS);
+}
+
+void SRAM_writeCommand(uint8_t cmd) {
+    SRAM_writeCommandCS(cmd, true);
+}
+
+void SRAM_transferSPICS(bool setCS) {
+    if(setCS) {
+        GPIOPinWrite(GPIO_PORTE_BASE, GPIO_PIN_4, 0);
+    }
+    SPI_transfer(SRAM_spi, &SRAM_transaction);
+    if(setCS) GPIOPinWrite(GPIO_PORTE_BASE, GPIO_PIN_4, GPIO_PIN_4);
 }
 
 void SRAM_transferSPI() {
-    GPIOPinWrite(GPIO_PORTE_BASE, GPIO_PIN_4, 0);
-    SPI_transfer(SRAM_spi, &SRAM_transaction);
-    GPIOPinWrite(GPIO_PORTE_BASE, GPIO_PIN_4, GPIO_PIN_4);
+    SRAM_transferSPICS(true);
 }
