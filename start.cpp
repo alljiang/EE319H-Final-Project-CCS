@@ -39,14 +39,14 @@ Char taskStack[TASKSTACKSIZE];
 
 void taskFxn(UArg arg0, UArg arg1)
 {
-//    ILI9341_init();
-//
-//    while(1) {
-//        ILI9341_fillScreen(0);
-//        Task_sleep(1000);
-//        ILI9341_fillScreen(0xFFFFFFF);
-//        Task_sleep(1000);
-//    }
+    ILI9341_init();
+
+    while(1) {
+        ILI9341_fillScreen(0);
+        Task_sleep(1000);
+        ILI9341_fillScreen(0xFFFFFFF);
+        Task_sleep(1000);
+    }
 
 //    Audio_initSD();
 //    Audio_destroyAllAudio();
@@ -91,11 +91,15 @@ void taskFxn(UArg arg0, UArg arg1)
 //        sleep(1);
 //    }
 
-    SRAM_init();
+//    SRAM_init();
+//
+//    uint8_t buffy[100];
+//
+//    SRAM_readSFDP(buffy);
 
-    uint8_t buffy[100];
 //
 //    memset(buffy, 0x55, 100);
+//
 //
 //    buffy[0] = 0xAB;
 //    buffy[1] = 0xCD;
@@ -105,11 +109,11 @@ void taskFxn(UArg arg0, UArg arg1)
 //
 //    SRAM_write(0, 50, buffy);
 
-    memset(buffy, 0x88, 100);
-    SRAM_read(0, 50, buffy);
-
-    memset(buffy, 0x88, 100);
-    SRAM_read(0, 50, buffy);
+//    memset(buffy, 0x88, 100);
+//    SRAM_read(0, 50, buffy);
+//
+//    memset(buffy, 0x88, 100);
+//    SRAM_read(0, 50, buffy);
 }
 
 Int main()

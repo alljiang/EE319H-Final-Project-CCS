@@ -54,9 +54,9 @@ void SRAM_init() {
     GPIOPinTypeGPIOOutput(GPIO_PORTE_BASE, GPIO_PIN_4);
     GPIOPinWrite(GPIO_PORTE_BASE, GPIO_PIN_4, GPIO_PIN_4);
 
-//    SRAM_writeCommand(IS25LP080D_WREN);   // Write enable
-//    SRAM_writeCommand(IS25LP080D_CER);    // Erases entire memory array
-//    SRAM_writeCommand(IS25LP080D_WRDI);   // Write disable
+    SRAM_writeCommand(IS25LP080D_WREN);   // Write enable
+    SRAM_writeCommand(IS25LP080D_CER);    // Erases entire memory array
+    SRAM_writeCommand(IS25LP080D_WRDI);   // Write disable
 }
 
 void SRAM_read(uint32_t address, uint32_t numBytes, uint8_t* buffer) {
@@ -65,6 +65,20 @@ void SRAM_read(uint32_t address, uint32_t numBytes, uint8_t* buffer) {
     SRAM_txBuffer[1] = (address & 0xFF0000) >> 16;
     SRAM_txBuffer[2] = (address & 0x00FF00) >> 8;
     SRAM_txBuffer[3] = (address & 0x0000FF);
+
+    SRAM_transaction.txBuf = (Ptr)SRAM_txBuffer;
+    SRAM_transaction.rxBuf = (Ptr)(buffer);    // Make sure to throw out first 4 bytes of data!
+
+    SRAM_transferSPI();
+}
+
+void SRAM_readSFDP(uint8_t* buffer) {
+    SRAM_transaction.count = 10;
+    SRAM_txBuffer[0] = IS25LP080D_RDSFDP;
+    SRAM_txBuffer[1] = 0;
+    SRAM_txBuffer[2] = 0;
+    SRAM_txBuffer[3] = 0;
+    SRAM_txBuffer[4] = 0;
 
     SRAM_transaction.txBuf = (Ptr)SRAM_txBuffer;
     SRAM_transaction.rxBuf = (Ptr)(buffer);    // Make sure to throw out first 4 bytes of data!

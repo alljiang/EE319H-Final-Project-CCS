@@ -37,7 +37,7 @@
  *                         SCK: PA2
  *                        MOSI: PA5
  *                          DC: PA6
- *                       RESET: PA7
+ *                       RESET: PE5
  *                          CS: PA3
  *                         GND: GND
  *                         VCC: 3.3V
@@ -56,14 +56,15 @@
 #include <xdc/runtime/Diags.h>
 #include <xdc/runtime/System.h>
 
-/* TI-RTOS Header files */
-#include <ti/drivers/GPIO.h>
-#include <ti/drivers/SPI.h>
-
 #include "inc/hw_memmap.h"
 #include "driverlib/debug.h"
 #include "driverlib/gpio.h"
 #include "driverlib/sysctl.h"
+
+/* TI-RTOS Header files */
+#include <ti/drivers/GPIO.h>
+#include <ti/drivers/SPI.h>
+
 
 
 #define TFT_CS                  (*((volatile uint32_t *)0x40004020))
@@ -72,9 +73,9 @@
 #define DC                      (*((volatile uint32_t *)0x40004100))
 #define DC_COMMAND              0
 #define DC_DATA                 0x40
-#define RESET                   (*((volatile uint32_t *)0x40004200))
+#define RESET                   (*((volatile uint32_t *)0x40024000))
 #define RESET_LOW               0
-#define RESET_HIGH              0x80
+#define RESET_HIGH              0x20
 
 #define DELAY 0x80
 
@@ -248,6 +249,8 @@ static void deselect(void) {
 // init
 //------------------------------------------------------------------
 void ILI9341_init() {
+    GPIOPinTypeGPIOOutput(GPIO_PORTE_BASE, GPIO_PIN_5);
+
     SYSCTL_RCGCSSI_R |= 0x01;  // activate SSI0
     SYSCTL_RCGCGPIO_R |= 0x01; // activate port A
     while((SYSCTL_PRGPIO_R&0x01)==0){}; // allow time for clock to start
@@ -261,11 +264,14 @@ void ILI9341_init() {
     GPIO_PORTA_PCTL_R = (GPIO_PORTA_PCTL_R&0x00FF0FFF)+0x00000000;
     GPIO_PORTA_AMSEL_R &= ~0xC8;          // disable analog functionality on PA3,6,7
     TFT_CS = TFT_CS_LOW;
-    RESET = RESET_HIGH;
+    GPIOPinWrite(GPIO_PORTE_BASE, GPIO_PIN_5, GPIO_PIN_5);
+//    GPIO_PORTE_DATA_R |= RESET_HIGH;
     sleep(10);
-    RESET = RESET_LOW;
+//    GPIO_PORTE_DATA_R &= ~RESET_HIGH;
+    GPIOPinWrite(GPIO_PORTE_BASE, GPIO_PIN_5, 0);
     sleep(20);
-    RESET = RESET_HIGH;
+//    GPIO_PORTE_DATA_R |= RESET_HIGH;
+    GPIOPinWrite(GPIO_PORTE_BASE, GPIO_PIN_5, GPIO_PIN_5);
     sleep(150);
 
     // initialize SSI0

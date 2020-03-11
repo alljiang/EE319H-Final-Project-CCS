@@ -69,6 +69,7 @@ extern void SRAM_read(uint32_t address, uint32_t numBytes, uint8_t* buffer);
 extern void SRAM_write(uint32_t address, uint32_t numBytes, uint8_t* buffer);
 extern void SRAM_transferSPI();
 extern void SRAM_transferSPICS(bool setCS);
+extern void SRAM_readSFDP(uint8_t* buffer);
 extern void SRAM_writeCommand(uint8_t cmd);
 extern void SRAM_writeCommandCS(uint8_t cmd, bool setCS);
 
