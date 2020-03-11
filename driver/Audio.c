@@ -90,8 +90,7 @@ void ReadSDFIFO() {
     uint32_t samplesPlayedSinceLastLoop = samplesPlayed;
     samplesPlayed = 0;
     uint8_t numAudioRead = 0;
-    int16_t slot;
-    for(slot = 0; slot < NumAudioSlots; slot++) {
+    for(int16_t slot = 0; slot < NumAudioSlots; slot++) {
         //  skip if audio finished or uninitialized
         if(audioSlots[slot].startIndex == audioSlots[slot].endIndex) {
             //  only destroy the sendable if it has not been destroyed yet
@@ -148,8 +147,7 @@ void ReadSDFIFO() {
 void Audio_init() {
 
     //  Set GPIO pins
-    uint8_t i;
-    for(i = 0; i < 8; i++) {
+    for(uint8_t i = 0; i < 8; i++) {
         GPIOPinTypeGPIOOutput(dac_pins[i][0], dac_pins[i][1]);
     }
 }
@@ -179,14 +177,13 @@ int8_t Audio_playAudio(struct AudioParams sendable) {
     //  open file
     char systemFilename[30];
     uint8_t strIndex = 0;
-    uint32_t j;
-    for(j = 0; fileHeader[j] != '\0'; j++) {    //  header
+    for(uint32_t j = 0; fileHeader[j] != '\0'; j++) {    //  header
         systemFilename[strIndex++] = fileHeader[j];
     }
-    for(j = 0; soundNames[sendable.soundIndex][j] != '\0'; j++) {  //  filename body
+    for(uint32_t j = 0; soundNames[sendable.soundIndex][j] != '\0'; j++) {  //  filename body
         systemFilename[strIndex++] = soundNames[sendable.soundIndex][j];
     }
-    for(j = 0; fileTail[j] != '\0'; j++) {    //  tail/filetype
+    for(uint32_t j = 0; fileTail[j] != '\0'; j++) {    //  tail/filetype
         systemFilename[strIndex++] = fileTail[j];
     }
     systemFilename[strIndex] = '\0';
@@ -226,8 +223,7 @@ void Audio_destroyAudio(int8_t slotID) {
 }
 
 void Audio_destroyAllAudio() {
-    uint8_t i;
-    for(i = 0; i < NumAudioSlots; i++) {
+    for(uint8_t i = 0; i < NumAudioSlots; i++) {
         Audio_destroyAudio(i);
     }
 }
@@ -236,8 +232,7 @@ void Audio_destroyAllAudio() {
 void Audio_DAC_write(uint16_t mapping) {
 //    mapping = 0b11110000;
     if(mapping == 0) return;
-    int8_t i;
-    for(i = 7; i >= 0; i--) {
+    for(int8_t i = 7; i >= 0; i--) {
         uint8_t output = (mapping >> (i)) & 1;
         if(output) output = dac_pins[7-i][1];
         GPIOPinWrite(dac_pins[7-i][0], dac_pins[7-i][1], output);

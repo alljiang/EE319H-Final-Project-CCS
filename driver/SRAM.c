@@ -87,7 +87,6 @@ void SRAM_readSFDP(uint8_t* buffer) {
 }
 
 void SRAM_write(uint32_t address, uint32_t numBytes, uint8_t* buffer) {
-    uint16_t i;
     while(numBytes > 0) {
         SRAM_writeCommand(IS25LP080D_WREN);   // Write enable
         int16_t bytesAvailableThisPage = 256-(address % 256);
@@ -101,7 +100,7 @@ void SRAM_write(uint32_t address, uint32_t numBytes, uint8_t* buffer) {
         SRAM_txBuffer[1] = (address & 0x0F0000) >> 16;
         SRAM_txBuffer[2] = (address & 0x00FF00) >> 8;
         SRAM_txBuffer[3] = (address & 0x0000FF);
-        for(i = 0; i < bytesThisPage; i++) {
+        for(uint16_t i = 0; i < bytesThisPage; i++) {
             SRAM_txBuffer[i+4] = buffer[i];
         }
 

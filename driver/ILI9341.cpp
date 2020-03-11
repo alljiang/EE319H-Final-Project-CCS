@@ -265,12 +265,9 @@ void ILI9341_init() {
     GPIO_PORTA_AMSEL_R &= ~0xC8;          // disable analog functionality on PA3,6,7
     TFT_CS = TFT_CS_LOW;
     GPIOPinWrite(GPIO_PORTE_BASE, GPIO_PIN_5, GPIO_PIN_5);
-//    GPIO_PORTE_DATA_R |= RESET_HIGH;
     sleep(10);
-//    GPIO_PORTE_DATA_R &= ~RESET_HIGH;
     GPIOPinWrite(GPIO_PORTE_BASE, GPIO_PIN_5, 0);
     sleep(20);
-//    GPIO_PORTE_DATA_R |= RESET_HIGH;
     GPIOPinWrite(GPIO_PORTE_BASE, GPIO_PIN_5, GPIO_PIN_5);
     sleep(150);
 
@@ -352,8 +349,7 @@ void ILI9341_drawHLine(uint32_t x, uint32_t y, uint32_t l, uint32_t rgb) {
 
     ILI9341_setCoords(x,y,x+l,y);
 
-    uint32_t i;
-    for(i = 0; i < l; i++) {
+    for(uint32_t i = 0; i < l; i++) {
         ILI9341_setColor(rgb);
     }
     deselect();
@@ -369,8 +365,7 @@ void ILI9341_drawVLine(uint32_t x, uint32_t y, uint32_t l, uint32_t rgb) {
 
     ILI9341_setCoords(x,y,x,y+l);
 
-    int i;
-    for(i = 0; i < l; i++) {
+    for(uint16_t i = 0; i < l; i++) {
         ILI9341_setColor(rgb);
     }
     deselect();
@@ -381,9 +376,8 @@ void ILI9341_drawVLine(uint32_t x, uint32_t y, uint32_t l, uint32_t rgb) {
 void ILI9341_drawHLineMulticolored(uint32_t x, uint32_t y, uint32_t *rgb, uint32_t *num, uint32_t n) {
     if((x > ILI9341_TFTWIDTH) || (y > ILI9341_TFTHEIGHT)) return;
 
-    int i;
     uint32_t l = 0;
-    for(i = 0; i < n; i++) {
+    for(int i = 0; i < n; i++) {
         l += num[i];
     }
 
@@ -395,7 +389,7 @@ void ILI9341_drawHLineMulticolored(uint32_t x, uint32_t y, uint32_t *rgb, uint32
 
     uint32_t j;
     uint32_t loops;
-    for(i = n-1; i >= 0; i--) {
+    for(int i = n-1; i >= 0; i--) {
         loops = num[i];
         for(j = 0; j < loops && l-- > 0; j++) {
             ILI9341_setColor(rgb[i]);
@@ -410,10 +404,9 @@ void ILI9341_drawHLineMulticolored(uint32_t x, uint32_t y, uint32_t *rgb, uint32
 void ILI9341_drawHLineMulticolored_indexed(uint32_t x, uint32_t y, uint16_t *rgb, uint16_t *num, uint32_t n) {
     if((x > ILI9341_TFTWIDTH) || (y > ILI9341_TFTHEIGHT)) return;
 
-    int i;
     uint16_t l = 0;
     uint16_t startOffset = 0;
-    for(i = 0; i < n; i++) {
+    for(int i = 0; i < n; i++) {
         l += num[i];
     }
 
@@ -441,12 +434,10 @@ void ILI9341_drawHLineMulticolored_indexed(uint32_t x, uint32_t y, uint16_t *rgb
         ILI9341_setCoords(x,y,x+l,y);
     }
 
-    uint16_t j;
-    uint16_t loops;
-    for(i = startOffset; i < n; i++) {
-        loops = num[i];
+    for(int i = startOffset; i < n; i++) {
+        uint16_t loops = num[i];
 
-        for(j = 0; j < loops && l-- > 0; j++) {
+        for(uint16_t j = 0; j < loops && l-- > 0; j++) {
             uint32_t actualcolor = colors[rgb[i]];
             if(actualcolor != (uint32_t)-1) {
                 ILI9341_setColor(actualcolor);
