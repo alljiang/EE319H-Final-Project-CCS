@@ -13,4 +13,5 @@
 	<origin value="C:\ti\tirtos_tivac_2_16_00_08\resources\ek_tm4C123GXLEvaluationKit\kernelExamples\tiKernelExamples\com_ti_rtsc_tirtostivac_example_100.projectspec"/>
 	<filesToOpen value=""/>
 	<isTargetManual value="false"/>
+	<connection value="common/targetdb/connections/Stellaris_ICDI_Connection.xml"/>
 </projectOptions>

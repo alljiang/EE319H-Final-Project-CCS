@@ -44,20 +44,18 @@
 const char fileHeader[] = "fat:0:";
 const char fileTail[] = ".txt";
 
-bool FIFOBufferInUse = false;
-
 uint16_t audioFIFOBuffer[FIFOBufferSize];
-int32_t FIFO_Start = 0;    //  inclusive
-int32_t FIFO_Max_Size = 0; //  length of the longest audio
+volatile int32_t FIFO_Start = 0;    //  inclusive
+volatile int32_t FIFO_Max_Size = 0; //  length of the longest audio
 
 SDSPI_Handle Audio_sdspiHandle;
 SDSPI_Params Audio_sdspiParams;
 struct AudioParams audioSlots[NumAudioSlots];
 
 uint8_t readBuffer[FIFOBufferSize];
-uint8_t numAudio = 0;
+volatile uint8_t numAudio = 0;
 
-int32_t samplesPlayed = 0;
+volatile int32_t samplesPlayed = 0;
 
 void audioISR(UArg arg) {
     if(FIFO_Max_Size == 0 || numAudio == 0) {
