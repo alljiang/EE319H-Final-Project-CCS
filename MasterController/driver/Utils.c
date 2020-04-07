@@ -17,3 +17,8 @@ void sleep(uint32_t ms) {
 uint32_t millis() {
     return Clock_getTicks();
 }
+
+double absVal(double d) {
+    if(d < 0) return -d;
+    else return d;
+}

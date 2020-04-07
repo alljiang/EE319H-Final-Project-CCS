@@ -125,4 +125,5 @@ GEN_OPTS__QUOTED :=
 SUBDIRS := \
 . \
 driver \
+game \
 

@@ -11,7 +11,7 @@ var makeAssembly = false;
 var Executable = xdc.module('xdc.bld.Executable');
 
 var exeOpts = new Executable.Attrs({
-        cfgScript: 'C:/Users/Allen/workspace_CCS/MasterController/MasterController.cfg',
+        cfgScript: 'C:/Users/Allen/Documents/GitHub/EE319H-Final-Project-CCS/MasterController/MasterController.cfg',
         profile: 'release',
         cfgHome: 'configPkg',
 });
@@ -41,7 +41,7 @@ else {
 
 var thisObj = {
     cfg:        '../MasterController.cfg',
-    outputPath: 'C:/Users/Allen/workspace_CCS/MasterController/Debug/configPkg',
+    outputPath: 'C:/Users/Allen/Documents/GitHub/EE319H-Final-Project-CCS/MasterController/Debug/configPkg',
     exeName:    'MasterController' + suffix,
     exeIntName: 'MasterController' + suffix.replace('.', '_'),
     targ:       targ,

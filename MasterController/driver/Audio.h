@@ -9,13 +9,25 @@
 #include <stdio.h>
 #include <xdc/std.h>
 #include <stdbool.h>
-#include "metadata.h"
 #include "inc/hw_memmap.h"
 #include "driverlib/gpio.h"
 
 #ifdef __cplusplus
 extern "C" {
 #endif
+
+const char soundNames[100][10] = {
+        {"menu"},
+        {"321go"},
+        {"smash"},
+        {"sine"},
+        {"note_a"},
+        {"note_e"},
+        {},
+        {},
+        {},
+        {}
+};
 
 struct AudioParams {
     uint16_t soundIndex;

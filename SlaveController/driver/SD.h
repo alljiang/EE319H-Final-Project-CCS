@@ -11,12 +11,10 @@
 extern "C" {
 #endif
 
-
-extern void SD_init(void);
-
 extern void SD_openFile(char* filename);
-extern void SD_readFile(uint32_t numBytes, char* output);
+extern void SD_read(uint32_t numBytes, uint8_t* buffer);
 extern void SD_closeFile(void);
+extern char SD_readNextChar();
 
 extern void SD_startSDCard(void);
 extern void SD_releaseSDCard(void);

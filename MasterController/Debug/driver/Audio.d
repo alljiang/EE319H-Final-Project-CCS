@@ -1,30 +1,24 @@
 # FIXED
 
 driver/Audio.obj: ../driver/Audio.c
-driver/Audio.obj: C:/Users/Allen/workspace_CCS/MasterController/driver/Audio.h
-driver/Audio.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/stdint.h
-driver/Audio.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/_stdint40.h
-driver/Audio.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/sys/stdint.h
-driver/Audio.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/sys/cdefs.h
+driver/Audio.obj: C:/Users/Allen/Documents/GitHub/EE319H-Final-Project-CCS/MasterController/driver/Board.h
+driver/Audio.obj: C:/Users/Allen/Documents/GitHub/EE319H-Final-Project-CCS/MasterController/driver/EK_TM4C123GXL.h
+driver/Audio.obj: C:/ti/ccs930/xdctools_3_60_02_34_core/packages/xdc/std.h
+driver/Audio.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/stdarg.h
 driver/Audio.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/sys/_types.h
+driver/Audio.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/sys/cdefs.h
 driver/Audio.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/machine/_types.h
-driver/Audio.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/machine/_stdint.h
-driver/Audio.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/sys/_stdint.h
-driver/Audio.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/stdio.h
+driver/Audio.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/stddef.h
 driver/Audio.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/_ti_config.h
 driver/Audio.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/linkage.h
-driver/Audio.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/stdarg.h
-driver/Audio.obj: C:/ti/ccs930/xdctools_3_60_02_34_core/packages/xdc/std.h
-driver/Audio.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/stddef.h
 driver/Audio.obj: C:/ti/tirtos_tivac_2_16_00_08/products/bios_6_45_01_29/packages/ti/targets/arm/elf/std.h
 driver/Audio.obj: C:/ti/tirtos_tivac_2_16_00_08/products/bios_6_45_01_29/packages/ti/targets/arm/elf/M4F.h
 driver/Audio.obj: C:/ti/tirtos_tivac_2_16_00_08/products/bios_6_45_01_29/packages/ti/targets/std.h
-driver/Audio.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/stdbool.h
-driver/Audio.obj: C:/Users/Allen/workspace_CCS/MasterController/metadata.h
-driver/Audio.obj: C:/ti/tirtos_tivac_2_16_00_08/products/TivaWare_C_Series-2.1.1.71b/inc/hw_memmap.h
-driver/Audio.obj: C:/ti/tirtos_tivac_2_16_00_08/products/TivaWare_C_Series-2.1.1.71b/driverlib/gpio.h
-driver/Audio.obj: C:/Users/Allen/workspace_CCS/MasterController/driver/Board.h
-driver/Audio.obj: C:/Users/Allen/workspace_CCS/MasterController/driver/EK_TM4C123GXL.h
+driver/Audio.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/stdint.h
+driver/Audio.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/_stdint40.h
+driver/Audio.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/sys/stdint.h
+driver/Audio.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/machine/_stdint.h
+driver/Audio.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/sys/_stdint.h
 driver/Audio.obj: C:/ti/ccs930/xdctools_3_60_02_34_core/packages/xdc/runtime/Error.h
 driver/Audio.obj: C:/ti/ccs930/xdctools_3_60_02_34_core/packages/xdc/runtime/xdc.h
 driver/Audio.obj: C:/ti/ccs930/xdctools_3_60_02_34_core/packages/xdc/runtime/Types.h
@@ -98,8 +92,10 @@ driver/Audio.obj: C:/ti/ccs930/xdctools_3_60_02_34_core/packages/xdc/runtime/IGa
 driver/Audio.obj: C:/ti/ccs930/xdctools_3_60_02_34_core/packages/xdc/runtime/package/System_SupportProxy.h
 driver/Audio.obj: C:/ti/ccs930/xdctools_3_60_02_34_core/packages/xdc/runtime/package/System_Module_GateProxy.h
 driver/Audio.obj: C:/ti/ccs930/xdctools_3_60_02_34_core/packages/xdc/cfg/global.h
-driver/Audio.obj: C:/Users/Allen/workspace_CCS/MasterController/Debug/configPkg/package/cfg/MasterController_pem4f.h
+driver/Audio.obj: C:/Users/Allen/Documents/GitHub/EE319H-Final-Project-CCS/MasterController/Debug/configPkg/package/cfg/MasterController_pem4f.h
 driver/Audio.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/stdlib.h
+driver/Audio.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/stdio.h
+driver/Audio.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/stdbool.h
 driver/Audio.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/string.h
 driver/Audio.obj: C:/ti/tirtos_tivac_2_16_00_08/products/tidrivers_tivac_2_16_00_08/packages/ti/drivers/GPIO.h
 driver/Audio.obj: C:/ti/tirtos_tivac_2_16_00_08/products/tidrivers_tivac_2_16_00_08/packages/ti/drivers/SDSPI.h
@@ -216,34 +212,32 @@ driver/Audio.obj: C:/ti/ccs930/xdctools_3_60_02_34_core/packages/xdc/runtime/Typ
 driver/Audio.obj: C:/ti/ccs930/xdctools_3_60_02_34_core/packages/xdc/runtime/IInstance.h
 driver/Audio.obj: C:/ti/tirtos_tivac_2_16_00_08/products/bios_6_45_01_29/packages/ti/sysbios/interfaces/ITimer.h
 driver/Audio.obj: C:/ti/tirtos_tivac_2_16_00_08/products/bios_6_45_01_29/packages/ti/sysbios/hal/package/Timer_TimerProxy.h
+driver/Audio.obj: C:/ti/tirtos_tivac_2_16_00_08/products/TivaWare_C_Series-2.1.1.71b/inc/hw_memmap.h
 driver/Audio.obj: C:/ti/tirtos_tivac_2_16_00_08/products/TivaWare_C_Series-2.1.1.71b/driverlib/debug.h
+driver/Audio.obj: C:/ti/tirtos_tivac_2_16_00_08/products/TivaWare_C_Series-2.1.1.71b/driverlib/gpio.h
+driver/Audio.obj: ../driver/Audio.h
 driver/Audio.obj: ../driver/Utils.h
+driver/Audio.obj: C:/ti/tirtos_tivac_2_16_00_08/products/bios_6_45_01_29/packages/ti/sysbios/knl/Task.h
 
 ../driver/Audio.c: 
-C:/Users/Allen/workspace_CCS/MasterController/driver/Audio.h: 
-C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/stdint.h: 
-C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/_stdint40.h: 
-C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/sys/stdint.h: 
-C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/sys/cdefs.h: 
+C:/Users/Allen/Documents/GitHub/EE319H-Final-Project-CCS/MasterController/driver/Board.h: 
+C:/Users/Allen/Documents/GitHub/EE319H-Final-Project-CCS/MasterController/driver/EK_TM4C123GXL.h: 
+C:/ti/ccs930/xdctools_3_60_02_34_core/packages/xdc/std.h: 
+C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/stdarg.h: 
 C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/sys/_types.h: 
+C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/sys/cdefs.h: 
 C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/machine/_types.h: 
-C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/machine/_stdint.h: 
-C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/sys/_stdint.h: 
-C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/stdio.h: 
+C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/stddef.h: 
 C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/_ti_config.h: 
 C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/linkage.h: 
-C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/stdarg.h: 
-C:/ti/ccs930/xdctools_3_60_02_34_core/packages/xdc/std.h: 
-C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/stddef.h: 
 C:/ti/tirtos_tivac_2_16_00_08/products/bios_6_45_01_29/packages/ti/targets/arm/elf/std.h: 
 C:/ti/tirtos_tivac_2_16_00_08/products/bios_6_45_01_29/packages/ti/targets/arm/elf/M4F.h: 
 C:/ti/tirtos_tivac_2_16_00_08/products/bios_6_45_01_29/packages/ti/targets/std.h: 
-C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/stdbool.h: 
-C:/Users/Allen/workspace_CCS/MasterController/metadata.h: 
-C:/ti/tirtos_tivac_2_16_00_08/products/TivaWare_C_Series-2.1.1.71b/inc/hw_memmap.h: 
-C:/ti/tirtos_tivac_2_16_00_08/products/TivaWare_C_Series-2.1.1.71b/driverlib/gpio.h: 
-C:/Users/Allen/workspace_CCS/MasterController/driver/Board.h: 
-C:/Users/Allen/workspace_CCS/MasterController/driver/EK_TM4C123GXL.h: 
+C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/stdint.h: 
+C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/_stdint40.h: 
+C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/sys/stdint.h: 
+C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/machine/_stdint.h: 
+C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/sys/_stdint.h: 
 C:/ti/ccs930/xdctools_3_60_02_34_core/packages/xdc/runtime/Error.h: 
 C:/ti/ccs930/xdctools_3_60_02_34_core/packages/xdc/runtime/xdc.h: 
 C:/ti/ccs930/xdctools_3_60_02_34_core/packages/xdc/runtime/Types.h: 
@@ -317,8 +311,10 @@ C:/ti/ccs930/xdctools_3_60_02_34_core/packages/xdc/runtime/IGateProvider.h:
 C:/ti/ccs930/xdctools_3_60_02_34_core/packages/xdc/runtime/package/System_SupportProxy.h: 
 C:/ti/ccs930/xdctools_3_60_02_34_core/packages/xdc/runtime/package/System_Module_GateProxy.h: 
 C:/ti/ccs930/xdctools_3_60_02_34_core/packages/xdc/cfg/global.h: 
-C:/Users/Allen/workspace_CCS/MasterController/Debug/configPkg/package/cfg/MasterController_pem4f.h: 
+C:/Users/Allen/Documents/GitHub/EE319H-Final-Project-CCS/MasterController/Debug/configPkg/package/cfg/MasterController_pem4f.h: 
 C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/stdlib.h: 
+C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/stdio.h: 
+C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/stdbool.h: 
 C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/string.h: 
 C:/ti/tirtos_tivac_2_16_00_08/products/tidrivers_tivac_2_16_00_08/packages/ti/drivers/GPIO.h: 
 C:/ti/tirtos_tivac_2_16_00_08/products/tidrivers_tivac_2_16_00_08/packages/ti/drivers/SDSPI.h: 
@@ -435,5 +431,9 @@ C:/ti/ccs930/xdctools_3_60_02_34_core/packages/xdc/runtime/Types.h:
 C:/ti/ccs930/xdctools_3_60_02_34_core/packages/xdc/runtime/IInstance.h: 
 C:/ti/tirtos_tivac_2_16_00_08/products/bios_6_45_01_29/packages/ti/sysbios/interfaces/ITimer.h: 
 C:/ti/tirtos_tivac_2_16_00_08/products/bios_6_45_01_29/packages/ti/sysbios/hal/package/Timer_TimerProxy.h: 
+C:/ti/tirtos_tivac_2_16_00_08/products/TivaWare_C_Series-2.1.1.71b/inc/hw_memmap.h: 
 C:/ti/tirtos_tivac_2_16_00_08/products/TivaWare_C_Series-2.1.1.71b/driverlib/debug.h: 
+C:/ti/tirtos_tivac_2_16_00_08/products/TivaWare_C_Series-2.1.1.71b/driverlib/gpio.h: 
+../driver/Audio.h: 
 ../driver/Utils.h: 
+C:/ti/tirtos_tivac_2_16_00_08/products/bios_6_45_01_29/packages/ti/sysbios/knl/Task.h: 

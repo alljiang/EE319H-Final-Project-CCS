@@ -1,9 +1,9 @@
 # FIXED
 
 driver/Utils.obj: ../driver/Utils.c
-driver/Utils.obj: C:/Users/Allen/workspace_CCS/SlaveController/driver/Board.h
-driver/Utils.obj: C:/Users/Allen/workspace_CCS/SlaveController/driver/EK_TM4C123GXL.h
-driver/Utils.obj: C:/Users/Allen/workspace_CCS/SlaveController/driver/Utils.h
+driver/Utils.obj: C:/Users/Allen/Documents/GitHub/EE319H-Final-Project-CCS/SlaveController/driver/Board.h
+driver/Utils.obj: C:/Users/Allen/Documents/GitHub/EE319H-Final-Project-CCS/SlaveController/driver/EK_TM4C123GXL.h
+driver/Utils.obj: C:/Users/Allen/Documents/GitHub/EE319H-Final-Project-CCS/SlaveController/driver/Utils.h
 driver/Utils.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/stdint.h
 driver/Utils.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/_stdint40.h
 driver/Utils.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/sys/stdint.h
@@ -172,9 +172,9 @@ driver/Utils.obj: C:/ti/tirtos_tivac_2_16_00_08/products/bios_6_45_01_29/package
 driver/Utils.obj: C:/ti/tirtos_tivac_2_16_00_08/products/bios_6_45_01_29/packages/ti/sysbios/knl/package/Clock_TimerProxy.h
 
 ../driver/Utils.c: 
-C:/Users/Allen/workspace_CCS/SlaveController/driver/Board.h: 
-C:/Users/Allen/workspace_CCS/SlaveController/driver/EK_TM4C123GXL.h: 
-C:/Users/Allen/workspace_CCS/SlaveController/driver/Utils.h: 
+C:/Users/Allen/Documents/GitHub/EE319H-Final-Project-CCS/SlaveController/driver/Board.h: 
+C:/Users/Allen/Documents/GitHub/EE319H-Final-Project-CCS/SlaveController/driver/EK_TM4C123GXL.h: 
+C:/Users/Allen/Documents/GitHub/EE319H-Final-Project-CCS/SlaveController/driver/Utils.h: 
 C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/stdint.h: 
 C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/_stdint40.h: 
 C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/sys/stdint.h: 

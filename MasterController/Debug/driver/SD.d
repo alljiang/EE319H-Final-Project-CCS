@@ -2,7 +2,7 @@
 
 driver/SD.obj: ../driver/SD.c
 driver/SD.obj: ../driver/Board.h
-driver/SD.obj: C:/Users/Allen/workspace_CCS/MasterController/driver/EK_TM4C123GXL.h
+driver/SD.obj: C:/Users/Allen/Documents/GitHub/EE319H-Final-Project-CCS/MasterController/driver/EK_TM4C123GXL.h
 driver/SD.obj: C:/ti/ccs930/xdctools_3_60_02_34_core/packages/xdc/std.h
 driver/SD.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/stdarg.h
 driver/SD.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/sys/_types.h
@@ -103,7 +103,7 @@ driver/SD.obj: C:/ti/tirtos_tivac_2_16_00_08/products/TivaWare_C_Series-2.1.1.71
 
 ../driver/SD.c: 
 ../driver/Board.h: 
-C:/Users/Allen/workspace_CCS/MasterController/driver/EK_TM4C123GXL.h: 
+C:/Users/Allen/Documents/GitHub/EE319H-Final-Project-CCS/MasterController/driver/EK_TM4C123GXL.h: 
 C:/ti/ccs930/xdctools_3_60_02_34_core/packages/xdc/std.h: 
 C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/stdarg.h: 
 C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/sys/_types.h: 

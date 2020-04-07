@@ -9,6 +9,7 @@ CFG_SRCS += \
 ../SlaveController.cfg 
 
 CPP_SRCS += \
+../animator.cpp \
 ../start.cpp 
 
 GEN_CMDS += \
@@ -25,18 +26,22 @@ GEN_OPTS += \
 ./configPkg/compiler.opt 
 
 OBJS += \
+./animator.obj \
 ./start.obj 
 
 CPP_DEPS += \
+./animator.d \
 ./start.d 
 
 GEN_MISC_DIRS__QUOTED += \
 "configPkg\" 
 
 OBJS__QUOTED += \
+"animator.obj" \
 "start.obj" 
 
 CPP_DEPS__QUOTED += \
+"animator.d" \
 "start.d" 
 
 GEN_FILES__QUOTED += \
@@ -44,6 +49,7 @@ GEN_FILES__QUOTED += \
 "configPkg\compiler.opt" 
 
 CPP_SRCS__QUOTED += \
+"../animator.cpp" \
 "../start.cpp" 
 
 

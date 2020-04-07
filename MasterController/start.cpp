@@ -24,33 +24,57 @@
 #include "driverlib/gpio.h"
 #include "driverlib/sysctl.h"
 
-#include "driver/UART.h"
-#include "driver/Utils.h"
-#include "driver/SD.h"
-#include "driver/Audio.h"
+#include "UART.h"
+#include "Utils.h"
+#include "SD.h"
+#include "Audio.h"
+#include "Controller.h"
+#include "game.h"
 
-#define TASKSTACKSIZE 8000
 
-Task_Struct taskStruct;
-
-Char taskStack[TASKSTACKSIZE];
-
-void startFxn(UArg arg0, UArg arg1)
+void start(UArg arg0, UArg arg1)
 {
-    Audio_initSD();
-    Audio_destroyAllAudio();
+//    Audio_initSD();
+//    Audio_destroyAllAudio();
+//
+//    AudioParams audioparams;
+//    Audio_initParams(&audioparams);
+//
+//    audioparams.soundIndex = 2;
+//    audioparams.volume = 0.5;
+//    int8_t background = Audio_playAudio(audioparams);
+//
+//    while(1) {
+//        ReadSDFIFO();
+//        sleep(1);
+//    }
 
-    AudioParams audioparams;
-    Audio_initParams(&audioparams);
-
-    audioparams.soundIndex = 2;
-    audioparams.volume = 0.5;
-    int8_t background = Audio_playAudio(audioparams);
-
+    /*
+    uint8_t buffer[2];
+    uint8_t a = 0;
     while(1) {
-        ReadSDFIFO();
-        sleep(1);
+        buffer[0] = a++;
+        buffer[1] = a++;
+        UART_transmit(2, buffer);
     }
+    */
+
+//    /*
+
+    SD_startSDCard();
+    char fn[] = "kirby.txt";
+    SD_openFile(fn);
+
+//    */
+
+//    /*
+    game_startup();
+    while(1) {
+        Controller_updateController();
+        game_loop();
+    }
+
+//    */
 }
 
 Int main()
@@ -65,7 +89,7 @@ Int main()
     Board_initSDSPI();
 
     UART_start();
-    SD_init();
+    Controller_init();
 
     Audio_init();
 
@@ -74,11 +98,11 @@ Int main()
 
     Task_Params params;
     Task_Params_init(&params);
-    params.stackSize = TASKSTACKSIZE;
+    params.stackSize = 8000;
 
     params.priority = 1;
-    params.stack = &taskStack;
-    Task_construct(&taskStruct, (Task_FuncPtr)startFxn, &params, NULL);
+    params.stack = &stack;
+    Task_construct(&taskStruct, (Task_FuncPtr)start, &params, NULL);
 
     BIOS_start();    /* does not return */
 

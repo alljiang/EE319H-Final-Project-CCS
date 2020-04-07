@@ -59,10 +59,12 @@
 									<listOptionValue builtIn="false" value="${COM_TI_RTSC_TIRTOSTIVAC_INSTALL_DIR}/products/TivaWare_C_Series-2.1.1.71b"/>
 									<listOptionValue builtIn="false" value="${COM_TI_RTSC_TIRTOSTIVAC_INSTALL_DIR}/products/bios_6_45_01_29/packages/ti/sysbios/posix"/>
 									<listOptionValue builtIn="false" value="${CG_TOOL_ROOT}/include"/>
+									<listOptionValue builtIn="false" value="${PROJECT_ROOT}/driver"/>
+									<listOptionValue builtIn="false" value="${PROJECT_ROOT}/game"/>
 								</option>
 								<option id="com.ti.ccstudio.buildDefinitions.TMS470_19.6.compilerID.LITTLE_ENDIAN.454684951" name="Little endian code [See 'General' page to edit] (--little_endian, -me)" superClass="com.ti.ccstudio.buildDefinitions.TMS470_19.6.compilerID.LITTLE_ENDIAN" useByScannerDiscovery="false" value="true" valueType="boolean"/>
 								<option id="com.ti.ccstudio.buildDefinitions.TMS470_19.6.compilerID.GEN_FUNC_SUBSECTIONS.1095867148" name="Place each function in a separate subsection (--gen_func_subsections, -ms)" superClass="com.ti.ccstudio.buildDefinitions.TMS470_19.6.compilerID.GEN_FUNC_SUBSECTIONS" useByScannerDiscovery="false" value="com.ti.ccstudio.buildDefinitions.TMS470_19.6.compilerID.GEN_FUNC_SUBSECTIONS.on" valueType="enumerated"/>
-								<option id="com.ti.ccstudio.buildDefinitions.TMS470_19.6.compilerID.C_DIALECT.318585937" superClass="com.ti.ccstudio.buildDefinitions.TMS470_19.6.compilerID.C_DIALECT" value="com.ti.ccstudio.buildDefinitions.TMS470_19.6.compilerID.C_DIALECT.C11" valueType="enumerated"/>
+								<option id="com.ti.ccstudio.buildDefinitions.TMS470_19.6.compilerID.C_DIALECT.318585937" name="C Dialect" superClass="com.ti.ccstudio.buildDefinitions.TMS470_19.6.compilerID.C_DIALECT" value="com.ti.ccstudio.buildDefinitions.TMS470_19.6.compilerID.C_DIALECT.C11" valueType="enumerated"/>
 								<inputType id="com.ti.ccstudio.buildDefinitions.TMS470_19.6.compiler.inputType__C_SRCS.462741216" name="C Sources" superClass="com.ti.ccstudio.buildDefinitions.TMS470_19.6.compiler.inputType__C_SRCS"/>
 								<inputType id="com.ti.ccstudio.buildDefinitions.TMS470_19.6.compiler.inputType__CPP_SRCS.1541448188" name="C++ Sources" superClass="com.ti.ccstudio.buildDefinitions.TMS470_19.6.compiler.inputType__CPP_SRCS"/>
 								<inputType id="com.ti.ccstudio.buildDefinitions.TMS470_19.6.compiler.inputType__ASM_SRCS.2106968176" name="Assembly Sources" superClass="com.ti.ccstudio.buildDefinitions.TMS470_19.6.compiler.inputType__ASM_SRCS"/>
@@ -106,6 +108,9 @@
 							</tool>
 						</toolChain>
 					</folderInfo>
+					<sourceEntries>
+						<entry excluding="src" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
+					</sourceEntries>
 				</configuration>
 			</storageModule>
 			<storageModule moduleId="org.eclipse.cdt.core.externalSettings"/>
@@ -214,6 +219,9 @@
 							</tool>
 						</toolChain>
 					</folderInfo>
+					<sourceEntries>
+						<entry excluding="src" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
+					</sourceEntries>
 				</configuration>
 			</storageModule>
 			<storageModule moduleId="org.eclipse.cdt.core.externalSettings"/>

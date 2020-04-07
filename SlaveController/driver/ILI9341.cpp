@@ -28,7 +28,7 @@
 #include <driver/ILI9341.h>
 #include <driver/Utils.h>
 #include <driver/v_tm4c123gh6pm.h>
-#include <metadata.h>
+#include <colors.h>
 #include <stdlib.h>
 
 /* XDC module Headers */
@@ -196,8 +196,8 @@ void ILI9341_init() {
 
                                         // SysClk/(CPSDVSR*(1+SCR))
                                         // 80/(10*(1+0)) = 8 MHz (slower than 4 MHz)
-//    SSI0_CPSR_R = (SSI0_CPSR_R&~SSI_CPSR_CPSDVSR_M)+4; // must be even number
-    SSI0_CPSR_R = (SSI0_CPSR_R&~SSI_CPSR_CPSDVSR_M)+6; // must be even number
+    SSI0_CPSR_R = (SSI0_CPSR_R&~SSI_CPSR_CPSDVSR_M)+4; // must be even number
+//    SSI0_CPSR_R = (SSI0_CPSR_R&~SSI_CPSR_CPSDVSR_M)+6; // must be even number
     SSI0_CR0_R &= ~(SSI_CR0_SCR_M |       // SCR = 0 (8 Mbps data rate)
                   SSI_CR0_SPH |         // SPH = 0
                   SSI_CR0_SPO);         // SPO = 0
@@ -281,6 +281,22 @@ void ILI9341_drawVLine(uint32_t x, uint32_t y, uint32_t l, uint32_t rgb) {
     }
     deselect();
     endSPITransaction();
+}
+
+void ILI9341_drawColors(uint32_t x, uint32_t y, int32_t *rgbArr, uint16_t totalPixels) {
+    if((x > ILI9341_TFTWIDTH) || (y > ILI9341_TFTHEIGHT)) return;
+
+    if(x + totalPixels >= ILI9341_TFTWIDTH) totalPixels = ILI9341_TFTWIDTH-x;
+
+    beginSPITransaction();
+
+    ILI9341_setCoords(x,y,x+totalPixels,y);
+
+    for(uint32_t i = 0; i < totalPixels; i++) {
+        ILI9341_setColor(rgbArr[i]);
+    }
+
+    deselect();
 }
 
 //  Coordinate is left-most pixel of line

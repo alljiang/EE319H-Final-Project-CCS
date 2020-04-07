@@ -63,8 +63,8 @@
 #define ILI9341_GMCTRP1       0xE0
 #define ILI9341_GMCTRN1       0xE1
 
-#define ILI9341_TFTWIDTH      320
-#define ILI9341_TFTHEIGHT     240
+#define ILI9341_TFTWIDTH      321
+#define ILI9341_TFTHEIGHT     241
 #define ST7735_TFTWIDTH       160
 #define ST7735_TFTHEIGHT      128
 
@@ -115,6 +115,7 @@ extern void ILI9341_drawHLineMulticolored(uint32_t x, uint32_t y, uint32_t *rgb,
 
 extern void ILI9341_drawHLineMulticolored_indexed(uint32_t x, uint32_t y, uint16_t *rgb, uint16_t *num, uint32_t n);
 extern void ILI9341_drawColors_indexed(uint32_t x, uint32_t y, int16_t *rgbIndex, uint16_t totalPixels, uint32_t n);
+extern void ILI9341_drawColors(uint32_t x, uint32_t y, int32_t *rgbArr, uint16_t totalPixels);
 
 /*
  *  @brief      Draws a single-color rectangle

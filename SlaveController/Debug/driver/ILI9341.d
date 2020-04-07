@@ -1,9 +1,9 @@
 # FIXED
 
 driver/ILI9341.obj: ../driver/ILI9341.cpp
-driver/ILI9341.obj: C:/Users/Allen/workspace_CCS/SlaveController/driver/Board.h
-driver/ILI9341.obj: C:/Users/Allen/workspace_CCS/SlaveController/driver/EK_TM4C123GXL.h
-driver/ILI9341.obj: C:/Users/Allen/workspace_CCS/SlaveController/driver/ILI9341.h
+driver/ILI9341.obj: C:/Users/Allen/Documents/GitHub/EE319H-Final-Project-CCS/SlaveController/driver/Board.h
+driver/ILI9341.obj: C:/Users/Allen/Documents/GitHub/EE319H-Final-Project-CCS/SlaveController/driver/EK_TM4C123GXL.h
+driver/ILI9341.obj: C:/Users/Allen/Documents/GitHub/EE319H-Final-Project-CCS/SlaveController/driver/ILI9341.h
 driver/ILI9341.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/libcxx/cstdint
 driver/ILI9341.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/libcxx/__config
 driver/ILI9341.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/libcxx/__config_site
@@ -17,9 +17,9 @@ driver/ILI9341.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/includ
 driver/ILI9341.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/machine/_types.h
 driver/ILI9341.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/machine/_stdint.h
 driver/ILI9341.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/sys/_stdint.h
-driver/ILI9341.obj: C:/Users/Allen/workspace_CCS/SlaveController/driver/Utils.h
-driver/ILI9341.obj: C:/Users/Allen/workspace_CCS/SlaveController/driver/v_tm4c123gh6pm.h
-driver/ILI9341.obj: C:/Users/Allen/workspace_CCS/SlaveController/metadata.h
+driver/ILI9341.obj: C:/Users/Allen/Documents/GitHub/EE319H-Final-Project-CCS/SlaveController/driver/Utils.h
+driver/ILI9341.obj: C:/Users/Allen/Documents/GitHub/EE319H-Final-Project-CCS/SlaveController/driver/v_tm4c123gh6pm.h
+driver/ILI9341.obj: C:/Users/Allen/Documents/GitHub/EE319H-Final-Project-CCS/SlaveController/colors.h
 driver/ILI9341.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/libcxx/stdlib.h
 driver/ILI9341.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/stdlib.h
 driver/ILI9341.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/_ti_config.h
@@ -114,9 +114,9 @@ driver/ILI9341.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/includ
 driver/ILI9341.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/libcxx/stddef.h
 
 ../driver/ILI9341.cpp: 
-C:/Users/Allen/workspace_CCS/SlaveController/driver/Board.h: 
-C:/Users/Allen/workspace_CCS/SlaveController/driver/EK_TM4C123GXL.h: 
-C:/Users/Allen/workspace_CCS/SlaveController/driver/ILI9341.h: 
+C:/Users/Allen/Documents/GitHub/EE319H-Final-Project-CCS/SlaveController/driver/Board.h: 
+C:/Users/Allen/Documents/GitHub/EE319H-Final-Project-CCS/SlaveController/driver/EK_TM4C123GXL.h: 
+C:/Users/Allen/Documents/GitHub/EE319H-Final-Project-CCS/SlaveController/driver/ILI9341.h: 
 C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/libcxx/cstdint: 
 C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/libcxx/__config: 
 C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/libcxx/__config_site: 
@@ -130,9 +130,9 @@ C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/sys/_types.h:
 C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/machine/_types.h: 
 C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/machine/_stdint.h: 
 C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/sys/_stdint.h: 
-C:/Users/Allen/workspace_CCS/SlaveController/driver/Utils.h: 
-C:/Users/Allen/workspace_CCS/SlaveController/driver/v_tm4c123gh6pm.h: 
-C:/Users/Allen/workspace_CCS/SlaveController/metadata.h: 
+C:/Users/Allen/Documents/GitHub/EE319H-Final-Project-CCS/SlaveController/driver/Utils.h: 
+C:/Users/Allen/Documents/GitHub/EE319H-Final-Project-CCS/SlaveController/driver/v_tm4c123gh6pm.h: 
+C:/Users/Allen/Documents/GitHub/EE319H-Final-Project-CCS/SlaveController/colors.h: 
 C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/libcxx/stdlib.h: 
 C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/stdlib.h: 
 C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/_ti_config.h: 

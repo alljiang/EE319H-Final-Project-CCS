@@ -1,5 +1,7 @@
 
 /* XDC module Headers */
+#include <colors_fdst.h>
+#include <colors_tower.h>
 #include <xdc/std.h>
 #include <xdc/runtime/Diags.h>
 #include <xdc/runtime/System.h>
@@ -24,40 +26,69 @@
 #include "driverlib/gpio.h"
 #include "driverlib/sysctl.h"
 
-#include "driver/ILI9341.h"
-#include "driver/UART.h"
-#include "driver/Utils.h"
-#include "driver/SD.h"
-#include "driver/SRAM.h"
+#include "ILI9341.h"
+#include "UART.h"
+#include "Utils.h"
+#include "SD.h"
+#include "SRAM.h"
+#include "animator.h"
 
-#define TASKSTACKSIZE 8000
+#include "metadata.h"
 
-Task_Struct taskStruct;
+Task_Struct ts;
 
-Char taskStack[TASKSTACKSIZE];
+Char st[8000];
 
-void startFxn(UArg arg0, UArg arg1)
+void start(UArg arg0, UArg arg1)
 {
-//    /*
+    /*
     ILI9341_init();
 
-    while(1) {
-        ILI9341_fillScreen(0);
-        Task_sleep(1000);
-        ILI9341_fillScreen(0xFFFFFFF);
-        Task_sleep(1000);
+//    while(1) {
+//        ILI9341_fillScreen(0);
+//        Task_sleep(1000);
+//        ILI9341_fillScreen(0xFFFFFFF);
+//        Task_sleep(1000);
+//    }
+
+    ILI9341_fillScreen(0xFFFFFFF);
+    int32_t arr[256];
+    for(int i = 0; i < 256; i++) {
+        arr[i] = i;
     }
-//    */
+    for(int i = 0; i < 30; i++) {
+        ILI9341_drawColors(30, 20+i, arr, 256);
+    }
 
-    /*
+    for(int i = 0; i < 256; i++) {
+        arr[i] = i<<8;
+    }
+    for(int i = 0; i < 30; i++) {
+        ILI9341_drawColors(30, 50+i, arr, 256);
+    }
+
+    for(int i = 0; i < 256; i++) {
+        arr[i] = i<<16;
+    }
+    for(int i = 0; i < 30; i++) {
+        ILI9341_drawColors(30, 80+i, arr, 256);
+    }
+    */
+
+//    /*
     SRAM_init();
+    sleep(2000);
 
-    uint8_t buffy[100];
+    uint8_t buffy[300];
+    for(int i = 0; i < 300; i++) {
+//        if(i >= 256) buffy[i] = 510 - i;
+//        else buffy[i] = i;
+        buffy[i] = 1;
+    }
 
-    SRAM_readSFDP(buffy);
-
-
-    memset(buffy, 0x55, 100);
+//    SRAM_readSFDP(buffy);
+//
+//    memset(buffy, 0x55, 100);
 
 
 //    buffy[0] = 0xAB;
@@ -66,14 +97,32 @@ void startFxn(UArg arg0, UArg arg1)
 //    buffy[27] = 0x34;
 //    buffy[49] = 0xEF;
 
-//    SRAM_write(0, 50, buffy);
+    SRAM_writeMemory_specifiedAddress(0, 300, buffy);
+//    sleep(1000);
+    SRAM_writeMemory_specifiedAddress(256, 300, buffy);
+    sleep(1000);
 
-//    memset(buffy, 0x88, 100);
-//    SRAM_read(0, 50, buffy)
+    memset(buffy, 0x88, 100);
 
-//    memset(buffy, 0x88, 100);
-//    SRAM_read(0, 50, buffy);
-     */
+    SRAM_readMemory(0, 300, buffy);
+    SRAM_readSFDP(buffy);
+//     */
+
+//    uint8_t buffer[100];
+//    while(1) {
+//        UART_receive(10, buffer);
+//    }
+
+    /*
+    animator_initialize();
+    animator_readCharacterSDCard(0);
+
+    animator_setBackgroundColors(colors_fdst);
+    animator_readPersistentSprite(stageNames[0], 0, 0);
+
+    animator_animate(0, 1, 50, 120, 0, 30, 0, 0, 1, false);
+    animator_update();
+    */
 }
 
 Int main()
@@ -95,18 +144,17 @@ Int main()
     SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOF);
 
     UART_start();
-    SD_init();
 
     System_printf("Board initialized\n");
     System_flush();
 
     Task_Params params;
     Task_Params_init(&params);
-    params.stackSize = TASKSTACKSIZE;
+    params.stackSize = 8000;
 
     params.priority = 1;
-    params.stack = &taskStack;
-    Task_construct(&taskStruct, (Task_FuncPtr)startFxn, &params, NULL);
+    params.stack = &st;
+    Task_construct(&ts, (Task_FuncPtr)start, &params, NULL);
 
     BIOS_start();    /* does not return */
 

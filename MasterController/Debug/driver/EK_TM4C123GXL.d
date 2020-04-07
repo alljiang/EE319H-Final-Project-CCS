@@ -1,7 +1,7 @@
 # FIXED
 
 driver/EK_TM4C123GXL.obj: ../driver/EK_TM4C123GXL.c
-driver/EK_TM4C123GXL.obj: C:/Users/Allen/workspace_CCS/MasterController/driver/EK_TM4C123GXL.h
+driver/EK_TM4C123GXL.obj: C:/Users/Allen/Documents/GitHub/EE319H-Final-Project-CCS/MasterController/driver/EK_TM4C123GXL.h
 driver/EK_TM4C123GXL.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/stdint.h
 driver/EK_TM4C123GXL.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/_stdint40.h
 driver/EK_TM4C123GXL.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/sys/stdint.h
@@ -246,7 +246,7 @@ driver/EK_TM4C123GXL.obj: C:/ti/tirtos_tivac_2_16_00_08/products/tidrivers_tivac
 driver/EK_TM4C123GXL.obj: C:/ti/tirtos_tivac_2_16_00_08/products/bios_6_45_01_29/packages/ti/sysbios/family/arm/m3/Hwi.h
 
 ../driver/EK_TM4C123GXL.c: 
-C:/Users/Allen/workspace_CCS/MasterController/driver/EK_TM4C123GXL.h: 
+C:/Users/Allen/Documents/GitHub/EE319H-Final-Project-CCS/MasterController/driver/EK_TM4C123GXL.h: 
 C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/stdint.h: 
 C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/_stdint40.h: 
 C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/sys/stdint.h: 

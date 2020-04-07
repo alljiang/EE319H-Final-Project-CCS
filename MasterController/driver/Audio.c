@@ -6,7 +6,6 @@
  */
 
 /* XDC module Headers */
-#include <driver/Audio.h>
 #include <driver/Board.h>
 #include <xdc/std.h>
 #include <xdc/runtime/Error.h>
@@ -33,6 +32,7 @@
 #include "driverlib/debug.h"
 #include "driverlib/gpio.h"
 
+#include "Audio.h"
 #include "Utils.h"
 
 #define FIFOBufferSize 2048

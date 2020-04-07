@@ -1,8 +1,8 @@
 # FIXED
 
 driver/SRAM.obj: ../driver/SRAM.c
-driver/SRAM.obj: C:/Users/Allen/workspace_CCS/SlaveController/driver/Board.h
-driver/SRAM.obj: C:/Users/Allen/workspace_CCS/SlaveController/driver/EK_TM4C123GXL.h
+driver/SRAM.obj: C:/Users/Allen/Documents/GitHub/EE319H-Final-Project-CCS/SlaveController/driver/Board.h
+driver/SRAM.obj: C:/Users/Allen/Documents/GitHub/EE319H-Final-Project-CCS/SlaveController/driver/EK_TM4C123GXL.h
 driver/SRAM.obj: C:/ti/ccs930/xdctools_3_60_02_34_core/packages/xdc/std.h
 driver/SRAM.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/stdarg.h
 driver/SRAM.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/sys/_types.h
@@ -115,10 +115,11 @@ driver/SRAM.obj: C:/ti/tirtos_tivac_2_16_00_08/products/TivaWare_C_Series-2.1.1.
 driver/SRAM.obj: C:/ti/tirtos_tivac_2_16_00_08/products/TivaWare_C_Series-2.1.1.71b/driverlib/sysctl.h
 driver/SRAM.obj: ../driver/SRAM.h
 driver/SRAM.obj: C:/ti/tirtos_tivac_2_16_00_08/products/tidrivers_tivac_2_16_00_08/packages/ti/drivers/SPI.h
+driver/SRAM.obj: ../driver/Utils.h
 
 ../driver/SRAM.c: 
-C:/Users/Allen/workspace_CCS/SlaveController/driver/Board.h: 
-C:/Users/Allen/workspace_CCS/SlaveController/driver/EK_TM4C123GXL.h: 
+C:/Users/Allen/Documents/GitHub/EE319H-Final-Project-CCS/SlaveController/driver/Board.h: 
+C:/Users/Allen/Documents/GitHub/EE319H-Final-Project-CCS/SlaveController/driver/EK_TM4C123GXL.h: 
 C:/ti/ccs930/xdctools_3_60_02_34_core/packages/xdc/std.h: 
 C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/stdarg.h: 
 C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/sys/_types.h: 
@@ -231,3 +232,4 @@ C:/ti/tirtos_tivac_2_16_00_08/products/TivaWare_C_Series-2.1.1.71b/driverlib/gpi
 C:/ti/tirtos_tivac_2_16_00_08/products/TivaWare_C_Series-2.1.1.71b/driverlib/sysctl.h: 
 ../driver/SRAM.h: 
 C:/ti/tirtos_tivac_2_16_00_08/products/tidrivers_tivac_2_16_00_08/packages/ti/drivers/SPI.h: 
+../driver/Utils.h: 
