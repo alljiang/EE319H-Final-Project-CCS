@@ -1,29 +1,34 @@
 # FIXED
 
 animator.obj: ../animator.cpp
-animator.obj: C:/ti/ccs930/xdctools_3_60_02_34_core/packages/xdc/runtime/System.h
-animator.obj: C:/ti/ccs930/xdctools_3_60_02_34_core/packages/xdc/std.h
-animator.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/stdarg.h
-animator.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/sys/_types.h
-animator.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/sys/cdefs.h
-animator.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/machine/_types.h
-animator.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/libcxx/stddef.h
+animator.obj: C:/Users/Allen/Documents/GitHub/EE319H-Final-Project-CCS/SlaveController/driver/Flash.h
+animator.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/libcxx/stdint.h
 animator.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/libcxx/__config
 animator.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/libcxx/__config_site
 animator.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/libcxx/__libcxx_extra.h
+animator.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/stdint.h
+animator.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/_stdint40.h
+animator.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/sys/stdint.h
+animator.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/sys/cdefs.h
+animator.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/sys/_types.h
+animator.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/machine/_types.h
+animator.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/machine/_stdint.h
+animator.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/sys/_stdint.h
+animator.obj: C:/ti/tirtos_tivac_2_16_00_08/products/tidrivers_tivac_2_16_00_08/packages/ti/drivers/SPI.h
+animator.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/libcxx/stdbool.h
+animator.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/stdbool.h
+animator.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/libcxx/stddef.h
 animator.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/stddef.h
 animator.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/_ti_config.h
 animator.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/linkage.h
 animator.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/libcxx/__nullptr
+animator.obj: C:/ti/ccs930/xdctools_3_60_02_34_core/packages/xdc/runtime/System.h
+animator.obj: C:/ti/ccs930/xdctools_3_60_02_34_core/packages/xdc/std.h
+animator.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/stdarg.h
+animator.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/libcxx/stddef.h
 animator.obj: C:/ti/tirtos_tivac_2_16_00_08/products/bios_6_45_01_29/packages/ti/targets/arm/elf/std.h
 animator.obj: C:/ti/tirtos_tivac_2_16_00_08/products/bios_6_45_01_29/packages/ti/targets/arm/elf/M4F.h
 animator.obj: C:/ti/tirtos_tivac_2_16_00_08/products/bios_6_45_01_29/packages/ti/targets/std.h
-animator.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/libcxx/stdint.h
-animator.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/stdint.h
-animator.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/_stdint40.h
-animator.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/sys/stdint.h
-animator.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/machine/_stdint.h
-animator.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/sys/_stdint.h
 animator.obj: C:/ti/ccs930/xdctools_3_60_02_34_core/packages/xdc/runtime/xdc.h
 animator.obj: C:/ti/ccs930/xdctools_3_60_02_34_core/packages/xdc/runtime/Types.h
 animator.obj: C:/ti/ccs930/xdctools_3_60_02_34_core/packages/xdc/runtime/Types__prologue.h
@@ -105,12 +110,7 @@ animator.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/libc
 animator.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/stdlib.h
 animator.obj: ../animator.h
 animator.obj: ../metadata.h
-animator.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/libcxx/stdbool.h
-animator.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/stdbool.h
 animator.obj: C:/Users/Allen/Documents/GitHub/EE319H-Final-Project-CCS/SlaveController/driver/SD.h
-animator.obj: C:/Users/Allen/Documents/GitHub/EE319H-Final-Project-CCS/SlaveController/driver/SRAM.h
-animator.obj: C:/ti/tirtos_tivac_2_16_00_08/products/tidrivers_tivac_2_16_00_08/packages/ti/drivers/SPI.h
-animator.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/libcxx/stddef.h
 animator.obj: C:/Users/Allen/Documents/GitHub/EE319H-Final-Project-CCS/SlaveController/driver/utils.h
 animator.obj: C:/Users/Allen/Documents/GitHub/EE319H-Final-Project-CCS/SlaveController/driver/ILI9341.h
 animator.obj: ../colors.h
@@ -128,29 +128,34 @@ animator.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/floa
 animator.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/libcxx/__undef_macros
 
 ../animator.cpp: 
-C:/ti/ccs930/xdctools_3_60_02_34_core/packages/xdc/runtime/System.h: 
-C:/ti/ccs930/xdctools_3_60_02_34_core/packages/xdc/std.h: 
-C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/stdarg.h: 
-C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/sys/_types.h: 
-C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/sys/cdefs.h: 
-C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/machine/_types.h: 
-C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/libcxx/stddef.h: 
+C:/Users/Allen/Documents/GitHub/EE319H-Final-Project-CCS/SlaveController/driver/Flash.h: 
+C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/libcxx/stdint.h: 
 C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/libcxx/__config: 
 C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/libcxx/__config_site: 
 C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/libcxx/__libcxx_extra.h: 
+C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/stdint.h: 
+C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/_stdint40.h: 
+C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/sys/stdint.h: 
+C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/sys/cdefs.h: 
+C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/sys/_types.h: 
+C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/machine/_types.h: 
+C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/machine/_stdint.h: 
+C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/sys/_stdint.h: 
+C:/ti/tirtos_tivac_2_16_00_08/products/tidrivers_tivac_2_16_00_08/packages/ti/drivers/SPI.h: 
+C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/libcxx/stdbool.h: 
+C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/stdbool.h: 
+C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/libcxx/stddef.h: 
 C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/stddef.h: 
 C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/_ti_config.h: 
 C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/linkage.h: 
 C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/libcxx/__nullptr: 
+C:/ti/ccs930/xdctools_3_60_02_34_core/packages/xdc/runtime/System.h: 
+C:/ti/ccs930/xdctools_3_60_02_34_core/packages/xdc/std.h: 
+C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/stdarg.h: 
+C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/libcxx/stddef.h: 
 C:/ti/tirtos_tivac_2_16_00_08/products/bios_6_45_01_29/packages/ti/targets/arm/elf/std.h: 
 C:/ti/tirtos_tivac_2_16_00_08/products/bios_6_45_01_29/packages/ti/targets/arm/elf/M4F.h: 
 C:/ti/tirtos_tivac_2_16_00_08/products/bios_6_45_01_29/packages/ti/targets/std.h: 
-C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/libcxx/stdint.h: 
-C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/stdint.h: 
-C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/_stdint40.h: 
-C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/sys/stdint.h: 
-C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/machine/_stdint.h: 
-C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/sys/_stdint.h: 
 C:/ti/ccs930/xdctools_3_60_02_34_core/packages/xdc/runtime/xdc.h: 
 C:/ti/ccs930/xdctools_3_60_02_34_core/packages/xdc/runtime/Types.h: 
 C:/ti/ccs930/xdctools_3_60_02_34_core/packages/xdc/runtime/Types__prologue.h: 
@@ -232,12 +237,7 @@ C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/libcxx/stdlib.h:
 C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/stdlib.h: 
 ../animator.h: 
 ../metadata.h: 
-C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/libcxx/stdbool.h: 
-C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/stdbool.h: 
 C:/Users/Allen/Documents/GitHub/EE319H-Final-Project-CCS/SlaveController/driver/SD.h: 
-C:/Users/Allen/Documents/GitHub/EE319H-Final-Project-CCS/SlaveController/driver/SRAM.h: 
-C:/ti/tirtos_tivac_2_16_00_08/products/tidrivers_tivac_2_16_00_08/packages/ti/drivers/SPI.h: 
-C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/libcxx/stddef.h: 
 C:/Users/Allen/Documents/GitHub/EE319H-Final-Project-CCS/SlaveController/driver/utils.h: 
 C:/Users/Allen/Documents/GitHub/EE319H-Final-Project-CCS/SlaveController/driver/ILI9341.h: 
 ../colors.h: 

@@ -64,16 +64,17 @@ extern "C" {
 #define IS25LP080D_RDABR                0x14   //  Read AutoBoot Register
 #define IS25LP080D_WRABR                0x15   //  Write AutoBoot Register
 
-extern void SRAM_init();
-extern uint8_t* SRAM_readMemory(uint32_t address, uint32_t numBytes, uint8_t* buffer);
-extern void SRAM_writeMemory_specifiedAddress(uint32_t address, uint32_t numBytes, uint8_t* buffer);
-extern uint32_t SRAM_writeMemory(uint32_t numBytes, uint8_t* buffer);   //  writes at next available memory location
-extern void SRAM_transferSPI();
-extern void SRAM_transferSPICS(bool setCS);
-extern void SRAM_readSFDP(uint8_t* buffer);
-extern void SRAM_writeCommand(uint8_t cmd);
-extern void SRAM_writeCommandCS(uint8_t cmd, bool setCS);
-extern uint32_t SRAM_allocateMemory(uint32_t bytesToAllocate);
+extern void Flash_init();
+extern uint8_t* Flash_readMemory(uint32_t address, uint32_t numBytes, uint8_t* buffer);
+extern void Flash_writeMemory_specifiedAddress(uint32_t address, uint32_t numBytes, uint8_t* buffer);
+extern uint32_t Flash_writeMemory(uint32_t numBytes, uint8_t* buffer);   //  writes at next available memory location
+extern void Flash_transferSPI();
+extern void Flash_transferSPICS(bool setCS);
+extern void Flash_readSFDP(uint8_t* buffer);
+extern void Flash_pendWriteOpCompletion();
+extern void Flash_writeCommand(uint8_t cmd);
+extern void Flash_writeCommandCS(uint8_t cmd, bool setCS);
+extern uint32_t Flash_allocateMemory(uint32_t bytesToAllocate);
 
 #ifdef __cplusplus
 }

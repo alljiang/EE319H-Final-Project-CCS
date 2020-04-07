@@ -13,9 +13,9 @@ ORDERED_OBJS += \
 "./animator.obj" \
 "./start.obj" \
 "./driver/EK_TM4C123GXL.obj" \
+"./driver/Flash.obj" \
 "./driver/ILI9341.obj" \
 "./driver/SD.obj" \
-"./driver/SRAM.obj" \
 "./driver/UART.obj" \
 "./driver/Utils.obj" \
 "../driver/EK_TM4C123GXL.cmd" \
@@ -166,8 +166,8 @@ SlaveController.hex: $(EXE_OUTPUTS)
 # Other Targets
 clean:
 	-$(RM) $(BIN_OUTPUTS__QUOTED)$(GEN_FILES__QUOTED)$(EXE_OUTPUTS__QUOTED)
-	-$(RM) "animator.obj" "start.obj" "driver\EK_TM4C123GXL.obj" "driver\ILI9341.obj" "driver\SD.obj" "driver\SRAM.obj" "driver\UART.obj" "driver\Utils.obj" 
-	-$(RM) "driver\EK_TM4C123GXL.d" "driver\SD.d" "driver\SRAM.d" "driver\UART.d" "driver\Utils.d" 
+	-$(RM) "animator.obj" "start.obj" "driver\EK_TM4C123GXL.obj" "driver\Flash.obj" "driver\ILI9341.obj" "driver\SD.obj" "driver\UART.obj" "driver\Utils.obj" 
+	-$(RM) "driver\EK_TM4C123GXL.d" "driver\Flash.d" "driver\SD.d" "driver\UART.d" "driver\Utils.d" 
 	-$(RM) "animator.d" "start.d" "driver\ILI9341.d" 
 	-$(RMDIR) $(GEN_MISC_DIRS__QUOTED)
 	-@echo 'Finished clean'

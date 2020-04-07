@@ -1,4 +1,5 @@
 
+#include <Flash.h>
 #include <xdc/runtime/System.h>
 #include <cstring>
 #include <cstdint>
@@ -7,7 +8,6 @@
 #include "animator.h"
 #include "metadata.h"
 #include "SD.h"
-#include "SRAM.h"
 #include "utils.h"
 #include "ILI9341.h"
 #include "colors.h"
@@ -121,21 +121,21 @@ void animator_update() {
                 //  This row intersects! Now, paint this row of this animation into the color index buffer
 
                 //  get frame location with frame index array
-                bufferptr = SRAM_readMemory(anim->memLocation + 3*ss->frame, 3, buffer);
+                bufferptr = Flash_readMemory(anim->memLocation + 3*ss->frame, 3, buffer);
                 uint32_t frameLocation = anim->memLocation  //  start location
                         + anim->frames*3    //  frame index array
                         + (anim->height+1)*2 * ss->frame    //  row index array
                         + ((bufferptr[0] << 16u) + (bufferptr[1] << 8u) + bufferptr[2])*2;    //  frame location offset
 
                 //  get row location with row index array
-                bufferptr = SRAM_readMemory(frameLocation + (anim->height - heightDifference - 1)*2, 4, buffer);
+                bufferptr = Flash_readMemory(frameLocation + (anim->height - heightDifference - 1)*2, 4, buffer);
                 uint32_t rowStartOffset = (bufferptr[0] << 8u) + bufferptr[1];
                 uint32_t rowSize = ((bufferptr[2] << 8u) + bufferptr[3] - rowStartOffset);
 
                 uint32_t rowStartLocation = frameLocation + (anim->height+1)*2 + rowStartOffset;
 
                 //  read the row of data into the buffer
-                bufferptr = SRAM_readMemory(rowStartLocation, rowSize, buffer);
+                bufferptr = Flash_readMemory(rowStartLocation, rowSize, buffer);
 
                 //  copy the data over from the buffer into the color index buffer
                 uint16_t column = 0;
@@ -174,7 +174,7 @@ void animator_update() {
             }
         }
 
-        //  next, replace all the -1s with the background from SRAM background reserve
+        //  next, replace all the -1s with the background from Flash background reserve
         for(uint16_t col = 0; col <= 320; col++) {
             if(finalColors[col] != ANIMATOR_COLOR_BACKGROUND) continue;
 
@@ -188,9 +188,9 @@ void animator_update() {
                 else break;
             }
 
-            //  read in from SRAM
+            //  read in from Flash
             uint32_t backgroundRowLocation = persistentBackgroundMemLocation + row * 321 * 2 + col * 2;
-            bufferptr = SRAM_readMemory(backgroundRowLocation, 2*consecutiveBackgroundRowSize, buffer);
+            bufferptr = Flash_readMemory(backgroundRowLocation, 2*consecutiveBackgroundRowSize, buffer);
 
             //  copy from buffer into colorIndexes array
             for(uint16_t i = 0; i < consecutiveBackgroundRowSize; i++) {
@@ -285,22 +285,22 @@ void animator_animate(uint8_t charIndex, uint8_t animationIndex,
     }
 
 //    if(spriteSendables[slot].persistent) {
-//        //  add to persistent array in SRAM
+//        //  add to persistent array in Flash
 //
 //        //  paint row by row
 //        for(uint8_t row = y; row < y + animation[charIndex][animationIndex].height; row++) {
-//            SRAM_readMemory(animation[charIndex][animationIndex].memLocation,
+//            Flash_readMemory(animation[charIndex][animationIndex].memLocation,
 //                            animation[charIndex][animationIndex].width, buffer);
 //
 //            uint32_t memInsertLocation = persistentBackgroundMemLocation + row * 321 + x;
 //
-//            SRAM_writeMemory_specifiedAddress(memInsertLocation, animation[charIndex][animationIndex].width, buffer);
+//            Flash_writeMemory_specifiedAddress(memInsertLocation, animation[charIndex][animationIndex].width, buffer);
 //        }
 //    }
 }
 
 void animator_initialize() {
-    persistentBackgroundMemLocation = SRAM_allocateMemory(241*321*3);
+    persistentBackgroundMemLocation = Flash_allocateMemory(241*321*3);
 
     // Find which color index is 0xFFFFFFFF (background)
     for(int32_t i = 0; i < sizeof(colors); i++) {
@@ -313,7 +313,7 @@ void animator_initialize() {
     for(uint8_t i = 0; i < 241; i++) rowsToUpdate[i] = false;
 
     SD_startSDCard();
-    SRAM_init();
+    Flash_init();
     ILI9341_init();
 }
 
@@ -339,8 +339,8 @@ void animator_readPersistentSprite(const char* spriteName, uint16_t x, uint8_t y
     for(int16_t row = height-1; row >= 0; row--) {
         SD_read(width*2, buffer);
 
-        uint32_t SRAMRowLocation = persistentBackgroundMemLocation + (row-y) * 321*2 + x;
-        SRAM_writeMemory_specifiedAddress(SRAMRowLocation, width*2, buffer);
+        uint32_t FlashRowLocation = persistentBackgroundMemLocation + (row-y) * 321*2 + x;
+        Flash_writeMemory_specifiedAddress(FlashRowLocation, width*2, buffer);
 
         //  assemble indexes
         for (uint32_t i = 0; i < 321; i++) {
@@ -416,14 +416,14 @@ void animator_readCharacterSDCard(uint8_t charIndex) {
         SD_read(1, buffer);
         anim->height = buffer[0];
 
-        //  get the frame indexes, store into SRAM and smallBuffer2
+        //  get the frame indexes, store into Flash and smallBuffer2
         SD_read(anim->frames*3, smallBuffer2);
-        anim->memLocation = SRAM_writeMemory(anim->frames*3, smallBuffer2);
+        anim->memLocation = Flash_writeMemory(anim->frames*3, smallBuffer2);
 
         //  get the data of each frame and store it
         for (uint8_t f = 0; f < anim->frames; f++) {
             SD_read(2*(anim->height+1), buffer);
-            SRAM_writeMemory(2 * (anim->height + 1), buffer);
+            Flash_writeMemory(2 * (anim->height + 1), buffer);
             uint32_t frameDataSize = (buffer[2 * anim->height] << 8u) + buffer[2 * anim->height + 1];
             uint32_t bytesToRead = frameDataSize;
 
@@ -434,7 +434,7 @@ void animator_readCharacterSDCard(uint8_t charIndex) {
                 if (chunkSize > maxChunkSize) chunkSize = maxChunkSize;
 
                 SD_read(chunkSize, buffer);
-                SRAM_writeMemory(chunkSize, buffer);
+                Flash_writeMemory(chunkSize, buffer);
 
                 bytesToRead -= chunkSize;
             }

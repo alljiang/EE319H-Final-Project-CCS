@@ -2,6 +2,7 @@
 /* XDC module Headers */
 #include <colors_fdst.h>
 #include <colors_tower.h>
+#include <Flash.h>
 #include <xdc/std.h>
 #include <xdc/runtime/Diags.h>
 #include <xdc/runtime/System.h>
@@ -30,7 +31,6 @@
 #include "UART.h"
 #include "Utils.h"
 #include "SD.h"
-#include "SRAM.h"
 #include "animator.h"
 
 #include "metadata.h"
@@ -75,54 +75,37 @@ void start(UArg arg0, UArg arg1)
     }
     */
 
-//    /*
-    SRAM_init();
-    sleep(2000);
+    /*
+    Flash_init();
 
     uint8_t buffy[300];
     for(int i = 0; i < 300; i++) {
-//        if(i >= 256) buffy[i] = 510 - i;
-//        else buffy[i] = i;
-        buffy[i] = 1;
+        buffy[i] = i;
     }
 
-//    SRAM_readSFDP(buffy);
-//
-//    memset(buffy, 0x55, 100);
-
-
-//    buffy[0] = 0xAB;
-//    buffy[1] = 0xCD;
-//    buffy[25] = 0x12;
-//    buffy[27] = 0x34;
-//    buffy[49] = 0xEF;
-
-    SRAM_writeMemory_specifiedAddress(0, 300, buffy);
-//    sleep(1000);
-    SRAM_writeMemory_specifiedAddress(256, 300, buffy);
-    sleep(1000);
+    Flash_writeMemory_specifiedAddress(0, 300, buffy);
 
     memset(buffy, 0x88, 100);
 
-    SRAM_readMemory(0, 300, buffy);
-    SRAM_readSFDP(buffy);
-//     */
+    Flash_readMemory(0, 300, buffy);
+    Flash_readSFDP(buffy);
+     */
 
 //    uint8_t buffer[100];
 //    while(1) {
 //        UART_receive(10, buffer);
 //    }
 
-    /*
+//    /*
     animator_initialize();
     animator_readCharacterSDCard(0);
 
     animator_setBackgroundColors(colors_fdst);
     animator_readPersistentSprite(stageNames[0], 0, 0);
 
-    animator_animate(0, 1, 50, 120, 0, 30, 0, 0, 1, false);
+    animator_animate(0, 7, 80, 100, 0, 30, 0, 0, 1, false);
     animator_update();
-    */
+//    */
 }
 
 Int main()
