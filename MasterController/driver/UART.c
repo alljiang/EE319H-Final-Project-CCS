@@ -49,7 +49,7 @@ void UART_transmit(uint8_t numBytes, uint8_t *buffer) {
 }
 
 void UART_receive(uint32_t bytesToRead, uint8_t* buffer) {
-    UART_read(uart, &buffer, bytesToRead);
+    UART_read(uart, buffer, bytesToRead);
 }
 
 void UART_waitForAcknowledge() {
