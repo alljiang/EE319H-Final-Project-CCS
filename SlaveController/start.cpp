@@ -150,7 +150,7 @@ void start(UArg arg0, UArg arg1)
         }
         //  Send Animation
         else if(buffer[0]  == 0x0B) {
-            UART_receive(12, buffer);
+            UART_receive(11, buffer);
 
             uint8_t characterIndex = buffer[0];
             uint8_t animationIndex = buffer[1];
@@ -164,7 +164,7 @@ void start(UArg arg0, UArg arg1)
             bool mirrored = buffer[10];
 
             animator_animate(characterIndex, animationIndex, x, y,
-                             frameIndex, persistent, layer, continuous,
+                             frameIndex, layer, persistent, continuous,
                              framePeriod, mirrored);
         }
         //  Set Background Colors

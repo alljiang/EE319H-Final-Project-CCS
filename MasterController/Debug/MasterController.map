@@ -1,7 +1,7 @@
 ******************************************************************************
                   TI ARM Linker PC v19.6.0                     
 ******************************************************************************
->> Linked Wed Apr  8 03:46:49 2020
+>> Linked Wed Apr  8 04:00:17 2020
 
 OUTPUT FILE NAME:   <MasterController.out>
 ENTRY POINT SYMBOL: "_c_int00"  address: 0000ec95
@@ -12,7 +12,7 @@ MEMORY CONFIGURATION
          name            origin    length      used     unused   attr    fill
 ----------------------  --------  ---------  --------  --------  ----  --------
   FLASH                 00000000   00040000  000145bc  0002ba44  R  X
-  SRAM                  20000000   00008000  00007076  00000f8a  RW X
+  SRAM                  20000000   00008000  0000707a  00000f86  RW X
 
 
 SEGMENT ALLOCATION MAP
@@ -28,7 +28,7 @@ run origin  load origin   length   init length attrs members
 20000000    20000000    00000360   00000000    rw-
   20000000    20000000    00000360   00000000    rw- .vecs
 20000400    20000400    00006d20   00000000    rw-
-  20000400    20000400    000063f2   00000000    rw- .bss
+  20000400    20000400    000063f6   00000000    rw- .bss
   200067f8    200067f8    00000624   00000000    rw- .data
   20006e20    20006e20    00000300   00000000    rw- .stack
 
@@ -874,7 +874,7 @@ section   page    origin      length       input sections
                   0001432c    00000004     stage.obj (.init_array)
                   00014330    00000004     game.obj (.init_array)
 
-.bss       0    20000400    000063f2     UNINITIALIZED
+.bss       0    20000400    000063f6     UNINITIALIZED
                   20000400    00001f40     (.common:stack)
                   20002340    00001000     (.common:audioFIFOBuffer)
                   20003340    00000d38     game.obj (.bss:k1)
@@ -903,23 +903,24 @@ section   page    origin      length       input sections
                   200067bc    00000004     rtsv7M4_T_le_v4SPD16_eabi.lib : new.cpp.obj (.bss)
                   200067c0    0000000c     (.common:spiTivaDMAscratchBuf)
                   200067cc    00000008     (.common:parmbuf)
-                  200067d4    00000004     (.common:gpioInterruptVectors)
-                  200067d8    00000004     (.common:p1)
-                  200067dc    00000004     (.common:p2)
-                  200067e0    00000004     (.common:uart)
-                  200067e4    00000002     (.common:Fsid)
-                  200067e6    00000001     (.common:acknowledged)
-                  200067e7    00000001     (.common:btn1_a)
-                  200067e8    00000001     (.common:btn1_b)
-                  200067e9    00000001     (.common:btn1_l)
-                  200067ea    00000001     (.common:btn1_r)
-                  200067eb    00000001     (.common:btn1_start)
-                  200067ec    00000001     (.common:btn2_a)
-                  200067ed    00000001     (.common:btn2_b)
-                  200067ee    00000001     (.common:btn2_l)
-                  200067ef    00000001     (.common:btn2_r)
-                  200067f0    00000001     (.common:btn2_start)
-                  200067f1    00000001     (.common:stage)
+                  200067d4    00000004     (.common:UARTReceiveBuffer)
+                  200067d8    00000004     (.common:gpioInterruptVectors)
+                  200067dc    00000004     (.common:p1)
+                  200067e0    00000004     (.common:p2)
+                  200067e4    00000004     (.common:uart)
+                  200067e8    00000002     (.common:Fsid)
+                  200067ea    00000001     (.common:acknowledged)
+                  200067eb    00000001     (.common:btn1_a)
+                  200067ec    00000001     (.common:btn1_b)
+                  200067ed    00000001     (.common:btn1_l)
+                  200067ee    00000001     (.common:btn1_r)
+                  200067ef    00000001     (.common:btn1_start)
+                  200067f0    00000001     (.common:btn2_a)
+                  200067f1    00000001     (.common:btn2_b)
+                  200067f2    00000001     (.common:btn2_l)
+                  200067f3    00000001     (.common:btn2_r)
+                  200067f4    00000001     (.common:btn2_start)
+                  200067f5    00000001     (.common:stage)
 
 .data      0    200067f8    00000624     UNINITIALIZED
                   200067f8    000000c0     MasterController_pem4f.oem4f (.data:ti_sysbios_family_arm_lm4_Timer_Object__table__V)
@@ -1010,10 +1011,10 @@ MODULE SUMMARY
        Audio.obj                      348     64        4112   
        EK_TM4C123GXL.obj              662     296       1621   
        Controller.obj                 1620    0         42     
-       UART.obj                       788     0         93     
+       UART.obj                       788     0         97     
        Utils.obj                      68      0         0      
     +--+------------------------------+-------+---------+---------+
-       Total:                         3486    360       5868   
+       Total:                         3486    360       5872   
                                                                
     .\game\
        kirby.obj                      22226   39        0      
@@ -1156,14 +1157,14 @@ MODULE SUMMARY
        Stack:                         0       0         768    
        Linker Generated:              0       652       0      
     +--+------------------------------+-------+---------+---------+
-       Grand Total:                   73372   9859      28789  
+       Grand Total:                   73372   9859      28793  
 
 
 LINKER GENERATED COPY TABLES
 
 __TI_cinit_table @ 000145b0 records: 3, size/record: 8, table size: 24
 	.data: load addr=00014338, load size=00000258 bytes, run addr=200067f8, run size=00000624 bytes, compression=lzss
-	.bss: load addr=000145a0, load size=00000008 bytes, run addr=20000400, run size=000063f2 bytes, compression=zero_init
+	.bss: load addr=000145a0, load size=00000008 bytes, run addr=20000400, run size=000063f6 bytes, compression=zero_init
 	.vecs: load addr=000145a8, load size=00000008 bytes, run addr=20000000, run size=00000360 bytes, compression=zero_init
 
 
@@ -1287,6 +1288,7 @@ address   name
 00011e35  UARTIntDisable                                                    
 00011e8b  UARTIntEnable                                                     
 00011e3f  UARTIntStatus                                                     
+200067d4  UARTReceiveBuffer                                                 
 00011eeb  UARTRxErrorClear                                                  
 00011e93  UARTRxErrorGet                                                    
 0000f3d9  UARTTiva_close                                                    
@@ -1466,21 +1468,21 @@ ffffffff  __c_args__
 20006d68  _unlock                                                           
 0000d155  abort                                                             
 0000ffa9  absVal                                                            
-200067e6  acknowledged                                                      
+200067ea  acknowledged                                                      
 0000bd9d  add_device                                                        
 20002340  audioFIFOBuffer                                                   
 0000d285  audioISR                                                          
 ffffffff  binit                                                             
-200067e7  btn1_a                                                            
-200067e8  btn1_b                                                            
-200067e9  btn1_l                                                            
-200067ea  btn1_r                                                            
-200067eb  btn1_start                                                        
-200067ec  btn2_a                                                            
-200067ed  btn2_b                                                            
-200067ee  btn2_l                                                            
-200067ef  btn2_r                                                            
-200067f0  btn2_start                                                        
+200067eb  btn1_a                                                            
+200067ec  btn1_b                                                            
+200067ed  btn1_l                                                            
+200067ee  btn1_r                                                            
+200067ef  btn1_start                                                        
+200067f0  btn2_a                                                            
+200067f1  btn2_b                                                            
+200067f2  btn2_l                                                            
+200067f3  btn2_r                                                            
+200067f4  btn2_start                                                        
 000116a5  callbackFunction                                                  
 000116bd  clust2sect                                                        
 0000f425  copy_in                                                           
@@ -1546,8 +1548,8 @@ ffffffff  binit
 20006d34  numAudio                                                          
 00011b29  osi_TaskDisable                                                   
 00011ab9  osi_start                                                         
-200067d8  p1                                                                
-200067dc  p2                                                                
+200067dc  p1                                                                
+200067e0  p2                                                                
 200067cc  parmbuf                                                           
 0000b095  put_fat                                                           
 20006d38  samplesPlayed                                                     
@@ -1557,7 +1559,7 @@ ffffffff  binit
 20006320  spiTivaDMAObjects                                                 
 200067c0  spiTivaDMAscratchBuf                                              
 20000400  stack                                                             
-200067f1  stage                                                             
+200067f5  stage                                                             
 000116ed  strcmp                                                            
 000118eb  strcpy                                                            
 000118ff  strlen                                                            
@@ -1941,7 +1943,7 @@ e000e000  ti_sysbios_family_arm_m3_Hwi_nvic
 00011d7d  uDMAErrorStatusClear                                              
 00011d89  uDMAErrorStatusGet                                                
 00011d95  uDMAIntStatus                                                     
-200067e0  uart                                                              
+200067e4  uart                                                              
 2000675c  uartParams                                                        
 00014018  uartTivaHWAttrs                                                   
 20006404  uartTivaObjects                                                   
@@ -2929,21 +2931,22 @@ address   name
 2000675c  uartParams                                                        
 200067c0  spiTivaDMAscratchBuf                                              
 200067cc  parmbuf                                                           
-200067d8  p1                                                                
-200067dc  p2                                                                
-200067e0  uart                                                              
-200067e6  acknowledged                                                      
-200067e7  btn1_a                                                            
-200067e8  btn1_b                                                            
-200067e9  btn1_l                                                            
-200067ea  btn1_r                                                            
-200067eb  btn1_start                                                        
-200067ec  btn2_a                                                            
-200067ed  btn2_b                                                            
-200067ee  btn2_l                                                            
-200067ef  btn2_r                                                            
-200067f0  btn2_start                                                        
-200067f1  stage                                                             
+200067d4  UARTReceiveBuffer                                                 
+200067dc  p1                                                                
+200067e0  p2                                                                
+200067e4  uart                                                              
+200067ea  acknowledged                                                      
+200067eb  btn1_a                                                            
+200067ec  btn1_b                                                            
+200067ed  btn1_l                                                            
+200067ee  btn1_r                                                            
+200067ef  btn1_start                                                        
+200067f0  btn2_a                                                            
+200067f1  btn2_b                                                            
+200067f2  btn2_l                                                            
+200067f3  btn2_r                                                            
+200067f4  btn2_start                                                        
+200067f5  stage                                                             
 200067f8  ti_sysbios_family_arm_lm4_Timer_Object__table__V                  
 200068b8  ti_sysbios_knl_Swi_Module_State_0_readyQ__A                       
 20006938  ti_sysbios_knl_Task_Module_State_0_readyQ__A                      
@@ -3012,4 +3015,4 @@ ffffffff  __binit__
 ffffffff  __c_args__                                                        
 ffffffff  binit                                                             
 
-[913 symbols]
+[914 symbols]

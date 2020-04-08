@@ -18,9 +18,10 @@ UART_Handle uart;
 UART_Params uartParams;
 
 uint8_t UARTBuffer[50];
+uint8_t UARTReceiveBuffer[4];
 bool acknowledged;
 
-void callbackFunction(UART_Handle handle, void *buf, size_t count) {
+void callbackFunction(UART_Handle handle, uint8_t *buf, size_t count) {
     acknowledged = true;
 }
 
@@ -53,7 +54,7 @@ void UART_receive(uint32_t bytesToRead, uint8_t* buffer) {
 }
 
 void UART_waitForAcknowledge() {
-    UART_receive(1, UARTBuffer);
+    UART_receive(1, UARTReceiveBuffer);
 }
 
 void UART_sendAnimation(struct SpriteSendable sendable) {
@@ -99,7 +100,7 @@ void UART_sendAnimation(struct SpriteSendable sendable) {
 
     while(!acknowledged) {}
     acknowledged = false;
-    UART_transmit(13, UARTBuffer);
+    UART_transmit(12, UARTBuffer);
     UART_waitForAcknowledge();
 }
 
@@ -155,7 +156,7 @@ void UART_readPersistentSprite(uint8_t spriteIndex, uint16_t x, uint16_t y) {
      * Byte 4: (y) & 0xFF
      */
 
-    UARTBuffer[0] = 0x0A;
+    UARTBuffer[0] = 0x0D;
     UARTBuffer[1] = spriteIndex;
     UARTBuffer[2] = (x >> 8) & 0xFF;
     UARTBuffer[3] = x & 0xFF;
