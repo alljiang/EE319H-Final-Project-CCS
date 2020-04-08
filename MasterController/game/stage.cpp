@@ -3,6 +3,7 @@
 //
 
 #include "stage.h"
+#include "metadata.h"
 #include "entities.h"
 
 //  if damage == 0, corner is left. else, it's right corner

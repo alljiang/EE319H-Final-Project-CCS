@@ -12,18 +12,7 @@ class Stage {
 #define RIGHT_MAX 500
 #define LEFT_MAX -200
 
-#define STAGE_FINALDESTINATION 0
-#define STAGE_TOWER 1
-#define STAGE_BATTLEFIELD 2
-
 protected:
-    const char stageNames[4][10] = {
-                                        {"fdst"},
-                                        {"tower"},
-                                        {"battle"},
-                                        {}
-                                    };
-
     uint8_t stageIndex;
 
 public:

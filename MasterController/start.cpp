@@ -50,30 +50,31 @@ void start(UArg arg0, UArg arg1)
 //    }
 
     /*
+    uint8_t buffer[50];
+    while(1) {
+        UART_receive(2, buffer);
+    }
+    */
+
+    /*
     uint8_t buffer[2];
     uint8_t a = 0;
     while(1) {
-        buffer[0] = a++;
-        buffer[1] = a++;
+        buffer[0] = 0xDD;
+        buffer[1] = 0xDD;
         UART_transmit(2, buffer);
+        sleep(1000);
     }
     */
 
 //    /*
 
-    SD_startSDCard();
-    char fn[] = "kirby.txt";
-    SD_openFile(fn);
-
-//    */
-
-//    /*
+    UART_waitForAcknowledge();
     game_startup();
     while(1) {
         Controller_updateController();
         game_loop();
     }
-
 //    */
 }
 

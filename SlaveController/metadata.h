@@ -24,7 +24,11 @@ const uint8_t LAYER_OVERLAY = 100;
 const uint8_t LAYER_PERCENTAGE = 110;
 const uint8_t LAYER_TOP = 255;
 
-const char stageNames[4][10] = {
+#define STAGE_FINALDESTINATION 0
+#define STAGE_TOWER 1
+#define STAGE_BATTLEFIELD 2
+
+const char persistentSprites[4][10] = {
                                         {"fdst"},
                                         {"tower"},
                                         {"battle"},

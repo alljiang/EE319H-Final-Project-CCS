@@ -53,7 +53,9 @@ void UART_transmit(uint8_t numBytes, uint8_t *buffer) {
 }
 
 void UART_receive(uint32_t bytesToRead, uint8_t* buffer) {
-//    if(!UARTReceived) return;
-//    UARTReceived = false;
-    UART_read(uart, &buffer, bytesToRead);
+    UART_read(uart, buffer, bytesToRead);
+}
+
+void UART_sendByte(uint8_t byte) {
+    UART_transmit(1, &byte);
 }

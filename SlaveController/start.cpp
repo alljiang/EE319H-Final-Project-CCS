@@ -91,20 +91,117 @@ void start(UArg arg0, UArg arg1)
     Flash_readSFDP(buffy);
      */
 
-//    uint8_t buffer[100];
-//    while(1) {
-//        UART_receive(10, buffer);
-//    }
-
-//    /*
+    /*
     animator_initialize();
     animator_readCharacterSDCard(0);
 
     animator_setBackgroundColors(colors_fdst);
     animator_readPersistentSprite(stageNames[0], 0, 0);
+    */
 
-    animator_animate(0, 7, 80, 100, 0, 30, 0, 0, 1, false);
-    animator_update();
+    /*
+    int currentFrame = 0;
+    while(true) {
+        int t1 = millis();
+        animator_animate(0, 1, 80, 100, currentFrame, 30, 0, 0, 1, false);
+        animator_update();
+
+        currentFrame++;
+        currentFrame %= 8;
+
+        int t2 = millis();
+
+        sleep(50);
+    }
+    */
+
+    /*
+    uint8_t buffer[50];
+    while(1) {
+        UART_receive(2, buffer);
+    }
+    */
+
+    /*
+    uint8_t buffer[2];
+    uint8_t a = 0;
+    while(1) {
+        buffer[0] = 0xAB;
+        buffer[1] = 0xBC;
+        UART_transmit(2, buffer);
+        sleep(1000);
+    }
+    */
+
+//    /*
+    animator_initialize();
+    UART_sendByte(0x10);
+    uint8_t buffer[50];
+    while(1) {
+        UART_receive(1, buffer);
+
+        //  Read Character SD Card
+        if(buffer[0] == 0x0A) {
+            UART_receive(1, buffer);
+
+            uint8_t characterIndex = buffer[0];
+
+            animator_readCharacterSDCard(characterIndex);
+        }
+        //  Send Animation
+        else if(buffer[0]  == 0x0B) {
+            UART_receive(12, buffer);
+
+            uint8_t characterIndex = buffer[0];
+            uint8_t animationIndex = buffer[1];
+            uint16_t x = (buffer[2] << 8) | buffer[3];
+            uint8_t y = buffer[4];
+            uint8_t frameIndex = buffer[5];
+            bool persistent = buffer[6];
+            uint8_t layer = buffer[7];
+            bool continuous = buffer[8];
+            uint8_t framePeriod = buffer[9];
+            bool mirrored = buffer[10];
+
+            animator_animate(characterIndex, animationIndex, x, y,
+                             frameIndex, persistent, layer, continuous,
+                             framePeriod, mirrored);
+        }
+        //  Set Background Colors
+        else if(buffer[0] == 0x0C) {
+            UART_receive(1, buffer);
+
+            uint8_t stageIndex = buffer[0];
+
+            if(stageIndex == STAGE_FINALDESTINATION) {
+                animator_setBackgroundColors(colors_fdst);
+            }
+            else if(stageIndex == STAGE_TOWER) {
+                animator_setBackgroundColors(colors_tower);
+
+            }
+            else if(stageIndex == STAGE_BATTLEFIELD) {
+
+            }
+        }
+        //  Read Persistent Sprite
+        else if(buffer[0] == 0x0D) {
+            UART_receive(4, buffer);
+
+            uint8_t spriteIndex = buffer[0];
+            uint16_t x = (buffer[1] << 8) | buffer[2];
+            uint8_t y = buffer[3];
+
+            animator_readPersistentSprite(persistentSprites[spriteIndex], x, y);
+        }
+        //  Animator Update
+        else if(buffer[0] == 0xFE) {
+            animator_update();
+        }
+
+        //  Send acknowledge byte
+        UART_sendByte(0x10);
+    }
 //    */
 }
 
@@ -118,13 +215,6 @@ Int main()
     Board_initSPI();
     Board_initUART();
     Board_initSDSPI();
-
-    SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOA);
-    SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOB);
-    SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOC);
-    SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOD);
-    SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOE);
-    SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOF);
 
     UART_start();
 

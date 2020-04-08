@@ -46,12 +46,11 @@ void game_startup() {
     if(PLAYER2) hitboxManager.initialize(p1, p2);
     else hitboxManager.initialize(p1);
 
-    //  TODO
-//    if(stageToPlay == STAGE_FINALDESTINATION) animator_setBackgroundColors(colors_finaldest);
-//    else if(stageToPlay == STAGE_TOWER) animator_setBackgroundColors(colors_towerback);
+    if(stageToPlay == STAGE_FINALDESTINATION) UART_setBackgroundColors(STAGE_FINALDESTINATION);
+    else if(stageToPlay == STAGE_TOWER) UART_setBackgroundColors(STAGE_TOWER);
 
     stage.initialize(stageToPlay, &hitboxManager);
-//    animator_readPersistentSprite(stageNames[index], 0, 0);
+    UART_readPersistentSprite(stageToPlay, 0, 0);
 
     UART_readCharacterSDCard(0);
 }
@@ -80,6 +79,7 @@ void game_loop() {
             );
         }
 
+        UART_commandUpdate();
         hitboxManager.checkCollisions();
     }
 }

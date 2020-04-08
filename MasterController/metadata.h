@@ -24,12 +24,23 @@
 #define LAYER_PERCENTAGE 110
 #define LAYER_TOP 255
 
+#define STAGE_FINALDESTINATION 0
+#define STAGE_TOWER 1
+#define STAGE_BATTLEFIELD 2
+
 const char characterNames[4][15] = {
                                         {"kirby"},
                                         {"marth"},
                                         {"jigglypuff"},
                                         {"gameandwatch"}
                                        };
+
+const char persistentSprites[4][10] = {
+                                    {"fdst"},
+                                    {"tower"},
+                                    {"battle"},
+                                    {}
+                                };
 
 const char animations[4][64][10] = {
                                         {                // frames
