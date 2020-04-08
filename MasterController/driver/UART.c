@@ -35,7 +35,7 @@ void UART_start(void) {
     uartParams.readDataMode = UART_DATA_BINARY;
     uartParams.readReturnMode = UART_RETURN_FULL;
     uartParams.readEcho = UART_ECHO_OFF;
-    uartParams.baudRate = 9600;
+    uartParams.baudRate = 5000000;
     uart = UART_open(Board_UART1, &uartParams);
 
     acknowledged = false;

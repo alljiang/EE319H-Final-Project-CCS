@@ -41,17 +41,17 @@ void Controller_init() {
 }
 
 void Controller_updateController() {
-    btn1_a = GPIOPinRead(GPIO_PORTB_BASE, GPIO_PIN_0);  //  A1
-    btn1_b = GPIOPinRead(GPIO_PORTB_BASE, GPIO_PIN_1);  //  B1
-    btn1_start = GPIOPinRead(GPIO_PORTA_BASE, GPIO_PIN_5);  //  START1
-    btn1_l = GPIOPinRead(GPIO_PORTB_BASE, GPIO_PIN_2);  //  L1
-    btn1_r = GPIOPinRead(GPIO_PORTA_BASE, GPIO_PIN_4);  //  R1
+    btn1_a = !GPIOPinRead(GPIO_PORTB_BASE, GPIO_PIN_0);  //  A1
+    btn1_b = !GPIOPinRead(GPIO_PORTB_BASE, GPIO_PIN_1);  //  B1
+    btn1_start = !GPIOPinRead(GPIO_PORTA_BASE, GPIO_PIN_5);  //  START1
+    btn1_l = !GPIOPinRead(GPIO_PORTB_BASE, GPIO_PIN_2);  //  L1
+    btn1_r = !GPIOPinRead(GPIO_PORTA_BASE, GPIO_PIN_4);  //  R1
 
-    btn2_a = GPIOPinRead(GPIO_PORTE_BASE, GPIO_PIN_5);  //  A2
-    btn2_b = GPIOPinRead(GPIO_PORTE_BASE, GPIO_PIN_4);  //  B2
-    btn2_start = GPIOPinRead(GPIO_PORTA_BASE, GPIO_PIN_6);  //  START2
-    btn2_l = GPIOPinRead(GPIO_PORTA_BASE, GPIO_PIN_3);  //  L2
-    btn2_r = GPIOPinRead(GPIO_PORTE_BASE, GPIO_PIN_0);  //  R2
+    btn2_a = !GPIOPinRead(GPIO_PORTE_BASE, GPIO_PIN_5);  //  A2
+    btn2_b = !GPIOPinRead(GPIO_PORTE_BASE, GPIO_PIN_4);  //  B2
+    btn2_start = !GPIOPinRead(GPIO_PORTA_BASE, GPIO_PIN_6);  //  START2
+    btn2_l = !GPIOPinRead(GPIO_PORTA_BASE, GPIO_PIN_3);  //  L2
+    btn2_r = !GPIOPinRead(GPIO_PORTE_BASE, GPIO_PIN_0);  //  R2
 
 
     /*
