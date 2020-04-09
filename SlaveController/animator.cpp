@@ -65,6 +65,7 @@ uint16_t readHalfInt(uint8_t* buf) {
 void animator_update() {
     for(uint8_t row = 0; row <= 240; row++) {
         if(!rowsToUpdate[row]) continue;
+        rowsToUpdate[row] = false;
 
         // set all color indexes to -2 initially for 'do not change'
         // set all layers to background
@@ -120,6 +121,8 @@ void animator_update() {
 
                 //  This row intersects! Now, paint this row of this animation into the color index buffer
 
+                //  Make sure to update this row next loop to remove sprite
+                rowsToUpdate[row] = true;
                 //  get frame location with frame index array
                 bufferptr = Flash_readMemory(anim->memLocation + 3*ss->frame, 3, buffer);
                 uint32_t frameLocation = anim->memLocation  //  start location
@@ -246,6 +249,7 @@ void animator_update() {
             }
         }
     }
+    millis();
 }
 
 void animator_setBackgroundColors(const uint32_t *backgroundArr) {

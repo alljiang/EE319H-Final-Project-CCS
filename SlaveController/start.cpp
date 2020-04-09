@@ -138,7 +138,9 @@ void start(UArg arg0, UArg arg1)
     UART_sendByte(0x10);
     uint8_t buffer[50];
     while(1) {
+        GPIOPinWrite(GPIO_PORTB_BASE, GPIO_PIN_2, 0);
         UART_receive(1, buffer);
+        GPIOPinWrite(GPIO_PORTB_BASE, GPIO_PIN_2, GPIO_PIN_2);
 
         //  Read Character SD Card
         if(buffer[0] == 0x0A) {
@@ -196,13 +198,7 @@ void start(UArg arg0, UArg arg1)
         }
         //  Animator Update
         else if(buffer[0] == 0xFE) {
-            int t1 = millis();
             animator_update();
-            int t2 = millis();
-            if(t2 - t1 > 4) {
-                volatile int a = 0;
-                a++;
-            }
         }
 
         //  Send acknowledge byte
@@ -234,6 +230,10 @@ Int main()
     params.priority = 1;
     params.stack = &st;
     Task_construct(&ts, (Task_FuncPtr)start, &params, NULL);
+
+    // debug pin
+    GPIOPinTypeGPIOOutput(GPIO_PORTB_BASE, GPIO_PIN_2);
+    GPIOPinWrite(GPIO_PORTB_BASE, GPIO_PIN_2, 0);
 
     BIOS_start();    /* does not return */
 
