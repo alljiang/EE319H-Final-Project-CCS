@@ -19,17 +19,26 @@ UART_Params uartParams;
 
 uint8_t UARTBuffer[50];
 uint8_t UARTReceiveBuffer[4];
-bool acknowledged;
+volatile bool acknowledged;
+volatile bool writeComplete;
+bool skipNextUpdate;
+int animationsUpdated;
 
-void callbackFunction(UART_Handle handle, uint8_t *buf, size_t count) {
+void readCallbackFunction(UART_Handle handle, uint8_t *buf, size_t count) {
     acknowledged = true;
+}
+
+void writeCallbackFunction(UART_Handle handle, uint8_t *buf, size_t count) {
+    writeComplete = true;
 }
 
 void UART_start(void) {
     UART_Params_init(&uartParams);
     uartParams.readMode = UART_MODE_CALLBACK;
-    uartParams.writeMode = UART_MODE_BLOCKING;
-    uartParams.readCallback = &callbackFunction;
+    //    uartParams.writeMode = UART_MODE_BLOCKING;
+    uartParams.writeMode = UART_MODE_CALLBACK;
+    uartParams.readCallback = &readCallbackFunction;
+    uartParams.writeCallback = &writeCallbackFunction;
 
     uartParams.writeDataMode = UART_DATA_BINARY;
     uartParams.readDataMode = UART_DATA_BINARY;
@@ -38,7 +47,11 @@ void UART_start(void) {
     uartParams.baudRate = 5000000;
     uart = UART_open(Board_UART1, &uartParams);
 
+    //  slave will send an acknowledge byte on startup, master will only start after slave has started
     acknowledged = false;
+    writeComplete = true;
+    skipNextUpdate = false;
+    animationsUpdated = 0;
 
     if (uart == NULL) {
         System_abort("Error opening UART");
@@ -46,6 +59,8 @@ void UART_start(void) {
 }
 
 void UART_transmit(uint8_t numBytes, uint8_t *buffer) {
+    while(!writeComplete) {}
+    writeComplete = false;
     UART_write(uart, buffer, numBytes);
 }
 
@@ -98,6 +113,11 @@ void UART_sendAnimation(struct SpriteSendable sendable) {
     UARTBuffer[10] = framePeriod;
     UARTBuffer[11] = mirrored;
 
+    if(skipNextUpdate || (animationsUpdated == 0 && !acknowledged)) {
+        skipNextUpdate = true;
+        return;
+    }
+    animationsUpdated++;
     while(!acknowledged) {}
     acknowledged = false;
     UART_transmit(12, UARTBuffer);
@@ -109,10 +129,18 @@ void UART_commandUpdate() {
      * Byte 0: 0xFE
      */
 
+    if(skipNextUpdate || animationsUpdated == 0) {
+        skipNextUpdate = false;
+        animationsUpdated = 0;
+        return;
+    }
+
     UARTBuffer[0] = 0xFE;
 
     while(!acknowledged) {}
     acknowledged = false;
+    animationsUpdated = 0;
+    skipNextUpdate = false;
     UART_transmit(1, UARTBuffer);
     UART_waitForAcknowledge();
 }

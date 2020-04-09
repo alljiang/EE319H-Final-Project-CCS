@@ -1,9 +1,6 @@
 # FIXED
 
 driver/UART.obj: ../driver/UART.c
-driver/UART.obj: C:/Users/Allen/Documents/GitHub/EE319H-Final-Project-CCS/SlaveController/driver/Board.h
-driver/UART.obj: C:/Users/Allen/Documents/GitHub/EE319H-Final-Project-CCS/SlaveController/driver/EK_TM4C123GXL.h
-driver/UART.obj: C:/Users/Allen/Documents/GitHub/EE319H-Final-Project-CCS/SlaveController/driver/UART.h
 driver/UART.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/stdint.h
 driver/UART.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/_stdint40.h
 driver/UART.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/sys/stdint.h
@@ -12,6 +9,10 @@ driver/UART.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/s
 driver/UART.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/machine/_types.h
 driver/UART.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/machine/_stdint.h
 driver/UART.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/sys/_stdint.h
+driver/UART.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/stdbool.h
+driver/UART.obj: C:/Users/Allen/Documents/GitHub/EE319H-Final-Project-CCS/SlaveController/driver/Board.h
+driver/UART.obj: C:/Users/Allen/Documents/GitHub/EE319H-Final-Project-CCS/SlaveController/driver/EK_TM4C123GXL.h
+driver/UART.obj: C:/Users/Allen/Documents/GitHub/EE319H-Final-Project-CCS/SlaveController/driver/UART.h
 driver/UART.obj: C:/ti/ccs930/xdctools_3_60_02_34_core/packages/xdc/std.h
 driver/UART.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/stdarg.h
 driver/UART.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/stddef.h
@@ -90,15 +91,11 @@ driver/UART.obj: C:/ti/ccs930/xdctools_3_60_02_34_core/packages/xdc/runtime/IIns
 driver/UART.obj: C:/ti/ccs930/xdctools_3_60_02_34_core/packages/xdc/runtime/IGateProvider.h
 driver/UART.obj: C:/ti/ccs930/xdctools_3_60_02_34_core/packages/xdc/runtime/package/System_SupportProxy.h
 driver/UART.obj: C:/ti/ccs930/xdctools_3_60_02_34_core/packages/xdc/runtime/package/System_Module_GateProxy.h
-driver/UART.obj: C:/Users/Allen/Documents/GitHub/EE319H-Final-Project-CCS/SlaveController/metadata.h
-driver/UART.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/stdbool.h
 driver/UART.obj: C:/ti/tirtos_tivac_2_16_00_08/products/tidrivers_tivac_2_16_00_08/packages/ti/drivers/GPIO.h
 driver/UART.obj: C:/ti/tirtos_tivac_2_16_00_08/products/tidrivers_tivac_2_16_00_08/packages/ti/drivers/UART.h
+driver/UART.obj: C:/Users/Allen/Documents/GitHub/EE319H-Final-Project-CCS/SlaveController/metadata.h
 
 ../driver/UART.c: 
-C:/Users/Allen/Documents/GitHub/EE319H-Final-Project-CCS/SlaveController/driver/Board.h: 
-C:/Users/Allen/Documents/GitHub/EE319H-Final-Project-CCS/SlaveController/driver/EK_TM4C123GXL.h: 
-C:/Users/Allen/Documents/GitHub/EE319H-Final-Project-CCS/SlaveController/driver/UART.h: 
 C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/stdint.h: 
 C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/_stdint40.h: 
 C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/sys/stdint.h: 
@@ -107,6 +104,10 @@ C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/sys/_types.h:
 C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/machine/_types.h: 
 C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/machine/_stdint.h: 
 C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/sys/_stdint.h: 
+C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/stdbool.h: 
+C:/Users/Allen/Documents/GitHub/EE319H-Final-Project-CCS/SlaveController/driver/Board.h: 
+C:/Users/Allen/Documents/GitHub/EE319H-Final-Project-CCS/SlaveController/driver/EK_TM4C123GXL.h: 
+C:/Users/Allen/Documents/GitHub/EE319H-Final-Project-CCS/SlaveController/driver/UART.h: 
 C:/ti/ccs930/xdctools_3_60_02_34_core/packages/xdc/std.h: 
 C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/stdarg.h: 
 C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/stddef.h: 
@@ -185,7 +186,6 @@ C:/ti/ccs930/xdctools_3_60_02_34_core/packages/xdc/runtime/IInstance.h:
 C:/ti/ccs930/xdctools_3_60_02_34_core/packages/xdc/runtime/IGateProvider.h: 
 C:/ti/ccs930/xdctools_3_60_02_34_core/packages/xdc/runtime/package/System_SupportProxy.h: 
 C:/ti/ccs930/xdctools_3_60_02_34_core/packages/xdc/runtime/package/System_Module_GateProxy.h: 
-C:/Users/Allen/Documents/GitHub/EE319H-Final-Project-CCS/SlaveController/metadata.h: 
-C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/stdbool.h: 
 C:/ti/tirtos_tivac_2_16_00_08/products/tidrivers_tivac_2_16_00_08/packages/ti/drivers/GPIO.h: 
 C:/ti/tirtos_tivac_2_16_00_08/products/tidrivers_tivac_2_16_00_08/packages/ti/drivers/UART.h: 
+C:/Users/Allen/Documents/GitHub/EE319H-Final-Project-CCS/SlaveController/metadata.h: 

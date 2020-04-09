@@ -188,7 +188,7 @@ int8_t Audio_playAudio(struct AudioParams sendable) {
     sendable.file = fopen(systemFilename, "r");
 
     if(!sendable.file) {
-        System_printf("File not found or is busy");
+        System_printf("File not found");
         System_flush();
         return -1;
     }

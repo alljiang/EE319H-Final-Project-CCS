@@ -45,7 +45,6 @@ void Kirby::controlLoop(double joyH, double joyV, bool btnA, bool btnB, bool shi
     double leftBound = stage->leftBound(x + KIRBY_STAGE_OFFSET, y) - KIRBY_STAGE_OFFSET / 2;
     double rightBound = stage->rightBound(x - KIRBY_STAGE_OFFSET, y) - KIRBY_STAGE_OFFSET;
     double stageVelocity = stage->xVelocity(x, y);
-    /* TODO: w h a t   t h e   h e c k */
 
     //  first, follow up on any currently performing actions
     noJumpsDisabled = jumpsUsed >= 5;

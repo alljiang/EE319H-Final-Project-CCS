@@ -196,7 +196,13 @@ void start(UArg arg0, UArg arg1)
         }
         //  Animator Update
         else if(buffer[0] == 0xFE) {
+            int t1 = millis();
             animator_update();
+            int t2 = millis();
+            if(t2 - t1 > 4) {
+                volatile int a = 0;
+                a++;
+            }
         }
 
         //  Send acknowledge byte

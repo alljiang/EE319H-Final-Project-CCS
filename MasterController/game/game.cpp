@@ -56,12 +56,10 @@ void game_startup() {
 }
 
 //  continually loops
-uint32_t  t1 = 0;
-uint32_t tt1 = 0;
-uint8_t frame = 0;
+uint32_t  lastUpdate = 0;
 void game_loop() {
-    if(millis() - t1 >= 1./UPDATERATE*1000) {
-        t1 = millis();
+    if(millis() - lastUpdate >= 1./UPDATERATE*1000) {
+        lastUpdate = millis();
         stage.update();
         p1->controlLoop(
                 getJoystick_h(1), getJoystick_v(1),

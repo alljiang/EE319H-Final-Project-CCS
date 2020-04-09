@@ -34,15 +34,6 @@
 
 void start(UArg arg0, UArg arg1)
 {
-//    Audio_initSD();
-//    Audio_destroyAllAudio();
-//
-//    AudioParams audioparams;
-//    Audio_initParams(&audioparams);
-//
-//    audioparams.soundIndex = 2;
-//    audioparams.volume = 0.5;
-//    int8_t background = Audio_playAudio(audioparams);
 //
 //    while(1) {
 //        ReadSDFIFO();
@@ -68,12 +59,25 @@ void start(UArg arg0, UArg arg1)
     */
 
 //    /*
+    Audio_initSD();
+    Audio_destroyAllAudio();
 
+    AudioParams audioparams;
+    Audio_initParams(&audioparams);
+
+    audioparams.soundIndex = 0;
+    audioparams.volume = 0.5;
+    int8_t background = Audio_playAudio(audioparams);
+//    */
+
+//    /*
     UART_waitForAcknowledge();
     game_startup();
+    int t1, t2;
     while(1) {
         Controller_updateController();
         game_loop();
+        ReadSDFIFO();
     }
 //    */
 }
@@ -99,7 +103,7 @@ Int main()
 
     Task_Params params;
     Task_Params_init(&params);
-    params.stackSize = 8000;
+    params.stackSize = SIZE;
 
     params.priority = 1;
     params.stack = &stack;

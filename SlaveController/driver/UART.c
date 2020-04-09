@@ -3,18 +3,19 @@
  *  ======== uartecho.c ========
  */
 
+#include <stdint.h>
+#include <stdbool.h>
+
 /* XDCtools Header files */
 #include <driver/Board.h>
 #include <driver/UART.h>
 #include <xdc/std.h>
 #include <xdc/runtime/System.h>
-#include "metadata.h"
 
 #include <ti/drivers/GPIO.h>
 #include <ti/drivers/UART.h>
 
-#include <stdint.h>
-#include <stdbool.h>
+#include "metadata.h"
 
 UART_Handle uart;
 UART_Params uartParams;
@@ -44,7 +45,7 @@ void UART_start(void) {
     uart = UART_open(Board_UART1, &uartParams);
 
     if (uart == NULL) {
-        System_abort("Error opening the UART");
+        System_abort("Error opening UART1");
     }
 }
 
