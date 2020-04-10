@@ -286,7 +286,7 @@ void ILI9341_drawVLine(uint32_t x, uint32_t y, uint32_t l, uint32_t rgb) {
 void ILI9341_drawColors(uint32_t x, uint32_t y, int32_t *rgbArr, uint16_t totalPixels) {
     if((x > ILI9341_TFTWIDTH) || (y > ILI9341_TFTHEIGHT)) return;
 
-    if(x + totalPixels >= ILI9341_TFTWIDTH) totalPixels = ILI9341_TFTWIDTH-x;
+    if(x + totalPixels > ILI9341_TFTWIDTH) totalPixels = ILI9341_TFTWIDTH-x;
 
     beginSPITransaction();
 

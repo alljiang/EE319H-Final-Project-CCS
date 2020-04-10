@@ -343,12 +343,13 @@ void animator_readPersistentSprite(const char* spriteName, uint16_t x, uint8_t y
     for(int16_t row = height-1; row >= 0; row--) {
         SD_read(width*2, buffer);
 
-        uint32_t FlashRowLocation = persistentBackgroundMemLocation + (row-y) * 321*2 + x;
+        /*  This code is cheese. It may be buggy  */
+        uint32_t FlashRowLocation = persistentBackgroundMemLocation + (row-y) * width*2 + x;
         Flash_writeMemory_specifiedAddress(FlashRowLocation, width*2, buffer);
 
         //  assemble indexes
-        for (uint32_t i = 0; i < 321; i++) {
-            finalColors[i] = backgroundColors[(buffer[2 * i] << 8u) + buffer[2 * i +1]];
+        for (uint32_t i = 0; i < width; i++) {
+            finalColors[x+i] = backgroundColors[(buffer[2 * i] << 8u) + buffer[2 * i +1]];
         }
 
         ILI9341_drawColors(x, row, finalColors, width);

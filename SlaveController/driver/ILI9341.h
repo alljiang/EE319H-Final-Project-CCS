@@ -63,7 +63,7 @@
 #define ILI9341_GMCTRP1       0xE0
 #define ILI9341_GMCTRN1       0xE1
 
-#define ILI9341_TFTWIDTH      321
+#define ILI9341_TFTWIDTH      320
 #define ILI9341_TFTHEIGHT     241
 #define ST7735_TFTWIDTH       160
 #define ST7735_TFTHEIGHT      128
