@@ -66,19 +66,27 @@ void start(UArg arg0, UArg arg1)
     Audio_initParams(&audioparams);
 
     audioparams.soundIndex = 0;
-    audioparams.volume = 0.5;
+    audioparams.volume = 1;
     audioparams.loop = true;
     int8_t background = Audio_playAudio(audioparams);
 
-    /*
-    while(1) { ReadSDFIFO(); }
-    */
+//    while(1) {
+//        ReadSDFIFO();
+//        if(millis() - asdf > 5000) {
+//            Audio_playAudio(audioparams);
+//            audioparams.soundIndex = 0;
+//            asdf = millis();
+//        }
+//    }
+
 //    */
 
 //    /*
     UART_waitForAcknowledge();
+    int a = 0;
     game_startup();
     int t1, t2;
+    int asdf = millis();
     while(1) {
         Controller_updateController();
         game_loop();

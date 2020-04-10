@@ -113,15 +113,15 @@ void ReadSDFIFO() {
         if(totalBytesRemaining < bytesToRead) {
             bytesToRead = totalBytesRemaining;
         }
-//        if(bytesToRead > 512) bytesToRead = 512;
-        if(bytesToRead < 1024) continue;
-        if(bytesToRead >= 512) {
+
+        if(bytesToRead < 1536 && totalBytesRemaining > 1536) bytesToRead = 0;
+        else if(bytesToRead > 512) {
             bytesToRead = 512*(bytesToRead/512);    // read in multiples of 512 bytes (1 page)
         }
 
         //  read in bytes
         uint32_t bytesActuallyRead = fread(readBuffer, 1, bytesToRead, audioSlots[slot].file);
-        if(bytesActuallyRead == 0) continue;    // something's wrong
+        if(bytesActuallyRead == 0 && bytesToRead > 0) continue;    // something's wrong
 
         //  add to FIFO buffer
         uint32_t j;
@@ -189,7 +189,7 @@ int8_t Audio_playAudio(struct AudioParams sendable) {
     sendable.file = fopen(systemFilename, "r");
 
     if(!sendable.file) {
-        System_printf("File not found");
+        System_printf("File not found / busy");
         System_flush();
         return -1;
     }
@@ -250,4 +250,5 @@ void Audio_initParams(struct AudioParams* params) {
     params->endIndex = -1;
     params->FIFO_size = -1;
     params->volume = 1;
+    params->loop = false;
 }
