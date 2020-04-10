@@ -113,10 +113,11 @@ void ReadSDFIFO() {
         if(totalBytesRemaining < bytesToRead) {
             bytesToRead = totalBytesRemaining;
         }
-        if(bytesToRead > 512) bytesToRead = 512;
-//        if(bytesToRead >= 512) {
-//            bytesToRead = 512*(bytesToRead/512);    // read in multiples of 512 bytes (1 page)
-//        }
+//        if(bytesToRead > 512) bytesToRead = 512;
+        if(bytesToRead < 1024) continue;
+        if(bytesToRead >= 512) {
+            bytesToRead = 512*(bytesToRead/512);    // read in multiples of 512 bytes (1 page)
+        }
 
         //  read in bytes
         uint32_t bytesActuallyRead = fread(readBuffer, 1, bytesToRead, audioSlots[slot].file);
@@ -211,6 +212,13 @@ int8_t Audio_playAudio(struct AudioParams sendable) {
 void Audio_destroyAudio(int8_t slotID) {
     if(slotID < 0 || slotID >= NumAudioSlots) return;
     audioSlots[slotID].startIndex = 0;
+
+    if(audioSlots[slotID].loop) {
+        //  restart audio if supposed to loop
+        rewind(audioSlots[slotID].file);
+        return;
+    }
+
     audioSlots[slotID].endIndex = 0;
 
     if(audioSlots[slotID].file != NULL) {
