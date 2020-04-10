@@ -43,7 +43,7 @@
 const char fileHeader[] = "fat:0:";
 const char fileTail[] = ".txt";
 
-uint8_t audioFIFOBuffer[FIFOBufferSize];
+uint16_t audioFIFOBuffer[FIFOBufferSize];
 volatile int32_t FIFO_Start = 0;    //  inclusive
 volatile int32_t FIFO_Max_Size = 0; //  length of the longest audio
 
@@ -56,10 +56,9 @@ volatile uint8_t numAudio = 0;
 
 volatile int32_t samplesPlayed = 0;
 
-volatile bool blockISR = false;
-
 void audioISR(UArg arg) {
-    if(FIFO_Max_Size == 0 || numAudio == 0 || blockISR) {
+    if(FIFO_Max_Size == 0 || numAudio == 0) {
+        millis();
         return;
     }
 
@@ -124,14 +123,11 @@ void ReadSDFIFO() {
         if(bytesActuallyRead == 0) continue;    // something's wrong
 
         //  add to FIFO buffer
-
         uint32_t j;
         for(j = 0; j < bytesToRead; j++) {
-            int index = (FIFO_Start_original + audioSlots[slot].FIFO_size++) % FIFOBufferSize;
-            int volume = (uint8_t)(((int16_t)readBuffer[j] - audioMiddle) * audioSlots[slot].volume + audioMiddle);
-
-            if(audioFIFOBuffer[index] + volume > 255) audioFIFOBuffer[index] = 255;
-            else audioFIFOBuffer[index] += volume;
+            audioFIFOBuffer[(FIFO_Start_original + audioSlots[slot].FIFO_size++)
+                            % FIFOBufferSize] +=
+                                (uint8_t)(((int16_t)readBuffer[j] - audioMiddle) * audioSlots[slot].volume + audioMiddle);
         }
 
         //  move up audio starting index
@@ -169,7 +165,6 @@ void Audio_initSD() {
 //  returns the index of the sendable slot, -1 if all slots full
 int8_t Audio_playAudio(struct AudioParams sendable) {
     int8_t slot;
-
     //find first available slot
     for(slot = 0; slot < NumAudioSlots; slot++) {
         if(audioSlots[slot].startIndex == audioSlots[slot].endIndex) break;
@@ -216,13 +211,6 @@ int8_t Audio_playAudio(struct AudioParams sendable) {
 void Audio_destroyAudio(int8_t slotID) {
     if(slotID < 0 || slotID >= NumAudioSlots) return;
     audioSlots[slotID].startIndex = 0;
-
-    if(audioSlots[slotID].loop) {
-        //  restart audio if supposed to loop
-        rewind(audioSlots[slotID].file);
-        return;
-    }
-
     audioSlots[slotID].endIndex = 0;
 
     if(audioSlots[slotID].file != NULL) {
@@ -239,6 +227,7 @@ void Audio_destroyAllAudio() {
 
 //  8 bit, MSB = smallest resistance, greatest voltage
 void Audio_DAC_write(uint16_t mapping) {
+//    mapping = 0b11110000;
     if(mapping == 0) return;
     for(int8_t i = 7; i >= 0; i--) {
         uint8_t output = (mapping >> (i)) & 1;
@@ -253,5 +242,4 @@ void Audio_initParams(struct AudioParams* params) {
     params->endIndex = -1;
     params->FIFO_size = -1;
     params->volume = 1;
-    params->loop = false;
 }

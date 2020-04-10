@@ -36,7 +36,6 @@ struct AudioParams {
     uint32_t frames;
     int32_t FIFO_size;   // -1 means not set
     float volume;
-    bool loop;
     FILE* file;
 };
 

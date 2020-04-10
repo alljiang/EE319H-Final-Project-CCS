@@ -34,6 +34,30 @@
 
 void start(UArg arg0, UArg arg1)
 {
+//
+//    while(1) {
+//        ReadSDFIFO();
+//        sleep(1);
+//    }
+
+    /*
+    uint8_t buffer[50];
+    while(1) {
+        UART_receive(2, buffer);
+    }
+    */
+
+    /*
+    uint8_t buffer[2];
+    uint8_t a = 0;
+    while(1) {
+        buffer[0] = 0xDD;
+        buffer[1] = 0xDD;
+        UART_transmit(2, buffer);
+        sleep(1000);
+    }
+    */
+
 //    /*
     Audio_initSD();
     Audio_destroyAllAudio();
@@ -43,18 +67,13 @@ void start(UArg arg0, UArg arg1)
 
     audioparams.soundIndex = 0;
     audioparams.volume = 0.5;
-    audioparams.loop = true;
     int8_t background = Audio_playAudio(audioparams);
-
-//    /*
-    while(1) { ReadSDFIFO(); }
-//    */
-
 //    */
 
 //    /*
     UART_waitForAcknowledge();
     game_startup();
+    int t1, t2;
     while(1) {
         Controller_updateController();
         game_loop();
