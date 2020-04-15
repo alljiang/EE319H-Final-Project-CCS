@@ -287,20 +287,6 @@ void animator_animate(uint8_t charIndex, uint8_t animationIndex,
     for(int16_t i = y; i < y+animation[charIndex][animationIndex].height; i++) {
         if(i >= 0 && i < 241) rowsToUpdate[i] = true;
     }
-
-//    if(spriteSendables[slot].persistent) {
-//        //  add to persistent array in Flash
-//
-//        //  paint row by row
-//        for(uint8_t row = y; row < y + animation[charIndex][animationIndex].height; row++) {
-//            Flash_readMemory(animation[charIndex][animationIndex].memLocation,
-//                            animation[charIndex][animationIndex].width, buffer);
-//
-//            uint32_t memInsertLocation = persistentBackgroundMemLocation + row * 321 + x;
-//
-//            Flash_writeMemory_specifiedAddress(memInsertLocation, animation[charIndex][animationIndex].width, buffer);
-//        }
-//    }
 }
 
 void animator_initialize() {

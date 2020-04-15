@@ -9,7 +9,7 @@
 //  if damage == 0, corner is left. else, it's right corner
 const Hurtbox FD_leftCorner = Hurtbox(true, 38, 103,
                              SHAPE_CIRCLE, 8,
-                             1, 1,0, 0, 0);
+                             1, 0,0, 0, 0);
 const Hurtbox FD_rightCorner = Hurtbox(
         true, 275, 103, SHAPE_CIRCLE,8,
         1, 1,1, 0, 0);

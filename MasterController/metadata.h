@@ -29,22 +29,22 @@
 #define STAGE_BATTLEFIELD 2
 
 const char characterNames[4][15] = {
-                                        {"kirby"},
-                                        {"marth"},
-                                        {"jigglypuff"},
-                                        {"gameandwatch"}
-                                       };
+        {"kirby"},
+        {"marth"},
+        {"jigglypuff"},
+        {"gameandwatch"}
+};
 
 const char persistentSprites[4][10] = {
-                                    {"fdst"},
-                                    {"tower"},
-                                    {"battle"},
-                                    {}
-                                };
+        {"fdst"},
+        {"tower"},
+        {"battle"},
+        {}
+};
 
 const char animations[4][64][10] = {
-                                        {                // frames
-                 /* 0 */                        {"crouch"}, // 1
+        {                // frames
+                /* 0 */                         {"crouch"}, // 1
                                                 {"dash"},   // 8
                                                 {"fall"},   // 2
                                                 {"fallnojmp"},  // 2
@@ -54,7 +54,7 @@ const char animations[4][64][10] = {
                                                 {"slow"},   // 5
                                                 {"slowstop"},   // 2
                                                 {"walk"},    //  12
-                 /* 10 */                       {"jab"},     //  3(single)+2(doub)+(1+6)(repeat)
+                /* 10 */                        {"jab"},     //  3(single)+2(doub)+(1+6)(repeat)
                                                 {"fair"},   //  8
                                                 {"fsmash"},     //  10
                                                 {"fspecial"},   //  11
@@ -64,7 +64,7 @@ const char animations[4][64][10] = {
                                                 {"upsmash"},     //  8
                                                 {"ledge"},      //  1
                                                 {"upbproj"},    //  1   up special landing projectile
-                 /* 20 */                       {"upbinit"},    //  3
+                /* 20 */                        {"upbinit"},    //  3
                                                 {"upbrise"},    //  1
                                                 {"upbtop"},     //  6
                                                 {"upbfall"},    //  1(fall)+1(followthrough)
@@ -74,7 +74,7 @@ const char animations[4][64][10] = {
                                                 {"upair"},      //  6
                                                 {"nair"},       //  8
                                                 {"dashatk"},    //  7
-                 /* 30 */                       {""},
+                /* 30 */                        {""},
                                                 {""},
                                                 {"neutralb"},    //  11
                                                 {"fwdspec"},   //  10
@@ -84,24 +84,24 @@ const char animations[4][64][10] = {
                                                 {""},
                                                 {""},
                                                 {""},
-                 /* 40 */                       {""},
+                /* 40 */                        {"hit"},        //  3
+                                                {"hurt"},       //  8
+                                                {"hurtfall"},   //  3
+                                                {"knockout"},   //  1
+                                                {"stun"},       //  8
                                                 {""},
                                                 {""},
-                                                {""},
-                                                {""},
-                                                {""},
-                                                {""},
-                                        },
-                                        {
+        },
+        {
 
-                                        },
-                                        {
+        },
+        {
 
-                                        },
-                                        {
+        },
+        {
 
-                                        }
-                                      };
+        }
+};
 
 const uint16_t numberOfAnimations = 100;
 

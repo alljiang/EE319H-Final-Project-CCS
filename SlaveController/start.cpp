@@ -152,18 +152,18 @@ void start(UArg arg0, UArg arg1)
         }
         //  Send Animation
         else if(buffer[0]  == 0x0B) {
-            UART_receive(11, buffer);
+            UART_receive(12, buffer);
 
             uint8_t characterIndex = buffer[0];
             uint8_t animationIndex = buffer[1];
-            uint16_t x = (buffer[2] << 8) | buffer[3];
-            uint8_t y = buffer[4];
-            uint8_t frameIndex = buffer[5];
-            bool persistent = buffer[6];
-            uint8_t layer = buffer[7];
-            bool continuous = buffer[8];
-            uint8_t framePeriod = buffer[9];
-            bool mirrored = buffer[10];
+            int16_t x = (buffer[2] << 8) | buffer[3];
+            int16_t y = (buffer[4] << 8) | buffer[5];
+            uint8_t frameIndex = buffer[6];
+            bool persistent = buffer[7];
+            uint8_t layer = buffer[8];
+            bool continuous = buffer[9];
+            uint8_t framePeriod = buffer[10];
+            bool mirrored = buffer[11];
 
             animator_animate(characterIndex, animationIndex, x, y,
                              frameIndex, layer, persistent, continuous,

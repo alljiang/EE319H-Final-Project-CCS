@@ -13,6 +13,7 @@
 #include <ti/drivers/UART.h>
 
 #include <stdint.h>
+#include "Utils.h"
 
 UART_Handle uart;
 UART_Params uartParams;
@@ -105,13 +106,14 @@ void UART_sendAnimation(struct SpriteSendable sendable) {
     UARTBuffer[2] = animation_animationIndex;
     UARTBuffer[3] = (x >> 8) & 0xFF;
     UARTBuffer[4] = (x) & 0xFF;
-    UARTBuffer[5] = (y) & 0xFF;
-    UARTBuffer[6] = frame;
-    UARTBuffer[7] = persistent;
-    UARTBuffer[8] = layer;
-    UARTBuffer[9] = continuous;
-    UARTBuffer[10] = framePeriod;
-    UARTBuffer[11] = mirrored;
+    UARTBuffer[5] = (y >> 8) & 0xFF;
+    UARTBuffer[6] = (y) & 0xFF;
+    UARTBuffer[7] = frame;
+    UARTBuffer[8] = persistent;
+    UARTBuffer[9] = layer;
+    UARTBuffer[10] = continuous;
+    UARTBuffer[11] = framePeriod;
+    UARTBuffer[12] = mirrored;
 
     if(skipNextUpdate || (animationsUpdated == 0 && !acknowledged)) {
         skipNextUpdate = true;
@@ -120,7 +122,7 @@ void UART_sendAnimation(struct SpriteSendable sendable) {
     animationsUpdated++;
     while(!acknowledged) {}
     acknowledged = false;
-    UART_transmit(12, UARTBuffer);
+    UART_transmit(13, UARTBuffer);
     UART_waitForAcknowledge();
 }
 
