@@ -34,13 +34,14 @@ void game_startup() {
     p1->setPlayer(1);
     p1->setX(stage.getStartX(1));
     p1->setY(stage.getStartY(1));
+    p1->setStocks(3);
 
     p2 = &k2;
     k2.setPlayer(2);
     p2->setX(stage.getStartX(2));
     p2->setY(stage.getStartY(2));
     p2->setMirrored(true);
-
+    p2->setStocks(3);
 
     if(PLAYER2) hitboxManager.initialize(p1, p2);
     else hitboxManager.initialize(p1);

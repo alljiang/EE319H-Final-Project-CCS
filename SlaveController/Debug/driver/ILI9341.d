@@ -19,7 +19,6 @@ driver/ILI9341.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/includ
 driver/ILI9341.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/sys/_stdint.h
 driver/ILI9341.obj: C:/Users/Allen/Documents/GitHub/EE319H-Final-Project-CCS/SlaveController/driver/Utils.h
 driver/ILI9341.obj: C:/Users/Allen/Documents/GitHub/EE319H-Final-Project-CCS/SlaveController/driver/v_tm4c123gh6pm.h
-driver/ILI9341.obj: C:/Users/Allen/Documents/GitHub/EE319H-Final-Project-CCS/SlaveController/colors.h
 driver/ILI9341.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/libcxx/stdlib.h
 driver/ILI9341.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/stdlib.h
 driver/ILI9341.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/_ti_config.h
@@ -132,7 +131,6 @@ C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/machine/_stdint.h:
 C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/sys/_stdint.h: 
 C:/Users/Allen/Documents/GitHub/EE319H-Final-Project-CCS/SlaveController/driver/Utils.h: 
 C:/Users/Allen/Documents/GitHub/EE319H-Final-Project-CCS/SlaveController/driver/v_tm4c123gh6pm.h: 
-C:/Users/Allen/Documents/GitHub/EE319H-Final-Project-CCS/SlaveController/colors.h: 
 C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/libcxx/stdlib.h: 
 C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/stdlib.h: 
 C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/_ti_config.h: 

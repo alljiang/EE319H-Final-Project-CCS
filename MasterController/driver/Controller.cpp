@@ -92,11 +92,11 @@ void Controller_updateController() {
 
     if(adcOut0 >= 2500) joystick1_v = 1;
     else if(adcOut0 >= 90) joystick1_v = 0.3;
-    else if(adcOut0 <= 10) joystick1_v = -1;
-    else if(adcOut0 <= 70) joystick1_v = -0.3;
+    else if(adcOut0 <= 17) joystick1_v = -1;
+    else if(adcOut0 <= 30) joystick1_v = -0.3;
     else joystick1_v = 0;
 
-    if(adcOut1 >= 4087) joystick1_h = -1;
+    if(adcOut1 >= 4060) joystick1_h = -1;
     else if(adcOut1 >= 4020) joystick1_h = -0.3;
     else if(adcOut1 <= 2300) joystick1_h = 1;
     else if(adcOut1 <= 4000) joystick1_h = 0.3;
@@ -128,7 +128,7 @@ void Controller_updateController() {
     ADCSequenceDisable(ADC0_BASE, 0);
     ADCSequenceDisable(ADC1_BASE, 0);
 
-//    System_printf("%d\t%d\n", adcOut0, adcOut1);
+    System_printf("%d\t%d\n", adcOut0, adcOut1);
 
     if(adcOut0 >= 4095) joystick2_v = 1;
     else if(adcOut0 >= 1950) joystick2_v = 0.3;
@@ -137,7 +137,7 @@ void Controller_updateController() {
     else joystick2_v = 0;
 
     if(adcOut1 >= 4095) joystick2_h = -1;
-    else if(adcOut1 >= 2050) joystick2_h = -0.3;
+    else if(adcOut1 >= 3500) joystick2_h = -0.3;
     else if(adcOut1 <= 20) joystick2_h = 1;
     else if(adcOut1 <= 1890) joystick2_h = 0.3;
     else joystick2_h= 0;

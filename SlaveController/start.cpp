@@ -206,7 +206,7 @@ void start(UArg arg0, UArg arg1)
 }
 
 Int main()
- {
+{
     System_printf("Starting!\n");
     System_flush();
 

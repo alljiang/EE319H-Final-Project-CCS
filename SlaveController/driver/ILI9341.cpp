@@ -28,7 +28,6 @@
 #include <driver/ILI9341.h>
 #include <driver/Utils.h>
 #include <driver/v_tm4c123gh6pm.h>
-#include <colors.h>
 #include <stdlib.h>
 
 /* XDC module Headers */
@@ -320,59 +319,6 @@ void ILI9341_drawHLineMulticolored(uint32_t x, uint32_t y, uint32_t *rgb, uint32
         loops = num[i];
         for(j = 0; j < loops && l-- > 0; j++) {
             ILI9341_setColor(rgb[i]);
-        }
-    }
-    deselect();
-}
-
-/*
- *  Uses indexed colors form colors.h
- */
-void ILI9341_drawHLineMulticolored_indexed(uint32_t x, uint32_t y, uint16_t *rgb, uint16_t *num, uint32_t n) {
-    if((x > ILI9341_TFTWIDTH) || (y > ILI9341_TFTHEIGHT)) return;
-
-    uint16_t l = 0;
-    uint16_t startOffset = 0;
-    for(int i = 0; i < n; i++) {
-        l += num[i];
-    }
-
-    if(x + l >= ILI9341_TFTWIDTH) l = ILI9341_TFTWIDTH-x;
-
-    beginSPITransaction();
-
-    //  trim beginning
-    if(colors[rgb[n-1]] == (uint32_t) -1) {
-        n--;
-        l -= num[n];
-    }
-
-    //  trim end
-    if(colors[rgb[0]] == (uint32_t) -1) {
-        startOffset = 1;
-    }
-
-
-    if(startOffset == 1) {
-        ILI9341_setCoords(x+num[0],y,x+l,y);
-        l -= num[0];
-    }
-    else {
-        ILI9341_setCoords(x,y,x+l,y);
-    }
-
-    for(int i = startOffset; i < n; i++) {
-        uint16_t loops = num[i];
-
-        for(uint16_t j = 0; j < loops && l-- > 0; j++) {
-            uint32_t actualcolor = colors[rgb[i]];
-            if(actualcolor != (uint32_t)-1) {
-                ILI9341_setColor(actualcolor);
-            }
-            else {
-                ILI9341_setColor(0);
-//                ILI9341_setColor(0x00FF00);
-            }
         }
     }
     deselect();
