@@ -115,6 +115,7 @@ class HitboxManager {
 protected:
     Player *p1, *p2;
     Hurtbox hurtboxes[hurtboxSlots];
+    bool activationFlags[hurtboxSlots];
     uint16_t persistentHurtbox = 0; // big endian
 
 public:
@@ -126,10 +127,10 @@ public:
     }
 
     void checkCollisions();
-    void addHurtbox(double xOffset, double yOffset, bool mirrored,
-                    class Hurtbox hurtBox, uint8_t playerSource, bool persistent);
-    void addHurtbox(double xOffset, double yOffset, bool mirrored,
-                    class Hurtbox hurtBox, uint8_t playerSource);
+    bool* addHurtboxFullConfig(double xOffset, double yOffset, bool mirrored,
+                              class Hurtbox hurtBox, uint8_t playerSource, bool persistent);
+    bool* addHurtbox(double xOffset, double yOffset, bool mirrored,
+                    class Hurtbox hurtBox, uint8_t playerSource, double multiplier=1);
     void displayHitboxesOverlay();
     void clearHitboxOverlay();
 };
@@ -155,7 +156,7 @@ protected:
     const double joystickJumpSpeed = 0.4;   //  joystick must change by this much to activate a jump
 
     uint8_t player;             //  1 or 2
-    uint16_t damage;            //  percentage between 0% and 999%
+    double damage;            //  percentage between 0% and 999%
     int16_t action, l_action;
 
     uint8_t animationIndex;     //  index of animation
@@ -164,9 +165,11 @@ protected:
     bool continuous{false};
     bool mirrored, l_mirrored;
 
+    long long deathTime{0};
+
     long long disabledFrames {0};   //  frames before making a new move
+    long long invulnerableFrames {0};   //  frames of hurtbox invulnerability
     bool noJumpsDisabled;           //  disabled until landing because of running out of jumps
-    bool pauseFall;                 //  pauses changes in y from y velocity
 
     double l_joyH;              //  last joystick horizontal value
     double l_joyV;              //  last joystick vertical value
@@ -192,10 +195,14 @@ protected:
 public:
     Player() {}
 
+    bool dead;
+    uint8_t stocksRemaining;
+
     Hitbox hitbox = Hitbox(0, 0, 0, 0);
 
     void setPlayer(uint8_t p) { player = p; }
-    void setMirrored(bool mirror) { l_mirrored = mirrored = mirror;}
+    void setMirrored(bool mirror) { l_mirrored = mirrored = mirror; }
+    void setStocks(uint8_t lives) { stocksRemaining = lives; }
 
     virtual void controlLoop(double joyH, double joyV, bool btnA, bool btnB, bool shield, class Stage* stage,
                              class HitboxManager* hitboxManager) = 0; //  called every update
@@ -264,6 +271,11 @@ protected:
     const double maxHorizontalSpeed = 20*3;
     const double groundFriction = 0.5;
 
+    const double DIVerticalSpeed = 0.2 * 3;
+    const double DIHorizontalSpeed = 0.2 * 3;
+    const double DIKnockbackVerticalSpeed = 0.3 * 3;
+    const double DIKnockbackHorizontalSpeed = 0.4 * 3;
+
     //  standing, resting
     long long lastBlink{0};
 
@@ -275,6 +287,7 @@ protected:
     double upb_projectile_x, upb_projectile_startX, upb_projectile_startY;
     bool upb_projectile_mirrored;
     bool upb_projectile_active;
+    bool* upb_projectile_activationFlag = nullptr;
 
     //  down special
     long long morphEndTime, morphLandTime;
@@ -286,55 +299,70 @@ protected:
 public:
     Hurtbox jabSingle = Hurtbox(true,14, 11, SHAPE_CIRCLE,
                                 8, 1,
-                                3, 0, 0,3);
+                                0.8, 0, 0,3);
     Hurtbox jabDouble = Hurtbox(true,14, 12, SHAPE_CIRCLE,
                                 7, 1,
-                                3, 0, 0,3);
+                                0.8, 0, 0,3);
     Hurtbox jabRepeating0 = Hurtbox(true,23, 12, SHAPE_CIRCLE,
                                     11, 1,
-                                    3, 0, 0,3);
+                                    0.2, 0, 0,3);
     Hurtbox jabRepeating1 = Hurtbox(true,25, 25, SHAPE_CIRCLE,
                                     11, 1,
-                                    3, 0, 0,3);
+                                    0.2, 0, 0,3);
     Hurtbox jabRepeating2 = Hurtbox(true,23, 5, SHAPE_CIRCLE,
                                     9, 1,
-                                    3, 0, 0,3);
+                                    0.2, 0, 0,3);
     Hurtbox forwardTilt = Hurtbox(true,10, 11, SHAPE_CIRCLE,
-                                  8, 1);
+                                  8, 1,
+                                  3, 3.0, 2.5, -1);
     Hurtbox upTilt = Hurtbox(-6., 21, SHAPE_RECTANGLE,
-                             25, 18, 1);
+                             25, 18, 1,
+                             3, 1.5, 3.3, -1);
     Hurtbox downTilt = Hurtbox(4., 2, SHAPE_RECTANGLE,
-                               6, 28, 1);
-    Hurtbox forwardSmash0 = Hurtbox(1., 5, SHAPE_RECTANGLE,
-                                    20, 22, 1);
-    Hurtbox forwardSmash1 = Hurtbox(25., 5, SHAPE_RECTANGLE,
-                                    20, 20, 1,
-                                    12, 5.5, 6,-1);
+                               6, 28, 1,
+                               3, 1, 2.6, -1);
+    Hurtbox forwardSmash = Hurtbox(25., 5, SHAPE_RECTANGLE,
+                                   20, 20, 1,
+                                   3.9, 3.7, 3.1, -1);
     Hurtbox upSmash = Hurtbox(true, 0., 26, SHAPE_CIRCLE,
-                              14, 1);
+                              14, 1,
+                              3.9,3.1, 4.1,-1);
     Hurtbox downSmash = Hurtbox(0., 2, SHAPE_RECTANGLE,
-                                10, 44, 1);
-    Hurtbox upSpecial = Hurtbox(25., 18, SHAPE_RECTANGLE,
-                                20, 30, 1);
+                                10, 44, 1,
+                                3.9,4.2, 1.5, -1);
+    Hurtbox upSpecialRising = Hurtbox(25., 18, SHAPE_RECTANGLE,
+                                      20, 30, 1,
+                                      3, 2.1, 3.2, -1);
     Hurtbox upSpecialTop = Hurtbox(0., 40, SHAPE_RECTANGLE,
-                                   20, 40, 1);
+                                   20, 40, 1,
+                                   2.2, 2.8, 3.3, -1);
+    Hurtbox upSpecialFalling = Hurtbox(25., 18, SHAPE_RECTANGLE,
+                                      20, 30, 1,
+                                      1.2, 2.8, -0.8, -1);
     Hurtbox upSpecialProjectile = Hurtbox(4., 16, SHAPE_RECTANGLE,
-                                          32, 20, 1);
+                                          32, 20, 1,
+                                          4, 3.2, 2.9, 7);
     Hurtbox downSpecial = Hurtbox(true,0, 5, SHAPE_CIRCLE,
-                                  12, 1);
+                                  12, 1,
+                                  6, 3.8, 4.9, -1);
     Hurtbox neutralAir = Hurtbox(true,0, 15, SHAPE_CIRCLE,
-                                 14, 1);
+                                 14, 1,
+                                 4, 1.9, 3.0, -1);
     Hurtbox forwardAir = Hurtbox(true,18, 13, SHAPE_CIRCLE,
-                                 8, 1);
+                                 8, 1,
+                                 4.5, 3.3, 2.0, -1);
     Hurtbox backAir = Hurtbox(true,-14, 11, SHAPE_CIRCLE,
-                              8, 1);
+                              4.5, 1,
+                              6, 3.7, 2.3, -1);
     Hurtbox upAir = Hurtbox(true,0, 28, SHAPE_CIRCLE,
-                            16, 1);
+                            16, 1,
+                            6, 1.6, 2.7, -1);
     Hurtbox downAir = Hurtbox(5., -2, SHAPE_RECTANGLE,
-                              17, 10, 1);
+                              17, 10, 1,
+                              0.8, 0.6, 0.1, 2);
     Hurtbox dashAttack = Hurtbox(true,2, 13, SHAPE_CIRCLE,
                                  14, 1,
-                                 7, 4, 5.4, -1);
+                                 4, 4, 4.7, -1);
     Hurtbox sideSpecial0 = Hurtbox(true,-28, 7, SHAPE_CIRCLE,
                                    11, 1);
     Hurtbox sideSpecial1 = Hurtbox(true,-17, 3, SHAPE_CIRCLE,

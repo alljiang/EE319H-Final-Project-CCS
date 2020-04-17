@@ -1,22 +1,22 @@
 
-#include <Flash.h>
-#include <xdc/runtime/System.h>
 #include <cstring>
 #include <cstdint>
 #include <cstdio>
 #include <cstdlib>
 #include "animator.h"
 #include "metadata.h"
+#include "Flash.h"
 #include "SD.h"
 #include "utils.h"
 #include "ILI9341.h"
-#include "colors.h"
+#include "colors_kirby.h"
+#include "colors_misc.h"
 #include <cmath>
 using namespace std;
 
 #define maxSprites 16
 
-uint8_t buffer[1000];   // it's big because i can. if this is too big, lower it down to like 700
+uint8_t buffer[700];   // it's big because i can. if this is too big, lower it down to like 700
 uint8_t* bufferptr;
 
 uint8_t smallBuffer2[300];
@@ -24,8 +24,8 @@ int32_t finalColors[321];  // a color index of -1 means 'do not change'
 uint8_t layer[321];
 bool rowsToUpdate[241];
 const uint32_t *backgroundColors;
-
-uint32_t backgroundColorIndex = 0;
+const uint32_t* colors[CHARACTERS];
+uint32_t backgroundColorIndex[CHARACTERS];
 
 uint32_t persistentBackgroundMemLocation;
 Animation animation[4][numberOfAnimations];
@@ -126,9 +126,9 @@ void animator_update() {
                 //  get frame location with frame index array
                 bufferptr = Flash_readMemory(anim->memLocation + 3*ss->frame, 3, buffer);
                 uint32_t frameLocation = anim->memLocation  //  start location
-                        + anim->frames*3    //  frame index array
-                        + (anim->height+1)*2 * ss->frame    //  row index array
-                        + ((bufferptr[0] << 16u) + (bufferptr[1] << 8u) + bufferptr[2])*2;    //  frame location offset
+                                         + anim->frames*3    //  frame index array
+                                         + (anim->height+1)*2 * ss->frame    //  row index array
+                                         + ((bufferptr[0] << 16u) + (bufferptr[1] << 8u) + bufferptr[2])*2;    //  frame location offset
 
                 //  get row location with row index array
                 bufferptr = Flash_readMemory(frameLocation + (anim->height - heightDifference - 1)*2, 4, buffer);
@@ -147,7 +147,7 @@ void animator_update() {
                     uint16_t colorIndex = (bufferptr[pair*2+0]);
                     uint16_t quantity = (bufferptr[pair*2+1]);
 
-                    if(colorIndex == backgroundColorIndex) {
+                    if(colorIndex == backgroundColorIndex[anim->characterIndex]) {
                         //  this is the background color, ignore it
                         column += quantity;
                         continue;
@@ -158,7 +158,7 @@ void animator_update() {
                         if(ss->mirrored) {
                             if(!(ss->x+(anim->width) - column > 320 || ss->x+(anim->width) - column < 0)) {
                                 if (layer[ss->x + (anim->width) - column] < ss->layer) {
-                                    finalColors[ss->x + (anim->width) - column] = colors[colorIndex];
+                                    finalColors[ss->x + (anim->width) - column] = colors[anim->characterIndex][colorIndex];
                                     layer[ss->x + (anim->width) - column] = ss->layer;
                                 }
                             }
@@ -166,7 +166,7 @@ void animator_update() {
                         else {
                             if(!(ss->x + column > 320 || ss->x + column < 0)) {
                                 if (layer[ss->x + column] < ss->layer) {
-                                    finalColors[ss->x + column] = colors[colorIndex];
+                                    finalColors[ss->x + column] = colors[anim->characterIndex][colorIndex];
                                     layer[ss->x + column] = ss->layer;
                                 }
                             }
@@ -258,8 +258,8 @@ void animator_setBackgroundColors(const uint32_t *backgroundArr) {
 
 //  receive from UART, adds an animation to be displayed
 void animator_animate(uint8_t charIndex, uint8_t animationIndex,
-        int16_t x, int16_t y, uint8_t frame, uint8_t animationlayer, uint8_t persistent,
-        uint8_t continuous, uint8_t framePeriod, bool mirrored) {
+                      int16_t x, int16_t y, uint8_t frame, uint8_t animationlayer, uint8_t persistent,
+                      uint8_t continuous, uint8_t framePeriod, bool mirrored) {
 
     //  find first unused animation slot
     uint8_t slot;
@@ -287,16 +287,36 @@ void animator_animate(uint8_t charIndex, uint8_t animationIndex,
     for(int16_t i = y; i < y+animation[charIndex][animationIndex].height; i++) {
         if(i >= 0 && i < 241) rowsToUpdate[i] = true;
     }
+
+//    if(spriteSendables[slot].persistent) {
+//        //  add to persistent array in Flash
+//
+//        //  paint row by row
+//        for(uint8_t row = y; row < y + animation[charIndex][animationIndex].height; row++) {
+//            Flash_readMemory(animation[charIndex][animationIndex].memLocation,
+//                            animation[charIndex][animationIndex].width, buffer);
+//
+//            uint32_t memInsertLocation = persistentBackgroundMemLocation + row * 321 + x;
+//
+//            Flash_writeMemory_specifiedAddress(memInsertLocation, animation[charIndex][animationIndex].width, buffer);
+//        }
+//    }
 }
 
 void animator_initialize() {
     persistentBackgroundMemLocation = Flash_allocateMemory(241*321*3);
 
+    colors[0] = colors_kirby;
+    colors[3] = colors_misc;
+
     // Find which color index is 0xFFFFFFFF (background)
-    for(int32_t i = 0; i < sizeof(colors); i++) {
-        if(colors[i] == 0xFFFFFFFF) {
-            backgroundColorIndex = i;
-            break;
+    for(int c = 0; c < CHARACTERS; c++) {
+        if(c != 0 && c != 3) continue;
+        for(int32_t i = 0; i < sizeof(colors); i++) {
+            if(colors[c][i] == 0xFFFFFFFF) {
+                backgroundColorIndex[c] = i;
+                break;
+            }
         }
     }
 
@@ -316,7 +336,7 @@ void animator_readPersistentSprite(const char* spriteName, uint16_t x, uint8_t y
 
     SD_openFile(filename);
 
-    printf("Reading in sprite: %s\n", spriteName);
+//    printf("Reading in sprite: %s\n", spriteName);
 
 
     SD_read(2, buffer);
@@ -356,8 +376,7 @@ void animator_readCharacterSDCard(uint8_t charIndex) {
     SD_read(2, buffer);
     uint16_t numAnimations = readHalfInt(buffer);
 
-    System_printf("Reading in character %s: %d animations\n", characterNames[charIndex], numAnimations);
-    System_flush();
+//   System_printf("Reading in character %s: %d animations\n", characterNames[charIndex], numAnimations);
 
     uint8_t animationName[15];
     while(numAnimations--) {
@@ -383,8 +402,7 @@ void animator_readCharacterSDCard(uint8_t charIndex) {
         }
         if(!found) {
             animationName[animationNameLength] = '\0'; //  prepare to print the string
-            System_printf("ERROR Animation not found: %s\n", animationName);
-            System_flush();
+//            System_printf("ERROR Animation not found: %s\n", animationName);
             while(1);
             continue;
         }
