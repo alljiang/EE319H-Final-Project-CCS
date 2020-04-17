@@ -36,7 +36,7 @@ void SD_openFile(char filename[]) {
     src = fopen(systemFilename, "r");
 
     if(!src) {
-        System_printf("File not found: %s\n", systemFilename);
+        System_printf("File not found\n");
         System_flush();
     }
 }

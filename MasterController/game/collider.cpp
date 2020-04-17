@@ -15,13 +15,11 @@ void HitboxManager::checkCollisions() {
         if(p2 != nullptr && hurtboxes[slot].source == 1 && p2->hitbox.isColliding(hurtboxes[slot])) {
             //  hurtbox collision with player 2!
             hurtboxes[slot].active = false;
-            activationFlags[slot] = true;
             p2->collide(&hurtboxes[slot], p1);
         }
         else if(p2 != nullptr && hurtboxes[slot].source == 2 && p1->hitbox.isColliding(hurtboxes[slot])) {
             //  hurtbox collision with player 1!
             hurtboxes[slot].active = false;
-            activationFlags[slot] = true;
             p1->collide(&hurtboxes[slot], p2);
         }
         else if(hurtboxes[slot].source == 0) {
@@ -43,8 +41,8 @@ void HitboxManager::checkCollisions() {
     }
 }
 
-bool* HitboxManager::addHurtboxFullConfig(double xOffset, double yOffset, bool mirrored,
-                                         class Hurtbox hurtBox, uint8_t playerSource, bool persistent) {
+void HitboxManager::addHurtbox(double xOffset, double yOffset, bool mirrored,
+        class Hurtbox hurtBox, uint8_t playerSource, bool persistent) {
     hurtBox.active = true;
     hurtBox.currentFrame = 0;
 
@@ -59,22 +57,15 @@ bool* HitboxManager::addHurtboxFullConfig(double xOffset, double yOffset, bool m
         if(!hurtboxes[slot].active) {
             if(persistent) persistentHurtbox |= 1u << slot;
             hurtboxes[slot] = hurtBox;
-            activationFlags[slot] = false;
-            return &activationFlags[slot];
+            break;
         }
     }
-
-    printf("No more hitbox slots!\n");
-    return nullptr;    //  no slots remaining
+    if(slot == hurtboxSlots) return;    //  no slots remaining
 }
 
-bool* HitboxManager::addHurtbox(double xOffset, double yOffset, bool mirrored,
-       class Hurtbox hurtBox, uint8_t playerSource, double multiplier) {
-    hurtBox.damage *= multiplier;
-    hurtBox.yKnockback *= multiplier;
-    hurtBox.xKnockback *= multiplier;
-
-    return this->addHurtboxFullConfig(xOffset, yOffset, mirrored, hurtBox, playerSource, false);
+void HitboxManager::addHurtbox(double xOffset, double yOffset, bool mirrored,
+       class Hurtbox hurtBox, uint8_t playerSource) {
+    this->addHurtbox(xOffset, yOffset, mirrored, hurtBox, playerSource, false);
 }
 
 bool Hitbox::isColliding(class Hurtbox hurtbox) {

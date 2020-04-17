@@ -136,9 +136,11 @@ void start(UArg arg0, UArg arg1)
 //    /*
     animator_initialize();
     UART_sendByte(0x10);
-    uint8_t buffer[20];
+    uint8_t buffer[50];
     while(1) {
+        GPIOPinWrite(GPIO_PORTB_BASE, GPIO_PIN_2, 0);
         UART_receive(1, buffer);
+        GPIOPinWrite(GPIO_PORTB_BASE, GPIO_PIN_2, GPIO_PIN_2);
 
         //  Read Character SD Card
         if(buffer[0] == 0x0A) {
@@ -206,7 +208,7 @@ void start(UArg arg0, UArg arg1)
 }
 
 Int main()
- {
+{
     System_printf("Starting!\n");
     System_flush();
 

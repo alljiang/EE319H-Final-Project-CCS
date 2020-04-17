@@ -39,7 +39,7 @@ SPI_Handle Flash_spi;
 SPI_Params Flash_spi_params;
 SPI_Transaction Flash_transaction;
 
-uint8_t Flash_txBuffer[10];
+uint8_t Flash_txBuffer[300];
 uint32_t currentLocation = 0;
 
 void Flash_init() {

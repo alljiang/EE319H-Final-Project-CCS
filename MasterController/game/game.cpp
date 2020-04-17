@@ -52,7 +52,6 @@ void game_startup() {
     UART_readPersistentSprite(stageToPlay, 0, 0);
 
     UART_readCharacterSDCard(0);
-    UART_readCharacterSDCard(3);
 }
 
 //  continually loops
@@ -75,52 +74,6 @@ void game_loop() {
                     getBtn_l(2) || getBtn_r(2), &stage,
                     &hitboxManager
             );
-        }
-
-        bool updateScore = false;
-        if(!p1->dead && (p1->x < -40 || p1->x > 360 || p1->y < -40 || p1->y > 280)) {
-            p1->dead = true;
-            updateScore = true;
-
-            if(p1->stocksRemaining > 0) p1->stocksRemaining--;
-        }
-        if(!p2->dead && (p2->x < -40 || p2->x > 360 || p2->y < -40 || p2->y > 280)) {
-            p2->dead = true;
-            updateScore = true;
-
-            if(p2->stocksRemaining > 0) p2->stocksRemaining--;
-        }
-
-        if(updateScore) {
-            SpriteSendable s;
-            s.charIndex = 3;
-            s.framePeriod = 20;
-            s.frame = 0;
-            s.persistent = false;
-            s.continuous = false;
-            s.layer = LAYER_PERCENTAGE;
-            s.mirrored = false;
-
-            s.x = 90;
-            s.y = 100;
-            if(p1->stocksRemaining == 3) s.animationIndex = 3;
-            else if(p1->stocksRemaining == 2) s.animationIndex = 2;
-            else if(p1->stocksRemaining == 1) s.animationIndex = 1;
-            else s.animationIndex = 0;
-            UART_sendAnimation(s);
-
-            s.x = 170;
-            s.y = 100;
-            if(p2->stocksRemaining == 3) s.animationIndex = 3;
-            else if(p2->stocksRemaining == 2) s.animationIndex = 2;
-            else if(p2->stocksRemaining == 1) s.animationIndex = 1;
-            else s.animationIndex = 0;
-            UART_sendAnimation(s);
-
-            s.x = 140;
-            s.y = 115;
-            s.animationIndex = 4;
-            UART_sendAnimation(s);
         }
 
         UART_commandUpdate();
