@@ -23,18 +23,7 @@ void Kirby::controlLoop(double joyH, double joyV, bool btnA, bool btnB, bool shi
         if(deathTime == 0) deathTime = currentTime;
         else if(currentTime - deathTime > 1000) {
             //  respawn
-
-            //  reset
-            l_joyH = 0;
-            l_joyV = 0;
-            l_btnA = 0;
-            l_btnB = 0;
-            l_shield = 0;
-            l_mirrored = 0;
-            frameIndex = 0;
-            frameLengthCounter = 0;
-            deathTime = 0;
-            jumpsUsed = 0;
+            reset();
 
             y = 240;
             x = 159;
@@ -1713,4 +1702,40 @@ void Kirby::collide(Hurtbox *hurtbox, Player *otherPlayer) {
 
         action = KIRBY_ACTION_HURT;
     }
+}
+
+void Kirby::reset() {
+    yVel = 0;
+    xVel = 0;
+    currentTime = 0;
+    damage = 0;
+    action = 0;
+    l_action = 0;
+    frameIndex = 0;
+    frameExtension = 1;
+    frameLengthCounter = 0;
+    deathTime = 0;
+    disabledFrames = 0;
+    invulnerableFrames = 0;
+    noJumpsDisabled = false;
+
+    l_joyV = 0;
+    l_joyH = 0;
+    l_btnA = false;
+    l_btnARise_t = -1;
+    l_btnAFall_t = -1;
+    l_btnB = false;
+    l_btnBRise_t = -1;
+    l_btnBFall_t = -1;
+    l_shield = false;
+    l_shieldRise_t = -1;
+    l_shieldFall_t = -1;
+
+    fsmash_startTime = 0;
+    dsmash_startTime = 0;
+    usmash_startTime = 0;
+    ledgeGrabTime = 0;
+    jumpsUsed = 0;
+
+    dead = false;
 }

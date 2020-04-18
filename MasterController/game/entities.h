@@ -208,6 +208,7 @@ public:
                              class HitboxManager* hitboxManager) = 0; //  called every update
     virtual void updateLastValues(double joyH, double joyV, bool btnA, bool btnB, bool shield) = 0;
     virtual void collide(class Hurtbox *hurtbox, class Player *otherPlayer) = 0;
+    virtual void reset() = 0;
 };
 
 
@@ -385,6 +386,8 @@ public:
     void updateLastValues(double joyH, double joyV, bool btnA, bool btnB, bool shield) override ;
 
     void collide(class Hurtbox *hurtbox, class Player *otherPlayer) override;
+
+    void reset() override;
 };
 
 #endif //EE319K_FINAL_PROJECT_INITIAL_TESTING_ENTITIES_H

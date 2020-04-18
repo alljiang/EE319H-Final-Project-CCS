@@ -12,6 +12,7 @@
 #include <ti/sysbios/hal/Hwi.h>
 #include <ti/drivers/SDSPI.h>
 #include <ti/drivers/GPIO.h>
+#include "v_tm4c123gh6pm.h"
 
 #include <string.h>
 
@@ -113,6 +114,8 @@ Int main()
     params.priority = 1;
     params.stack = &stack;
     Task_construct(&taskStruct, (Task_FuncPtr)start, &params, NULL);
+
+    GPIO_PORTF_DIR_R |= 0x02;
 
     BIOS_start();    /* does not return */
 

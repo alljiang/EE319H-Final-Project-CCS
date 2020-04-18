@@ -1,6 +1,8 @@
-
 /*
- *  ======== uartecho.c ========
+ *  UART Driver
+ *  Allen Jiang
+ *  319H: Intro to Embedded Systems
+ *  March 2020
  */
 
 /* XDCtools Header files */

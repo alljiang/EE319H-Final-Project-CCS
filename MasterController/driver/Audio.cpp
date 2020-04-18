@@ -31,6 +31,7 @@
 #include "inc/hw_memmap.h"
 #include "driverlib/debug.h"
 #include "driverlib/gpio.h"
+#include "v_tm4c123gh6pm.h"
 
 #include "Audio.h"
 #include "Utils.h"
@@ -55,14 +56,24 @@ uint8_t readBuffer[FIFOBufferSize];
 volatile uint8_t numAudio = 0;
 
 volatile int32_t samplesPlayed = 0;
+long long ISRSkipTime = -1;
 
 void audioISR(UArg arg) {
+
+    if(ISRSkipTime != -1) {
+        if(millis() - ISRSkipTime > 20) {
+            ISRSkipTime = -1;
+        }
+        else return;
+    }
+
     if(FIFO_Max_Size == 0 || numAudio == 0) {
-        millis();
+        ISRSkipTime = millis();
         return;
     }
 
 //      write to DAC
+//    numAudio = 1;
     uint16_t toWrite = audioFIFOBuffer[FIFO_Start] / numAudio;
     if(toWrite > 0 && toWrite <= 255) {
         Audio_DAC_write(toWrite);
@@ -87,12 +98,12 @@ void ReadSDFIFO() {
     uint32_t samplesPlayedSinceLastLoop = samplesPlayed;
     samplesPlayed = 0;
     uint8_t numAudioRead = 0;
-    for(int16_t slot = 0; slot < NumAudioSlots; slot++) {
+    for(int8_t slot = 0; slot < NumAudioSlots; slot++) {
         //  skip if audio finished or uninitialized
         if(audioSlots[slot].startIndex == audioSlots[slot].endIndex) {
             //  only destroy the sendable if it has not been destroyed yet
             if(audioSlots[slot].startIndex != 0) {
-                Audio_destroyAudio(slot);
+                Audio_destroy(&slot);
             }
             continue;
         }
@@ -114,7 +125,7 @@ void ReadSDFIFO() {
             bytesToRead = totalBytesRemaining;
         }
 
-        if(bytesToRead < 1536 && totalBytesRemaining > 1536) bytesToRead = 0;
+        if(bytesToRead < 1024 && totalBytesRemaining > 1024) bytesToRead = 0;
         else if(bytesToRead > 512) {
             bytesToRead = 512*(bytesToRead/512);    // read in multiples of 512 bytes (1 page)
         }
@@ -222,27 +233,41 @@ int8_t Audio_play(uint16_t soundIndex, float volume, uint32_t startIndex, int32_
     return Audio_playAudio(audioparams);
 }
 
-void Audio_destroyAudio(int8_t slotID) {
-    if(slotID < 0 || slotID >= NumAudioSlots) return;
-    audioSlots[slotID].startIndex = 0;
+void Audio_destroyAudio(int8_t* slotID, bool overrideLoop) {
+    if(*slotID < 0 || *slotID >= NumAudioSlots) return;
+    audioSlots[*slotID].startIndex = 0;
 
-    if(audioSlots[slotID].loop) {
+    if(audioSlots[*slotID].loop && !overrideLoop) {
         //  restart audio if supposed to loop
-        rewind(audioSlots[slotID].file);
+        rewind(audioSlots[*slotID].file);
         return;
     }
 
-    audioSlots[slotID].endIndex = 0;
+    audioSlots[*slotID].endIndex = 0;
 
-    if(audioSlots[slotID].file != NULL) {
+    if(audioSlots[*slotID].file != NULL) {
         //  close file if open
-        fclose(audioSlots[slotID].file);
+        fclose(audioSlots[*slotID].file);
     }
+    *slotID = -1;
+}
+
+void Audio_destroy(int8_t* slotID) {
+    Audio_destroyAudio(slotID, false);
+}
+
+void Audio_clearBuffer() {
+    for(int i = 0; i < FIFOBufferSize; i++) {
+        audioFIFOBuffer[i] = 0;
+    }
+    FIFO_Start = 0;
+    FIFO_Max_Size = 0;
 }
 
 void Audio_destroyAllAudio() {
     for(uint8_t i = 0; i < NumAudioSlots; i++) {
-        Audio_destroyAudio(i);
+        int8_t copy = i;
+        Audio_destroy(&copy);
     }
 }
 
