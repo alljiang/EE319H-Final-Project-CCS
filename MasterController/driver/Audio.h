@@ -21,8 +21,20 @@ const char soundNames[100][10] = {
         {"321go"},
         {"smash"},
         {"sine"},
-        {"note_a"},
-        {"note_e"},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
         {},
         {},
         {},
@@ -58,6 +70,7 @@ extern void Audio_init();
 extern void Audio_initSD();
 extern void Audio_closeSD();
 extern int8_t Audio_playAudio(struct AudioParams sendable);
+extern int8_t Audio_play(uint16_t soundIndex, float volume, uint32_t startIndex=0, int32_t endIndex=-1, bool loop=false);
 extern void Audio_destroyAudio(int8_t slotID);
 extern void Audio_destroyAllAudio();
 extern void Audio_DAC_write(uint16_t mapping);

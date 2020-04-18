@@ -6,6 +6,7 @@
 #include "stage.h"
 #include "Controller.h"
 #include "game.h"
+#include "Audio.h"
 
 using namespace std;
 
@@ -17,7 +18,11 @@ HitboxManager hitboxManager;
 Kirby k1;
 Kirby k2;
 
-bool quit;
+bool quit, countdown;
+uint8_t frameIndex, frameLength;
+long long loopsCompleted;
+
+int backgroundAudioHandle;
 
 float x = 0;
 float y = 0;
@@ -43,6 +48,8 @@ void game_startup() {
     p2->setMirrored(true);
     p2->setStocks(3);
 
+    countdown = true;
+
     if(PLAYER2) hitboxManager.initialize(p1, p2);
     else hitboxManager.initialize(p1);
 
@@ -60,22 +67,60 @@ void game_startup() {
 uint32_t  lastUpdate = 0;
 void game_loop() {
     if(millis() - lastUpdate >= 1./UPDATERATE*1000) {
+        SpriteSendable s;
         lastUpdate = millis();
-        stage.update();
-        p1->controlLoop(
-                getJoystick_h(1), getJoystick_v(1),
-                getBtn_a(1), getBtn_b(1),
-                getBtn_l(1) || getBtn_r(1), &stage,
-                &hitboxManager
-                );
 
-        if(PLAYER2) {
-            p2->controlLoop(
-                    getJoystick_h(2), getJoystick_v(2),
-                    getBtn_a(2), getBtn_b(2),
-                    getBtn_l(2) || getBtn_r(2), &stage,
+        if(countdown) {
+            if(frameLength++ == 1) {
+                frameIndex++;
+                frameLength = 0;
+            }
+            if(frameIndex == 0) {
+                sleep(1000);
+                Audio_play(1, 1.0);     // play countdown
+            }
+            if(frameIndex == 36) {
+                countdown = false;
+                backgroundAudioHandle = Audio_play(0, 0.5, 0, -1, true);
+            }
+            else {
+                s.x = 100;
+                s.y = 100;
+                s.charIndex = 3;
+                s.framePeriod = 1;
+                s.animationIndex = 9;
+                s.frame = frameIndex;
+                s.persistent = false;
+                s.continuous = false;
+                s.layer = LAYER_OVERLAY;
+                s.mirrored = false;
+                UART_sendAnimation(s);
+            }
+        }
+
+        stage.update();
+
+        if(countdown) {
+            //  freeze players
+            p1->controlLoop(0,0,0,0,0, &stage, &hitboxManager);
+            if(PLAYER2) p2->controlLoop(0,0,0,0,0, &stage, &hitboxManager);
+        } else {
+
+            p1->controlLoop(
+                    getJoystick_h(1), getJoystick_v(1),
+                    getBtn_a(1), getBtn_b(1),
+                    getBtn_l(1) || getBtn_r(1), &stage,
                     &hitboxManager
             );
+
+            if (PLAYER2) {
+                p2->controlLoop(
+                        getJoystick_h(2), getJoystick_v(2),
+                        getBtn_a(2), getBtn_b(2),
+                        getBtn_l(2) || getBtn_r(2), &stage,
+                        &hitboxManager
+                );
+            }
         }
 
         bool updateScore = false;
@@ -93,7 +138,6 @@ void game_loop() {
         }
 
         if(updateScore) {
-            SpriteSendable s;
             s.charIndex = 3;
             s.framePeriod = 20;
             s.frame = 0;
@@ -126,5 +170,7 @@ void game_loop() {
 
         UART_commandUpdate();
         hitboxManager.checkCollisions();
+
+        loopsCompleted++;
     }
 }

@@ -193,6 +193,11 @@ game/game.obj: ../game/stage.h
 game/game.obj: ../game/entities.h
 game/game.obj: C:/Users/Allen/Documents/GitHub/EE319H-Final-Project-CCS/MasterController/driver/Controller.h
 game/game.obj: ../game/game.h
+game/game.obj: C:/Users/Allen/Documents/GitHub/EE319H-Final-Project-CCS/MasterController/driver/Audio.h
+game/game.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/libcxx/stdio.h
+game/game.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/stdio.h
+game/game.obj: C:/ti/tirtos_tivac_2_16_00_08/products/TivaWare_C_Series-2.1.1.71b/inc/hw_memmap.h
+game/game.obj: C:/ti/tirtos_tivac_2_16_00_08/products/TivaWare_C_Series-2.1.1.71b/driverlib/gpio.h
 
 ../game/game.cpp: 
 C:/Users/Allen/Documents/GitHub/EE319H-Final-Project-CCS/MasterController/driver/Utils.h: 
@@ -387,3 +392,8 @@ C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/libcxx/__undef_mac
 ../game/entities.h: 
 C:/Users/Allen/Documents/GitHub/EE319H-Final-Project-CCS/MasterController/driver/Controller.h: 
 ../game/game.h: 
+C:/Users/Allen/Documents/GitHub/EE319H-Final-Project-CCS/MasterController/driver/Audio.h: 
+C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/libcxx/stdio.h: 
+C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/stdio.h: 
+C:/ti/tirtos_tivac_2_16_00_08/products/TivaWare_C_Series-2.1.1.71b/inc/hw_memmap.h: 
+C:/ti/tirtos_tivac_2_16_00_08/products/TivaWare_C_Series-2.1.1.71b/driverlib/gpio.h: 

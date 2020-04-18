@@ -110,6 +110,7 @@ const char animations[CHARACTERS][64][12] = {
                                                 {"blastleft"},  //  17
                                                 {"blastright"}, //  17
                                                 {"blastup"},    //  17
+                                                {"321go"}       //  36
 
         }
 };

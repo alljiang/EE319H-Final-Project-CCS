@@ -209,6 +209,19 @@ int8_t Audio_playAudio(struct AudioParams sendable) {
     return slot;
 }
 
+int8_t Audio_play(uint16_t soundIndex, float volume, uint32_t startIndex, int32_t endIndex, bool loop) {
+    AudioParams audioparams;
+    Audio_initParams(&audioparams);
+
+    audioparams.soundIndex = soundIndex;
+    audioparams.volume = volume;
+    audioparams.startIndex = startIndex;
+    audioparams.endIndex = endIndex;
+    audioparams.loop = loop;
+
+    return Audio_playAudio(audioparams);
+}
+
 void Audio_destroyAudio(int8_t slotID) {
     if(slotID < 0 || slotID >= NumAudioSlots) return;
     audioSlots[slotID].startIndex = 0;

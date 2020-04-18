@@ -172,8 +172,8 @@ MasterController.hex: $(EXE_OUTPUTS)
 clean:
 	-$(RM) $(BIN_OUTPUTS__QUOTED)$(GEN_FILES__QUOTED)$(EXE_OUTPUTS__QUOTED)
 	-$(RM) "start.obj" "driver\Audio.obj" "driver\Controller.obj" "driver\EK_TM4C123GXL.obj" "driver\SD.obj" "driver\UART.obj" "driver\Utils.obj" "game\collider.obj" "game\game.obj" "game\kirby.obj" "game\stage.obj" 
-	-$(RM) "driver\Audio.d" "driver\EK_TM4C123GXL.d" "driver\SD.d" "driver\UART.d" "driver\Utils.d" 
-	-$(RM) "start.d" "driver\Controller.d" "game\collider.d" "game\game.d" "game\kirby.d" "game\stage.d" 
+	-$(RM) "driver\EK_TM4C123GXL.d" "driver\SD.d" "driver\UART.d" "driver\Utils.d" 
+	-$(RM) "start.d" "driver\Audio.d" "driver\Controller.d" "game\collider.d" "game\game.d" "game\kirby.d" "game\stage.d" 
 	-$(RMDIR) $(GEN_MISC_DIRS__QUOTED)
 	-@echo 'Finished clean'
 	-@echo ' '
