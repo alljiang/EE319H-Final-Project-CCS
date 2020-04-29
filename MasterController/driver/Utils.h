@@ -5,7 +5,7 @@
 extern "C" {
 #endif
 
-#define SIZE 4000
+#define SIZE 6000
 
 Task_Struct taskStruct;
 char stack[SIZE];
@@ -13,6 +13,7 @@ char stack[SIZE];
 extern void sleep(uint32_t ms);
 extern uint32_t millis();
 extern double absVal(double d);
+extern int random(int low, int high);
 
 #ifdef __cplusplus
 }

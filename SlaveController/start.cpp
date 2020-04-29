@@ -1,7 +1,5 @@
 
 /* XDC module Headers */
-#include <colors_fdst.h>
-#include <colors_tower.h>
 #include <Flash.h>
 #include <xdc/std.h>
 #include <xdc/runtime/Diags.h>
@@ -34,6 +32,21 @@
 #include "animator.h"
 
 #include "metadata.h"
+
+#include "colors_fdst.h"
+#include "colors_tower.h"
+#include "colors_battlefield.h"
+#include "colors_smashville.h"
+#include "colors_gregory.h"
+#include "colors_eer.h"
+#include "colors_charmenu.h"
+#include "colors_stagemenu.h"
+#include "colors_winp1gaw.h"
+#include "colors_winp2gaw.h"
+#include "colors_winp1kirby.h"
+#include "colors_winp2kirby.h"
+#include "colors_winp1val.h"
+#include "colors_winp2val.h"
 
 Task_Struct ts;
 
@@ -134,7 +147,12 @@ void start(UArg arg0, UArg arg1)
     */
 
 //    /*
+    Flash_init();
     animator_initialize();
+
+    SD_startSDCard();
+    ILI9341_init();
+
     UART_sendByte(0x10);
     uint8_t buffer[20];
     while(1) {
@@ -181,7 +199,40 @@ void start(UArg arg0, UArg arg1)
 
             }
             else if(stageIndex == STAGE_BATTLEFIELD) {
-
+                animator_setBackgroundColors(colors_battle);
+            }
+            else if(stageIndex == STAGE_SMASHVILLE) {
+                animator_setBackgroundColors(colors_smashville);
+            }
+            else if(stageIndex == STAGE_EER) {
+                animator_setBackgroundColors(colors_eer);
+            }
+            else if(stageIndex == STAGE_GREGORYGYM) {
+                animator_setBackgroundColors(colors_gregory);
+            }
+            else if(stageIndex == BACKGROUND_MENU) {
+                animator_setBackgroundColors(colors_charmenu);
+            }
+            else if(stageIndex == BACKGROUND_STAGEMENU) {
+                animator_setBackgroundColors(colors_stagemenu);
+            }
+            else if(stageIndex == BACKGROUND_WIN_P1_KIRBY) {
+                animator_setBackgroundColors(colors_winp1kirby);
+            }
+            else if(stageIndex == BACKGROUND_WIN_P2_KIRBY) {
+                animator_setBackgroundColors(colors_winp2kirby);
+            }
+            else if(stageIndex == BACKGROUND_WIN_P1_GAMEANDWATCH) {
+                animator_setBackgroundColors(colors_winp1gaw);
+            }
+            else if(stageIndex == BACKGROUND_WIN_P2_GAMEANDWATCH) {
+                animator_setBackgroundColors(colors_winp2gaw);
+            }
+            else if(stageIndex == BACKGROUND_WIN_P1_VALVANO) {
+                animator_setBackgroundColors(colors_winp1val);
+            }
+            else if(stageIndex == BACKGROUND_WIN_P2_VALVANO) {
+                animator_setBackgroundColors(colors_winp2val);
             }
         }
         //  Read Persistent Sprite
@@ -193,6 +244,15 @@ void start(UArg arg0, UArg arg1)
             uint8_t y = buffer[3];
 
             animator_readPersistentSprite(persistentSprites[spriteIndex], x, y);
+        }
+        //  Reset
+        else if(buffer[0] == 0x0E) {
+            Flash_resetCurrentMemoryLocation();
+//            Flash_init();
+            animator_initialize();
+            SD_releaseSDCard();
+            SD_startSDCard();
+            ILI9341_fillScreen(0);
         }
         //  Animator Update
         else if(buffer[0] == 0xFE) {

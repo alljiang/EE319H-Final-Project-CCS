@@ -39,7 +39,7 @@
 #define FIFOBufferSize 2048
 #define audioMiddle 128
 
-#define NumAudioSlots 12
+#define NumAudioSlots 6
 
 const char fileHeader[] = "fat:0:";
 const char fileTail[] = ".txt";

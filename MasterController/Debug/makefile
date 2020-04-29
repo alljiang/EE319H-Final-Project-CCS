@@ -17,10 +17,14 @@ ORDERED_OBJS += \
 "./driver/SD.obj" \
 "./driver/UART.obj" \
 "./driver/Utils.obj" \
+"./game/WinScreen.obj" \
+"./game/charactermenu.obj" \
 "./game/collider.obj" \
 "./game/game.obj" \
+"./game/gameandwatch.obj" \
 "./game/kirby.obj" \
 "./game/stage.obj" \
+"./game/stagemenu.obj" \
 "../driver/EK_TM4C123GXL.cmd" \
 $(GEN_CMDS__FLAG) \
 -l"C:/ti/tirtos_tivac_2_16_00_08/products/TivaWare_C_Series-2.1.1.71b/grlib/ccs/Debug/grlib.lib" \
@@ -171,9 +175,9 @@ MasterController.hex: $(EXE_OUTPUTS)
 # Other Targets
 clean:
 	-$(RM) $(BIN_OUTPUTS__QUOTED)$(GEN_FILES__QUOTED)$(EXE_OUTPUTS__QUOTED)
-	-$(RM) "start.obj" "driver\Audio.obj" "driver\Controller.obj" "driver\EK_TM4C123GXL.obj" "driver\SD.obj" "driver\UART.obj" "driver\Utils.obj" "game\collider.obj" "game\game.obj" "game\kirby.obj" "game\stage.obj" 
+	-$(RM) "start.obj" "driver\Audio.obj" "driver\Controller.obj" "driver\EK_TM4C123GXL.obj" "driver\SD.obj" "driver\UART.obj" "driver\Utils.obj" "game\WinScreen.obj" "game\charactermenu.obj" "game\collider.obj" "game\game.obj" "game\gameandwatch.obj" "game\kirby.obj" "game\stage.obj" "game\stagemenu.obj" 
 	-$(RM) "driver\EK_TM4C123GXL.d" "driver\SD.d" "driver\UART.d" "driver\Utils.d" 
-	-$(RM) "start.d" "driver\Audio.d" "driver\Controller.d" "game\collider.d" "game\game.d" "game\kirby.d" "game\stage.d" 
+	-$(RM) "start.d" "driver\Audio.d" "driver\Controller.d" "game\WinScreen.d" "game\charactermenu.d" "game\collider.d" "game\game.d" "game\gameandwatch.d" "game\kirby.d" "game\stage.d" "game\stagemenu.d" 
 	-$(RMDIR) $(GEN_MISC_DIRS__QUOTED)
 	-@echo 'Finished clean'
 	-@echo ' '

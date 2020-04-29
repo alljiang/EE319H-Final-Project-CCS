@@ -74,6 +74,7 @@ extern void Flash_readSFDP(uint8_t* buffer);
 extern void Flash_pendWriteOpCompletion();
 extern void Flash_writeCommand(uint8_t cmd);
 extern void Flash_writeCommandCS(uint8_t cmd, bool setCS);
+extern void Flash_resetCurrentMemoryLocation();
 extern uint32_t Flash_allocateMemory(uint32_t bytesToAllocate);
 
 #ifdef __cplusplus

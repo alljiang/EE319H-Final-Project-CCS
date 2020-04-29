@@ -14,6 +14,7 @@ extern void UART_commandUpdate();
 extern void UART_readCharacterSDCard(uint8_t characterIndex);
 extern void UART_setBackgroundColors(uint8_t stage);
 extern void UART_readPersistentSprite(uint8_t spriteIndex, uint16_t x, uint16_t y);
+extern void UART_commandReset();
 
 #ifdef __cplusplus
 }

@@ -4143,7 +4143,7 @@ __o = __obj[314]  // ti.sysbios.heaps.HeapMem.Instance#0
     __o['instance'] = __obj[315.0]
     __o['minBlockAlign'] = 0
     __o['sectionName'] = null
-    __o['size'] = 4096
+    __o['size'] = 2048
     __o['usePrimaryHeap'] = false
 
 __o = __obj[315]  // ti.sysbios.heaps.HeapMem.Instance#0/instance
@@ -18927,7 +18927,7 @@ __o = __obj[1141]  // ti.sysbios.BIOS
     __o['cpuFreq'] = __obj[1157.0]
     __o['customCCOpts'] = String(java.net.URLDecoder.decode('--endian%3Dlittle+-mv7M4+--abi%3Deabi+--float_support%3Dfpv4spd16+-q+-ms+--opt_for_speed%3D2++--program_level_compile+-o3+-g+--optimize_with_debug+', 'UTF-8'))
     __o['heapSection'] = null
-    __o['heapSize'] = 4096
+    __o['heapSize'] = 2048
     __o['heapTrackEnabled'] = false
     __o['includeXdcRuntime'] = false
     __o['installedErrorHook'] = String(java.net.URLDecoder.decode('%26xdc_runtime_Error_print__E', 'UTF-8'))

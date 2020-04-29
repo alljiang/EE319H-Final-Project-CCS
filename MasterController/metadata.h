@@ -24,26 +24,66 @@
 #define LAYER_PERCENTAGE 110
 #define LAYER_TOP 255
 
+#define CHARACTER_KIRBY 0
+#define CHARACTER_GAMEANDWATCH 1
+#define CHARACTER_VALVANO 2
+
 #define STAGE_FINALDESTINATION 0
 #define STAGE_TOWER 1
 #define STAGE_BATTLEFIELD 2
+#define STAGE_SMASHVILLE 3
+#define STAGE_EER 4
+#define STAGE_GREGORYGYM 5
 
-#define CHARACTERS  4
+#define BACKGROUND_FINALDESTINATION 0
+#define BACKGROUND_TOWER 1
+#define BACKGROUND_BATTLEFIELD 2
+#define BACKGROUND_SMASHVILLE 3
+#define BACKGROUND_EER 4
+#define BACKGROUND_GREGORYGYM 5
+#define BACKGROUND_MENU 10
+#define BACKGROUND_STAGEMENU 11
+#define BACKGROUND_WIN_P1_KIRBY 14
+#define BACKGROUND_WIN_P2_KIRBY 15
+#define BACKGROUND_WIN_P1_GAMEANDWATCH 16
+#define BACKGROUND_WIN_P2_GAMEANDWATCH 17
+#define BACKGROUND_WIN_P1_VALVANO 18
+#define BACKGROUND_WIN_P2_VALVANO 19
 
-const char characterNames[CHARACTERS][15] = {
+#define CHARACTERS  5
+
+const char characterNames[CHARACTERS][14] = {
         {"kirby"},
-        {"marth"},
-        {"jigglypuff"},
-        {"misc"}
+        {"gaw"},
+        {"val"},
+        {"misc"},
+        {"menu"}
 };
 
-const char persistentSprites[4][10] = {
-        {"fdst"},
+const char persistentSprites[20][15] = {
+/* 0  */{"fdst"},
         {"tower"},
-        {"battle"},
-        {}
+        {"batt"},
+        {"smvl"},
+        {"eer"},
+        {"greg"},
+        {""},
+        {""},
+        {""},
+        {""},
+/* 10 */{"cmenu"},
+        {"smenu"},
+        {""},
+        {""},
+        {"w1kb"},
+        {"w2kb"},
+        {"w1gw"},
+        {"w2gw"},
+        {"w1va"},
+        {"w2va"}
 };
 
+const uint16_t numberOfAnimations = 64;
 const char animations[CHARACTERS][64][12] = {
         {                                                   // frames
                 /* 0 */                         {"crouch"}, // 1
@@ -77,8 +117,8 @@ const char animations[CHARACTERS][64][12] = {
                                                 {"nair"},       //  8
                                                 {"dashatk"},    //  7
                 /* 30 */                        {""},
-                                                {""},
-                                                {"neutralb"},    //  11
+                                                {"starproj"},   //  1 + 3
+                                                {"neutralb"},    //  4
                                                 {"fwdspec"},   //  10
                                                 {"downspec"},   //  3
                                                 {"downsmash"},  //  12
@@ -91,10 +131,54 @@ const char animations[CHARACTERS][64][12] = {
                                                 {"hurtfall"},   //  3
                                                 {"knockout"},   //  1
                                                 {"stun"},       //  8
-                                                {""},
+                                                {"shield"},     //  1
                                                 {""},
         },
         {
+                /*  0   */                      {"rest"},   //  1 + 1
+                                                {"walk"},   //  1 (start) + 2
+                                                {"dash"},   //  2
+                                                {"jump"},   //  4
+                                                {"djump"},  //  4
+                                                {"fall"},   //  2
+                                                {"crouch"}, //  1
+                                                {""},
+                                                {""},
+                                                {""},
+                /*  10  */                      {"ftilt"},  //  2
+                                                {"utilt"},  //  3
+                                                {"dtilt"},  //  4
+                                                {"dashatk"},    //  1
+                                                {"fsmash"},     //  2 (charge) + 2
+                                                {"dsmash"},     //  2 (charge) + 1
+                                                {"usmash"},     //  2 (charge) + 2
+                                                {"neuatk"},     //  2
+                                                {""},
+                                                {""},
+                /*  20  */                      {"nair"},   //  3
+                                                {"fair"},   //  3
+                                                {"bair"},   //  3
+                                                {"dair"},   //  3
+                                                {"uair"},   //  5
+                                                {""},
+                                                {""},
+                                                {""},
+                                                {""},
+                                                {""},
+                /*  30  */                      {"neub"},   //  3
+                                                {"neubproj"},   //  4 (each frame is another projectile)
+                                                {"sideb"},  //  3
+                                                {"sidebnum"},   //  9 (each frame is a number, frame 0 = 1)
+                                                {"downb"},  //  1 (catch) + 1 (let go) + 3 (charge levels) + 1 (release)
+                                                {"downbproj"},  //  1
+                                                {"upb"},    //  2 (up) + 1 (peak) + 2 (down)
+                                                {"upbfall"},    //  1 (start) + 8 (loop)
+                                                {""},
+                                                {""},
+                /*  40  */                      {"hurt"},   //  2
+                                                {"shield"},     //  1
+                                                {"ledge"},      //  1
+                                                {"stun"}    //  4
 
         },
         {
@@ -111,12 +195,49 @@ const char animations[CHARACTERS][64][12] = {
                                                 {"blastright"}, //  17
                                                 {"blastup"},    //  17
                                                 {"321go"},      //  36
-                /*  10  */                      {"game"}        //  25
+                /*  10  */                      {"game"},       //  25
+                                                {"shield"},      //  3 (red) + 3 (blue)
+                                                {""},
+                                                {""},
+                                                {""},
+                                                {""},
+                                                {""},
+                                                {""},
+                                                {""},
+                                                {""},
+                /*  20  */                      {"platform"},
+                                                {""},
+                                                {""},
+                                                {""},
+                                                {""},
+                                                {""},
 
+        },
+        {
+                /*  0   */                      {"p1small"},
+                                                {"p1big"},
+                                                {"p2small"},
+                                                {"p2big"},
+                                                {"stageselect"},
+                                                {""},
+                                                {""},
+                                                {""},
+                                                {""},
+                                                {""},
+               /*   10  */                      {"prvwkirby"},
+                                                {"prvwvalvano"},
+                                                {"prvwgaw"},
+                                                {""},
+                                                {""},
+                                                {""},
+                                                {""},
+                                                {""},
+                                                {""},
+                                                {""},
+                                                {""},
+                                                {""},
         }
 };
-
-const uint16_t numberOfAnimations = 100;
 
 struct Animation {
     uint32_t memLocation;

@@ -1,7 +1,7 @@
 # FIXED
 
 start.obj: ../start.cpp
-start.obj: C:/Users/Allen/Documents/GitHub/EE319H-Final-Project-CCS/SlaveController/colors_fdst.h
+start.obj: C:/Users/Allen/Documents/GitHub/EE319H-Final-Project-CCS/SlaveController/driver/Flash.h
 start.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/libcxx/stdint.h
 start.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/libcxx/__config
 start.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/libcxx/__config_site
@@ -14,8 +14,6 @@ start.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/sys/_ty
 start.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/machine/_types.h
 start.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/machine/_stdint.h
 start.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/sys/_stdint.h
-start.obj: C:/Users/Allen/Documents/GitHub/EE319H-Final-Project-CCS/SlaveController/colors_tower.h
-start.obj: C:/Users/Allen/Documents/GitHub/EE319H-Final-Project-CCS/SlaveController/driver/Flash.h
 start.obj: C:/ti/tirtos_tivac_2_16_00_08/products/tidrivers_tivac_2_16_00_08/packages/ti/drivers/SPI.h
 start.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/libcxx/stdbool.h
 start.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/stdbool.h
@@ -250,9 +248,23 @@ start.obj: C:/Users/Allen/Documents/GitHub/EE319H-Final-Project-CCS/SlaveControl
 start.obj: C:/Users/Allen/Documents/GitHub/EE319H-Final-Project-CCS/SlaveController/driver/SD.h
 start.obj: ../animator.h
 start.obj: ../metadata.h
+start.obj: ../colors_fdst.h
+start.obj: ../colors_tower.h
+start.obj: ../colors_battlefield.h
+start.obj: ../colors_smashville.h
+start.obj: ../colors_gregory.h
+start.obj: ../colors_eer.h
+start.obj: ../colors_charmenu.h
+start.obj: ../colors_stagemenu.h
+start.obj: ../colors_winp1gaw.h
+start.obj: ../colors_winp2gaw.h
+start.obj: ../colors_winp1kirby.h
+start.obj: ../colors_winp2kirby.h
+start.obj: ../colors_winp1val.h
+start.obj: ../colors_winp2val.h
 
 ../start.cpp: 
-C:/Users/Allen/Documents/GitHub/EE319H-Final-Project-CCS/SlaveController/colors_fdst.h: 
+C:/Users/Allen/Documents/GitHub/EE319H-Final-Project-CCS/SlaveController/driver/Flash.h: 
 C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/libcxx/stdint.h: 
 C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/libcxx/__config: 
 C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/libcxx/__config_site: 
@@ -265,8 +277,6 @@ C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/sys/_types.h:
 C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/machine/_types.h: 
 C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/machine/_stdint.h: 
 C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/sys/_stdint.h: 
-C:/Users/Allen/Documents/GitHub/EE319H-Final-Project-CCS/SlaveController/colors_tower.h: 
-C:/Users/Allen/Documents/GitHub/EE319H-Final-Project-CCS/SlaveController/driver/Flash.h: 
 C:/ti/tirtos_tivac_2_16_00_08/products/tidrivers_tivac_2_16_00_08/packages/ti/drivers/SPI.h: 
 C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/libcxx/stdbool.h: 
 C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/stdbool.h: 
@@ -501,3 +511,17 @@ C:/Users/Allen/Documents/GitHub/EE319H-Final-Project-CCS/SlaveController/driver/
 C:/Users/Allen/Documents/GitHub/EE319H-Final-Project-CCS/SlaveController/driver/SD.h: 
 ../animator.h: 
 ../metadata.h: 
+../colors_fdst.h: 
+../colors_tower.h: 
+../colors_battlefield.h: 
+../colors_smashville.h: 
+../colors_gregory.h: 
+../colors_eer.h: 
+../colors_charmenu.h: 
+../colors_stagemenu.h: 
+../colors_winp1gaw.h: 
+../colors_winp2gaw.h: 
+../colors_winp1kirby.h: 
+../colors_winp2kirby.h: 
+../colors_winp1val.h: 
+../colors_winp2val.h: 

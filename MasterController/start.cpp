@@ -77,12 +77,12 @@ void start(UArg arg0, UArg arg1)
 //    /*
     UART_waitForAcknowledge();
     int a = 0;
-    game_startup();
+    startup();
     int t1, t2;
     int asdf = millis();
     while(1) {
         Controller_updateController();
-        game_loop();
+        loop();
         ReadSDFIFO();
     }
 //    */

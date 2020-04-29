@@ -39,7 +39,9 @@ animator.obj: C:/Users/Allen/Documents/GitHub/EE319H-Final-Project-CCS/SlaveCont
 animator.obj: C:/Users/Allen/Documents/GitHub/EE319H-Final-Project-CCS/SlaveController/driver/utils.h
 animator.obj: C:/Users/Allen/Documents/GitHub/EE319H-Final-Project-CCS/SlaveController/driver/ILI9341.h
 animator.obj: ../colors_kirby.h
+animator.obj: ../colors_gameandwatch.h
 animator.obj: ../colors_misc.h
+animator.obj: ../colors_menu.h
 animator.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/libcxx/cmath
 animator.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/libcxx/math.h
 animator.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/math.h
@@ -92,7 +94,9 @@ C:/Users/Allen/Documents/GitHub/EE319H-Final-Project-CCS/SlaveController/driver/
 C:/Users/Allen/Documents/GitHub/EE319H-Final-Project-CCS/SlaveController/driver/utils.h: 
 C:/Users/Allen/Documents/GitHub/EE319H-Final-Project-CCS/SlaveController/driver/ILI9341.h: 
 ../colors_kirby.h: 
+../colors_gameandwatch.h: 
 ../colors_misc.h: 
+../colors_menu.h: 
 C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/libcxx/cmath: 
 C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/libcxx/math.h: 
 C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/math.h: 

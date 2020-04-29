@@ -199,3 +199,16 @@ void UART_readPersistentSprite(uint8_t spriteIndex, uint16_t x, uint16_t y) {
     UART_transmit(5, UARTBuffer);
     UART_waitForAcknowledge();
 }
+
+void UART_commandReset() {
+    /*
+     * Byte 0: x0E
+     */
+
+    UARTBuffer[0] = 0x0E;
+
+    while(!acknowledged) {}
+    acknowledged = false;
+    UART_transmit(1, UARTBuffer);
+    UART_waitForAcknowledge();
+}

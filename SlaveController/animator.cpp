@@ -10,7 +10,9 @@
 #include "utils.h"
 #include "ILI9341.h"
 #include "colors_kirby.h"
+#include "colors_gameandwatch.h"
 #include "colors_misc.h"
+#include "colors_menu.h"
 #include <cmath>
 using namespace std;
 
@@ -307,11 +309,13 @@ void animator_initialize() {
     persistentBackgroundMemLocation = Flash_allocateMemory(241*321*3);
 
     colors[0] = colors_kirby;
+    colors[1] = colors_gameandwatch;
     colors[3] = colors_misc;
+    colors[4] = colors_menu;
 
     // Find which color index is 0xFFFFFFFF (background)
     for(int c = 0; c < CHARACTERS; c++) {
-        if(c != 0 && c != 3) continue;
+        if(c != 0) continue;
         for(int32_t i = 0; i < sizeof(colors); i++) {
             if(colors[c][i] == 0xFFFFFFFF) {
                 backgroundColorIndex[c] = i;
@@ -322,9 +326,6 @@ void animator_initialize() {
 
     for(uint8_t i = 0; i < 241; i++) rowsToUpdate[i] = false;
 
-    SD_startSDCard();
-    Flash_init();
-    ILI9341_init();
 }
 
 void animator_readPersistentSprite(const char* spriteName, uint16_t x, uint8_t y) {
@@ -335,6 +336,9 @@ void animator_readPersistentSprite(const char* spriteName, uint16_t x, uint8_t y
     strcat(filename, fileType);
 
     SD_openFile(filename);
+
+//    char test[30] = "data/sprites/smenu.txt";
+//    SD_openFile(test);
 
 //    printf("Reading in sprite: %s\n", spriteName);
 

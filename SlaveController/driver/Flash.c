@@ -40,9 +40,10 @@ SPI_Params Flash_spi_params;
 SPI_Transaction Flash_transaction;
 
 uint8_t Flash_txBuffer[300];
-uint32_t currentLocation = 0;
+uint32_t currentLocation;
 
 void Flash_init() {
+    currentLocation = 0;
 
     SPI_Params_init(&Flash_spi_params);
     Flash_spi_params.bitRate = 20000000;
@@ -189,6 +190,10 @@ void Flash_transferSPICS(bool setCS) {
 
 void Flash_transferSPI() {
     Flash_transferSPICS(true);
+}
+
+void Flash_resetCurrentMemoryLocation() {
+    currentLocation = 0;
 }
 
 /*
