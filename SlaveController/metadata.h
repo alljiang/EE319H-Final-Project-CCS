@@ -63,7 +63,7 @@ const char characterNames[CHARACTERS][14] = {
 const char persistentSprites[20][15] = {
 /* 0  */{"fdst"},
         {"tower"},
-        {"batt"},
+        {"battl"},
         {"smvl"},
         {"eer"},
         {"greg"},

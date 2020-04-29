@@ -196,6 +196,10 @@ void Flash_resetCurrentMemoryLocation() {
     currentLocation = 0;
 }
 
+void Flash_releaseSPI() {
+    SPI_close(Flash_spi);
+}
+
 /*
  *  Reserves space
  */

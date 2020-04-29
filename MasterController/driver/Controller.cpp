@@ -168,8 +168,8 @@ void Controller_updateController() {
     ADCSequenceDisable(ADC0_BASE, 0);
     ADCSequenceDisable(ADC1_BASE, 0);
 
-    btn1_l = adcOut0 < 600;
-    btn1_r = adcOut1 > 600;
+    btn1_l = adcOut0 < 500;
+    btn1_r = adcOut1 > 700;
 
 //    System_printf("%d\t%d\n\n", adcOut0, adcOut1);
 

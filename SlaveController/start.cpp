@@ -196,7 +196,6 @@ void start(UArg arg0, UArg arg1)
             }
             else if(stageIndex == STAGE_TOWER) {
                 animator_setBackgroundColors(colors_tower);
-
             }
             else if(stageIndex == STAGE_BATTLEFIELD) {
                 animator_setBackgroundColors(colors_battle);
@@ -247,8 +246,9 @@ void start(UArg arg0, UArg arg1)
         }
         //  Reset
         else if(buffer[0] == 0x0E) {
-            Flash_resetCurrentMemoryLocation();
-//            Flash_init();
+//            Flash_resetCurrentMemoryLocation();
+            Flash_releaseSPI();
+            Flash_init();
             animator_initialize();
             SD_releaseSDCard();
             SD_startSDCard();

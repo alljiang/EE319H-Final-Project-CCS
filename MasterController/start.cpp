@@ -76,10 +76,7 @@ void start(UArg arg0, UArg arg1)
 
 //    /*
     UART_waitForAcknowledge();
-    int a = 0;
     startup();
-    int t1, t2;
-    int asdf = millis();
     while(1) {
         Controller_updateController();
         loop();

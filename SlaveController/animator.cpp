@@ -30,7 +30,7 @@ const uint32_t* colors[CHARACTERS];
 uint32_t backgroundColorIndex[CHARACTERS];
 
 uint32_t persistentBackgroundMemLocation;
-Animation animation[4][numberOfAnimations];
+Animation animation[CHARACTERS][numberOfAnimations];
 SpriteSendable spriteSendables[maxSprites]; // up to maxSprites sprites on screen at once
 uint16_t activeAnimations = 0;  // each bit represents if the corresponding sendable is being used, big endian
 uint16_t toRemove = 0;  // each bit represents if the corresponding sendable should be removed next update, big endian

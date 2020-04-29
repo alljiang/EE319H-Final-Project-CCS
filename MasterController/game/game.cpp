@@ -33,7 +33,7 @@ GameandWatch gameandwatch2;
 int8_t winner, winningCharacter;
 int8_t p1char, p2char;
 bool inCharMenu = false, inStageSelect = true, inWinScreen = false;
-bool quit, countdown, gameOver;
+bool countdown, gameOver;
 uint8_t frameIndex, frameLength;
 long long loopsCompleted;
 
@@ -67,6 +67,7 @@ void resetPlayers() {
 
     countdown = true;
     loopsCompleted = 0;
+    gameOver = false;
 
     frameIndex = 0;
     frameLength = 0;
@@ -163,7 +164,7 @@ void game_loop() {
         }
     }
 
-    bool updateScore;
+    bool updateScore = false;
     if(!p1->dead && !gameOver && (p1->x < -40 || p1->x > 360 || p1->y < -40 || p1->y > 280)) {
         p1->dead = true;
         if(p1->stocksRemaining > 0) {
@@ -199,8 +200,9 @@ void game_loop() {
             frameLength = 0;
         }
         if(frameIndex == 25) {
-            gameOver = false;
-            resetPlayers();
+            gameOver = false;;
+            if(p1->dead) switchGameToWin(2, p2char);
+            else switchGameToWin(1, p1char);
         }
         else {
             s.x = 80;
