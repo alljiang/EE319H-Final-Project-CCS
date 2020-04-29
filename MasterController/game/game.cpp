@@ -79,7 +79,7 @@ void resetPlayers() {
 
 //  runs once at beginning
 void game_startup() {
-
+    stage.initialize(stageToPlay, &hitboxManager);
     resetPlayers();
 
     if(PLAYER2) hitboxManager.initialize(p1, p2);
@@ -87,7 +87,6 @@ void game_startup() {
 
     UART_setBackgroundColors(stageToPlay);
 
-    stage.initialize(stageToPlay, &hitboxManager);
     UART_readPersistentSprite(stageToPlay, 0, 0);
 
 

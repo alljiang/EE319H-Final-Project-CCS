@@ -128,7 +128,7 @@ void Controller_updateController() {
     ADCSequenceDisable(ADC0_BASE, 0);
     ADCSequenceDisable(ADC1_BASE, 0);
 
-    System_printf("%d\t%d\n", adcOut0, adcOut1);
+//    System_printf("%d\t%d\n", adcOut0, adcOut1);
 
     if(adcOut0 >= 4095) joystick2_v = 1;
     else if(adcOut0 >= 1950) joystick2_v = 0.3;
@@ -168,10 +168,11 @@ void Controller_updateController() {
     ADCSequenceDisable(ADC0_BASE, 0);
     ADCSequenceDisable(ADC1_BASE, 0);
 
-    btn1_l = adcOut0 < 500;
+//    btn1_l = adcOut0 < 500;
+    btn1_l = false;
     btn1_r = adcOut1 > 700;
 
-//    System_printf("%d\t%d\n\n", adcOut0, adcOut1);
+    System_printf("%d\t%d\n\n", adcOut0, adcOut1);
 
 //    System_printf("%d\t%d\n%d\t%d\n%d\t%d\n\n", (int)(joystick1_h*10), (int)(joystick1_v*10), (int)(joystick2_h*10), (int)(joystick2_v*10), btn1_l, btn1_r);
 

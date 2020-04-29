@@ -40,6 +40,11 @@ void StageMenu::loop(double joyH1, double joyV1, double joyH2, double joyV2, boo
     cursorX += STAGEMENU_CURSORSPEED * joyH;
     cursorY += STAGEMENU_CURSORSPEED * joyV;
 
+    if(cursorY < 0) cursorY = 0;
+    if(cursorY > 215) cursorY = 215;
+    if(cursorX < 0) cursorX = 0;
+    if(cursorX > 295) cursorX = 295;
+
     s.animationIndex = 4;
     s.frame = 0;
     s.x = (int16_t) cursorX;

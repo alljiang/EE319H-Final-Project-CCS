@@ -61,6 +61,12 @@ void CharacterMenu::loop(double joyH1, double joyV1, double joyH2, double joyV2,
         p1CursorX += CHARMENU_CURSORSPEED * joyH1;
         p1CursorY += CHARMENU_CURSORSPEED * joyV1;
 
+        //  bounds
+        if(p1CursorY < 0) p1CursorY = 0;
+        if(p1CursorY > 215) p1CursorY = 215;
+        if(p1CursorX < 0) p1CursorX = 0;
+        if(p1CursorX > 295) p1CursorX = 295;
+
         int p1CursorSmall_xAnimationOffset = 0;
         int p1CursorSmall_yAnimationOffset = 0;
 
@@ -115,6 +121,11 @@ void CharacterMenu::loop(double joyH1, double joyV1, double joyH2, double joyV2,
     if(!p2Selected) {
         p2CursorX += CHARMENU_CURSORSPEED * joyH2;
         p2CursorY += CHARMENU_CURSORSPEED * joyV2;
+
+        if(p2CursorY < 0) p2CursorY = 0;
+        if(p2CursorY > 215) p2CursorY = 215;
+        if(p2CursorX < 0) p2CursorX = 0;
+        if(p2CursorX > 295) p2CursorX = 295;
 
         int p2CursorSmall_xAnimationOffset = 0;
         int p2CursorSmall_yAnimationOffset = 0;
