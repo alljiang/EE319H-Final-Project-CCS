@@ -77,17 +77,17 @@ bool* HitboxManager::addHurtbox(float xOffset, float yOffset, bool mirrored,
 }
 
 bool Hitbox::isColliding(class Hurtbox hurtbox) {
-    double thisx = x + xOffset;
-    double thisy = y + yOffset;
-    double thisRadius = radius + radiusOffset;
-    double thisWidth = width + widthOffset;
-    double thisHeight = height + heightOffset;
+    float thisx = x + xOffset;
+    float thisy = y + yOffset;
+    float thisRadius = radius + radiusOffset;
+    float thisWidth = width + widthOffset;
+    float thisHeight = height + heightOffset;
 
-    double hbx = hurtbox.x + hurtbox.xOffset;
-    double hby = hurtbox.y + hurtbox.yOffset;
-    double hbh = hurtbox.height;
-    double hbw = hurtbox.width;
-    double hbr = hurtbox.radius;
+    float hbx = hurtbox.x + hurtbox.xOffset;
+    float hby = hurtbox.y + hurtbox.yOffset;
+    float hbh = hurtbox.height;
+    float hbw = hurtbox.width;
+    float hbr = hurtbox.radius;
 
     switch (this->shape) {
         case SHAPE_CIRCLE:

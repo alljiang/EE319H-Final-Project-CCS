@@ -14,7 +14,7 @@ void StageMenu::start() {
 }
 
 void StageMenu::loop(double joyH1, double joyV1, double joyH2, double joyV2, bool btnA,
-        void (*transitionCall)(int8_t)) {
+        void (*transitionCall)(int8_t, bool)) {
     double dt = 49;
     currentTime += (uint8_t)dt;
 
@@ -29,8 +29,13 @@ void StageMenu::loop(double joyH1, double joyV1, double joyH2, double joyV2, boo
     if(btnA) {
         int8_t selectedStage = getStage(cursorX, cursorY);
         if(selectedStage != -1) {
-            (*transitionCall)(selectedStage);
+            (*transitionCall)(selectedStage, englishSelected);
             return;
+        }
+        else {
+            int8_t selectedLanguage = getLanguage(cursorX, cursorY);
+            if(selectedLanguage == 0) englishSelected = true;
+            else if(selectedLanguage == 1) englishSelected = false;
         }
     }
 
@@ -45,12 +50,19 @@ void StageMenu::loop(double joyH1, double joyV1, double joyH2, double joyV2, boo
     if(cursorX < 0) cursorX = 0;
     if(cursorX > 295) cursorX = 295;
 
+    //  draw crosshair
     s.animationIndex = 4;
     s.frame = 0;
     s.x = (int16_t) cursorX;
     s.y = (int16_t) cursorY;
     s.layer = LAYER_CHARACTER;
 
+    UART_sendAnimation(s);
+
+    //  draw language selection box
+    s.animationIndex = 5;
+    s.x = englishSelected ? STAGEMENU_ENGLISH_X : STAGEMENU_CHINESE_X;
+    s.y = englishSelected ? STAGEMENU_ENGLISH_Y : STAGEMENU_CHINESE_Y;
     UART_sendAnimation(s);
 
     UART_commandUpdate();
@@ -60,6 +72,7 @@ void StageMenu::reset() {
     currentTime = 0;
     cursorX = 145;
     cursorY = 25;
+    englishSelected = false;
 }
 
 int8_t StageMenu::getStage(double x, double y) {
@@ -88,4 +101,12 @@ int8_t StageMenu::getStage(double x, double y) {
         }
     }
 
+}
+
+int8_t StageMenu::getLanguage(double x, double y) {
+//    printf("%0.0f\t%0.0f\n", x, y);
+
+    if(x >= 67 && x <= 130 && y >= 0 && y <= 20) return 0;
+    if(x >= 150 && x <= 214 && y >= 1 && y <= 20) return 1;
+    return -1;
 }

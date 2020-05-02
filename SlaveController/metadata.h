@@ -55,7 +55,7 @@
 const char characterNames[CHARACTERS][14] = {
         {"kirby"},
         {"gaw"},
-        {"val"},
+        {"val"},    //  TODO: CHANGE THIS BACK TO SHORTER "VAL" WHEN PORTING TO TM4C
         {"misc"},
         {"menu"}
 };
@@ -182,6 +182,56 @@ const char animations[CHARACTERS][64][12] = {
 
         },
         {
+                /*  0   */                      {"rest"},   //  1 + 3 (blink)
+                                                {"crouch"}, //  1
+                                                {"run"},    //  5
+                                                {"jump"},   //  1
+                                                {"falling"},    //  2
+                                                {""},
+                                                {""},
+                                                {""},
+                                                {""},
+                                                {""},
+               /*   10  */                      {"dashattack"},     //  5
+                                                {"jab"},    //  5 (first jab) + 3 (second jab)
+                                                {""},
+                                                {""},
+                                                {""},
+                                                {""},
+                                                {""},
+                                                {""},
+                                                {""},
+                                                {""},
+               /*   20  */                      {"nair"},   //  4
+                                                {"fair"},   //  6
+                                                {"dair"},   //  2
+                                                {""},
+                                                {""},
+                                                {""},
+                                                {""},
+                                                {""},
+                                                {""},
+                                                {""},
+               /*   30  */                      {"neutralb"},   //  3
+                                                {"sidespecial"},    //  8
+                                                {"upspecial"},      //  5
+                                                {"laserproj"},  //  1
+                                                {"downspecial"},    //  2
+                                                {"robotcar"},   //  2 + 3 (explosion)
+                                                {""},
+                                                {""},
+                                                {""},
+                                                {""},
+               /*   40  */                      {""},
+                                                {""},
+                                                {""},
+                                                {""},
+                                                {""},
+                                                {""},
+                                                {""},
+                                                {""},
+                                                {""},
+                                                {""},
 
         },
         {

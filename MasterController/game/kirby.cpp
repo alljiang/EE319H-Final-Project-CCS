@@ -1889,7 +1889,13 @@ void Kirby::collide(Hurtbox *hurtbox, Player *otherPlayer) {
         }
         return;
     }
-    else if(action == KIRBY_ACTION_SHIELD) shieldDamage +=  hurtbox->damage * 0.3;
+    else if(action == KIRBY_ACTION_SHIELD) {
+        shieldDamage +=  hurtbox->damage * 0.3;
+
+        if(hurtbox->activationFlagPointer != nullptr) {
+            *(hurtbox->activationFlagPointer) = true;
+        }
+    }
         // only knockback if not currently knocked back
     else if(disabledFrames != -1 && invulnerableFrames == 0) {
         disabledFrames = hurtbox->stunFrames;
@@ -1901,11 +1907,14 @@ void Kirby::collide(Hurtbox *hurtbox, Player *otherPlayer) {
         else xVel = -hurtbox->xKnockback * knockbackMultiplier;
         yVel = hurtbox->yKnockback * knockbackMultiplier;
 
+        if(hurtbox->isProjectile && hurtbox->activationFlagPointer != nullptr) *(hurtbox->activationFlagPointer) = true;
+
         action = KIRBY_ACTION_HURT;
     }
 }
 
 void Kirby::reset() {
+    action = KIRBY_ACTION_RESTING;
     yVel = 0;
     xVel = 0;
     currentTime = 0;

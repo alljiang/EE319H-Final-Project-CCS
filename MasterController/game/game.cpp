@@ -24,6 +24,9 @@ Player* p2;
 Stage stage;
 HitboxManager hitboxManager;
 
+Valvano valvano1;
+Valvano valvano2;
+
 Kirby kirby1;
 Kirby kirby2;
 
@@ -32,6 +35,7 @@ GameandWatch gameandwatch2;
 
 int8_t winner, winningCharacter;
 int8_t p1char, p2char;
+bool english;
 bool inCharMenu = false, inStageSelect = true, inWinScreen = false;
 bool countdown, gameOver;
 uint8_t frameIndex, frameLength;
@@ -271,26 +275,21 @@ void startup() {
     }
 }
 
-void switchStageMenuToCharMenu(int8_t stageSelect) {
+void switchStageMenuToCharMenu(int8_t stageSelect, bool isEnglish) {
     inStageSelect = false;
     inCharMenu = true;
+    english = isEnglish;
     stageToPlay = stageSelect;
     startup();
 }
 
 void switchCharMenuToGame(int8_t char1, int8_t char2) {
     if(char1 == CHARACTER_KIRBY) p1 = &kirby1;
-    else if(char1 == CHARACTER_VALVANO) {
-        System_printf("nooooo valvano");
-        System_flush();
-    }
+    else if(char1 == CHARACTER_VALVANO) p1 = &valvano1;
     else p1 = &gameandwatch1;
 
     if(char2 == CHARACTER_KIRBY) p2 = &kirby2;
-    else if(char2 == CHARACTER_VALVANO) {
-        System_printf("noooo valvano");
-        System_flush();
-    }
+    else if(char2 == CHARACTER_VALVANO) p2 = &valvano2;
     else p2 = &gameandwatch2;
 
     p1char = char1;
