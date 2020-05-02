@@ -16,29 +16,150 @@
 extern "C" {
 #endif
 
-const char soundNames[100][10] = {
+#define KIRBY_SOUND_SQUAT 20
+#define KIRBY_SOUND_RISE 21
+#define KIRBY_SOUND_RUNSTART 22
+#define KIRBY_SOUND_HURT1 23
+#define KIRBY_SOUND_HURT2 24
+#define KIRBY_SOUND_JUMP 25
+#define KIRBY_SOUND_JAB 26
+#define KIRBY_SOUND_FOWARDTILT 27
+#define KIRBY_SOUND_DOWNTILT 28
+#define KIRBY_SOUND_UPTILT 29
+#define KIRBY_SOUND_FORWARDSMASH 30
+#define KIRBY_SOUND_DOWNSMASH 31
+#define KIRBY_SOUND_UPSMASH 32
+#define KIRBY_SOUND_DASHATTACK 33
+#define KIRBY_SOUND_FORWARDAIR 34
+#define KIRBY_SOUND_DOWNAIR 35
+#define KIRBY_SOUND_BACKAIR 36
+#define KIRBY_SOUND_UPAIR 37
+#define KIRBY_SOUND_NEUTRALAIR 38
+#define KIRBY_SOUND_NEUTRALB 39
+#define KIRBY_SOUND_DOWNB 40
+#define KIRBY_SOUND_SIDEB 41
+#define KIRBY_SOUND_UPB1 42
+#define KIRBY_SOUND_UPB2 43
+#define KIRBY_SOUND_UPB3 44
+#define KIRBY_SOUND_UPB4 45
+#define KIRBY_SOUND_UPB1VOICE 46
+#define KIRBY_SOUND_UPB2VOICE 47
+#define KIRBY_SOUND_UPB3VOICE 48
+//#define KIRBY_SOUND_ 49
+//#define KIRBY_SOUND_ 50
+//#define KIRBY_SOUND_ 51
+//#define KIRBY_SOUND_ 52
+//#define KIRBY_SOUND_ 53
+//#define KIRBY_SOUND_ 54
+//#define KIRBY_SOUND_ 55
+//#define KIRBY_SOUND_ 56
+//#define KIRBY_SOUND_ 57
+//#define KIRBY_SOUND_ 58
+//#define KIRBY_SOUND_ 59
+//#define KIRBY_SOUND_ 60
+
+const char soundNames[200][7] = {
 /*  0   */      {"menu"},
                 {"321go"},
                 {"smash"},
                 {"sine"},
                 {"game"},
-                {},
-                {},
-                {},
-                {},
-                {},
-                {},
-                {},
-                {},
-                {},
-                {},
-                {},
-                {},
-                {},
-                {},
-                {},
-                {},
-                {}
+                {""},
+                {""},
+                {""},
+                {""},
+                {""},
+/*  10  */      {""},
+                {""},
+                {""},
+                {""},
+                {""},
+                {""},
+                {""},
+                {""},
+                {""},
+                {""},
+/*  20  */      {"ksqua"},
+                {"kris"},
+                {"krnst"},
+                {"kht1"},
+                {"kht2"},
+                {"kjmp"},
+                {"kjab"},
+                {"kftil"},
+                {"kdtil"},
+                {"kutil"},
+/*  30  */      {"kfsma"},
+                {"kdsma"},
+                {"kusma"},
+                {"kdsha"},
+                {"kfai"},
+                {"kdai"},
+                {"kbai"},
+                {"kuai"},
+                {"knai"},
+                {"kneub"},
+/*  40  */      {"kdwnb"},
+                {"ksidb"},
+                {"kub1"},
+                {"kub2"},
+                {"kub3"},
+                {"kub4"},
+                {"kub1v"},
+                {"kub2v"},
+                {"kub3v"},
+                {""},
+/*  50  */      {""},
+                {""},
+                {""},
+                {""},
+                {""},
+                {""},
+                {""},
+                {""},
+                {""},
+                {""},
+/*  60  */      {""},
+                {""},
+                {""},
+                {""},
+                {""},
+                {""},
+                {""},
+                {""},
+                {""},
+                {""},
+/*  70  */      {""},
+                {""},
+                {""},
+                {""},
+                {""},
+                {""},
+                {""},
+                {""},
+                {""},
+                {""},
+/*  80  */      {""},
+                {""},
+                {""},
+                {""},
+                {""},
+                {""},
+                {""},
+                {""},
+                {""},
+                {""},
+/*  90  */      {""},
+                {""},
+                {""},
+                {""},
+                {""},
+                {""},
+                {""},
+                {""},
+                {""},
+                {""},
+/*  100  */      {""},
 };
 
 struct AudioParams {
