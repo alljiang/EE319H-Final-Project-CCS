@@ -72,7 +72,7 @@ void StageMenu::reset() {
     currentTime = 0;
     cursorX = 145;
     cursorY = 25;
-    englishSelected = false;
+    englishSelected = true;
 }
 
 int8_t StageMenu::getStage(double x, double y) {

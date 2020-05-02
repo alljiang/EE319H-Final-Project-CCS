@@ -83,11 +83,10 @@ void resetPlayers() {
 
 //  runs once at beginning
 void game_startup() {
-    stage.initialize(stageToPlay, &hitboxManager);
-    resetPlayers();
-
     if(PLAYER2) hitboxManager.initialize(p1, p2);
     else hitboxManager.initialize(p1);
+    stage.initialize(stageToPlay, &hitboxManager);
+    resetPlayers();
 
     UART_setBackgroundColors(stageToPlay);
 
