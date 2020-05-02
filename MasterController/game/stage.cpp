@@ -22,8 +22,8 @@ const Hurtbox BF_rightCorner = Hurtbox(
         true, 268, 85, SHAPE_CIRCLE,8,
         1, 1,1, 0, 0);
 
-const Hurtbox SV_leftCorner = Hurtbox(true, 12, 63,
-                                      SHAPE_CIRCLE, 8,
+const Hurtbox SV_leftCorner = Hurtbox(true, 10, 63,
+                                      SHAPE_CIRCLE, 11,
                                       1, 0,0, 0, 0);
 const Hurtbox SV_rightCorner = Hurtbox(
         true, 287, 61, SHAPE_CIRCLE,8,
@@ -34,23 +34,23 @@ double Stage::ceil(double x, double y) {
     switch(stageIndex) {
 
         case STAGE_FINALDESTINATION:
-            if(x <= 38 || x >= 288 || y >= 104) return CEIL_MAX;
-            else if(x <= 159) return -0.6198 * x + 93.55;
-            else return .6198 * x -103.55;
+            return CEIL_MAX;
+//            if(x <= 38 || x >= 288 || y >= 104) return CEIL_MAX;
+//            else if(x <= 159) return -0.6198 * x + 93.55;
+//            else return .6198 * x -103.55;
 
         case STAGE_TOWER:
             return CEIL_MAX;
 
         case STAGE_BATTLEFIELD:
-            if(x <= 52 || x >= 268 || y >= 86) return CEIL_MAX;
-            else if(x <= 161) return -.5505* x + 83.624;
-            else return .5607 * x -95.28;
+            return CEIL_MAX;
+//            if(x <= 52 || x >= 268 || y >= 86) return CEIL_MAX;
+//            else if(x <= 161) return -.5505* x + 83.624;
+//            else return .5607 * x -95.28;
 
         case STAGE_SMASHVILLE:
-            if(x <= 35 || x >= 295 || y >= 65) return CEIL_MAX;
-            else if(x <= 47) return -3.5 * x + 187.5;
-            else if(x >= 295) return 2 * x -525;
-            else return 23;
+            if(x <= 232 && x >= 100 && y <= 50) return 5;
+            else return CEIL_MAX;
 
         case STAGE_EER:
             return CEIL_MAX;
@@ -106,6 +106,7 @@ double Stage::rightBound(double x, double y) {
 
         case STAGE_FINALDESTINATION:
             if(x < 38 && y < 104 && y > 70) return 38;
+            if(y < 70 && x <= 159) return (y - 93.55) / -0.6198;
             return RIGHT_MAX;
 
         case STAGE_TOWER:
@@ -113,9 +114,11 @@ double Stage::rightBound(double x, double y) {
 
         case STAGE_BATTLEFIELD:
             if(x < 52 && y < 86 && y > 55) return 52;
+            if(y <= 55 && x <= 161) return (y - 83.624) / -0.5505;
             return RIGHT_MAX;
 
         case STAGE_SMASHVILLE:
+            if(y < 65 && y >= 20 && x <= 80 && x >= 13) return (y - 75.38) / -.6923;
             return RIGHT_MAX;
 
         case STAGE_EER:
@@ -132,6 +135,7 @@ double Stage::leftBound(double x, double y) {
 
         case STAGE_FINALDESTINATION:
             if(x > 280 && y < 104 && y > 70) return 280;
+            if(y <= 70 && x >= 159) return (y + 103.55) / 0.6198;
             return LEFT_MAX;
 
         case STAGE_TOWER:
@@ -139,9 +143,11 @@ double Stage::leftBound(double x, double y) {
 
         case STAGE_BATTLEFIELD:
             if(x > 268 && y < 86 && y > 55) return 268;
+            if(y <= 55 && x >= 161) return (y + 95.28) / 0.5607;
             return LEFT_MAX;
 
         case STAGE_SMASHVILLE:
+            if(y < 65 && y >= 5 && x >= 232) return (y+215.95)/0.9524;
             return LEFT_MAX;
 
         case STAGE_EER:

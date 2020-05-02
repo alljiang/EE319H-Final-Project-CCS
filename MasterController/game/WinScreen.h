@@ -17,7 +17,7 @@ public:
 
     int loopCount;
 
-    void start(int8_t winner, int8_t character);
+    void start(int8_t winner, int8_t character, bool english);
     void loop(void (*)(void));
     void reset();
 

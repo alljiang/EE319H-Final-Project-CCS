@@ -104,20 +104,25 @@ void Valvano::controlLoop(float joyH, float joyV, bool btnA, bool btnB, bool shi
         }
     }
     else if(action == VAL_ACTION_LEDGEGRAB) {
-        animationIndex = 42;
+        animationIndex = 5;
         frameIndex = 0;
 
         x_mirroredOffset = 0;
-        xAnimationOffset = 8;
-        yAnimationOffset = -32;
+        xAnimationOffset = -1;
+        yAnimationOffset = -28;
+
+        //  i don't know why but i need this
+        if(stage->stageIndex == STAGE_SMASHVILLE && !mirrored) {
+            xAnimationOffset = 8;
+        }
 
         yVel = 0;
 
-        hitbox.offsetWidth(-11);
-        hitbox.offsetHeight(9);
+        hitbox.offsetWidth(0);
+        hitbox.offsetHeight(4);
         hitbox.offsetY(-28);
-        if(mirrored) hitbox.offsetX(-5);
-        else hitbox.offsetX(2);
+        if(mirrored) hitbox.offsetX(3);
+        else hitbox.offsetX(7);
     }
     else if(action == VAL_ACTION_JAB) {
         animationIndex = 11;
@@ -191,21 +196,23 @@ void Valvano::controlLoop(float joyH, float joyV, bool btnA, bool btnB, bool shi
         }
     }
     else if(action == VAL_ACTION_DOWNTILT) {
-        animationIndex = 12;
+        animationIndex = 13;
         mirrored = l_mirrored;
-        x_mirroredOffset = -20;
+        xAnimationOffset = -6;
+        x_mirroredOffset = -8;
         disabledFrames = 2;
 
         hitbox.offsetY(0);
         hitbox.offsetX(2);
         hitbox.offsetWidth(3);
 
-        frameExtension = 3;
+        if(frameIndex == 0) frameExtension = 2;
+        else frameExtension = 4;
         if(frameLengthCounter++ >= frameExtension) {
             frameLengthCounter = 0;
             frameIndex++;
         }
-        if(frameIndex >= 4) {
+        if(frameIndex >= 2) {
             l_action = VAL_ACTION_DOWNTILT;
             if(joyV < -0.25) {
                 action = VAL_ACTION_CROUCHING;
@@ -216,35 +223,41 @@ void Valvano::controlLoop(float joyH, float joyV, bool btnA, bool btnB, bool shi
             x_mirroredOffset = 0;
         }
         else {
-            hitboxManager->addHurtbox(x + 18, y, mirrored,
+            if(frameIndex == 0 || (frameIndex == 1 && frameLengthCounter < 2))
+                hitboxManager->addHurtbox(x + 7, y, mirrored,
                                       downTilt, player);
         }
     }
     else if(action == VAL_ACTION_FORWARDTILT) {
-        animationIndex = 10;
+        animationIndex = 12;
         mirrored = l_mirrored;
-        x_mirroredOffset = -20;
+        xAnimationOffset = 0;
+        x_mirroredOffset = -25;
+        yAnimationOffset = 0;
 
         hitbox.offsetY(0);
         hitbox.offsetX(0, mirrored);
 
-        if(frameIndex == 0) frameExtension = 4;
-        else if(frameIndex == 1) frameExtension = 7;
+        if(frameIndex == 0) frameExtension = 2;
+        else if(frameIndex == 3) frameExtension = 5;
+        else frameExtension = 0;
         if(frameLengthCounter++ >= frameExtension) {
             frameLengthCounter = 0;
             frameIndex++;
         }
-        if(frameIndex >= 2) {
+        if(frameIndex >= 4) {
             l_action = VAL_ACTION_FORWARDTILT;
             action = VAL_ACTION_RESTING;
             disabledFrames = 2;
             x_mirroredOffset = 0;
         }
         else {
-            if(frameIndex == 1) {
-                hitboxManager->addHurtbox(x + 16, y, mirrored,
-                                          forwardTilt, player);
-            }
+            if(frameIndex == 1) hitboxManager->addHurtbox(x + 7, y, mirrored,
+                                                          forwardTilt1, player);
+            else if(frameIndex == 2) hitboxManager->addHurtbox(x + 7, y, mirrored,
+                                                               forwardTilt2, player);
+            else if(frameIndex == 3 && frameLengthCounter < 2) hitboxManager->addHurtbox(x + 7, y, mirrored,
+                                                                                         forwardTilt3, player);
         }
     }
     else if(action == VAL_ACTION_UPTILT) {
@@ -334,34 +347,37 @@ void Valvano::controlLoop(float joyH, float joyV, bool btnA, bool btnB, bool shi
             disabledFrames = 4;
         }
         else {
-            animationIndex = 24;
+            animationIndex = 23;
             mirrored = l_mirrored;
             gravityScale = 1.0;
             x += airSpeed * joyH * 0.4;
             disabledFrames = 2;
 
-            x_mirroredOffset = -4;
-            xAnimationOffset = 0;
+            x_mirroredOffset = -5;
+            xAnimationOffset = -4;
             yAnimationOffset = 0;
 
-            hitbox.offsetHeight(-2);
-            hitbox.offsetY(-1);
-            if(mirrored) hitbox.offsetX(-4);
+            hitbox.offsetHeight(0);
+            hitbox.offsetWidth(4);
+            hitbox.offsetY(0);
+            if(mirrored) hitbox.offsetX(2);
             else hitbox.offsetX(-1);
 
-            frameExtension = 2;
+            if(frameIndex == 0) frameExtension = 2;
+            else if(frameIndex == 1) frameExtension = 2;
+            else frameExtension = 6;
             if (frameLengthCounter++ >= frameExtension) {
                 frameLengthCounter = 0;
                 frameIndex++;
             }
-            if (frameIndex >= 5) {
+            if (frameIndex >= 3) {
                 l_action = VAL_ACTION_UPAIR;
                 action = VAL_ACTION_FALLING;
                 disabledFrames = 5;
             }
             else {
-                if(frameIndex == 1 || frameIndex == 3) {
-                    hitboxManager->addHurtbox(x + 13, y, mirrored,
+                if(frameIndex == 2 || frameIndex == 3) {
+                    hitboxManager->addHurtbox(x + 10, y, mirrored,
                                               upAir, player);
                 }
             }
@@ -373,6 +389,8 @@ void Valvano::controlLoop(float joyH, float joyV, bool btnA, bool btnB, bool shi
         x_mirroredOffset = 0;
         xAnimationOffset = 0;
         yAnimationOffset = 0;
+
+        x += airSpeed * joyH * 0.5;
 
         disabledFrames = 2;
 
@@ -591,19 +609,19 @@ void Valvano::controlLoop(float joyH, float joyV, bool btnA, bool btnB, bool shi
         }
     }
     else if(action == VAL_ACTION_SHIELD) {
-        animationIndex = 41;
+        animationIndex = 6;
         frameIndex = 0;
         mirrored = l_mirrored;
 
         if(y > floor) x += airSpeed * 0.3 * joyH;
 
-        xAnimationOffset = 1;
+        xAnimationOffset = -1;
         yAnimationOffset = 0;
         x_mirroredOffset = -1;
 
-        int xShieldOffset = xAnimationOffset + 3;
-        int yShieldOffset = yAnimationOffset + 3;
-        int x_mirroredShieldOffset = x_mirroredOffset + 3;
+        int xShieldOffset = xAnimationOffset - 5;
+        int yShieldOffset = yAnimationOffset + 5;
+        int x_mirroredShieldOffset = x_mirroredOffset -5;
 
         disabledFrames = 2;
         invulnerableFrames = 2;
@@ -648,14 +666,14 @@ void Valvano::controlLoop(float joyH, float joyV, bool btnA, bool btnB, bool shi
         }
     }
     else if(action == VAL_ACTION_HURT) {
-        animationIndex = 40;
+        animationIndex = 7;
 
-        xAnimationOffset = 7;
-        yAnimationOffset = -2;
-        x_mirroredOffset = 5;
+        xAnimationOffset = -6;
+        yAnimationOffset = -4;
+        x_mirroredOffset = -5;
 
+        //  knockback, add directional input
         if(disabledFrames == -1) {
-            //  knockback
             x += DIKnockbackHorizontalSpeed * joyH;
             y += DIKnockbackVerticalSpeed * joyV;
         }
@@ -696,6 +714,8 @@ void Valvano::controlLoop(float joyH, float joyV, bool btnA, bool btnB, bool shi
         animationIndex = 1;
         frameIndex = 0;
 
+        xAnimationOffset = 0;
+        yAnimationOffset = 0;
         x_mirroredOffset = -3;
 
         hitbox.offsetY(-1);
@@ -943,7 +963,10 @@ void Valvano::controlLoop(float joyH, float joyV, bool btnA, bool btnB, bool shi
     if(yVel < maxFallingVelocity) yVel = maxFallingVelocity;
 
     y += yVel;
-    if(y > ceiling && action != VAL_ACTION_LEDGEGRAB) y = ceiling;
+    if(y > ceiling && action != VAL_ACTION_LEDGEGRAB) {
+        y = ceiling;
+        yVel = 0;
+    }
     if(y <= floor) {
         y = floor;
         yVel = 0;
@@ -979,14 +1002,14 @@ void Valvano::controlLoop(float joyH, float joyV, bool btnA, bool btnB, bool shi
         frameLengthCounter = 0;
 
     }
-//        //  down tilt
-//    else if(disabledFrames == 0 && y == floor && (VAL_ACTION_CROUCHING || action == VAL_ACTION_RESTING)
-//            && currentTime - l_btnARise_t == 0 && joyV < -0.3) {
-//        action = VAL_ACTION_DOWNTILT;
-//        disabledFrames = 2;
-//        frameIndex = 0;
-//        frameLengthCounter = 0;
-//    }
+        //  down tilt
+    else if(disabledFrames == 0 && y == floor && (VAL_ACTION_CROUCHING || action == VAL_ACTION_RESTING)
+            && currentTime - l_btnARise_t == 0 && joyV < -0.3) {
+        action = VAL_ACTION_DOWNTILT;
+        disabledFrames = 2;
+        frameIndex = 0;
+        frameLengthCounter = 0;
+    }
         //  neutral air
     else if(disabledFrames == 0 && y > floor
             && (action == VAL_ACTION_FALLING || action == VAL_ACTION_JUMPING
@@ -1011,18 +1034,18 @@ void Valvano::controlLoop(float joyH, float joyV, bool btnA, bool btnB, bool shi
         frameIndex = 0;
         frameLengthCounter = 0;
     }
-//        //  up air
-//    else if(disabledFrames == 0 && y > floor
-//            && (action == VAL_ACTION_FALLING || action == VAL_ACTION_JUMPING
-//                || action == VAL_ACTION_DOUBLEJUMPING)
-//            && currentTime - l_btnARise_t == 0 && joyV > 0.3) {
-//        action = VAL_ACTION_UPAIR;
-//        if(joyH == 0) mirrored = l_mirrored;
-//        else mirrored = joyH < 0;
-//        disabledFrames = 2;
-//        frameIndex = 0;
-//        frameLengthCounter = 0;
-//    }
+        //  up air
+    else if(disabledFrames == 0 && y > floor
+            && (action == VAL_ACTION_FALLING || action == VAL_ACTION_JUMPING
+                || action == VAL_ACTION_DOUBLEJUMPING)
+            && currentTime - l_btnARise_t == 0 && joyV > 0.3) {
+        action = VAL_ACTION_UPAIR;
+        if(joyH == 0) mirrored = l_mirrored;
+        else mirrored = joyH < 0;
+        disabledFrames = 2;
+        frameIndex = 0;
+        frameLengthCounter = 0;
+    }
         //  forward + back air
     else if(disabledFrames == 0 && y > floor
             && (action == VAL_ACTION_FALLING || action == VAL_ACTION_JUMPING
@@ -1034,15 +1057,16 @@ void Valvano::controlLoop(float joyH, float joyV, bool btnA, bool btnB, bool shi
         frameIndex = 0;
         frameLengthCounter = 0;
     }
-//        //  forward tilt
-//    else if(disabledFrames == 0 && y == floor && (action == VAL_ACTION_RUNNING || action == VAL_ACTION_RESTING)
-//            && currentTime - l_btnARise_t == 0 && absVal(joyH) < 0.6 && absVal(joyH) > 0.1) {
-//        action = VAL_ACTION_FORWARDTILT;
-//        mirrored = joyH < 0;
-//        disabledFrames = 2;
-//        frameIndex = 0;
-//        frameLengthCounter = 0;
-//    }
+        //  forward tilt
+    else if(disabledFrames == 0 && y == floor && (action == VAL_ACTION_RUNNING || action == VAL_ACTION_RESTING)
+            && currentTime - l_btnARise_t == 0
+            && ((absVal(joyH) < 0.5 && absVal(joyH) > 0.1) || absVal(joyH - l_joyH) > 0.5)) {
+        action = VAL_ACTION_FORWARDTILT;
+        mirrored = joyH < 0;
+        disabledFrames = 2;
+        frameIndex = 0;
+        frameLengthCounter = 0;
+    }
 //        //  up tilt
 //    else if(disabledFrames == 0 && y == floor && (action == VAL_ACTION_RUNNING || action == VAL_ACTION_RESTING)
 //            && currentTime - l_btnARise_t == 0 && joyV > 0) {
@@ -1140,16 +1164,16 @@ void Valvano::controlLoop(float joyH, float joyV, bool btnA, bool btnB, bool shi
         if(joyH == 0) mirrored = l_mirrored;
         else mirrored = joyH < 0;
     }
-//        //  shield
-//    else if(disabledFrames == 0 &&
-//            ( (action == VAL_ACTION_FALLING || action == VAL_ACTION_JUMPING  ||
-//               action == VAL_ACTION_DOUBLEJUMPING) ||
-//              (y == floor && (action == VAL_ACTION_RESTING || action == VAL_ACTION_RUNNING ||
-//                              action == VAL_ACTION_CROUCHING)) )
-//            && shield && !l_shield && (PLAYER_SHIELD_MAXDAMAGE - shieldDamage > 10)) {
-//        action = VAL_ACTION_SHIELD;
-//        disabledFrames = 2;
-//    }
+        //  shield
+    else if(disabledFrames == 0 &&
+            ( (action == VAL_ACTION_FALLING || action == VAL_ACTION_JUMPING  ||
+               action == VAL_ACTION_DOUBLEJUMPING) ||
+              (y == floor && (action == VAL_ACTION_RESTING || action == VAL_ACTION_RUNNING ||
+                              action == VAL_ACTION_CROUCHING)) )
+            && shield && !l_shield && (PLAYER_SHIELD_MAXDAMAGE - shieldDamage > 10)) {
+        action = VAL_ACTION_SHIELD;
+        disabledFrames = 2;
+    }
         //  running/walking
     else if(((action == VAL_ACTION_RESTING) || (disabledFrames == 0 && action == VAL_ACTION_HURT))
             && absVal(joyH) > 0) {

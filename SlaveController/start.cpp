@@ -41,12 +41,18 @@
 #include "colors_eer.h"
 #include "colors_charmenu.h"
 #include "colors_stagemenu.h"
-#include "colors_winp1gaw.h"
-#include "colors_winp2gaw.h"
-#include "colors_winp1kirby.h"
-#include "colors_winp2kirby.h"
-#include "colors_winp1val.h"
-#include "colors_winp2val.h"
+#include "colors_w1gw.h"
+#include "colors_w1gwc.h"
+#include "colors_w1kb.h"
+#include "colors_w1kbc.h"
+#include "colors_w1va.h"
+#include "colors_w1vac.h"
+#include "colors_w2gw.h"
+#include "colors_w2gwc.h"
+#include "colors_w2kb.h"
+#include "colors_w2kbc.h"
+#include "colors_w2va.h"
+#include "colors_w2vac.h"
 
 Task_Struct ts;
 
@@ -216,22 +222,40 @@ void start(UArg arg0, UArg arg1)
                 animator_setBackgroundColors(colors_stagemenu);
             }
             else if(stageIndex == BACKGROUND_WIN_P1_KIRBY) {
-                animator_setBackgroundColors(colors_winp1kirby);
+                animator_setBackgroundColors(colors_w1kb);
             }
             else if(stageIndex == BACKGROUND_WIN_P2_KIRBY) {
-                animator_setBackgroundColors(colors_winp2kirby);
+                animator_setBackgroundColors(colors_w2kb);
             }
             else if(stageIndex == BACKGROUND_WIN_P1_GAMEANDWATCH) {
-                animator_setBackgroundColors(colors_winp1gaw);
+                animator_setBackgroundColors(colors_w1gw);
             }
             else if(stageIndex == BACKGROUND_WIN_P2_GAMEANDWATCH) {
-                animator_setBackgroundColors(colors_winp2gaw);
+                animator_setBackgroundColors(colors_w2gw);
             }
             else if(stageIndex == BACKGROUND_WIN_P1_VALVANO) {
-                animator_setBackgroundColors(colors_winp1val);
+                animator_setBackgroundColors(colors_w1va);
             }
             else if(stageIndex == BACKGROUND_WIN_P2_VALVANO) {
-                animator_setBackgroundColors(colors_winp2val);
+                animator_setBackgroundColors(colors_w2va);
+            }
+            else if(stageIndex == BACKGROUND_WIN_P1_KIRBY_CHINESE) {
+                animator_setBackgroundColors(colors_w1kbc);
+            }
+            else if(stageIndex == BACKGROUND_WIN_P2_KIRBY_CHINESE) {
+                animator_setBackgroundColors(colors_w2kbc);
+            }
+            else if(stageIndex == BACKGROUND_WIN_P1_GAMEANDWATCH_CHINESE) {
+                animator_setBackgroundColors(colors_w1gwc);
+            }
+            else if(stageIndex == BACKGROUND_WIN_P2_GAMEANDWATCH_CHINESE) {
+                animator_setBackgroundColors(colors_w2gwc);
+            }
+            else if(stageIndex == BACKGROUND_WIN_P1_VALVANO_CHINESE) {
+                animator_setBackgroundColors(colors_w1vac);
+            }
+            else if(stageIndex == BACKGROUND_WIN_P2_VALVANO_CHINESE) {
+                animator_setBackgroundColors(colors_w2vac);
             }
         }
         //  Read Persistent Sprite

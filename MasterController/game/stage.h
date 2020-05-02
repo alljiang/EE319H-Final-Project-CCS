@@ -20,11 +20,12 @@ class Stage {
 #define SMASHVILLE_PLATFORM_HEIGHT 5
 
 protected:
-    uint8_t stageIndex;
     double sv_platform_x, sv_platform_y, sv_platform_xvel;
     bool sv_platform_goingRight;
 
 public:
+    uint8_t stageIndex;
+
     void initialize(uint8_t index, HitboxManager *hitboxManager);
     void update();
 

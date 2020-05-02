@@ -256,12 +256,18 @@ start.obj: ../colors_gregory.h
 start.obj: ../colors_eer.h
 start.obj: ../colors_charmenu.h
 start.obj: ../colors_stagemenu.h
-start.obj: ../colors_winp1gaw.h
-start.obj: ../colors_winp2gaw.h
-start.obj: ../colors_winp1kirby.h
-start.obj: ../colors_winp2kirby.h
-start.obj: ../colors_winp1val.h
-start.obj: ../colors_winp2val.h
+start.obj: ../colors_w1gw.h
+start.obj: ../colors_w1gwc.h
+start.obj: ../colors_w1kb.h
+start.obj: ../colors_w1kbc.h
+start.obj: ../colors_w1va.h
+start.obj: ../colors_w1vac.h
+start.obj: ../colors_w2gw.h
+start.obj: ../colors_w2gwc.h
+start.obj: ../colors_w2kb.h
+start.obj: ../colors_w2kbc.h
+start.obj: ../colors_w2va.h
+start.obj: ../colors_w2vac.h
 
 ../start.cpp: 
 C:/Users/Allen/Documents/GitHub/EE319H-Final-Project-CCS/SlaveController/driver/Flash.h: 
@@ -519,9 +525,15 @@ C:/Users/Allen/Documents/GitHub/EE319H-Final-Project-CCS/SlaveController/driver/
 ../colors_eer.h: 
 ../colors_charmenu.h: 
 ../colors_stagemenu.h: 
-../colors_winp1gaw.h: 
-../colors_winp2gaw.h: 
-../colors_winp1kirby.h: 
-../colors_winp2kirby.h: 
-../colors_winp1val.h: 
-../colors_winp2val.h: 
+../colors_w1gw.h: 
+../colors_w1gwc.h: 
+../colors_w1kb.h: 
+../colors_w1kbc.h: 
+../colors_w1va.h: 
+../colors_w1vac.h: 
+../colors_w2gw.h: 
+../colors_w2gwc.h: 
+../colors_w2kb.h: 
+../colors_w2kbc.h: 
+../colors_w2va.h: 
+../colors_w2vac.h: 

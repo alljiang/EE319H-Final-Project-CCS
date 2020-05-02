@@ -5,7 +5,6 @@
 #include <cstdio>
 #include "entities.h"
 #include "utils.h"
-
 using namespace std;
 
 void HitboxManager::checkCollisions() {

@@ -1080,6 +1080,8 @@ void GameandWatch::controlLoop(float joyH, float joyV, bool btnA, bool btnB, boo
         animationIndex = 6;
         frameIndex = 0;
 
+        xAnimationOffset = 0;
+        yAnimationOffset = 0;
         x_mirroredOffset = -3;
 
         hitbox.offsetY(-8);
@@ -1323,7 +1325,10 @@ void GameandWatch::controlLoop(float joyH, float joyV, bool btnA, bool btnB, boo
     overrideMaxVelocity = false;
 
     y += yVel;
-    if(y > ceiling && action != GAW_ACTION_LEDGEGRAB) y = ceiling;
+    if(y > ceiling && action != GAW_ACTION_LEDGEGRAB) {
+        y = ceiling;
+        yVel = 0;
+    }
     if(y <= floor) {
         y = floor;
         yVel = 0;
@@ -1664,7 +1669,6 @@ void GameandWatch::collide(Hurtbox *hurtbox, Player *otherPlayer) {
         damage += hurtbox->damage;
 
         float knockbackMultiplier = damage / 200. + 1.0;
-//        printf("%0.1f\n", damage);
 
         if (otherPlayer->x < x) xVel = hurtbox->xKnockback * knockbackMultiplier;
         else xVel = -hurtbox->xKnockback * knockbackMultiplier;

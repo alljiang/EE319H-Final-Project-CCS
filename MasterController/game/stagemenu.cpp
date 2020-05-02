@@ -6,11 +6,12 @@
 #include "UART.h"
 #include "metadata.h"
 
-void StageMenu::start() {
+void StageMenu::start(bool isEnglish) {
     reset();
     UART_setBackgroundColors(BACKGROUND_STAGEMENU);
     UART_readPersistentSprite(BACKGROUND_STAGEMENU, 0, 0);
     UART_readCharacterSDCard(4);
+    englishSelected = isEnglish;
 }
 
 void StageMenu::loop(double joyH1, double joyV1, double joyH2, double joyV2, bool btnA,

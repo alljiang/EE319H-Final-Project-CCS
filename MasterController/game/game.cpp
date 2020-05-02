@@ -11,7 +11,7 @@
 #include "v_tm4c123gh6pm.h"
 #include "charactermenu.h"
 #include "stagemenu.h"
-#include "WinScreen.h">
+#include "WinScreen.h"
 
 using namespace std;
 
@@ -35,7 +35,7 @@ GameandWatch gameandwatch2;
 
 int8_t winner, winningCharacter;
 int8_t p1char, p2char;
-bool english;
+bool english = false;
 bool inCharMenu = false, inStageSelect = true, inWinScreen = false;
 bool countdown, gameOver;
 uint8_t frameIndex, frameLength;
@@ -261,13 +261,13 @@ void startup() {
     UART_commandReset();
 
     if(inStageSelect) {
-        stageMenu.start();
+        stageMenu.start(english);
     }
     else if(inCharMenu) {
         characterMenu.start();
     }
     else if(inWinScreen) {
-        winScreen.start(winner, winningCharacter);
+        winScreen.start(winner, winningCharacter, english);
     }
     else {
         game_startup();

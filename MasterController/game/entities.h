@@ -139,6 +139,13 @@ public:
         p1 = player1;
         if(player2 != nullptr) p2 = player2;
         else p2 = nullptr;
+
+        //  clear hitboxes
+        for(int i = 0; i < hurtboxSlots; i++) {
+            hurtboxes[i].active = false;
+            activationFlags[i] = false;
+        }
+        persistentHurtbox = 0;
     }
 
     void checkCollisions();
@@ -617,7 +624,7 @@ class Valvano: public Player {
 #define VAL_ACTION_SHIELD 51
 #define VAL_ACTION_STUN 52
 
-#define VAL_STAGE_OFFSET 11
+#define VAL_STAGE_OFFSET 13
 
 protected:
     //  animation config
@@ -669,14 +676,20 @@ public:
     Hurtbox jab = Hurtbox(true,13, 14, SHAPE_CIRCLE,
                                                5, 1,
                                                2, 1.9, 1.5, 2);
-    Hurtbox dashAttack = Hurtbox((short)16, 17, SHAPE_RECTANGLE,
+    Hurtbox dashAttack = Hurtbox((short)21, 17, SHAPE_RECTANGLE,
                                  34, 10, 1,
                                  3, 3.1, 2.5, -1);
-    Hurtbox forwardTilt = Hurtbox((short)35, 11, SHAPE_RECTANGLE,
-                                  20, 30, 1,
-                                  4, 2.5, 3.5, -1);
-    Hurtbox downTilt = Hurtbox((short)24, 8, SHAPE_RECTANGLE,
-                               9, 23, 1,
+    Hurtbox forwardTilt1 = Hurtbox((short)16, 25, SHAPE_RECTANGLE,
+                                   12, 18, 1,
+                                   4, 2.5, 3.5, -1);
+    Hurtbox forwardTilt2 = Hurtbox((short)26, 11, SHAPE_RECTANGLE,
+                                   14, 16, 1,
+                                   4, 2.5, 3.5, -1);
+    Hurtbox forwardTilt3 = Hurtbox((short)32, 7, SHAPE_RECTANGLE,
+                                   14, 12, 1,
+                                   4, 2.5, 3.5, -1);
+    Hurtbox downTilt = Hurtbox((short)0, 9, SHAPE_RECTANGLE,
+                               7, 32, 1,
                                3, 2.5, 3.7, -1);
     Hurtbox upTilt1 = Hurtbox((short)14, 40, SHAPE_RECTANGLE,
                               23, 23, 1,
@@ -684,27 +697,15 @@ public:
     Hurtbox upTilt2 = Hurtbox((short)-21, 43, SHAPE_RECTANGLE,
                               23, 23, 1,
                               7, 3.3, 4.1, -1);
-    Hurtbox forwardSmash = Hurtbox((short)30, 18, SHAPE_RECTANGLE,
-                                   20, 20, 1,
-                                   10, 3.5, 3.8, -1);
-    Hurtbox upSmash = Hurtbox((short)1, 20, SHAPE_RECTANGLE,
-                              23, 46, 1,
-                              10, 3.7, 3.9, -1);
-    Hurtbox downSmash = Hurtbox((short)0., 12, SHAPE_RECTANGLE,
-                                24, 66, 1,
-                                8, 4.0, 3.2, -1);
     Hurtbox forwardAir =  Hurtbox(true,25, 14, SHAPE_CIRCLE,
                                   11, 1,
                                   2, 1.9, 1.5, 2);
     Hurtbox downAir = Hurtbox(true,0, 0, SHAPE_CIRCLE,
                               11, 1,
                               2, 1.9, 1.5, 2);
-    Hurtbox upAir = Hurtbox((short)-4, 44, SHAPE_RECTANGLE,
-                            19, 20, 1,
+    Hurtbox upAir = Hurtbox((short)-1, 41, SHAPE_RECTANGLE,
+                            21, 20, 1,
                             3, 2.2, 3.7, -1);
-    Hurtbox backAir = Hurtbox((short)-25, 15, SHAPE_RECTANGLE,
-                              21, 31, 1,
-                              8, 3.7, 3.0, -1);
     Hurtbox neutralAir = Hurtbox((short)0, 22, SHAPE_RECTANGLE,
                                  42, 50, 1,
                                  5, 3.3, 3.3, -1);

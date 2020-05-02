@@ -49,18 +49,24 @@
 #define BACKGROUND_WIN_P2_GAMEANDWATCH 17
 #define BACKGROUND_WIN_P1_VALVANO 18
 #define BACKGROUND_WIN_P2_VALVANO 19
+#define BACKGROUND_WIN_P1_KIRBY_CHINESE 20
+#define BACKGROUND_WIN_P2_KIRBY_CHINESE 21
+#define BACKGROUND_WIN_P1_GAMEANDWATCH_CHINESE 22
+#define BACKGROUND_WIN_P2_GAMEANDWATCH_CHINESE 23
+#define BACKGROUND_WIN_P1_VALVANO_CHINESE 24
+#define BACKGROUND_WIN_P2_VALVANO_CHINESE 25
 
 #define CHARACTERS  5
 
 const char characterNames[CHARACTERS][14] = {
         {"kirby"},
         {"gaw"},
-        {"val"},    //  TODO: CHANGE THIS BACK TO SHORTER "VAL" WHEN PORTING TO TM4C
+        {"valvano"},    //  TODO: CHANGE THIS BACK TO SHORTER "VAL" WHEN PORTING TO TM4C
         {"misc"},
         {"menu"}
 };
 
-const char persistentSprites[20][15] = {
+const char persistentSprites[26][7] = {
 /* 0  */{"fdst"},
         {"tower"},
         {"battl"},
@@ -80,7 +86,13 @@ const char persistentSprites[20][15] = {
         {"w1gw"},
         {"w2gw"},
         {"w1va"},
-        {"w2va"}
+        {"w2va"},
+/* 20 */{"w1kbc"},
+        {"w2kbc"},
+        {"w1gwc"},
+        {"w2gwc"},
+        {"w1vac"},
+        {"w2vac"}
 };
 
 const uint16_t numberOfAnimations = 64;
@@ -187,15 +199,15 @@ const char animations[CHARACTERS][64][12] = {
                                                 {"run"},    //  5
                                                 {"jump"},   //  1
                                                 {"falling"},    //  2
-                                                {""},
-                                                {""},
-                                                {""},
+                                                {"ledge"},  //  1
+                                                {"shield"}, //  1
+                                                {"hurt"},   //  2
                                                 {""},
                                                 {""},
                /*   10  */                      {"dashattack"},     //  5
                                                 {"jab"},    //  5 (first jab) + 3 (second jab)
-                                                {""},
-                                                {""},
+                                                {"ftilt"},      //  4
+                                                {"dtilt"},  //  2
                                                 {""},
                                                 {""},
                                                 {""},
@@ -205,7 +217,7 @@ const char animations[CHARACTERS][64][12] = {
                /*   20  */                      {"nair"},   //  4
                                                 {"fair"},   //  6
                                                 {"dair"},   //  2
-                                                {""},
+                                                {"uair"},   //  3
                                                 {""},
                                                 {""},
                                                 {""},
@@ -269,7 +281,7 @@ const char animations[CHARACTERS][64][12] = {
                                                 {"p2small"},
                                                 {"p2big"},
                                                 {"stageselect"},
-                                                {""},
+                                                {"selectbox"},
                                                 {""},
                                                 {""},
                                                 {""},
