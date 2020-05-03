@@ -5,6 +5,9 @@
  *  February 2020
  */
 
+#ifndef AUDIO_H
+#define AUDIO_H
+
 #include <stdint.h>
 #include <stdio.h>
 #include <xdc/std.h>
@@ -201,4 +204,6 @@ extern void Audio_initParams(struct AudioParams* params);
 
 #ifdef __cplusplus
 }
+#endif
+
 #endif

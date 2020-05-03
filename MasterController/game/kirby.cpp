@@ -8,6 +8,7 @@
 #include "metadata.h"
 #include "UART.h"
 #include "stage.h"
+#include "Audio.h"
 
 void Kirby::controlLoop(float joyH, float joyV, bool btnA, bool btnB, bool shield,
                         class Stage *stage, class HitboxManager *hitboxManager) {
@@ -137,6 +138,7 @@ void Kirby::controlLoop(float joyH, float joyV, bool btnA, bool btnB, bool shiel
         else if(joyV > -0.3) {
             action = KIRBY_ACTION_RESTING;
             lastBlink = currentTime;
+            Audio_play(KIRBY_SOUND_RISE, 0.5);
         }
     }
     else if(action == KIRBY_ACTION_LEDGEGRAB) {
@@ -560,6 +562,8 @@ void Kirby::controlLoop(float joyH, float joyV, bool btnA, bool btnB, bool shiel
             if(frameIndex >= 2) {
                 l_action = KIRBY_ACTION_UPSPECIALINITIAL;
                 action = KIRBY_ACTION_UPSPECIALRISING;
+
+                Audio_play(KIRBY_SOUND_UPB2, 0.5);
             }
         }
         switch(frameIndex) {
@@ -610,6 +614,7 @@ void Kirby::controlLoop(float joyH, float joyV, bool btnA, bool btnB, bool shiel
         if(y - startY > 50 || y >= ceiling) {
             l_action = KIRBY_ACTION_UPSPECIALRISING;
             action = KIRBY_ACTION_UPSPECIALTOP;
+            Audio_play(KIRBY_SOUND_UPB2VOICE, 0.5);
         }
         else {
             y += 16;
@@ -639,6 +644,7 @@ void Kirby::controlLoop(float joyH, float joyV, bool btnA, bool btnB, bool shiel
         if(frameIndex >= 5 && frameLengthCounter == frameExtension) {
             l_action = action;
             action = KIRBY_ACTION_UPSPECIALFALLING;
+            upb_projectile_activated = false;
         }
 
         switch(frameIndex) {
@@ -709,9 +715,15 @@ void Kirby::controlLoop(float joyH, float joyV, bool btnA, bool btnB, bool shiel
         disabledFrames = 2;
 
         if(y <= floor) {
-            if(!upb_projectile_active) {
+            if(!upb_projectile_active && !upb_projectile_activated) {
+
+                Audio_play(KIRBY_SOUND_UPB3VOICE, 0.5);
+//                Audio_play(KIRBY_SOUND_UPB3, 0.5);
+//                Audio_play(KIRBY_SOUND_UPB4, 0.5);
+
                 //  start projectile
                 upb_projectile_active = true;
+                upb_projectile_activated= true;
                 upb_projectile_mirrored = mirrored;
                 upb_projectile_startX = x;
                 upb_projectile_startY = y;
@@ -1534,7 +1546,7 @@ void Kirby::controlLoop(float joyH, float joyV, bool btnA, bool btnB, bool shiel
     s.layer = LAYER_CHARACTER;
     s.mirrored = mirrored;
 
-    UART_sendAnimation(s);
+//    UART_sendAnimation(s);
     // Up special projectile animation
     if(upb_projectile_active) {
         if(absVal(upb_projectile_x-upb_projectile_startX) >= 70 ||
@@ -1760,6 +1772,9 @@ void Kirby::controlLoop(float joyH, float joyV, bool btnA, bool btnB, bool shiel
         disabledFrames = 2;
         frameIndex = 0;
         frameLengthCounter = 0;
+
+        Audio_play(KIRBY_SOUND_UPB1VOICE, 0.5);
+        Audio_play(KIRBY_SOUND_UPB1, 0.5);
     }
         //  down special
     else if( disabledFrames == 0 &&
@@ -1822,6 +1837,7 @@ void Kirby::controlLoop(float joyH, float joyV, bool btnA, bool btnB, bool shiel
         action = KIRBY_ACTION_JUMPING;
         frameIndex = 0;
         ledgeGrabTime = currentTime;
+        Audio_play(KIRBY_SOUND_JUMP, 0.5);
     }
         //  multijump
     else if( disabledFrames == 0
@@ -1837,6 +1853,7 @@ void Kirby::controlLoop(float joyH, float joyV, bool btnA, bool btnB, bool shiel
 
         if(joyH == 0) mirrored = l_mirrored;
         else mirrored = joyH < 0;
+        Audio_play(KIRBY_SOUND_JUMP, 0.5);
     }
         //  running/walking
     else if(((action == KIRBY_ACTION_RESTING) || (disabledFrames == 0 && action == KIRBY_ACTION_HURT))
@@ -1851,6 +1868,7 @@ void Kirby::controlLoop(float joyH, float joyV, bool btnA, bool btnB, bool shiel
             (action == KIRBY_ACTION_RESTING || action == KIRBY_ACTION_RUNNING || action == KIRBY_ACTION_HURT) &&
             joyV <= -0.3 && y == floor) {
         action = KIRBY_ACTION_CROUCHING;
+        Audio_play(KIRBY_SOUND_SQUAT, 0.5);
     }
         //  resting
     else if(disabledFrames == 0 &&

@@ -39,7 +39,7 @@
 #define FIFOBufferSize 2048
 #define audioMiddle 128
 
-#define NumAudioSlots 6
+#define NumAudioSlots 16
 
 const char fileHeader[] = "fat:0:";
 const char fileTail[] = ".txt";
@@ -47,6 +47,8 @@ const char fileTail[] = ".txt";
 uint16_t audioFIFOBuffer[FIFOBufferSize];
 volatile int32_t FIFO_Start = 0;    //  inclusive
 volatile int32_t FIFO_Max_Size = 0; //  length of the longest audio
+
+volatile bool SDBusyFlag;
 
 SDSPI_Handle Audio_sdspiHandle;
 SDSPI_Params Audio_sdspiParams;
@@ -94,6 +96,8 @@ void audioISR(UArg arg) {
 }
 
 void ReadSDFIFO() {
+    if(SDBusyFlag) return;
+    SDBusyFlag = true;
     uint32_t FIFO_Start_original = FIFO_Start;
     uint32_t samplesPlayedSinceLastLoop = samplesPlayed;
     samplesPlayed = 0;
@@ -125,10 +129,22 @@ void ReadSDFIFO() {
             bytesToRead = totalBytesRemaining;
         }
 
+
         if(bytesToRead < 1024 && totalBytesRemaining > 1024) bytesToRead = 0;
         else if(bytesToRead > 512) {
             bytesToRead = 512*(bytesToRead/512);    // read in multiples of 512 bytes (1 page)
+//            bytesToRead = 512;
         }
+
+//        if(audioSlots[slot].endIndex - audioSlots[slot].startIndex == 0 && bytesToRead > 200) {
+//            bytesToRead = 200;
+//        }
+//        else {
+//            if(bytesToRead < 1024 && totalBytesRemaining > 1024) bytesToRead = 0;
+//            else if(bytesToRead > 512) {
+//                bytesToRead = 512*(bytesToRead/512);    // read in multiples of 512 bytes (1 page)
+//            }
+//        }
 
         //  read in bytes
         uint32_t bytesActuallyRead = fread(readBuffer, 1, bytesToRead, audioSlots[slot].file);
@@ -151,14 +167,16 @@ void ReadSDFIFO() {
         }
     }
     numAudio = numAudioRead;
+    SDBusyFlag = false;
 }
 
 void Audio_init() {
-
     //  Set GPIO pins
     for(uint8_t i = 0; i < 8; i++) {
         GPIOPinTypeGPIOOutput(dac_pins[i][0], dac_pins[i][1]);
     }
+
+    SDBusyFlag = false;
 }
 
 void Audio_initSD() {
@@ -202,6 +220,7 @@ int8_t Audio_playAudio(struct AudioParams sendable) {
     if(!sendable.file) {
         System_printf("File not found / busy");
         System_flush();
+        GPIO_PORTF_DATA_R |= 0x02;
         return -1;
     }
 
@@ -213,7 +232,7 @@ int8_t Audio_playAudio(struct AudioParams sendable) {
             (readBuffer[3]);
     sendable.frames = numFrames;
 
-    //  if end index is undefined, play entire song
+    //  if end index is undefined, play entire sound
     if(sendable.endIndex == -1) sendable.endIndex = numFrames;
 
     audioSlots[slot] = sendable;
@@ -230,7 +249,14 @@ int8_t Audio_play(uint16_t soundIndex, float volume, uint32_t startIndex, int32_
     audioparams.endIndex = endIndex;
     audioparams.loop = loop;
 
-    return Audio_playAudio(audioparams);
+//    if(audioHandle != nullptr) Audio_destroy(audioHandle);
+//    *audioHandle = Audio_playAudio(audioparams);
+
+    while(SDBusyFlag) {}
+    SDBusyFlag = true;
+    int8_t handle = Audio_playAudio(audioparams);
+    SDBusyFlag = false;
+    return handle;
 }
 
 void Audio_destroyAudio(int8_t* slotID, bool overrideLoop) {

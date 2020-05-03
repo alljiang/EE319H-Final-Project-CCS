@@ -26,6 +26,7 @@ volatile bool acknowledged;
 volatile bool writeComplete;
 bool skipNextUpdate;
 int animationsUpdated;
+void (*busyFunction)(void);
 
 void readCallbackFunction(UART_Handle handle, uint8_t *buf, size_t count) {
     acknowledged = true;
@@ -35,7 +36,7 @@ void writeCallbackFunction(UART_Handle handle, uint8_t *buf, size_t count) {
     writeComplete = true;
 }
 
-void UART_start(void) {
+void UART_start(void (*fxn)(void)) {
     UART_Params_init(&uartParams);
     uartParams.readMode = UART_MODE_CALLBACK;
     //    uartParams.writeMode = UART_MODE_BLOCKING;
@@ -56,13 +57,18 @@ void UART_start(void) {
     skipNextUpdate = false;
     animationsUpdated = 0;
 
+    busyFunction = fxn;
+
     if (uart == NULL) {
         System_abort("Error opening UART");
     }
 }
 
 void UART_transmit(uint8_t numBytes, uint8_t *buffer) {
-    while(!writeComplete) {}
+    while(!writeComplete) {
+        //  don't waste time!
+        (*busyFunction)();
+    }
     writeComplete = false;
     UART_write(uart, buffer, numBytes);
 }

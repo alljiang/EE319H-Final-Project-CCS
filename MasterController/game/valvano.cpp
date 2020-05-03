@@ -1303,5 +1303,3 @@ void Valvano::reset() {
     shieldDamage = 0;
     dead = false;
 }
-
-

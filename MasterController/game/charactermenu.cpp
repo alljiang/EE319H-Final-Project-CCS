@@ -16,6 +16,8 @@ void CharacterMenu::start() {
 void CharacterMenu::loop(double joyH1, double joyV1, double joyH2, double joyV2,
                          bool btnA1, bool btnA2, bool btnB1, bool btnB2, bool btnStart,
                          void (*transitionCall)(int8_t, int8_t)) {
+    transitionCall(0,0);
+    return;
     double dt = 49;
     currentTime += (uint8_t)dt;
 

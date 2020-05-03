@@ -186,6 +186,10 @@ protected:
     float damage;            //  percentage between 0% and 999%
     int16_t action, l_action;
 
+    int8_t audio1;  //  audio handle for movement
+    int8_t audio2;  //  audio handle for other stuff
+    int8_t audio3;  //  audio handle for projectiles
+
     uint8_t animationIndex;     //  index of animation
     uint8_t frameIndex{0};      //  current frame index of current animation
     uint8_t frameExtension{1}, frameLengthCounter{0};  //  counts current frame height
@@ -322,7 +326,7 @@ protected:
     float startY;
     float upb_projectile_x, upb_projectile_startX, upb_projectile_startY;
     bool upb_projectile_mirrored;
-    bool upb_projectile_active;
+    bool upb_projectile_active, upb_projectile_activated;
     bool* upb_projectile_activationFlag = nullptr;
 
     //  down special

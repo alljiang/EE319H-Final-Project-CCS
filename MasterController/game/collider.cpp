@@ -62,7 +62,6 @@ bool* HitboxManager::addHurtboxFullConfig(float xOffset, float yOffset, bool mir
         }
     }
 
-    printf("No more hitbox slots!\n");
     return nullptr;    //  no slots remaining
 }
 

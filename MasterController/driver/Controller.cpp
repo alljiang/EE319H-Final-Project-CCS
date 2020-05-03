@@ -172,7 +172,7 @@ void Controller_updateController() {
     btn1_l = false;
     btn1_r = adcOut1 > 700;
 
-    System_printf("%d\t%d\n\n", adcOut0, adcOut1);
+//    System_printf("%d\t%d\n\n", adcOut0, adcOut1);
 
 //    System_printf("%d\t%d\n%d\t%d\n%d\t%d\n\n", (int)(joystick1_h*10), (int)(joystick1_v*10), (int)(joystick2_h*10), (int)(joystick2_v*10), btn1_l, btn1_r);
 

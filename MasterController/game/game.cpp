@@ -35,7 +35,7 @@ GameandWatch gameandwatch2;
 
 int8_t winner, winningCharacter;
 int8_t p1char, p2char;
-bool english = false;
+bool english = true;
 bool inCharMenu = false, inStageSelect = true, inWinScreen = false;
 bool countdown, gameOver;
 uint8_t frameIndex, frameLength;
@@ -113,14 +113,12 @@ void game_loop() {
             frameLength = 0;
         }
         if(frameIndex == 0) {
-            GPIO_PORTF_DATA_R |= 0x02;
             countdownAudioHandle = Audio_play(1, 1.0);     // play countdown
         }
         if(frameIndex == 36) {
-            GPIO_PORTF_DATA_R &= ~0x02;
             countdown = false;
             Audio_destroy(&countdownAudioHandle);
-            if(backgroundAudioHandle == -1) backgroundAudioHandle = Audio_play(0, 0.5, 0, -1, true);
+//            if(backgroundAudioHandle == -1) backgroundAudioHandle = Audio_play(0, 0.5, 0, -1, true);
         }
         else {
             s.x = 100;
@@ -202,7 +200,7 @@ void game_loop() {
             frameLength = 0;
         }
         if(frameIndex == 25) {
-            gameOver = false;;
+            gameOver = false;
             if(p1->dead) switchGameToWin(2, p2char);
             else switchGameToWin(1, p1char);
         }

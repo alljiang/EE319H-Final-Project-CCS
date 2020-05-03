@@ -32,6 +32,8 @@
 #include "Controller.h"
 #include "game.h"
 
+Task_Struct taskStruct;
+char stack[SIZE];
 
 void start(UArg arg0, UArg arg1)
 {
@@ -76,7 +78,7 @@ Int main()
     Board_initUART();
     Board_initSDSPI();
 
-    UART_start();
+    UART_start(&ReadSDFIFO);
     Controller_init();
 
     Audio_init();
@@ -93,6 +95,7 @@ Int main()
     Task_construct(&taskStruct, (Task_FuncPtr)start, &params, NULL);
 
     GPIO_PORTF_DIR_R |= 0x02;
+    GPIO_PORTF_DATA_R &= ~0x02;
 
     BIOS_start();    /* does not return */
 

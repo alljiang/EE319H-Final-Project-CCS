@@ -5,10 +5,7 @@
 extern "C" {
 #endif
 
-#define SIZE 6000
-
-Task_Struct taskStruct;
-char stack[SIZE];
+#define SIZE 4000
 
 extern void sleep(uint32_t ms);
 extern uint32_t millis();

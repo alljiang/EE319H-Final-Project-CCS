@@ -1309,13 +1309,13 @@ ti_sysbios_hal_Timer_Object__ ti_sysbios_hal_Timer_Object__table__V[1];
     #pragma data_alignment=8
 #endif
 /* --> ti_sysbios_heaps_HeapMem_Instance_State_0_buf__A */
-__T1_ti_sysbios_heaps_HeapMem_Instance_State__buf ti_sysbios_heaps_HeapMem_Instance_State_0_buf__A[2048];
+__T1_ti_sysbios_heaps_HeapMem_Instance_State__buf ti_sysbios_heaps_HeapMem_Instance_State_0_buf__A[4000];
 #ifdef __ti__align
     #pragma DATA_ALIGN(ti_sysbios_heaps_HeapMem_Instance_State_0_buf__A, 8);
 #endif
 #ifdef __GNUC__
 #ifndef __TI_COMPILER_VERSION__
-__T1_ti_sysbios_heaps_HeapMem_Instance_State__buf ti_sysbios_heaps_HeapMem_Instance_State_0_buf__A[2048] __attribute__ ((aligned(8)));
+__T1_ti_sysbios_heaps_HeapMem_Instance_State__buf ti_sysbios_heaps_HeapMem_Instance_State_0_buf__A[4000] __attribute__ ((aligned(8)));
 #endif
 #endif
 
@@ -2938,7 +2938,7 @@ __FAR__ const CT__ti_sysbios_BIOS_clockEnabled ti_sysbios_BIOS_clockEnabled__C =
 
 /* heapSize__C */
 #pragma DATA_SECTION(ti_sysbios_BIOS_heapSize__C, ".const:ti_sysbios_BIOS_heapSize__C");
-__FAR__ const CT__ti_sysbios_BIOS_heapSize ti_sysbios_BIOS_heapSize__C = (xdc_SizeT)0x800;
+__FAR__ const CT__ti_sysbios_BIOS_heapSize ti_sysbios_BIOS_heapSize__C = (xdc_SizeT)0xfa0;
 
 /* heapSection__C */
 #pragma DATA_SECTION(ti_sysbios_BIOS_heapSection__C, ".const:ti_sysbios_BIOS_heapSection__C");
@@ -4509,7 +4509,7 @@ __FAR__ const ti_sysbios_heaps_HeapMem_Params ti_sysbios_heaps_HeapMem_Object__P
 };
 
 /* --> ti_sysbios_heaps_HeapMem_Instance_State_0_buf__A */
-__T1_ti_sysbios_heaps_HeapMem_Instance_State__buf ti_sysbios_heaps_HeapMem_Instance_State_0_buf__A[2048];
+__T1_ti_sysbios_heaps_HeapMem_Instance_State__buf ti_sysbios_heaps_HeapMem_Instance_State_0_buf__A[4000];
 
 /* Module__root__V */
 ti_sysbios_heaps_HeapMem_Module__ ti_sysbios_heaps_HeapMem_Module__root__V = {
@@ -4525,7 +4525,7 @@ ti_sysbios_heaps_HeapMem_Object__ ti_sysbios_heaps_HeapMem_Object__table__V[1] =
         ((void*)ti_sysbios_heaps_HeapMem_Instance_State_0_buf__A),  /* buf */
         {
             ((ti_sysbios_heaps_HeapMem_Header*)0),  /* next */
-            ((xdc_UArg)(0x800)),  /* size */
+            ((xdc_UArg)(0xfa0)),  /* size */
         },  /* head */
         (xdc_SizeT)0x8,  /* minBlockAlign */
     },
