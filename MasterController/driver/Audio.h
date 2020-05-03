@@ -19,7 +19,14 @@
 extern "C" {
 #endif
 
+#define MENU_SOUND_BACKGROUND 0
 #define SOUND_DEATHBLAST 10
+#define STAGE_SOUND_BATTLEFIELD 11
+#define STAGE_SOUND_EER 12
+#define STAGE_SOUND_FINALDESTINATION 13
+#define STAGE_SOUND_GREGORYGYM 14
+#define STAGE_SOUND_SMASHVILLE 15
+#define STAGE_SOUND_UTTOWER 16
 
 #define KIRBY_SOUND_SQUAT 20
 #define KIRBY_SOUND_RISE 21
@@ -75,12 +82,12 @@ const char soundNames[200][7] = {
                 {""},
                 {""},
 /*  10  */      {"mdead"},
-                {""},
-                {""},
-                {""},
-                {""},
-                {""},
-                {""},
+                {"mbtfd"},
+                {"meer"},
+                {"mfdes"},
+                {"mgreg"},
+                {"msmvl"},
+                {"mtowe"},
                 {""},
                 {""},
                 {""},

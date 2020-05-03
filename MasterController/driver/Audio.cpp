@@ -75,11 +75,9 @@ void audioISR(UArg arg) {
     }
 
 //      write to DAC
-//    numAudio = 1;
+    numAudio = 4;
     uint16_t toWrite = audioFIFOBuffer[FIFO_Start] / numAudio;
-    if(toWrite > 0 && toWrite <= 255) {
-        Audio_DAC_write(toWrite);
-    }
+    Audio_DAC_write(toWrite);
 
     //  reset the FIFO location
     audioFIFOBuffer[FIFO_Start] = 0;
@@ -306,6 +304,7 @@ void Audio_destroyAllAudio() {
 void Audio_DAC_write(uint16_t mapping) {
 //    mapping = 0b11110000;
     if(mapping == 0) return;
+    if(mapping > 255) mapping = 255;
     for(int8_t i = 7; i >= 0; i--) {
         uint8_t output = (mapping >> (i)) & 1;
         if(output) output = dac_pins[7-i][1];
