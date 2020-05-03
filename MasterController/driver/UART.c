@@ -128,7 +128,9 @@ void UART_sendAnimation(struct SpriteSendable sendable) {
         return;
     }
     animationsUpdated++;
-    while(!acknowledged) {}
+    while(!acknowledged) {
+        (*busyFunction)();
+    }
     acknowledged = false;
     UART_transmit(13, UARTBuffer);
     UART_waitForAcknowledge();
@@ -147,7 +149,9 @@ void UART_commandUpdate() {
 
     UARTBuffer[0] = 0xFE;
 
-    while(!acknowledged) {}
+    while(!acknowledged) {
+        (*busyFunction)();
+    }
     acknowledged = false;
     animationsUpdated = 0;
     skipNextUpdate = false;
@@ -164,7 +168,9 @@ void UART_readCharacterSDCard(uint8_t characterIndex) {
     UARTBuffer[0] = 0x0A;
     UARTBuffer[1] = characterIndex;
 
-    while(!acknowledged) {}
+    while(!acknowledged) {
+        (*busyFunction)();
+    }
     acknowledged = false;
     UART_transmit(2, UARTBuffer);
     UART_waitForAcknowledge();
@@ -179,7 +185,9 @@ void UART_setBackgroundColors(uint8_t stage) {
     UARTBuffer[0] = 0x0C;
     UARTBuffer[1] = stage;
 
-    while(!acknowledged) {}
+    while(!acknowledged) {
+        (*busyFunction)();
+    }
     acknowledged = false;
     UART_transmit(2, UARTBuffer);
     UART_waitForAcknowledge();
@@ -200,7 +208,9 @@ void UART_readPersistentSprite(uint8_t spriteIndex, uint16_t x, uint16_t y) {
     UARTBuffer[3] = x & 0xFF;
     UARTBuffer[4] = y;
 
-    while(!acknowledged) {}
+    while(!acknowledged) {
+        (*busyFunction)();
+    }
     acknowledged = false;
     UART_transmit(5, UARTBuffer);
     UART_waitForAcknowledge();
@@ -213,7 +223,9 @@ void UART_commandReset() {
 
     UARTBuffer[0] = 0x0E;
 
-    while(!acknowledged) {}
+    while(!acknowledged) {
+        (*busyFunction)();
+    }
     acknowledged = false;
     UART_transmit(1, UARTBuffer);
     UART_waitForAcknowledge();

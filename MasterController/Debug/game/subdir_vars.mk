@@ -66,7 +66,6 @@ CPP_SRCS__QUOTED += \
 "../game/collider.cpp" \
 "../game/game.cpp" \
 "../game/gameandwatch.cpp" \
-"../game/kirby.cpp" \
 "../game/stage.cpp" \
 "../game/stagemenu.cpp" \
 "../game/valvano.cpp" 

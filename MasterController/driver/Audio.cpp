@@ -36,7 +36,7 @@
 #include "Audio.h"
 #include "Utils.h"
 
-#define FIFOBufferSize 2048
+#define FIFOBufferSize 1600
 #define audioMiddle 128
 
 #define NumAudioSlots 16

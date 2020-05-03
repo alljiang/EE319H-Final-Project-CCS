@@ -65,8 +65,8 @@
 								<option id="com.ti.ccstudio.buildDefinitions.TMS470_19.6.compilerID.LITTLE_ENDIAN.454684951" name="Little endian code [See 'General' page to edit] (--little_endian, -me)" superClass="com.ti.ccstudio.buildDefinitions.TMS470_19.6.compilerID.LITTLE_ENDIAN" useByScannerDiscovery="false" value="true" valueType="boolean"/>
 								<option id="com.ti.ccstudio.buildDefinitions.TMS470_19.6.compilerID.GEN_FUNC_SUBSECTIONS.1095867148" name="Place each function in a separate subsection (--gen_func_subsections, -ms)" superClass="com.ti.ccstudio.buildDefinitions.TMS470_19.6.compilerID.GEN_FUNC_SUBSECTIONS" useByScannerDiscovery="false" value="com.ti.ccstudio.buildDefinitions.TMS470_19.6.compilerID.GEN_FUNC_SUBSECTIONS.on" valueType="enumerated"/>
 								<option id="com.ti.ccstudio.buildDefinitions.TMS470_19.6.compilerID.C_DIALECT.318585937" name="C Dialect" superClass="com.ti.ccstudio.buildDefinitions.TMS470_19.6.compilerID.C_DIALECT" value="com.ti.ccstudio.buildDefinitions.TMS470_19.6.compilerID.C_DIALECT.C11" valueType="enumerated"/>
-								<option id="com.ti.ccstudio.buildDefinitions.TMS470_19.6.compilerID.OPT_LEVEL.931709407" superClass="com.ti.ccstudio.buildDefinitions.TMS470_19.6.compilerID.OPT_LEVEL" value="com.ti.ccstudio.buildDefinitions.TMS470_19.6.compilerID.OPT_LEVEL.4" valueType="enumerated"/>
-								<option id="com.ti.ccstudio.buildDefinitions.TMS470_19.6.compilerID.OPT_FOR_SPEED.169230107" superClass="com.ti.ccstudio.buildDefinitions.TMS470_19.6.compilerID.OPT_FOR_SPEED" value="com.ti.ccstudio.buildDefinitions.TMS470_19.6.compilerID.OPT_FOR_SPEED.0" valueType="enumerated"/>
+								<option id="com.ti.ccstudio.buildDefinitions.TMS470_19.6.compilerID.OPT_LEVEL.931709407" name="Optimization level (--opt_level, -O)" superClass="com.ti.ccstudio.buildDefinitions.TMS470_19.6.compilerID.OPT_LEVEL" value="com.ti.ccstudio.buildDefinitions.TMS470_19.6.compilerID.OPT_LEVEL.4" valueType="enumerated"/>
+								<option id="com.ti.ccstudio.buildDefinitions.TMS470_19.6.compilerID.OPT_FOR_SPEED.169230107" name="Speed vs. size trade-offs (--opt_for_speed, -mf)" superClass="com.ti.ccstudio.buildDefinitions.TMS470_19.6.compilerID.OPT_FOR_SPEED" value="com.ti.ccstudio.buildDefinitions.TMS470_19.6.compilerID.OPT_FOR_SPEED.0" valueType="enumerated"/>
 								<inputType id="com.ti.ccstudio.buildDefinitions.TMS470_19.6.compiler.inputType__C_SRCS.462741216" name="C Sources" superClass="com.ti.ccstudio.buildDefinitions.TMS470_19.6.compiler.inputType__C_SRCS"/>
 								<inputType id="com.ti.ccstudio.buildDefinitions.TMS470_19.6.compiler.inputType__CPP_SRCS.1541448188" name="C++ Sources" superClass="com.ti.ccstudio.buildDefinitions.TMS470_19.6.compiler.inputType__CPP_SRCS"/>
 								<inputType id="com.ti.ccstudio.buildDefinitions.TMS470_19.6.compiler.inputType__ASM_SRCS.2106968176" name="Assembly Sources" superClass="com.ti.ccstudio.buildDefinitions.TMS470_19.6.compiler.inputType__ASM_SRCS"/>
@@ -110,6 +110,15 @@
 							</tool>
 						</toolChain>
 					</folderInfo>
+					<fileInfo id="com.ti.ccstudio.buildDefinitions.TMS470.Debug.524250121.1512722698" name="kirby.cpp" rcbsApplicability="disable" resourcePath="game/kirby.cpp" toolsToInvoke="com.ti.ccstudio.buildDefinitions.TMS470_19.6.exe.compilerDebug.1255275259.848319838">
+						<tool id="com.ti.ccstudio.buildDefinitions.TMS470_19.6.exe.compilerDebug.1255275259.848319838" name="ARM Compiler" superClass="com.ti.ccstudio.buildDefinitions.TMS470_19.6.exe.compilerDebug.1255275259">
+							<option id="com.ti.ccstudio.buildDefinitions.TMS470_19.6.compilerID.OPT_LEVEL.1631943553" superClass="com.ti.ccstudio.buildDefinitions.TMS470_19.6.compilerID.OPT_LEVEL" value="com.ti.ccstudio.buildDefinitions.TMS470_19.6.compilerID.OPT_LEVEL.off" valueType="enumerated"/>
+							<inputType id="com.ti.ccstudio.buildDefinitions.TMS470_19.6.compiler.inputType__C_SRCS.972922808" name="C Sources" superClass="com.ti.ccstudio.buildDefinitions.TMS470_19.6.compiler.inputType__C_SRCS"/>
+							<inputType id="com.ti.ccstudio.buildDefinitions.TMS470_19.6.compiler.inputType__CPP_SRCS.112477334" name="C++ Sources" superClass="com.ti.ccstudio.buildDefinitions.TMS470_19.6.compiler.inputType__CPP_SRCS"/>
+							<inputType id="com.ti.ccstudio.buildDefinitions.TMS470_19.6.compiler.inputType__ASM_SRCS.683998710" name="Assembly Sources" superClass="com.ti.ccstudio.buildDefinitions.TMS470_19.6.compiler.inputType__ASM_SRCS"/>
+							<inputType id="com.ti.ccstudio.buildDefinitions.TMS470_19.6.compiler.inputType__ASM2_SRCS.1450527525" name="Assembly Sources" superClass="com.ti.ccstudio.buildDefinitions.TMS470_19.6.compiler.inputType__ASM2_SRCS"/>
+						</tool>
+					</fileInfo>
 					<sourceEntries>
 						<entry excluding="src" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
 					</sourceEntries>

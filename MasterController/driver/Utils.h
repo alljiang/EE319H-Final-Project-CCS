@@ -5,7 +5,7 @@
 extern "C" {
 #endif
 
-#define SIZE 4000
+#define SIZE 3000
 
 extern void sleep(uint32_t ms);
 extern uint32_t millis();

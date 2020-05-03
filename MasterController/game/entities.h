@@ -165,7 +165,7 @@ public:
     float yVel;    //  pps
     float xVel;
 
-    long long currentTime = 0;
+    int currentTime = 0;
 
     void setX(float newX) { x = newX; }
     void setY(float newY) { y = newY; }
@@ -188,7 +188,6 @@ protected:
 
     int8_t audio1;  //  audio handle for movement
     int8_t audio2;  //  audio handle for other stuff
-    int8_t audio3;  //  audio handle for projectiles
 
     uint8_t animationIndex;     //  index of animation
     uint8_t frameIndex{0};      //  current frame index of current animation
@@ -196,29 +195,29 @@ protected:
     bool continuous{false};
     bool mirrored, l_mirrored;
 
-    long long deathTime{0};
+    int deathTime{0};
 
-    long long disabledFrames {0};   //  frames before making a new move
-    long long invulnerableFrames {0};   //  frames of hurtbox invulnerability
+    int disabledFrames {0};   //  frames before making a new move
+    int invulnerableFrames {0};   //  frames of hurtbox invulnerability
     bool noJumpsDisabled;           //  disabled until landing because of running out of jumps
 
     float l_joyH;              //  last joystick horizontal value
     float l_joyV;              //  last joystick vertical value
     bool l_btnA;                //  last button A value
-    long long l_btnARise_t;     //  last button A pressed time in millis
-    long long l_btnAFall_t;     //  last button A release time in millis
+    int l_btnARise_t;     //  last button A pressed time in millis
+    int l_btnAFall_t;     //  last button A release time in millis
     bool l_btnB;                //  last button B value
-    long long l_btnBRise_t;     //  last button B pressed time in millis
-    long long l_btnBFall_t;     //  last button B release time in millis
+    int l_btnBRise_t;     //  last button B pressed time in millis
+    int l_btnBFall_t;     //  last button B release time in millis
     bool l_shield;              //  last shield value
-    long long l_shieldRise_t;   //  last shield pressed time in millis
-    long long l_shieldFall_t;   //  last shield release time in millis
+    int l_shieldRise_t;   //  last shield pressed time in millis
+    int l_shieldFall_t;   //  last shield release time in millis
 
     //  smash attacks
-    long long fsmash_startTime, dsmash_startTime, usmash_startTime;
+    int fsmash_startTime, dsmash_startTime, usmash_startTime;
 
     //  ledge grab
-    long long ledgeGrabTime{0};
+    int ledgeGrabTime{0};
 
     //  jumping
     uint8_t jumpsUsed;  // midair only
@@ -227,7 +226,7 @@ protected:
     float shieldDamage;
 
     //  stunned
-    long long stunTimeStart;
+    int stunTimeStart;
 
 public:
     Player() {}
@@ -317,10 +316,10 @@ protected:
     const float DIKnockbackHorizontalSpeed = 0.4 * 3;
 
     //  standing, resting
-    long long lastBlink{0};
+    int lastBlink{0};
 
     //  jabbing
-    long long l_singleJabTime, l_doubleJabTime;
+    int l_singleJabTime, l_doubleJabTime;
 
     //  up special
     float startY;
@@ -330,15 +329,15 @@ protected:
     bool* upb_projectile_activationFlag = nullptr;
 
     //  down special
-    long long morphEndTime, morphLandTime;
+    int morphEndTime, morphLandTime;
 
     //  side special
-    long long hammerChargeStartTime;
+    int hammerChargeStartTime;
     uint32_t hammerChargeTime;
 
     //  neutral special projectile
     bool starProjActive;
-    long long starProjStartTime;
+    int starProjStartTime;
     uint8_t starProjFrameIndex;
     uint8_t starProjFrameCounter;
     bool starProjMirrored;
@@ -504,7 +503,7 @@ protected:
     const float DIKnockbackHorizontalSpeed = 0.4 * 3;
 
     //  standing, resting
-    long long lastBlink{0};
+    int lastBlink{0};
 
     //  up special
     float startY;
@@ -513,15 +512,15 @@ protected:
     bool overrideMaxVelocity;
 
     //  dash attack
-    long long dashAttackStartTime;
+    int dashAttackStartTime;
 
     //  side b
     uint8_t sideBStrength;
 
     //  down b
     uint8_t bucketCount;
-    long long lastBucket;
-    long long holdBucketStartTime;
+    int lastBucket;
+    int holdBucketStartTime;
     bool droppingBucket;
 
     //  neutral b
@@ -655,25 +654,25 @@ protected:
     const float DIKnockbackHorizontalSpeed = 0.4 * 3;
 
     //  standing, resting
-    long long lastBlink{0};
+    int lastBlink{0};
 
     //  up special
-    long long upSpecialStartTime;
+    int upSpecialStartTime;
 
     //  dash attack
-    long long dashAttackStartTime;
+    int dashAttackStartTime;
 
     //  side b
 
     //  down b
     bool robotCarActive, robotMirrored, robotCarActivationFlag;
-    long long robotCarStartTime;
+    int robotCarStartTime;
     float robotX, robotY, robotYVel;
     int8_t robotCarFrameIndex, robotCarFrameCounter;
 
     //  neutral b
     bool laserActive, laserMirrored, laserActivationFlag;
-    long long laserStartTime;
+    int laserStartTime;
     float laserX, laserY;
 
 public:

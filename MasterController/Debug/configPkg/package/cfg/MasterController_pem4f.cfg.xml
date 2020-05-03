@@ -1290,7 +1290,7 @@
       </field>
     </struct>
   </entry>
-</map></field><field name='Module__diagsEnabled'>0x0</field><field name='Module__diagsIncluded'>0x0</field><field name='Module__diagsMask'>null</field><field name='Module__gateObj'>null</field><field name='Module__gatePrms'>null</field><field name='Module__id'>0x1</field><field name='Module__loggerDefined'>false</field><field name='Module__loggerObj'>null</field><field name='Module__loggerFxn0'>null</field><field name='Module__loggerFxn1'>null</field><field name='Module__loggerFxn2'>null</field><field name='Module__loggerFxn4'>null</field><field name='Module__loggerFxn8'>null</field><field name='Module__startupDoneFxn'>null</field><field name='Object__count'>0x0</field><field name='Object__heap'>null</field><field name='Object__sizeof'>0x0</field><field name='Object__table'>null</field><field name='Q_BLOCKING'>0x1</field><field name='Q_PREEMPTING'>0x2</field><field name='delegate$'>xdc.services.intern.xsr.Value$Obj@1525fb6::(xdc.runtime.IGateProvider.Module)ti.sysbios.gates.GateHwi</field><field name='abstractInstances$'>false</field></module>
+</map></field><field name='Module__diagsEnabled'>0x0</field><field name='Module__diagsIncluded'>0x0</field><field name='Module__diagsMask'>null</field><field name='Module__gateObj'>null</field><field name='Module__gatePrms'>null</field><field name='Module__id'>0x1</field><field name='Module__loggerDefined'>false</field><field name='Module__loggerObj'>null</field><field name='Module__loggerFxn0'>null</field><field name='Module__loggerFxn1'>null</field><field name='Module__loggerFxn2'>null</field><field name='Module__loggerFxn4'>null</field><field name='Module__loggerFxn8'>null</field><field name='Module__startupDoneFxn'>null</field><field name='Object__count'>0x0</field><field name='Object__heap'>null</field><field name='Object__sizeof'>0x0</field><field name='Object__table'>null</field><field name='Q_BLOCKING'>0x1</field><field name='Q_PREEMPTING'>0x2</field><field name='delegate$'>xdc.services.intern.xsr.Value$Obj@109bbf2::(xdc.runtime.IGateProvider.Module)ti.sysbios.gates.GateHwi</field><field name='abstractInstances$'>false</field></module>
             </feature>
         </module>
         <module name="xdc.runtime.Memory"
@@ -4011,7 +4011,7 @@
             <feature name="clockEnabled" type="boolean" value="true"/>
             <feature name="assertsEnabled" type="boolean" value="false"/>
             <feature name="logsEnabled" type="boolean" value="false"/>
-            <feature name="heapSize" type="number" value="4000"/>
+            <feature name="heapSize" type="number" value="6000"/>
             <feature name="heapSection" type="object" value="null"/>
             <feature name="heapTrackEnabled" type="boolean" value="false"/>
             <feature name="setupSecureContext" type="boolean" value="false"/>
