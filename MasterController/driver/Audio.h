@@ -19,6 +19,8 @@
 extern "C" {
 #endif
 
+#define SOUND_DEATHBLAST 10
+
 #define KIRBY_SOUND_SQUAT 20
 #define KIRBY_SOUND_RISE 21
 #define KIRBY_SOUND_RUNSTART 22
@@ -72,7 +74,7 @@ const char soundNames[200][7] = {
                 {""},
                 {""},
                 {""},
-/*  10  */      {""},
+/*  10  */      {"mdead"},
                 {""},
                 {""},
                 {""},

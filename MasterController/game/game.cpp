@@ -177,6 +177,7 @@ void game_loop() {
             frameLength = 0;
             Audio_destroyAudio(&backgroundAudioHandle, true);
             Audio_play(4, 0.9, &gameEndAudioHandle);
+            Audio_play(SOUND_DEATHBLAST, 0.5);
         }
     }
     if(!p2->dead && !gameOver && (p2->x < -40 || p2->x > 360 || p2->y < -40 || p2->y > 280)) {

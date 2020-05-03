@@ -240,7 +240,7 @@ int8_t Audio_playAudio(struct AudioParams sendable) {
 }
 
 void Audio_play(uint16_t soundIndex, float volume, int8_t* audioHandle, uint32_t startIndex, int32_t endIndex, bool loop) {
-    if(*audioHandle != -1) return;
+    if(audioHandle != nullptr && *audioHandle != -1) return;
 
     AudioParams audioparams;
     Audio_initParams(&audioparams);

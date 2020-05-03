@@ -20,8 +20,13 @@ void Kirby::controlLoop(float joyH, float joyV, bool btnA, bool btnB, bool shiel
 
     //  check if dead
     if(dead) {
-        if (deathTime == 0) deathTime = currentTime;
-        else if (currentTime - deathTime > 1000) {
+        if (deathTime == 0) {
+            deathTime = currentTime;
+
+            Audio_destroy(&audio1);
+            Audio_play(SOUND_DEATHBLAST, 0.5, &audio1);
+        }
+        else if (currentTime - deathTime > 2000) {
             //  respawn
 
             //  reset
