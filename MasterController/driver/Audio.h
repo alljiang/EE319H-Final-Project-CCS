@@ -26,7 +26,7 @@ extern "C" {
 #define KIRBY_SOUND_HURT2 24
 #define KIRBY_SOUND_JUMP 25
 #define KIRBY_SOUND_JAB 26
-#define KIRBY_SOUND_FOWARDTILT 27
+#define KIRBY_SOUND_FORWARDTILT 27
 #define KIRBY_SOUND_DOWNTILT 28
 #define KIRBY_SOUND_UPTILT 29
 #define KIRBY_SOUND_FORWARDSMASH 30
@@ -174,6 +174,7 @@ struct AudioParams {
     float volume;
     bool loop;
     FILE* file;
+    int8_t* handlePointer;
 };
 
 //  DAC pins, smaller index == smaller resistor value
@@ -194,7 +195,7 @@ extern void Audio_init();
 extern void Audio_initSD();
 extern void Audio_closeSD();
 extern int8_t Audio_playAudio(struct AudioParams sendable);
-extern int8_t Audio_play(uint16_t soundIndex, float volume, uint32_t startIndex=0, int32_t endIndex=-1, bool loop=false);
+extern void Audio_play(uint16_t soundIndex, float volume, int8_t* handle = nullptr, uint32_t startIndex=0, int32_t endIndex=-1, bool loop=false);
 extern void Audio_destroy(int8_t* slotID);
 extern void Audio_destroyAudio(int8_t* slotID, bool overrideLoop);
 extern void Audio_destroyAllAudio();

@@ -113,7 +113,7 @@ void game_loop() {
             frameLength = 0;
         }
         if(frameIndex == 0) {
-            countdownAudioHandle = Audio_play(1, 1.0);     // play countdown
+            Audio_play(1, 1.0, &countdownAudioHandle);     // play countdown
         }
         if(frameIndex == 36) {
             countdown = false;
@@ -176,7 +176,7 @@ void game_loop() {
             frameIndex = 0;
             frameLength = 0;
             Audio_destroyAudio(&backgroundAudioHandle, true);
-            gameEndAudioHandle = Audio_play(4, 0.9);
+            Audio_play(4, 0.9, &gameEndAudioHandle);
         }
     }
     if(!p2->dead && !gameOver && (p2->x < -40 || p2->x > 360 || p2->y < -40 || p2->y > 280)) {
@@ -190,7 +190,7 @@ void game_loop() {
             frameIndex = 0;
             frameLength = 0;
             Audio_destroyAudio(&backgroundAudioHandle, true);
-            gameEndAudioHandle = Audio_play(4, 0.9);
+            Audio_play(4, 0.9, &gameEndAudioHandle);
         }
     }
 

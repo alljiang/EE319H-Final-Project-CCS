@@ -107,7 +107,7 @@ void ReadSDFIFO() {
         if(audioSlots[slot].startIndex == audioSlots[slot].endIndex) {
             //  only destroy the sendable if it has not been destroyed yet
             if(audioSlots[slot].startIndex != 0) {
-                Audio_destroy(&slot);
+                Audio_destroy(audioSlots[slot].handlePointer);
             }
             continue;
         }
@@ -239,7 +239,9 @@ int8_t Audio_playAudio(struct AudioParams sendable) {
     return slot;
 }
 
-int8_t Audio_play(uint16_t soundIndex, float volume, uint32_t startIndex, int32_t endIndex, bool loop) {
+void Audio_play(uint16_t soundIndex, float volume, int8_t* audioHandle, uint32_t startIndex, int32_t endIndex, bool loop) {
+    if(*audioHandle != -1) return;
+
     AudioParams audioparams;
     Audio_initParams(&audioparams);
 
@@ -249,14 +251,17 @@ int8_t Audio_play(uint16_t soundIndex, float volume, uint32_t startIndex, int32_
     audioparams.endIndex = endIndex;
     audioparams.loop = loop;
 
-//    if(audioHandle != nullptr) Audio_destroy(audioHandle);
-//    *audioHandle = Audio_playAudio(audioparams);
-
     while(SDBusyFlag) {}
     SDBusyFlag = true;
     int8_t handle = Audio_playAudio(audioparams);
+    if(audioHandle != nullptr) {
+        (*audioHandle) = handle;
+        audioSlots[handle].handlePointer = audioHandle;
+    }
+    else {
+        audioSlots[handle].handlePointer = nullptr;
+    }
     SDBusyFlag = false;
-    return handle;
 }
 
 void Audio_destroyAudio(int8_t* slotID, bool overrideLoop) {
