@@ -20,7 +20,12 @@ void GameandWatch::controlLoop(float joyH, float joyV, bool btnA, bool btnB, boo
 
     //  check if dead
     if(dead) {
-        if(deathTime == 0) deathTime = currentTime;
+        if(deathTime == 0) {
+            deathTime = currentTime;
+
+            Audio_destroy(&audio1);
+            Audio_play(SOUND_DEATHBLAST, 0.5, &audio1);
+        }
         else if(currentTime - deathTime > 1000) {
             //  respawn
 
