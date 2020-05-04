@@ -1,11 +1,12 @@
 #include <stdint.h>
+#include <xdc/std.h>
 #include "metadata.h"
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-extern void UART_start(void (*fxn)(void));
+extern void UART_start(void (*fxn)(UArg arg));
 extern void UART_transmit(uint8_t numBytes, uint8_t *buffer);
 extern void UART_receive(uint32_t bytesToRead, uint8_t* buffer);
 extern void UART_waitForAcknowledge();

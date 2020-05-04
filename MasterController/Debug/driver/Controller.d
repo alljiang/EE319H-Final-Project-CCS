@@ -26,6 +26,15 @@ driver/Controller.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/inc
 driver/Controller.obj: C:/ti/tirtos_tivac_2_16_00_08/products/bios_6_45_01_29/packages/ti/targets/arm/elf/std.h
 driver/Controller.obj: C:/ti/tirtos_tivac_2_16_00_08/products/bios_6_45_01_29/packages/ti/targets/arm/elf/M4F.h
 driver/Controller.obj: C:/ti/tirtos_tivac_2_16_00_08/products/bios_6_45_01_29/packages/ti/targets/std.h
+driver/Controller.obj: C:/ti/tirtos_tivac_2_16_00_08/products/TivaWare_C_Series-2.1.1.71b/inc/hw_ints.h
+driver/Controller.obj: C:/ti/tirtos_tivac_2_16_00_08/products/TivaWare_C_Series-2.1.1.71b/inc/hw_memmap.h
+driver/Controller.obj: C:/ti/tirtos_tivac_2_16_00_08/products/TivaWare_C_Series-2.1.1.71b/inc/hw_nvic.h
+driver/Controller.obj: C:/ti/tirtos_tivac_2_16_00_08/products/TivaWare_C_Series-2.1.1.71b/inc/hw_types.h
+driver/Controller.obj: C:/ti/tirtos_tivac_2_16_00_08/products/TivaWare_C_Series-2.1.1.71b/driverlib/debug.h
+driver/Controller.obj: C:/ti/tirtos_tivac_2_16_00_08/products/TivaWare_C_Series-2.1.1.71b/driverlib/fpu.h
+driver/Controller.obj: C:/ti/tirtos_tivac_2_16_00_08/products/TivaWare_C_Series-2.1.1.71b/driverlib/gpio.h
+driver/Controller.obj: C:/ti/tirtos_tivac_2_16_00_08/products/TivaWare_C_Series-2.1.1.71b/driverlib/pin_map.h
+driver/Controller.obj: C:/ti/tirtos_tivac_2_16_00_08/products/TivaWare_C_Series-2.1.1.71b/driverlib/sysctl.h
 driver/Controller.obj: C:/ti/ccs930/xdctools_3_60_02_34_core/packages/xdc/runtime/System.h
 driver/Controller.obj: C:/ti/ccs930/xdctools_3_60_02_34_core/packages/xdc/runtime/xdc.h
 driver/Controller.obj: C:/ti/ccs930/xdctools_3_60_02_34_core/packages/xdc/runtime/Types.h
@@ -96,10 +105,10 @@ driver/Controller.obj: C:/ti/ccs930/xdctools_3_60_02_34_core/packages/xdc/runtim
 driver/Controller.obj: C:/ti/ccs930/xdctools_3_60_02_34_core/packages/xdc/runtime/IGateProvider.h
 driver/Controller.obj: C:/ti/ccs930/xdctools_3_60_02_34_core/packages/xdc/runtime/package/System_SupportProxy.h
 driver/Controller.obj: C:/ti/ccs930/xdctools_3_60_02_34_core/packages/xdc/runtime/package/System_Module_GateProxy.h
-driver/Controller.obj: C:/ti/tirtos_tivac_2_16_00_08/products/TivaWare_C_Series-2.1.1.71b/inc/hw_memmap.h
-driver/Controller.obj: C:/ti/tirtos_tivac_2_16_00_08/products/TivaWare_C_Series-2.1.1.71b/driverlib/gpio.h
 driver/Controller.obj: C:/ti/tirtos_tivac_2_16_00_08/products/TivaWare_C_Series-2.1.1.71b/driverlib/adc.h
-driver/Controller.obj: C:/ti/tirtos_tivac_2_16_00_08/products/TivaWare_C_Series-2.1.1.71b/driverlib/sysctl.h
+driver/Controller.obj: C:/ti/tirtos_tivac_2_16_00_08/products/tidrivers_tivac_2_16_00_08/packages/ti/drivers/GPIO.h
+driver/Controller.obj: ../driver/Board.h
+driver/Controller.obj: C:/Users/Allen/Documents/GitHub/EE319H-Final-Project-CCS/MasterController/driver/EK_TM4C123GXL.h
 
 ../driver/Controller.cpp: 
 ../driver/Controller.h: 
@@ -127,6 +136,15 @@ C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/libcxx/__nullptr:
 C:/ti/tirtos_tivac_2_16_00_08/products/bios_6_45_01_29/packages/ti/targets/arm/elf/std.h: 
 C:/ti/tirtos_tivac_2_16_00_08/products/bios_6_45_01_29/packages/ti/targets/arm/elf/M4F.h: 
 C:/ti/tirtos_tivac_2_16_00_08/products/bios_6_45_01_29/packages/ti/targets/std.h: 
+C:/ti/tirtos_tivac_2_16_00_08/products/TivaWare_C_Series-2.1.1.71b/inc/hw_ints.h: 
+C:/ti/tirtos_tivac_2_16_00_08/products/TivaWare_C_Series-2.1.1.71b/inc/hw_memmap.h: 
+C:/ti/tirtos_tivac_2_16_00_08/products/TivaWare_C_Series-2.1.1.71b/inc/hw_nvic.h: 
+C:/ti/tirtos_tivac_2_16_00_08/products/TivaWare_C_Series-2.1.1.71b/inc/hw_types.h: 
+C:/ti/tirtos_tivac_2_16_00_08/products/TivaWare_C_Series-2.1.1.71b/driverlib/debug.h: 
+C:/ti/tirtos_tivac_2_16_00_08/products/TivaWare_C_Series-2.1.1.71b/driverlib/fpu.h: 
+C:/ti/tirtos_tivac_2_16_00_08/products/TivaWare_C_Series-2.1.1.71b/driverlib/gpio.h: 
+C:/ti/tirtos_tivac_2_16_00_08/products/TivaWare_C_Series-2.1.1.71b/driverlib/pin_map.h: 
+C:/ti/tirtos_tivac_2_16_00_08/products/TivaWare_C_Series-2.1.1.71b/driverlib/sysctl.h: 
 C:/ti/ccs930/xdctools_3_60_02_34_core/packages/xdc/runtime/System.h: 
 C:/ti/ccs930/xdctools_3_60_02_34_core/packages/xdc/runtime/xdc.h: 
 C:/ti/ccs930/xdctools_3_60_02_34_core/packages/xdc/runtime/Types.h: 
@@ -197,7 +215,7 @@ C:/ti/ccs930/xdctools_3_60_02_34_core/packages/xdc/runtime/IInstance.h:
 C:/ti/ccs930/xdctools_3_60_02_34_core/packages/xdc/runtime/IGateProvider.h: 
 C:/ti/ccs930/xdctools_3_60_02_34_core/packages/xdc/runtime/package/System_SupportProxy.h: 
 C:/ti/ccs930/xdctools_3_60_02_34_core/packages/xdc/runtime/package/System_Module_GateProxy.h: 
-C:/ti/tirtos_tivac_2_16_00_08/products/TivaWare_C_Series-2.1.1.71b/inc/hw_memmap.h: 
-C:/ti/tirtos_tivac_2_16_00_08/products/TivaWare_C_Series-2.1.1.71b/driverlib/gpio.h: 
 C:/ti/tirtos_tivac_2_16_00_08/products/TivaWare_C_Series-2.1.1.71b/driverlib/adc.h: 
-C:/ti/tirtos_tivac_2_16_00_08/products/TivaWare_C_Series-2.1.1.71b/driverlib/sysctl.h: 
+C:/ti/tirtos_tivac_2_16_00_08/products/tidrivers_tivac_2_16_00_08/packages/ti/drivers/GPIO.h: 
+../driver/Board.h: 
+C:/Users/Allen/Documents/GitHub/EE319H-Final-Project-CCS/MasterController/driver/EK_TM4C123GXL.h: 

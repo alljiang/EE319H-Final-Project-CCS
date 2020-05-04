@@ -2034,7 +2034,8 @@ void Kirby::collide(Hurtbox *hurtbox, Player *otherPlayer) {
         int rand = random(0, 99);
 
         Audio_destroy(&audio1);
-        if(hurtbox->xKnockback * knockbackMultiplier >= 4.5) {
+        Audio_destroy(&audio2);
+        if(hurtbox->xKnockback * knockbackMultiplier >= 5.0) {
             Audio_play(SOUND_CROWDCHEER, 0.5, &audio1);
         }
         else {
@@ -2045,13 +2046,13 @@ void Kirby::collide(Hurtbox *hurtbox, Player *otherPlayer) {
                 if(audio1 == -1) Audio_play(KIRBY_SOUND_HURT2, 0.5, &audio1);
             }
         }
-
-        Audio_destroy(&audio2);
-        rand = random(1, 4);
-        if(rand == 1) Audio_play(SOUND_HIT1, 0.5, &audio2);
-        else if(rand == 2) Audio_play(SOUND_HIT2, 0.5, &audio2);
-        else if(rand == 3) Audio_play(SOUND_HIT3, 0.5, &audio2);
-        else if(rand == 4) Audio_play(SOUND_HIT4, 0.5, &audio2);
+        if(hurtbox->xKnockback * knockbackMultiplier >= 3.0) {
+            int rand = random(1, 4);
+            if(rand == 1) Audio_play(SOUND_HIT1, 0.5, &audio2);
+            else if(rand == 2) Audio_play(SOUND_HIT2, 0.5, &audio2);
+            else if(rand == 3) Audio_play(SOUND_HIT3, 0.5, &audio2);
+            else if(rand == 4) Audio_play(SOUND_HIT4, 0.5, &audio2);
+        }
     }
 }
 

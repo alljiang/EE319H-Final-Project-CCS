@@ -594,6 +594,11 @@ void GameandWatch::controlLoop(float joyH, float joyV, bool btnA, bool btnB, boo
                 if(frameIndex == 1 || frameIndex == 3) {
                     hitboxManager->addHurtbox(x + 13, y, mirrored,
                                               upAir, player);
+
+                    if(frameLengthCounter == 0) {
+                        Audio_destroy(&audio2);
+                        Audio_play(GAW_SOUND_UPAIR, 0.5, &audio2);
+                    }
                 }
             }
         }
@@ -1505,9 +1510,6 @@ void GameandWatch::controlLoop(float joyH, float joyV, bool btnA, bool btnB, boo
         disabledFrames = 2;
         frameIndex = 0;
         frameLengthCounter = 0;
-
-        Audio_destroy(&audio2);
-        Audio_play(GAW_SOUND_UPAIR, 0.5, &audio2);
     }
         //  forward air
     else if(disabledFrames == 0 && y > floor
@@ -1788,16 +1790,17 @@ void GameandWatch::collide(Hurtbox *hurtbox, Player *otherPlayer) {
         action = GAW_ACTION_HURT;
 
         Audio_destroy(&audio1);
-        if(hurtbox->xKnockback * knockbackMultiplier >= 4.5) {
+        Audio_destroy(&audio2);
+        if(hurtbox->xKnockback * knockbackMultiplier >= 3.0) {
+            int rand = random(1, 4);
+            if(rand == 1) Audio_play(SOUND_HIT1, 0.5, &audio2);
+            else if(rand == 2) Audio_play(SOUND_HIT2, 0.5, &audio2);
+            else if(rand == 3) Audio_play(SOUND_HIT3, 0.5, &audio2);
+            else if(rand == 4) Audio_play(SOUND_HIT4, 0.5, &audio2);
+        }
+        if(hurtbox->xKnockback * knockbackMultiplier >= 5.0) {
             Audio_play(SOUND_CROWDCHEER, 0.5, &audio1);
         }
-
-        Audio_destroy(&audio2);
-        int rand = random(1, 4);
-        if(rand == 1) Audio_play(SOUND_HIT1, 0.5, &audio2);
-        else if(rand == 2) Audio_play(SOUND_HIT2, 0.5, &audio2);
-        else if(rand == 3) Audio_play(SOUND_HIT3, 0.5, &audio2);
-        else if(rand == 4) Audio_play(SOUND_HIT4, 0.5, &audio2);
     }
 
 }

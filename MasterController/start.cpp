@@ -66,7 +66,8 @@ void start(UArg arg0, UArg arg1)
         Controller_updateController(0);
         Controller_flagOldData();
         loop();
-        ReadSDFIFO();
+
+        ReadSDFIFO(0);
     }
 //    */
 }

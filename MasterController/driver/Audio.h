@@ -233,7 +233,7 @@ const uint32_t dac_pins[8][2] = {
 };
 
 extern void audioISR(UArg arg);
-extern void ReadSDFIFO();
+extern void ReadSDFIFO(UArg arg);
 extern void Audio_init();
 extern void Audio_initSD();
 extern void Audio_closeSD();

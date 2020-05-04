@@ -92,7 +92,7 @@ void audioISR(UArg arg) {
     }
 }
 
-void ReadSDFIFO() {
+void ReadSDFIFO(UArg arg) {
     if(SDBusyFlag) return;
     SDBusyFlag = true;
     uint32_t FIFO_Start_original = FIFO_Start;

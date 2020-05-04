@@ -1,10 +1,19 @@
 
 #include "Controller.h"
+#include "inc/hw_ints.h"
+#include "inc/hw_memmap.h"
+#include "inc/hw_nvic.h"
+#include "inc/hw_types.h"
+#include "driverlib/debug.h"
+#include "driverlib/fpu.h"
+#include "driverlib/gpio.h"
+#include "driverlib/pin_map.h"
+#include "driverlib/sysctl.h"
 #include <xdc/runtime/System.h>
 #include "inc/hw_memmap.h"
-#include "driverlib/gpio.h"
 #include "driverlib/adc.h"
-#include "driverlib/sysctl.h"
+#include <ti/drivers/GPIO.h>
+#include "Board.h"
 
 double joystick1_h = 0;
 double joystick1_v = 0;
@@ -23,6 +32,8 @@ bool btn2_l;
 bool btn2_r;
 
 bool dataOldFlag;
+bool PA5high;
+volatile uint32_t g_ui32GPIOa;
 
 void Controller_init() {
     GPIOPinTypeGPIOInput(GPIO_PORTB_BASE, GPIO_PIN_0);  //  A1

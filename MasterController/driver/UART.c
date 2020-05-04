@@ -36,7 +36,7 @@ void writeCallbackFunction(UART_Handle handle, uint8_t *buf, size_t count) {
     writeComplete = true;
 }
 
-void UART_start(void (*fxn)(void)) {
+void UART_start(void (*fxn)(UArg arg)) {
     UART_Params_init(&uartParams);
     uartParams.readMode = UART_MODE_CALLBACK;
     //    uartParams.writeMode = UART_MODE_BLOCKING;
