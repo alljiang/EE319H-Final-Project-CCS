@@ -5,6 +5,7 @@
 #include "WinScreen.h"
 #include "metadata.h"
 #include "UART.h"
+#include "Audio.h"
 
 void WinScreen::start(int8_t winner, int8_t character, bool english) {
     reset();
@@ -73,6 +74,8 @@ void WinScreen::start(int8_t winner, int8_t character, bool english) {
             }
         }
     }
+
+    Audio_play(MENU_SOUND_CLAP, 1.0);
 }
 
 void WinScreen::loop(void (*transitionCall)(void)) {

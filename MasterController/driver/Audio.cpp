@@ -39,7 +39,7 @@
 #define FIFOBufferSize 1600
 #define audioMiddle 128
 
-#define NumAudioSlots 16
+#define NumAudioSlots 10
 
 const char fileHeader[] = "fat:0:";
 const char fileTail[] = ".txt";
@@ -62,7 +62,7 @@ long long ISRSkipTime = -1;
 
 void audioISR(UArg arg) {
     if(ISRSkipTime != -1) {
-        if(millis() - ISRSkipTime > 20) {
+        if(millis() - ISRSkipTime > 3) {
             ISRSkipTime = -1;
         }
         else return;
@@ -127,21 +127,15 @@ void ReadSDFIFO() {
         }
 
 
-        if(bytesToRead < 1024 && totalBytesRemaining > 1024) bytesToRead = 0;
-        else if(bytesToRead > 512) {
-            bytesToRead = 512*(bytesToRead/512);    // read in multiples of 512 bytes (1 page)
-//            bytesToRead = 512;
+        if(ISRSkipTime == -1) {
+            if(bytesToRead < 1024 && totalBytesRemaining > 1024) bytesToRead = 0;
+            else if(bytesToRead > 512) {
+                bytesToRead = 512*(bytesToRead/512);    // read in multiples of 512 bytes (1 page)
+            }
         }
-
-//        if(audioSlots[slot].endIndex - audioSlots[slot].startIndex == 0 && bytesToRead > 200) {
-//            bytesToRead = 200;
-//        }
-//        else {
-//            if(bytesToRead < 1024 && totalBytesRemaining > 1024) bytesToRead = 0;
-//            else if(bytesToRead > 512) {
-//                bytesToRead = 512*(bytesToRead/512);    // read in multiples of 512 bytes (1 page)
-//            }
-//        }
+        else {
+            if(bytesToRead > 512) bytesToRead = 512;
+        }
 
         //  read in bytes
         uint32_t bytesActuallyRead = fread(readBuffer, 1, bytesToRead, audioSlots[slot].file);

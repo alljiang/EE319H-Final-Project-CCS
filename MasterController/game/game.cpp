@@ -191,7 +191,6 @@ void game_loop() {
             frameLength = 0;
             Audio_destroyAudio(&backgroundAudioHandle, true);
             Audio_play(4, 0.9, &gameEndAudioHandle);
-            Audio_play(SOUND_DEATHBLAST, 0.5);
         }
     }
     if(!p2->dead && !gameOver && (p2->x < -40 || p2->x > 360 || p2->y < -40 || p2->y > 280)) {
@@ -216,6 +215,7 @@ void game_loop() {
         }
         if(frameIndex == 25) {
             gameOver = false;
+            Audio_destroyAllAudio();
             if(p1->dead) switchGameToWin(2, p2char);
             else switchGameToWin(1, p1char);
         }
@@ -284,7 +284,6 @@ void startup() {
         characterMenu.start();
     }
     else if(inWinScreen) {
-        Audio_play(MENU_SOUND_CLAP, 0.5);
         winScreen.start(winner, winningCharacter, english);
     }
     else {
