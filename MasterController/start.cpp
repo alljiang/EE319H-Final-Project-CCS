@@ -37,12 +37,12 @@ char stack[SIZE];
 
 void start(UArg arg0, UArg arg1)
 {
-//    /*
+    /*
     while(1) {
         Controller_updateController(0);
         Controller_flagOldData();
     }
-//    */
+    */
 
 //    /*
     Audio_initSD();

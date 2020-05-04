@@ -134,10 +134,10 @@ void Controller_updateController(UArg arg0) {
     ADCSequenceDisable(ADC0_BASE, 0);
     ADCSequenceDisable(ADC1_BASE, 0);
 
-    System_printf("%d\t%d\n", adcOut0, adcOut1);
+//    System_printf("%d\t%d\n", adcOut0, adcOut1);
 
     if(adcOut0 >= 4095) joystick2_v = 1;
-    else if(adcOut0 >= 1950) joystick2_v = 0.3;
+    else if(adcOut0 >= 2100) joystick2_v = 0.3;
     else if(adcOut0 <= 16) joystick2_v = -1;
     else if(adcOut0 <= 600) joystick2_v = -0.3;
     else joystick2_v = 0;
@@ -145,7 +145,7 @@ void Controller_updateController(UArg arg0) {
     if(adcOut1 >= 4095) joystick2_h = -1;
     else if(adcOut1 >= 3500) joystick2_h = -0.3;
     else if(adcOut1 <= 20) joystick2_h = 1;
-    else if(adcOut1 <= 1890) joystick2_h = 0.3;
+    else if(adcOut1 <= 1700) joystick2_h = 0.3;
     else joystick2_h= 0;
 
     //  Joystick 1 Triggers
