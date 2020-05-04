@@ -5,19 +5,24 @@
 #include "charactermenu.h"
 #include "UART.h"
 #include "metadata.h"
+#include "Audio.h"
+
+int8_t menuAudioHandle;
 
 void CharacterMenu::start() {
     reset();
     UART_setBackgroundColors(BACKGROUND_MENU);
     UART_readPersistentSprite(BACKGROUND_MENU, 0, 0);
     UART_readCharacterSDCard(4);
+
+    menuAudioHandle = -1;
 }
 
 void CharacterMenu::loop(double joyH1, double joyV1, double joyH2, double joyV2,
                          bool btnA1, bool btnA2, bool btnB1, bool btnB2, bool btnStart,
                          void (*transitionCall)(int8_t, int8_t)) {
-    transitionCall(0,0);
-    return;
+//    transitionCall(0,0);
+//    return;
     double dt = 49;
     currentTime += (uint8_t)dt;
 
@@ -32,28 +37,43 @@ void CharacterMenu::loop(double joyH1, double joyV1, double joyH2, double joyV2,
     if(!l_btnA1 && btnA1) {
         if(!p1Selected && getCharacter(p1CursorX, p1CursorY) != -1) {
             p1Selected = true;
+            Audio_destroy(&menuAudioHandle);
+            Audio_play(MENU_SOUND_SELECT, 0.9, &menuAudioHandle);
         }
 
     }
     //  P1 btn B press
     else if(!l_btnB1 && btnB1) {
-        if(p1Selected) p1Selected = false;
+        if(p1Selected) {
+            p1Selected = false;
+            Audio_destroy(&menuAudioHandle);
+            Audio_play(MENU_SOUND_DESELECT, 1.2, &menuAudioHandle);
+        }
     }
 
     //  P2 btn A press
     if(!l_btnA2 && btnA2) {
         if(!p2Selected && getCharacter(p2CursorX, p2CursorY) != -1) {
             p2Selected = true;
+            Audio_destroy(&menuAudioHandle);
+            Audio_play(MENU_SOUND_SELECT, 0.9, &menuAudioHandle);
         }
     }
     //  P2 btn B press
     else if(!l_btnB2 && btnB2) {
-        if(p2Selected) p2Selected = false;
+        if(p2Selected) {
+            p2Selected = false;
+            Audio_destroy(&menuAudioHandle);
+            Audio_play(MENU_SOUND_DESELECT, 1.2, &menuAudioHandle);
+        }
     }
 
     //  start button press
     if(btnStart) {
         if(p1Selected && p2Selected) {
+            Audio_destroyAllAudio();
+            Audio_destroy(&menuAudioHandle);
+            Audio_play(MENU_SOUND_GAMESTART, 0.7, &menuAudioHandle);
             transitionCall(getCharacter(p1CursorX, p1CursorY), getCharacter(p2CursorX, p2CursorY));
             return;
         }

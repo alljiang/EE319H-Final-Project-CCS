@@ -20,6 +20,12 @@ extern "C" {
 #endif
 
 #define MENU_SOUND_BACKGROUND 0
+#define MENU_SOUND_CONFIRM  5
+#define MENU_SOUND_DESELECT  6
+#define MENU_SOUND_SELECT  7
+#define MENU_SOUND_GAMESTART  8
+#define MENU_SOUND_CLAP  9
+
 #define SOUND_DEATHBLAST 10
 #define STAGE_SOUND_BATTLEFIELD 11
 #define STAGE_SOUND_EER 12
@@ -28,7 +34,7 @@ extern "C" {
 #define STAGE_SOUND_SMASHVILLE 15
 #define STAGE_SOUND_UTTOWER 16
 
-#define KIRBY_SOUND_SQUAT 20
+#define KIRBY_SOUND_CROUCH 20
 #define KIRBY_SOUND_RISE 21
 #define KIRBY_SOUND_RUNSTART 22
 #define KIRBY_SOUND_HURT1 23
@@ -57,18 +63,46 @@ extern "C" {
 #define KIRBY_SOUND_UPB1VOICE 46
 #define KIRBY_SOUND_UPB2VOICE 47
 #define KIRBY_SOUND_UPB3VOICE 48
-//#define KIRBY_SOUND_ 49
-//#define KIRBY_SOUND_ 50
-//#define KIRBY_SOUND_ 51
-//#define KIRBY_SOUND_ 52
-//#define KIRBY_SOUND_ 53
-//#define KIRBY_SOUND_ 54
-//#define KIRBY_SOUND_ 55
-//#define KIRBY_SOUND_ 56
-//#define KIRBY_SOUND_ 57
-//#define KIRBY_SOUND_ 58
-//#define KIRBY_SOUND_ 59
-//#define KIRBY_SOUND_ 60
+
+#define GAW_SOUND_CROUCH 49
+#define GAW_SOUND_RISE 50
+#define GAW_SOUND_STEP 51
+#define GAW_SOUND_JUMP 52
+#define GAW_SOUND_DOUBLEJUMP 53
+#define GAW_SOUND_LANDING 54
+#define GAW_SOUND_NEUTRALATTACK 55
+#define GAW_SOUND_FORWARDTILT 56
+#define GAW_SOUND_DOWNTILT 57
+#define GAW_SOUND_UPTILT 58
+#define GAW_SOUND_SMASHHOLDSTART 59
+#define GAW_SOUND_SMASHATTACK 60
+#define GAW_SOUND_FORWARDAIR 61
+#define GAW_SOUND_BACKAIR 62
+#define GAW_SOUND_UPAIR 63
+#define GAW_SOUND_DOWNAIR 64
+#define GAW_SOUND_NEUTRALAIR 65
+#define GAW_SOUND_NEUTRALB 66
+#define GAW_SOUND_SIDEB 67
+#define GAW_SOUND_UPB 68
+#define GAW_SOUND_DOWNB 69
+#define GAW_SOUND_DOWNBABSORB 70
+#define GAW_SOUND_DOWNBATTACK 71
+
+#define SOUND_SMASHCHARGE 72
+#define SOUND_HIT1 73
+#define SOUND_HIT2 74
+#define SOUND_HIT3 75
+#define SOUND_HIT4 76
+#define SOUND_SHIELDUP 77
+#define SOUND_SHIELDDOWN 78
+#define SOUND_SHIELDBREAK 79
+#define SOUND_CROWDCHEER 80
+//#define SOUND_ 81
+//#define SOUND_ 82
+//#define SOUND_ 83
+//#define SOUND_ 84
+//#define SOUND_ 85
+//#define SOUND_ 86
 
 const char soundNames[200][7] = {
 /*  0   */      {"menu"},
@@ -76,11 +110,11 @@ const char soundNames[200][7] = {
                 {"smash"},
                 {"sine"},
                 {"game"},
-                {""},
-                {""},
-                {""},
-                {""},
-                {""},
+                {"mcnfm"},
+                {"mdslc"},
+                {"mslct"},
+                {"mgmst"},
+                {"mclap"},
 /*  10  */      {"mdead"},
                 {"mbtfd"},
                 {"meer"},
@@ -120,38 +154,38 @@ const char soundNames[200][7] = {
                 {"kub1v"},
                 {"kub2v"},
                 {"kub3v"},
-                {""},
-/*  50  */      {""},
-                {""},
-                {""},
-                {""},
-                {""},
-                {""},
-                {""},
-                {""},
-                {""},
-                {""},
-/*  60  */      {""},
-                {""},
-                {""},
-                {""},
-                {""},
-                {""},
-                {""},
-                {""},
-                {""},
-                {""},
-/*  70  */      {""},
-                {""},
-                {""},
-                {""},
-                {""},
-                {""},
-                {""},
-                {""},
-                {""},
-                {""},
-/*  80  */      {""},
+                {"gcrou"},
+/*  50  */      {"grise"},
+                {"gstep"},
+                {"gjmp"},
+                {"gdjmp"},
+                {"gland"},
+                {"gnatt"},
+                {"gftil"},
+                {"gdtil"},
+                {"gutil"},
+                {"gsmst"},
+/*  60  */      {"gsmsh"},
+                {"gfair"},
+                {"gbair"},
+                {"guair"},
+                {"gdair"},
+                {"gnair"},
+                {"gneub"},
+                {"gsidb"},
+                {"gupb"},
+                {"gdnb"},
+/*  70  */      {"gdbab"},
+                {"gdbat"},
+                {"mchrg"},
+                {"mhit1"},
+                {"mhit2"},
+                {"mhit3"},
+                {"mhit4"},
+                {"mshup"},
+                {"mshdn"},
+                {"mshbk"},
+/*  80  */      {"mcrdc"},
                 {""},
                 {""},
                 {""},

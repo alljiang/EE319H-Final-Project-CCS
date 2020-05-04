@@ -7,6 +7,7 @@
 #include "metadata.h"
 #include "UART.h"
 #include "stage.h"
+#include "Audio.h"
 
 void Valvano::controlLoop(float joyH, float joyV, bool btnA, bool btnB, bool shield,
                         class Stage *stage, class HitboxManager *hitboxManager) {
@@ -629,10 +630,18 @@ void Valvano::controlLoop(float joyH, float joyV, bool btnA, bool btnB, bool shi
         shieldDamage += PLAYER_SHIELD_DEGEN;
 
         if(currentTime - l_shieldFall_t == 0) {
+            //  drop shield
+            Audio_destroy(&audio1);
+            Audio_play(SOUND_SHIELDDOWN, 0.5, &audio1);
+
             if(y == floor) action = VAL_ACTION_RESTING;
             else action = VAL_ACTION_FALLING;
         }
         else if(shieldDamage > PLAYER_SHIELD_MAXDAMAGE) {
+            //  shield break
+            Audio_destroy(&audio1);
+            Audio_play(SOUND_SHIELDBREAK, 0.5, &audio1);
+
             action = VAL_ACTION_STUN;
             frameLengthCounter = 0;
             frameIndex = 0;
@@ -1173,6 +1182,9 @@ void Valvano::controlLoop(float joyH, float joyV, bool btnA, bool btnB, bool shi
             && shield && !l_shield && (PLAYER_SHIELD_MAXDAMAGE - shieldDamage > 10)) {
         action = VAL_ACTION_SHIELD;
         disabledFrames = 2;
+
+        Audio_destroy(&audio1);
+        Audio_play(SOUND_SHIELDUP, 0.5, &audio1);
     }
         //  running/walking
     else if(((action == VAL_ACTION_RESTING) || (disabledFrames == 0 && action == VAL_ACTION_HURT))
@@ -1260,6 +1272,18 @@ void Valvano::collide(Hurtbox *hurtbox, Player *otherPlayer) {
         yVel = hurtbox->yKnockback * knockbackMultiplier;
 
         action = VAL_ACTION_HURT;
+
+        Audio_destroy(&audio1);
+        if(hurtbox->xKnockback * knockbackMultiplier >= 4.5) {
+            Audio_play(SOUND_CROWDCHEER, 0.5, &audio1);
+        }
+
+        Audio_destroy(&audio2);
+        int rand = random(1, 4);
+        if(rand == 1) Audio_play(SOUND_HIT1, 0.5, &audio2);
+        else if(rand == 2) Audio_play(SOUND_HIT2, 0.5, &audio2);
+        else if(rand == 3) Audio_play(SOUND_HIT3, 0.5, &audio2);
+        else if(rand == 4) Audio_play(SOUND_HIT4, 0.5, &audio2);
     }
 }
 

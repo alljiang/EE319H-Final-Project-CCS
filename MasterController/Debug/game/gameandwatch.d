@@ -149,6 +149,11 @@ game/gameandwatch.obj: C:/Users/Allen/Documents/GitHub/EE319H-Final-Project-CCS/
 game/gameandwatch.obj: ../game/stage.h
 game/gameandwatch.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/libcxx/cstdint
 game/gameandwatch.obj: ../game/entities.h
+game/gameandwatch.obj: C:/Users/Allen/Documents/GitHub/EE319H-Final-Project-CCS/MasterController/driver/Audio.h
+game/gameandwatch.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/libcxx/stdio.h
+game/gameandwatch.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/stdio.h
+game/gameandwatch.obj: C:/ti/tirtos_tivac_2_16_00_08/products/TivaWare_C_Series-2.1.1.71b/inc/hw_memmap.h
+game/gameandwatch.obj: C:/ti/tirtos_tivac_2_16_00_08/products/TivaWare_C_Series-2.1.1.71b/driverlib/gpio.h
 
 ../game/gameandwatch.cpp: 
 ../game/entities.h: 
@@ -299,3 +304,8 @@ C:/Users/Allen/Documents/GitHub/EE319H-Final-Project-CCS/MasterController/driver
 ../game/stage.h: 
 C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/libcxx/cstdint: 
 ../game/entities.h: 
+C:/Users/Allen/Documents/GitHub/EE319H-Final-Project-CCS/MasterController/driver/Audio.h: 
+C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/libcxx/stdio.h: 
+C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/stdio.h: 
+C:/ti/tirtos_tivac_2_16_00_08/products/TivaWare_C_Series-2.1.1.71b/inc/hw_memmap.h: 
+C:/ti/tirtos_tivac_2_16_00_08/products/TivaWare_C_Series-2.1.1.71b/driverlib/gpio.h: 

@@ -1287,10 +1287,18 @@ void Kirby::controlLoop(float joyH, float joyV, bool btnA, bool btnB, bool shiel
         shieldDamage += PLAYER_SHIELD_DEGEN;
 
         if(currentTime - l_shieldFall_t == 0) {
+            //  drop shield
+            Audio_destroy(&audio1);
+            Audio_play(SOUND_SHIELDDOWN, 0.5, &audio1);
+
             if(y == floor) action = KIRBY_ACTION_RESTING;
             else action = KIRBY_ACTION_FALLING;
         }
         else if(shieldDamage > PLAYER_SHIELD_MAXDAMAGE) {
+            //  shield break
+            Audio_destroy(&audio1);
+            Audio_play(SOUND_SHIELDBREAK, 0.5, &audio1);
+
             action = KIRBY_ACTION_STUN;
             frameLengthCounter = 0;
             frameIndex = 0;
@@ -1687,6 +1695,9 @@ void Kirby::controlLoop(float joyH, float joyV, bool btnA, bool btnB, bool shiel
         frameIndex = 0;
         frameLengthCounter = 0;
         fsmash_startTime = currentTime;
+
+        Audio_destroy(&audio2);
+        Audio_play(SOUND_SMASHCHARGE, 0.5, &audio2);
     }
         //  down smash
     else if(disabledFrames == 0 && y == floor && (action == KIRBY_ACTION_RUNNING || action == KIRBY_ACTION_RESTING)
@@ -1697,6 +1708,9 @@ void Kirby::controlLoop(float joyH, float joyV, bool btnA, bool btnB, bool shiel
         frameIndex = 0;
         frameLengthCounter = 0;
         dsmash_startTime = currentTime;
+
+        Audio_destroy(&audio2);
+        Audio_play(SOUND_SMASHCHARGE, 0.5, &audio2);
     }
         //  up smash
     else if(disabledFrames == 0 && y == floor && (action == KIRBY_ACTION_RUNNING || action == KIRBY_ACTION_RESTING)
@@ -1707,6 +1721,9 @@ void Kirby::controlLoop(float joyH, float joyV, bool btnA, bool btnB, bool shiel
         frameIndex = 0;
         frameLengthCounter = 0;
         usmash_startTime = currentTime;
+
+        Audio_destroy(&audio2);
+        Audio_play(SOUND_SMASHCHARGE, 0.5, &audio2);
     }
         //  neutral air
     else if(disabledFrames == 0 && y > floor
@@ -1891,6 +1908,9 @@ void Kirby::controlLoop(float joyH, float joyV, bool btnA, bool btnB, bool shiel
               && shield && !l_shield && (PLAYER_SHIELD_MAXDAMAGE - shieldDamage > 10)) {
         action = KIRBY_ACTION_SHIELD;
         disabledFrames = 2;
+
+        Audio_destroy(&audio1);
+        Audio_play(SOUND_SHIELDUP, 0.5, &audio1);
     }
 
         //  movement
@@ -1940,10 +1960,10 @@ void Kirby::controlLoop(float joyH, float joyV, bool btnA, bool btnB, bool shiel
         //  crouching
     else if(disabledFrames == 0 &&
             (action == KIRBY_ACTION_RESTING || action == KIRBY_ACTION_RUNNING || action == KIRBY_ACTION_HURT) &&
-            joyV <= -0.3 && y == floor) {
+            joyV < -0.5 && y == floor) {
         action = KIRBY_ACTION_CROUCHING;
         Audio_destroy(&audio1);
-        Audio_play(KIRBY_SOUND_SQUAT, 0.5, &audio1);
+        Audio_play(KIRBY_SOUND_CROUCH, 0.5, &audio1);
     }
         //  resting
     else if(disabledFrames == 0 &&
@@ -2012,16 +2032,26 @@ void Kirby::collide(Hurtbox *hurtbox, Player *otherPlayer) {
         action = KIRBY_ACTION_HURT;
 
         int rand = random(0, 99);
-        if(rand % 2 == 0) {
-//            Audio_destroy(&audio1);
-//            Audio_destroy(&audio2);
-            if(audio1 == -1) Audio_play(KIRBY_SOUND_HURT1, 0.5, &audio1);
+
+        Audio_destroy(&audio1);
+        if(hurtbox->xKnockback * knockbackMultiplier >= 4.5) {
+            Audio_play(SOUND_CROWDCHEER, 0.5, &audio1);
         }
         else {
-//            Audio_destroy(&audio1);
-//            Audio_destroy(&audio2);
-            if(audio1 == -1) Audio_play(KIRBY_SOUND_HURT2, 0.5, &audio1);
+            if(rand % 2 == 0) {
+                if(audio1 == -1) Audio_play(KIRBY_SOUND_HURT1, 0.5, &audio1);
+            }
+            else {
+                if(audio1 == -1) Audio_play(KIRBY_SOUND_HURT2, 0.5, &audio1);
+            }
         }
+
+        Audio_destroy(&audio2);
+        rand = random(1, 4);
+        if(rand == 1) Audio_play(SOUND_HIT1, 0.5, &audio2);
+        else if(rand == 2) Audio_play(SOUND_HIT2, 0.5, &audio2);
+        else if(rand == 3) Audio_play(SOUND_HIT3, 0.5, &audio2);
+        else if(rand == 4) Audio_play(SOUND_HIT4, 0.5, &audio2);
     }
 }
 

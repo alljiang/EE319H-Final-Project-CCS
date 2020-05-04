@@ -103,17 +103,17 @@ void game_startup() {
     //  stop menu music, play stage background music
     Audio_destroy(&backgroundAudioHandle);
     if(stageToPlay == STAGE_FINALDESTINATION)
-        Audio_play(STAGE_SOUND_FINALDESTINATION, 0.4, &backgroundAudioHandle);
+        Audio_play(STAGE_SOUND_FINALDESTINATION, 0.4, &backgroundAudioHandle, 0, -1, true);
     else if(stageToPlay == STAGE_TOWER)
-        Audio_play(STAGE_SOUND_UTTOWER, 0.4, &backgroundAudioHandle);
+        Audio_play(STAGE_SOUND_UTTOWER, 0.4, &backgroundAudioHandle, 0, -1, true);
     else if(stageToPlay == STAGE_BATTLEFIELD)
-        Audio_play(STAGE_SOUND_BATTLEFIELD, 0.4, &backgroundAudioHandle);
+        Audio_play(STAGE_SOUND_BATTLEFIELD, 0.4, &backgroundAudioHandle, 0, -1, true);
     else if(stageToPlay == STAGE_SMASHVILLE)
-        Audio_play(STAGE_SOUND_SMASHVILLE, 0.4, &backgroundAudioHandle);
+        Audio_play(STAGE_SOUND_SMASHVILLE, 0.4, &backgroundAudioHandle, 0, -1, true);
     else if(stageToPlay == STAGE_EER)
-        Audio_play(STAGE_SOUND_EER, 0.4, &backgroundAudioHandle);
+        Audio_play(STAGE_SOUND_EER, 0.4, &backgroundAudioHandle, 0, -1, true);
     else if(stageToPlay == STAGE_GREGORYGYM)
-        Audio_play(STAGE_SOUND_GREGORYGYM, 0.4, &backgroundAudioHandle);
+        Audio_play(STAGE_SOUND_GREGORYGYM, 0.4, &backgroundAudioHandle, 0, -1, true);
 }
 
 //  continually loops
@@ -284,6 +284,7 @@ void startup() {
         characterMenu.start();
     }
     else if(inWinScreen) {
+        Audio_play(MENU_SOUND_CLAP, 0.5);
         winScreen.start(winner, winningCharacter, english);
     }
     else {

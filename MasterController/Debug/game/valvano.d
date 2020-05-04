@@ -149,6 +149,11 @@ game/valvano.obj: C:/Users/Allen/Documents/GitHub/EE319H-Final-Project-CCS/Maste
 game/valvano.obj: ../game/stage.h
 game/valvano.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/libcxx/cstdint
 game/valvano.obj: ../game/entities.h
+game/valvano.obj: C:/Users/Allen/Documents/GitHub/EE319H-Final-Project-CCS/MasterController/driver/Audio.h
+game/valvano.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/libcxx/stdio.h
+game/valvano.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/stdio.h
+game/valvano.obj: C:/ti/tirtos_tivac_2_16_00_08/products/TivaWare_C_Series-2.1.1.71b/inc/hw_memmap.h
+game/valvano.obj: C:/ti/tirtos_tivac_2_16_00_08/products/TivaWare_C_Series-2.1.1.71b/driverlib/gpio.h
 
 ../game/valvano.cpp: 
 ../game/entities.h: 
@@ -299,3 +304,8 @@ C:/Users/Allen/Documents/GitHub/EE319H-Final-Project-CCS/MasterController/driver
 ../game/stage.h: 
 C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/libcxx/cstdint: 
 ../game/entities.h: 
+C:/Users/Allen/Documents/GitHub/EE319H-Final-Project-CCS/MasterController/driver/Audio.h: 
+C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/libcxx/stdio.h: 
+C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/stdio.h: 
+C:/ti/tirtos_tivac_2_16_00_08/products/TivaWare_C_Series-2.1.1.71b/inc/hw_memmap.h: 
+C:/ti/tirtos_tivac_2_16_00_08/products/TivaWare_C_Series-2.1.1.71b/driverlib/gpio.h: 

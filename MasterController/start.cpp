@@ -37,9 +37,12 @@ char stack[SIZE];
 
 void start(UArg arg0, UArg arg1)
 {
-    /*
-    while(1) Controller_updateController();
-    */
+//    /*
+    while(1) {
+        Controller_updateController(0);
+        Controller_flagOldData();
+    }
+//    */
 
 //    /*
     Audio_initSD();
@@ -60,9 +63,10 @@ void start(UArg arg0, UArg arg1)
     UART_waitForAcknowledge();
     startup();
     while(1) {
-        Controller_updateController();
+//        Controller_updateController();
         loop();
         ReadSDFIFO();
+        Controller_flagOldData();
     }
 //    */
 }

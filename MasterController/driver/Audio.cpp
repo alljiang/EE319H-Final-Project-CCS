@@ -61,7 +61,6 @@ volatile int32_t samplesPlayed = 0;
 long long ISRSkipTime = -1;
 
 void audioISR(UArg arg) {
-
     if(ISRSkipTime != -1) {
         if(millis() - ISRSkipTime > 20) {
             ISRSkipTime = -1;
@@ -218,7 +217,6 @@ int8_t Audio_playAudio(struct AudioParams sendable) {
     if(!sendable.file) {
         System_printf("File not found / busy");
         System_flush();
-        GPIO_PORTF_DATA_R |= 0x02;
         return -1;
     }
 

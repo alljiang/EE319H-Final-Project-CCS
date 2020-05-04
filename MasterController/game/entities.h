@@ -200,6 +200,7 @@ protected:
     int disabledFrames {0};   //  frames before making a new move
     int invulnerableFrames {0};   //  frames of hurtbox invulnerability
     bool noJumpsDisabled;           //  disabled until landing because of running out of jumps
+    bool l_onFloor;
 
     float l_joyH;              //  last joystick horizontal value
     float l_joyV;              //  last joystick vertical value

@@ -7,6 +7,7 @@
 #include "metadata.h"
 #include "UART.h"
 #include "stage.h"
+#include "Audio.h"
 
 void GameandWatch::controlLoop(float joyH, float joyV, bool btnA, bool btnB, bool shield,
                         class Stage *stage, class HitboxManager *hitboxManager) {
@@ -161,6 +162,9 @@ void GameandWatch::controlLoop(float joyH, float joyV, bool btnA, bool btnB, boo
         if(frameIndex == 1) {
             hitboxManager->addHurtbox(x + 17, y, mirrored,
                     neutralAttack, player);
+
+            Audio_destroy(&audio2);
+            Audio_play(GAW_SOUND_NEUTRALATTACK, 0.5, &audio2);
         }
     }
     else if(action == GAW_ACTION_DASHATTACK) {
@@ -310,6 +314,9 @@ void GameandWatch::controlLoop(float joyH, float joyV, bool btnA, bool btnB, boo
         if((!btnA && currentTime - fsmash_startTime > 300) || currentTime - fsmash_startTime > 3000) {
             action = GAW_ACTION_FORWARDSMASH;
             frameIndex = 2;
+
+            Audio_destroy(&audio2);
+            Audio_play(GAW_SOUND_SMASHATTACK, 0.5, &audio2);
         }
             //  charging attack
         else {
@@ -366,6 +373,9 @@ void GameandWatch::controlLoop(float joyH, float joyV, bool btnA, bool btnB, boo
         if((!btnA && currentTime - usmash_startTime > 300) || currentTime - usmash_startTime > 3000) {
             action = GAW_ACTION_UPSMASH;
             frameIndex = 2;
+
+            Audio_destroy(&audio2);
+            Audio_play(GAW_SOUND_SMASHATTACK, 0.5, &audio2);
         }
             //  charging attack
         else {
@@ -421,6 +431,9 @@ void GameandWatch::controlLoop(float joyH, float joyV, bool btnA, bool btnB, boo
         if((!btnA && currentTime - dsmash_startTime > 300) || currentTime - dsmash_startTime > 3000) {
             action = GAW_ACTION_DOWNSMASH;
             frameIndex = 2;
+
+            Audio_destroy(&audio2);
+            Audio_play(GAW_SOUND_SMASHATTACK, 0.5, &audio2);
         }
             //  charging attack
         else {
@@ -829,8 +842,8 @@ void GameandWatch::controlLoop(float joyH, float joyV, bool btnA, bool btnB, boo
                 if (mirrored) xSplashOffset = 0;
                 else x_mirroredSplashOffset = 0;
 
+                //  animate splash
                 SpriteSendable splash;
-                //  animate shield
                 splash.charIndex = charIndex;
                 splash.animationIndex = 35;
                 splash.frame = 0;
@@ -846,6 +859,11 @@ void GameandWatch::controlLoop(float joyH, float joyV, bool btnA, bool btnB, boo
 
                 hitboxManager->addHurtbox(x + 18, y, mirrored,
                                           downSpecialProjectile, player);
+
+                if(frameLengthCounter == 0) {
+                    Audio_destroy(&audio2);
+                    Audio_play(GAW_SOUND_DOWNBATTACK, 0.5, &audio2);
+                }
 
                 frameExtension = 4;
                 if (frameLengthCounter++ >= frameExtension) {
@@ -893,6 +911,9 @@ void GameandWatch::controlLoop(float joyH, float joyV, bool btnA, bool btnB, boo
                 proj_xVel[projectileIndex] = mirrored ? -random(15, 25)/10. : random(15, 25)/10.;
                 proj_yVel[projectileIndex] = random(70, 90)/10.;
                 proj_mirrored[projectileIndex] = mirrored;
+
+                Audio_destroy(&audio2);
+                Audio_play(GAW_SOUND_NEUTRALB, 0.5, &audio2);
             }
         }
 
@@ -929,10 +950,18 @@ void GameandWatch::controlLoop(float joyH, float joyV, bool btnA, bool btnB, boo
         shieldDamage += PLAYER_SHIELD_DEGEN;
 
         if(currentTime - l_shieldFall_t == 0) {
+            //  drop shield
+            Audio_destroy(&audio1);
+            Audio_play(SOUND_SHIELDDOWN, 0.5, &audio1);
+
             if(y == floor) action = GAW_ACTION_RESTING;
             else action = GAW_ACTION_FALLING;
         }
         else if(shieldDamage > PLAYER_SHIELD_MAXDAMAGE) {
+            //  shield break
+            Audio_destroy(&audio1);
+            Audio_play(SOUND_SHIELDBREAK, 0.5, &audio1);
+
             action = GAW_ACTION_STUN;
             frameLengthCounter = 0;
             frameIndex = 0;
@@ -1100,6 +1129,9 @@ void GameandWatch::controlLoop(float joyH, float joyV, bool btnA, bool btnB, boo
         if(joyV > -0.3) {
             action = GAW_ACTION_RESTING;
             lastBlink = currentTime;
+
+            Audio_destroy(&audio1);
+            Audio_play(GAW_SOUND_RISE, 0.5, &audio1);
         }
     }
     if(action == GAW_ACTION_FALLING) {
@@ -1237,6 +1269,9 @@ void GameandWatch::controlLoop(float joyH, float joyV, bool btnA, bool btnB, boo
                 yAnimationOffset = 0;
                 x_mirroredOffset = 0;
             }
+
+            //  play audio whenever it's done
+            if(audio1 == -1) Audio_play(GAW_SOUND_STEP, 0.5, &audio1);
         }
     }
 
@@ -1329,11 +1364,21 @@ void GameandWatch::controlLoop(float joyH, float joyV, bool btnA, bool btnB, boo
         y = ceiling;
         yVel = 0;
     }
+
     if(y <= floor) {
+
+        //  just landed!
+        if(!l_onFloor) {
+            Audio_destroy(&audio1);
+            Audio_play(GAW_SOUND_LANDING, 0.5, &audio1);
+        }
+
+        l_onFloor = true;
         y = floor;
         yVel = 0;
         jumpsUsed = 0;
     }
+    else l_onFloor = false;
 
     if(yVel > 0) yVel -= gravityRising * gravityScale;
     else yVel -= gravityFalling * gravityScale;
@@ -1373,6 +1418,9 @@ void GameandWatch::controlLoop(float joyH, float joyV, bool btnA, bool btnB, boo
         frameIndex = 0;
         frameLengthCounter = 0;
         fsmash_startTime = currentTime;
+
+        Audio_destroy(&audio2);
+        Audio_play(GAW_SOUND_SMASHHOLDSTART, 0.5, &audio2);
     }
         //  down smash
     else if(disabledFrames == 0 && y == floor && (action == GAW_ACTION_RUNNING || action == GAW_ACTION_RESTING)
@@ -1383,6 +1431,9 @@ void GameandWatch::controlLoop(float joyH, float joyV, bool btnA, bool btnB, boo
         frameIndex = 0;
         frameLengthCounter = 0;
         dsmash_startTime = currentTime;
+
+        Audio_destroy(&audio2);
+        Audio_play(GAW_SOUND_SMASHHOLDSTART, 0.5, &audio2);
     }
         //  up smash
     else if(disabledFrames == 0 && y == floor && (action == GAW_ACTION_RUNNING || action == GAW_ACTION_RESTING)
@@ -1393,6 +1444,9 @@ void GameandWatch::controlLoop(float joyH, float joyV, bool btnA, bool btnB, boo
         frameIndex = 0;
         frameLengthCounter = 0;
         usmash_startTime = currentTime;
+
+        Audio_destroy(&audio2);
+        Audio_play(GAW_SOUND_SMASHHOLDSTART, 0.5, &audio2);
     }
         //  down tilt
     else if(disabledFrames == 0 && y == floor && (GAW_ACTION_CROUCHING || action == GAW_ACTION_RESTING)
@@ -1401,6 +1455,9 @@ void GameandWatch::controlLoop(float joyH, float joyV, bool btnA, bool btnB, boo
         disabledFrames = 2;
         frameIndex = 0;
         frameLengthCounter = 0;
+
+        Audio_destroy(&audio2);
+        Audio_play(GAW_SOUND_DOWNTILT, 0.5, &audio2);
     }
         //  neutral air
     else if(disabledFrames == 0 && y > floor
@@ -1413,6 +1470,9 @@ void GameandWatch::controlLoop(float joyH, float joyV, bool btnA, bool btnB, boo
         disabledFrames = 2;
         frameIndex = 0;
         frameLengthCounter = 0;
+
+        Audio_destroy(&audio2);
+        Audio_play(GAW_SOUND_NEUTRALAIR, 0.5, &audio2);
     }
         //  down air
     else if(disabledFrames == 0 && y > floor
@@ -1425,6 +1485,9 @@ void GameandWatch::controlLoop(float joyH, float joyV, bool btnA, bool btnB, boo
         disabledFrames = 2;
         frameIndex = 0;
         frameLengthCounter = 0;
+
+        Audio_destroy(&audio2);
+        Audio_play(GAW_SOUND_DOWNAIR, 0.5, &audio2);
     }
         //  up air
     else if(disabledFrames == 0 && y > floor
@@ -1437,6 +1500,9 @@ void GameandWatch::controlLoop(float joyH, float joyV, bool btnA, bool btnB, boo
         disabledFrames = 2;
         frameIndex = 0;
         frameLengthCounter = 0;
+
+        Audio_destroy(&audio2);
+        Audio_play(GAW_SOUND_UPAIR, 0.5, &audio2);
     }
         //  forward air
     else if(disabledFrames == 0 && y > floor
@@ -1448,6 +1514,9 @@ void GameandWatch::controlLoop(float joyH, float joyV, bool btnA, bool btnB, boo
         disabledFrames = 2;
         frameIndex = 0;
         frameLengthCounter = 0;
+
+        Audio_destroy(&audio2);
+        Audio_play(GAW_SOUND_FORWARDAIR, 0.5, &audio2);
     }
         //  back air
     else if(disabledFrames == 0 && y > floor
@@ -1459,6 +1528,9 @@ void GameandWatch::controlLoop(float joyH, float joyV, bool btnA, bool btnB, boo
         disabledFrames = 2;
         frameIndex = 0;
         frameLengthCounter = 0;
+
+        Audio_destroy(&audio2);
+        Audio_play(GAW_SOUND_BACKAIR, 0.5, &audio2);
     }
         //  forward tilt
     else if(disabledFrames == 0 && y == floor && (action == GAW_ACTION_RUNNING || action == GAW_ACTION_RESTING)
@@ -1468,6 +1540,9 @@ void GameandWatch::controlLoop(float joyH, float joyV, bool btnA, bool btnB, boo
         disabledFrames = 2;
         frameIndex = 0;
         frameLengthCounter = 0;
+
+        Audio_destroy(&audio2);
+        Audio_play(GAW_SOUND_FORWARDTILT, 0.5, &audio2);
     }
         //  up tilt
     else if(disabledFrames == 0 && y == floor && (action == GAW_ACTION_RUNNING || action == GAW_ACTION_RESTING)
@@ -1476,6 +1551,9 @@ void GameandWatch::controlLoop(float joyH, float joyV, bool btnA, bool btnB, boo
         disabledFrames = 2;
         frameIndex = 0;
         frameLengthCounter = 0;
+
+        Audio_destroy(&audio2);
+        Audio_play(GAW_SOUND_UPTILT, 0.5, &audio2);
     }
         //  dash attack
     else if(disabledFrames == 0 && y == floor && action == GAW_ACTION_RUNNING
@@ -1498,6 +1576,9 @@ void GameandWatch::controlLoop(float joyH, float joyV, bool btnA, bool btnB, boo
 
         holdBucketStartTime = currentTime;
         droppingBucket = false;
+
+        Audio_destroy(&audio1);
+        Audio_play(GAW_SOUND_DOWNB, 0.5, &audio1);
     }
         //  up special
     else if(!noJumpsDisabled &&
@@ -1514,6 +1595,9 @@ void GameandWatch::controlLoop(float joyH, float joyV, bool btnA, bool btnB, boo
 
         yVel = 8.5;
         y++;
+
+        Audio_destroy(&audio2);
+        Audio_play(GAW_SOUND_UPB, 0.5, &audio2);
     }
         //  side special
     else if(disabledFrames == 0 && currentTime - l_btnBRise_t == 0
@@ -1524,6 +1608,9 @@ void GameandWatch::controlLoop(float joyH, float joyV, bool btnA, bool btnB, boo
         frameLengthCounter = 0;
         mirrored = joyH < 0;
         sideBStrength = random(1, 9);
+
+        Audio_destroy(&audio2);
+        Audio_play(GAW_SOUND_SIDEB, 0.5, &audio2);
     }
         //  neutral B
     else if(disabledFrames == 0 && currentTime - l_btnBRise_t == 0
@@ -1551,6 +1638,9 @@ void GameandWatch::controlLoop(float joyH, float joyV, bool btnA, bool btnB, boo
         frameIndex = 0;
         frameLengthCounter = 0;
         ledgeGrabTime = currentTime;
+
+        Audio_destroy(&audio1);
+        Audio_play(GAW_SOUND_JUMP, 0.5, &audio1);
     }
         //  double jump
     else if( disabledFrames == 0
@@ -1567,6 +1657,9 @@ void GameandWatch::controlLoop(float joyH, float joyV, bool btnA, bool btnB, boo
 
         if(joyH == 0) mirrored = l_mirrored;
         else mirrored = joyH < 0;
+
+        Audio_destroy(&audio1);
+        Audio_play(GAW_SOUND_DOUBLEJUMP, 0.5, &audio1);
     }
         //  shield
     else if(disabledFrames == 0 &&
@@ -1577,6 +1670,9 @@ void GameandWatch::controlLoop(float joyH, float joyV, bool btnA, bool btnB, boo
             && shield && !l_shield && (PLAYER_SHIELD_MAXDAMAGE - shieldDamage > 10)) {
         action = GAW_ACTION_SHIELD;
         disabledFrames = 2;
+
+        Audio_destroy(&audio1);
+        Audio_play(SOUND_SHIELDUP, 0.5, &audio1);
     }
         //  running/walking
     else if(((action == GAW_ACTION_RESTING) || (disabledFrames == 0 && action == GAW_ACTION_HURT))
@@ -1588,12 +1684,15 @@ void GameandWatch::controlLoop(float joyH, float joyV, bool btnA, bool btnB, boo
     }
         //  crouching
     else if((action == GAW_ACTION_RESTING || action == GAW_ACTION_RUNNING || action == GAW_ACTION_HURT) &&
-            joyV <= -0.3 && y == floor) {
+            joyV < -0.5 && y == floor) {
         l_action = action;
         action = GAW_ACTION_CROUCHING;
 
         frameIndex = 0;
         frameLengthCounter = 0;
+
+        Audio_destroy(&audio1);
+        Audio_play(GAW_SOUND_CROUCH, 0.5, &audio1);
     }
         //  resting
     else if(disabledFrames == 0 &&
@@ -1653,6 +1752,9 @@ void GameandWatch::collide(Hurtbox *hurtbox, Player *otherPlayer) {
         if(hurtbox->activationFlagPointer != nullptr) {
             *(hurtbox->activationFlagPointer) = true;
         }
+
+        Audio_destroy(&audio1);
+        Audio_play(GAW_SOUND_DOWNBABSORB, 0.5, &audio1);
     }
     else if(action == GAW_ACTION_SHIELD) {
         if(hurtbox->damage < PLAYER_SHIELD_MAXDAMAGE/2.) shieldDamage += hurtbox->damage * 0.3;
@@ -1679,7 +1781,20 @@ void GameandWatch::collide(Hurtbox *hurtbox, Player *otherPlayer) {
         }
 
         action = GAW_ACTION_HURT;
+
+        Audio_destroy(&audio1);
+        if(hurtbox->xKnockback * knockbackMultiplier >= 4.5) {
+            Audio_play(SOUND_CROWDCHEER, 0.5, &audio1);
+        }
+
+        Audio_destroy(&audio2);
+        int rand = random(1, 4);
+        if(rand == 1) Audio_play(SOUND_HIT1, 0.5, &audio2);
+        else if(rand == 2) Audio_play(SOUND_HIT2, 0.5, &audio2);
+        else if(rand == 3) Audio_play(SOUND_HIT3, 0.5, &audio2);
+        else if(rand == 4) Audio_play(SOUND_HIT4, 0.5, &audio2);
     }
+
 }
 
 void GameandWatch::reset() {
@@ -1727,6 +1842,7 @@ void GameandWatch::reset() {
     lastBucket = 0;
 
     dead = false;
+    l_onFloor = true;
 }
 
 

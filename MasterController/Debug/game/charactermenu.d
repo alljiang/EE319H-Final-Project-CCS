@@ -25,6 +25,17 @@ game/charactermenu.obj: C:/Users/Allen/Documents/GitHub/EE319H-Final-Project-CCS
 game/charactermenu.obj: C:/Users/Allen/Documents/GitHub/EE319H-Final-Project-CCS/MasterController/metadata.h
 game/charactermenu.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/libcxx/stdbool.h
 game/charactermenu.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/stdbool.h
+game/charactermenu.obj: C:/Users/Allen/Documents/GitHub/EE319H-Final-Project-CCS/MasterController/driver/Audio.h
+game/charactermenu.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/libcxx/stdio.h
+game/charactermenu.obj: C:/ti/ccs930/xdctools_3_60_02_34_core/packages/xdc/std.h
+game/charactermenu.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/libcxx/stddef.h
+game/charactermenu.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/stddef.h
+game/charactermenu.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/libcxx/__nullptr
+game/charactermenu.obj: C:/ti/tirtos_tivac_2_16_00_08/products/bios_6_45_01_29/packages/ti/targets/arm/elf/std.h
+game/charactermenu.obj: C:/ti/tirtos_tivac_2_16_00_08/products/bios_6_45_01_29/packages/ti/targets/arm/elf/M4F.h
+game/charactermenu.obj: C:/ti/tirtos_tivac_2_16_00_08/products/bios_6_45_01_29/packages/ti/targets/std.h
+game/charactermenu.obj: C:/ti/tirtos_tivac_2_16_00_08/products/TivaWare_C_Series-2.1.1.71b/inc/hw_memmap.h
+game/charactermenu.obj: C:/ti/tirtos_tivac_2_16_00_08/products/TivaWare_C_Series-2.1.1.71b/driverlib/gpio.h
 
 ../game/charactermenu.cpp: 
 ../game/charactermenu.h: 
@@ -51,3 +62,14 @@ C:/Users/Allen/Documents/GitHub/EE319H-Final-Project-CCS/MasterController/driver
 C:/Users/Allen/Documents/GitHub/EE319H-Final-Project-CCS/MasterController/metadata.h: 
 C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/libcxx/stdbool.h: 
 C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/stdbool.h: 
+C:/Users/Allen/Documents/GitHub/EE319H-Final-Project-CCS/MasterController/driver/Audio.h: 
+C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/libcxx/stdio.h: 
+C:/ti/ccs930/xdctools_3_60_02_34_core/packages/xdc/std.h: 
+C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/libcxx/stddef.h: 
+C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/stddef.h: 
+C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/libcxx/__nullptr: 
+C:/ti/tirtos_tivac_2_16_00_08/products/bios_6_45_01_29/packages/ti/targets/arm/elf/std.h: 
+C:/ti/tirtos_tivac_2_16_00_08/products/bios_6_45_01_29/packages/ti/targets/arm/elf/M4F.h: 
+C:/ti/tirtos_tivac_2_16_00_08/products/bios_6_45_01_29/packages/ti/targets/std.h: 
+C:/ti/tirtos_tivac_2_16_00_08/products/TivaWare_C_Series-2.1.1.71b/inc/hw_memmap.h: 
+C:/ti/tirtos_tivac_2_16_00_08/products/TivaWare_C_Series-2.1.1.71b/driverlib/gpio.h: 

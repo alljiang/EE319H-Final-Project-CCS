@@ -22,6 +22,7 @@ bool btn2_start;
 bool btn2_l;
 bool btn2_r;
 
+bool dataOldFlag;
 
 void Controller_init() {
     GPIOPinTypeGPIOInput(GPIO_PORTB_BASE, GPIO_PIN_0);  //  A1
@@ -38,9 +39,14 @@ void Controller_init() {
 
     SysCtlPeripheralEnable(SYSCTL_PERIPH_ADC0);
     SysCtlPeripheralEnable(SYSCTL_PERIPH_ADC1);
+
+    dataOldFlag = true;
 }
 
-void Controller_updateController() {
+void Controller_updateController(UArg arg0) {
+    if(!dataOldFlag) return;
+    dataOldFlag = false;
+
     btn1_a = !GPIOPinRead(GPIO_PORTB_BASE, GPIO_PIN_0);  //  A1
     btn1_b = !GPIOPinRead(GPIO_PORTB_BASE, GPIO_PIN_1);  //  B1
     btn1_start = !GPIOPinRead(GPIO_PORTA_BASE, GPIO_PIN_5);  //  START1
@@ -128,7 +134,7 @@ void Controller_updateController() {
     ADCSequenceDisable(ADC0_BASE, 0);
     ADCSequenceDisable(ADC1_BASE, 0);
 
-//    System_printf("%d\t%d\n", adcOut0, adcOut1);
+    System_printf("%d\t%d\n", adcOut0, adcOut1);
 
     if(adcOut0 >= 4095) joystick2_v = 1;
     else if(adcOut0 >= 1950) joystick2_v = 0.3;
@@ -212,4 +218,8 @@ bool getBtn_r(uint8_t player) {
 bool getBtn_start(uint8_t player) {
     if(player == 2) return btn2_start;
     else return btn1_start;
+}
+
+void Controller_flagOldData() {
+    dataOldFlag = true;
 }
