@@ -643,6 +643,7 @@ void Valvano::controlLoop(float joyH, float joyV, bool btnA, bool btnB, bool shi
             Audio_destroy(&audio1);
             Audio_play(SOUND_SHIELDDOWN, 0.5, &audio1);
 
+            shieldDrop_t = currentTime;
             if(y == floor) action = VAL_ACTION_RESTING;
             else action = VAL_ACTION_FALLING;
         }
@@ -1254,7 +1255,7 @@ void Valvano::controlLoop(float joyH, float joyV, bool btnA, bool btnB, bool shi
               (y == floor && (action == VAL_ACTION_RESTING || action == VAL_ACTION_RUNNING ||
                               action == VAL_ACTION_CROUCHING)) )
             && shield && !l_shield && (PLAYER_SHIELD_MAXDAMAGE - shieldDamage > 10)
-            && currentTime - l_shieldFall_t > 300) {
+            && currentTime - shieldDrop_t > 300) {
         action = VAL_ACTION_SHIELD;
         disabledFrames = 2;
 
@@ -1348,12 +1349,14 @@ void Valvano::collide(Hurtbox *hurtbox, Player *otherPlayer) {
         disabledFrames = hurtbox->stunFrames;
         damage += hurtbox->damage;
 
-        float knockbackMultiplier = damage / 200. + 1.0;
+        float knockbackMultiplier = damage / 130. + 1.0;
 //        printf("%0.1f\n", damage);
 
         if (otherPlayer->x < x) xVel = hurtbox->xKnockback * knockbackMultiplier;
         else xVel = -hurtbox->xKnockback * knockbackMultiplier;
         yVel = hurtbox->yKnockback * knockbackMultiplier;
+
+        if(hurtbox->isProjectile && hurtbox->activationFlagPointer != nullptr) *(hurtbox->activationFlagPointer) = true;
 
         action = VAL_ACTION_HURT;
 

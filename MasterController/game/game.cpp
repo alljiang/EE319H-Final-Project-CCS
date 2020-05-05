@@ -101,7 +101,7 @@ void game_startup() {
     sleep(1000);
 
     //  stop menu music, play stage background music
-    Audio_destroy(&backgroundAudioHandle);
+    Audio_destroyAudio(&backgroundAudioHandle, true);
     if(stageToPlay == STAGE_FINALDESTINATION)
         Audio_play(STAGE_SOUND_FINALDESTINATION, 0.4, &backgroundAudioHandle, 0, -1, true);
     else if(stageToPlay == STAGE_TOWER)
@@ -274,9 +274,9 @@ void startup() {
     UART_commandReset();
 
     if(inStageSelect) {
-        //  start menu music
-        Audio_destroy(&backgroundAudioHandle);
-        Audio_play(MENU_SOUND_BACKGROUND, 0.5, &backgroundAudioHandle);
+        //  start looping menu music
+        Audio_destroyAudio(&backgroundAudioHandle, true);
+        Audio_play(MENU_SOUND_BACKGROUND, 0.5, &backgroundAudioHandle, 0, -1, true);
 
         stageMenu.start(english);
     }
