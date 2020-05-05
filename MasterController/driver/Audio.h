@@ -20,6 +20,7 @@ extern "C" {
 #endif
 
 #define MENU_SOUND_BACKGROUND 0
+#define MENU_SOUND_WORLDOFLIGHT 2
 #define MENU_SOUND_CONFIRM  5
 #define MENU_SOUND_DESELECT  6
 #define MENU_SOUND_SELECT  7

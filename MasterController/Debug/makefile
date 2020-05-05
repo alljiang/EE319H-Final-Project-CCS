@@ -25,6 +25,7 @@ ORDERED_OBJS += \
 "./game/kirby.obj" \
 "./game/stage.obj" \
 "./game/stagemenu.obj" \
+"./game/title.obj" \
 "./game/valvano.obj" \
 "../driver/EK_TM4C123GXL.cmd" \
 $(GEN_CMDS__FLAG) \
@@ -176,9 +177,9 @@ MasterController.hex: $(EXE_OUTPUTS)
 # Other Targets
 clean:
 	-$(RM) $(BIN_OUTPUTS__QUOTED)$(GEN_FILES__QUOTED)$(EXE_OUTPUTS__QUOTED)
-	-$(RM) "start.obj" "driver\Audio.obj" "driver\Controller.obj" "driver\EK_TM4C123GXL.obj" "driver\SD.obj" "driver\UART.obj" "driver\Utils.obj" "game\WinScreen.obj" "game\charactermenu.obj" "game\collider.obj" "game\game.obj" "game\gameandwatch.obj" "game\kirby.obj" "game\stage.obj" "game\stagemenu.obj" "game\valvano.obj" 
+	-$(RM) "start.obj" "driver\Audio.obj" "driver\Controller.obj" "driver\EK_TM4C123GXL.obj" "driver\SD.obj" "driver\UART.obj" "driver\Utils.obj" "game\WinScreen.obj" "game\charactermenu.obj" "game\collider.obj" "game\game.obj" "game\gameandwatch.obj" "game\kirby.obj" "game\stage.obj" "game\stagemenu.obj" "game\title.obj" "game\valvano.obj" 
 	-$(RM) "driver\EK_TM4C123GXL.d" "driver\SD.d" "driver\UART.d" "driver\Utils.d" 
-	-$(RM) "start.d" "driver\Audio.d" "driver\Controller.d" "game\WinScreen.d" "game\charactermenu.d" "game\collider.d" "game\game.d" "game\gameandwatch.d" "game\kirby.d" "game\stage.d" "game\stagemenu.d" "game\valvano.d" 
+	-$(RM) "start.d" "driver\Audio.d" "driver\Controller.d" "game\WinScreen.d" "game\charactermenu.d" "game\collider.d" "game\game.d" "game\gameandwatch.d" "game\kirby.d" "game\stage.d" "game\stagemenu.d" "game\title.d" "game\valvano.d" 
 	-$(RMDIR) $(GEN_MISC_DIRS__QUOTED)
 	-@echo 'Finished clean'
 	-@echo ' '

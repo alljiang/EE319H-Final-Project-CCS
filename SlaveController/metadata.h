@@ -43,6 +43,7 @@
 #define BACKGROUND_GREGORYGYM 5
 #define BACKGROUND_MENU 10
 #define BACKGROUND_STAGEMENU 11
+#define BACKGROUND_TITLESCREEN 12
 #define BACKGROUND_WIN_P1_KIRBY 14
 #define BACKGROUND_WIN_P2_KIRBY 15
 #define BACKGROUND_WIN_P1_GAMEANDWATCH 16
@@ -79,7 +80,7 @@ const char persistentSprites[26][7] = {
         {""},
 /* 10 */{"cmenu"},
         {"smenu"},
-        {""},
+        {"title"},
         {""},
         {"w1kb"},
         {"w2kb"},
@@ -282,7 +283,7 @@ const char animations[CHARACTERS][64][12] = {
                                                 {"p2big"},
                                                 {"stageselect"},
                                                 {"selectbox"},
-                                                {""},
+                                                {"titlemsg"},   //  1 (words) + 1 (blank)
                                                 {""},
                                                 {""},
                                                 {""},

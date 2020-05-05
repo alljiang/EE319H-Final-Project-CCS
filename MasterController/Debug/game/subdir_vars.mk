@@ -14,6 +14,7 @@ CPP_SRCS += \
 ../game/kirby.cpp \
 ../game/stage.cpp \
 ../game/stagemenu.cpp \
+../game/title.cpp \
 ../game/valvano.cpp 
 
 OBJS += \
@@ -25,6 +26,7 @@ OBJS += \
 ./game/kirby.obj \
 ./game/stage.obj \
 ./game/stagemenu.obj \
+./game/title.obj \
 ./game/valvano.obj 
 
 CPP_DEPS += \
@@ -36,6 +38,7 @@ CPP_DEPS += \
 ./game/kirby.d \
 ./game/stage.d \
 ./game/stagemenu.d \
+./game/title.d \
 ./game/valvano.d 
 
 OBJS__QUOTED += \
@@ -47,6 +50,7 @@ OBJS__QUOTED += \
 "game\kirby.obj" \
 "game\stage.obj" \
 "game\stagemenu.obj" \
+"game\title.obj" \
 "game\valvano.obj" 
 
 CPP_DEPS__QUOTED += \
@@ -58,6 +62,7 @@ CPP_DEPS__QUOTED += \
 "game\kirby.d" \
 "game\stage.d" \
 "game\stagemenu.d" \
+"game\title.d" \
 "game\valvano.d" 
 
 CPP_SRCS__QUOTED += \
@@ -68,6 +73,7 @@ CPP_SRCS__QUOTED += \
 "../game/gameandwatch.cpp" \
 "../game/stage.cpp" \
 "../game/stagemenu.cpp" \
+"../game/title.cpp" \
 "../game/valvano.cpp" 
 
 

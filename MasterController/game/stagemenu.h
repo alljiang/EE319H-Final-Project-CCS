@@ -19,7 +19,7 @@ class StageMenu {
 
 public:
 
-    void start(bool isEnglish);
+    void start(bool isEnglish, int8_t* backgroundAudioHandle);
     void loop(double joyH1, double joyV1, double joyH2, double joyV2, bool btnSelect, void (*)(int8_t, bool));
     void reset();
 

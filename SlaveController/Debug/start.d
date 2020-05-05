@@ -268,6 +268,7 @@ start.obj: ../colors_w2kb.h
 start.obj: ../colors_w2kbc.h
 start.obj: ../colors_w2va.h
 start.obj: ../colors_w2vac.h
+start.obj: ../colors_title.h
 
 ../start.cpp: 
 C:/Users/Allen/Documents/GitHub/EE319H-Final-Project-CCS/SlaveController/driver/Flash.h: 
@@ -537,3 +538,4 @@ C:/Users/Allen/Documents/GitHub/EE319H-Final-Project-CCS/SlaveController/driver/
 ../colors_w2kbc.h: 
 ../colors_w2va.h: 
 ../colors_w2vac.h: 
+../colors_title.h: 

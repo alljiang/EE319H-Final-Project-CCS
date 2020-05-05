@@ -53,6 +53,7 @@
 #include "colors_w2kbc.h"
 #include "colors_w2va.h"
 #include "colors_w2vac.h"
+#include "colors_title.h"
 
 Task_Struct ts;
 
@@ -220,6 +221,9 @@ void start(UArg arg0, UArg arg1)
             }
             else if(stageIndex == BACKGROUND_STAGEMENU) {
                 animator_setBackgroundColors(colors_stagemenu);
+            }
+            else if(stageIndex == BACKGROUND_TITLESCREEN) {
+                animator_setBackgroundColors(colors_title);
             }
             else if(stageIndex == BACKGROUND_WIN_P1_KIRBY) {
                 animator_setBackgroundColors(colors_w1kb);

@@ -7,12 +7,14 @@
 #include "metadata.h"
 #include "Audio.h"
 
-void StageMenu::start(bool isEnglish) {
+void StageMenu::start(bool isEnglish, int8_t* backgroundAudioHandle) {
     reset();
     UART_setBackgroundColors(BACKGROUND_STAGEMENU);
     UART_readPersistentSprite(BACKGROUND_STAGEMENU, 0, 0);
     UART_readCharacterSDCard(4);
     englishSelected = isEnglish;
+
+    Audio_play(MENU_SOUND_BACKGROUND, 0.5, backgroundAudioHandle, 0, -1, true);
 }
 
 void StageMenu::loop(double joyH1, double joyV1, double joyH2, double joyV2, bool btnA,
