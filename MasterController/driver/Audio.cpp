@@ -61,6 +61,7 @@ volatile int32_t samplesPlayed = 0;
 long long ISRSkipTime = -1;
 
 void audioISR(UArg arg) {
+
     if(ISRSkipTime != -1) {
         if(millis() - ISRSkipTime > 3) {
             ISRSkipTime = -1;
@@ -95,6 +96,7 @@ void audioISR(UArg arg) {
 void ReadSDFIFO(UArg arg) {
     if(SDBusyFlag) return;
     SDBusyFlag = true;
+    GPIO_PORTF_DATA_R ^= 0x02;
     uint32_t FIFO_Start_original = FIFO_Start;
     uint32_t samplesPlayedSinceLastLoop = samplesPlayed;
     samplesPlayed = 0;
@@ -104,7 +106,13 @@ void ReadSDFIFO(UArg arg) {
         if(audioSlots[slot].startIndex == audioSlots[slot].endIndex) {
             //  only destroy the sendable if it has not been destroyed yet
             if(audioSlots[slot].startIndex != 0) {
-                Audio_destroy(audioSlots[slot].handlePointer);
+                if(audioSlots[slot].handlePointer == nullptr) {
+                    int8_t slotClone = slot;
+                    Audio_destroy(&slotClone);
+                }
+                else {
+                    Audio_destroy(audioSlots[slot].handlePointer);
+                }
             }
             continue;
         }

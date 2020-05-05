@@ -40,6 +40,10 @@ void Valvano::controlLoop(float joyH, float joyV, bool btnA, bool btnB, bool shi
             action = VAL_ACTION_FALLING;
 
             if(player == 2) mirrored = true;
+
+            //  hi, i'm jon valvano
+            Audio_destroy(&audio2);
+            Audio_play(VALVANO_SOUND_LINE_HIIMJONVALVANO, 0.8, &audio2);
         }
         return;
     }
@@ -162,6 +166,11 @@ void Valvano::controlLoop(float joyH, float joyV, bool btnA, bool btnB, bool shi
         if(frameIndex == 2 || frameIndex == 5) {
             hitboxManager->addHurtbox(x + 8, y, mirrored,
                                       jab, player);
+
+            if(frameLengthCounter == 0) {
+                Audio_destroy(&audio1);
+                Audio_play(VALVANO_SOUND_JAB, 0.5, &audio1);
+            }
         }
     }
     else if(action == VAL_ACTION_DASHATTACK) {
@@ -477,6 +486,9 @@ void Valvano::controlLoop(float joyH, float joyV, bool btnA, bool btnB, bool shi
                 action = VAL_ACTION_FALLING;
                 yVel = 0;
                 noJumpsDisabled = true;
+
+                //  stop drone sound effect
+                Audio_destroy(&audio1);
             }
             else {
                 //  go up
@@ -594,6 +606,9 @@ void Valvano::controlLoop(float joyH, float joyV, bool btnA, bool btnB, bool shi
                 else laserX = x + xAnimationOffset + xLaserOffset;
                 laserY = y + yAnimationOffset + yLaserOffset;
                 laserMirrored = mirrored;
+
+                Audio_destroy(&audio2);
+                Audio_play(VALVANO_SOUND_LASER, 0.5, &audio2);
             }
         }
 
@@ -735,6 +750,9 @@ void Valvano::controlLoop(float joyH, float joyV, bool btnA, bool btnB, bool shi
         if(joyV > -0.3) {
             action = VAL_ACTION_RESTING;
             lastBlink = currentTime;
+
+            Audio_destroy(&audio1);
+            Audio_play(VALVANO_SOUND_RISE, 0.5, &audio1);
         }
     }
     if(action == VAL_ACTION_FALLING) {
@@ -838,6 +856,8 @@ void Valvano::controlLoop(float joyH, float joyV, bool btnA, bool btnB, bool shi
             xAnimationOffset = -1;
             yAnimationOffset = 0;
             x_mirroredOffset = 1;
+
+            if(audio1 == -1) Audio_play(VALVANO_SOUND_STEP, 1.0, &audio1);
         }
     }
 
@@ -891,6 +911,12 @@ void Valvano::controlLoop(float joyH, float joyV, bool btnA, bool btnB, bool shi
 
         if(currentTime - robotCarStartTime > 3000 || robotCarActivationFlag) {
             //  explode
+
+            if(robotCarFrameIndex == 0 && robotCarFrameCounter == 0) {
+                Audio_destroy(&audio2);
+                Audio_play(VALVANO_SOUND_EXPLOSION, 0.5, &audio2);
+            }
+
             if(robotCarFrameIndex < 2) robotCarFrameIndex = 2;
 
             frameExtension = 2;
@@ -971,9 +997,17 @@ void Valvano::controlLoop(float joyH, float joyV, bool btnA, bool btnB, bool shi
         yVel = 0;
     }
     if(y <= floor) {
+
+        //  just landed!
+        if(!l_onFloor) {
+            Audio_destroy(&audio1);
+            Audio_play(VALVANO_SOUND_LANDING, 0.5, &audio1);
+        }
+
         y = floor;
         yVel = 0;
         jumpsUsed = 0;
+        l_onFloor= true;
     }
 
     if(yVel > 0) yVel -= gravityRising * gravityScale;
@@ -1012,6 +1046,9 @@ void Valvano::controlLoop(float joyH, float joyV, bool btnA, bool btnB, bool shi
         disabledFrames = 2;
         frameIndex = 0;
         frameLengthCounter = 0;
+
+        Audio_destroy(&audio1);
+        Audio_play(VALVANO_SOUND_DOWNTILT, 0.5, &audio1);
     }
         //  neutral air
     else if(disabledFrames == 0 && y > floor
@@ -1024,6 +1061,9 @@ void Valvano::controlLoop(float joyH, float joyV, bool btnA, bool btnB, bool shi
         disabledFrames = 2;
         frameIndex = 0;
         frameLengthCounter = 0;
+
+        Audio_destroy(&audio1);
+        Audio_play(VALVANO_SOUND_NEUTRALAIR, 0.5, &audio1);
     }
         //  down air
     else if(disabledFrames == 0 && y > floor
@@ -1036,6 +1076,9 @@ void Valvano::controlLoop(float joyH, float joyV, bool btnA, bool btnB, bool shi
         disabledFrames = 2;
         frameIndex = 0;
         frameLengthCounter = 0;
+
+        Audio_destroy(&audio1);
+        Audio_play(VALVANO_SOUND_DOWNAIR, 0.5, &audio1);
     }
         //  up air
     else if(disabledFrames == 0 && y > floor
@@ -1048,6 +1091,9 @@ void Valvano::controlLoop(float joyH, float joyV, bool btnA, bool btnB, bool shi
         disabledFrames = 2;
         frameIndex = 0;
         frameLengthCounter = 0;
+
+        Audio_destroy(&audio1);
+        Audio_play(VALVANO_SOUND_UPAIR, 0.5, &audio1);
     }
         //  forward + back air
     else if(disabledFrames == 0 && y > floor
@@ -1059,6 +1105,9 @@ void Valvano::controlLoop(float joyH, float joyV, bool btnA, bool btnB, bool shi
         disabledFrames = 2;
         frameIndex = 0;
         frameLengthCounter = 0;
+
+        Audio_destroy(&audio1);
+        Audio_play(VALVANO_SOUND_FORWARDAIR, 0.5, &audio1);
     }
         //  forward tilt
     else if(disabledFrames == 0 && y == floor && (action == VAL_ACTION_RUNNING || action == VAL_ACTION_RESTING)
@@ -1069,6 +1118,12 @@ void Valvano::controlLoop(float joyH, float joyV, bool btnA, bool btnB, bool shi
         disabledFrames = 2;
         frameIndex = 0;
         frameLengthCounter = 0;
+
+        Audio_destroy(&audio1);
+        Audio_play(VALVANO_SOUND_FORWARDTILT, 0.5, &audio1);
+
+        Audio_destroy(&audio2);
+        Audio_play(VALVANO_SOUND_LINE_TAKETHIS, 0.5, &audio2);
     }
         //  up tilt
     else if(disabledFrames == 0 && y == floor && (action == VAL_ACTION_RUNNING || action == VAL_ACTION_RESTING)
@@ -1077,6 +1132,9 @@ void Valvano::controlLoop(float joyH, float joyV, bool btnA, bool btnB, bool shi
         disabledFrames = 2;
         frameIndex = 0;
         frameLengthCounter = 0;
+
+        Audio_destroy(&audio1);
+        Audio_play(VALVANO_SOUND_UPTILT, 0.5, &audio1);
     }
         //  dash attack
     else if(disabledFrames == 0 && y == floor && action == VAL_ACTION_RUNNING
@@ -1087,6 +1145,9 @@ void Valvano::controlLoop(float joyH, float joyV, bool btnA, bool btnB, bool shi
         frameIndex = 0;
         frameLengthCounter = 0;
         dashAttackStartTime = currentTime;
+
+        Audio_destroy(&audio1);
+        Audio_play(VALVANO_SOUND_DASHATTACK, 0.5, &audio1);
     }
         //  down B
     else if(!robotCarActive && disabledFrames == 0 && currentTime - l_btnBRise_t == 0
@@ -1096,6 +1157,9 @@ void Valvano::controlLoop(float joyH, float joyV, bool btnA, bool btnB, bool shi
         frameIndex = 0;
         frameLengthCounter = 0;
         mirrored = l_mirrored;
+
+        Audio_destroy(&audio1);
+        Audio_play(VALVANO_SOUND_DROPCAR, 0.5, &audio1);
     }
         //  up special
     else if(!noJumpsDisabled &&
@@ -1114,6 +1178,13 @@ void Valvano::controlLoop(float joyH, float joyV, bool btnA, bool btnB, bool shi
 
         upSpecialStartTime = currentTime;
         y++;
+
+        Audio_destroy(&audio1);
+        Audio_play(VALVANO_SOUND_UPSPECIAL, 0.5, &audio1);
+
+        //  let's go flying
+        Audio_destroy(&audio2);
+        Audio_play(VALVANO_SOUND_LINE_LETSGOFLYING, 1.0, &audio2);
     }
         //  side special
     else if(disabledFrames == 0 && currentTime - l_btnBRise_t == 0
@@ -1123,6 +1194,9 @@ void Valvano::controlLoop(float joyH, float joyV, bool btnA, bool btnB, bool shi
         frameIndex = 0;
         frameLengthCounter = 0;
         mirrored = joyH < 0;
+
+        Audio_destroy(&audio2);
+        Audio_play(VALVANO_SOUND_LINE_THEREYOUGO, 0.8, &audio2);
     }
         //  neutral B
     else if(disabledFrames == 0 && currentTime - l_btnBRise_t == 0
@@ -1150,6 +1224,9 @@ void Valvano::controlLoop(float joyH, float joyV, bool btnA, bool btnB, bool shi
         frameIndex = 0;
         frameLengthCounter = 0;
         ledgeGrabTime = currentTime;
+
+        Audio_destroy(&audio1);
+        Audio_play(VALVANO_SOUND_JUMP, 0.5, &audio1);
     }
         //  double jump
     else if( disabledFrames == 0
@@ -1166,6 +1243,9 @@ void Valvano::controlLoop(float joyH, float joyV, bool btnA, bool btnB, bool shi
 
         if(joyH == 0) mirrored = l_mirrored;
         else mirrored = joyH < 0;
+
+        Audio_destroy(&audio1);
+        Audio_play(VALVANO_SOUND_JUMP, 0.5, &audio1);
     }
         //  shield
     else if(disabledFrames == 0 &&
@@ -1173,7 +1253,8 @@ void Valvano::controlLoop(float joyH, float joyV, bool btnA, bool btnB, bool shi
                action == VAL_ACTION_DOUBLEJUMPING) ||
               (y == floor && (action == VAL_ACTION_RESTING || action == VAL_ACTION_RUNNING ||
                               action == VAL_ACTION_CROUCHING)) )
-            && shield && !l_shield && (PLAYER_SHIELD_MAXDAMAGE - shieldDamage > 10)) {
+            && shield && !l_shield && (PLAYER_SHIELD_MAXDAMAGE - shieldDamage > 10)
+            && currentTime - l_shieldFall_t > 300) {
         action = VAL_ACTION_SHIELD;
         disabledFrames = 2;
 
@@ -1187,6 +1268,9 @@ void Valvano::controlLoop(float joyH, float joyV, bool btnA, bool btnB, bool shi
         action = VAL_ACTION_RUNNING;
         frameIndex = 0;
         frameLengthCounter = 0;
+
+        Audio_destroy(&audio1);
+        Audio_play(VALVANO_SOUND_RUNSTART, 0.5, &audio1);
     }
         //  crouching
     else if((action == VAL_ACTION_RESTING || action == VAL_ACTION_RUNNING || action == VAL_ACTION_HURT) &&
@@ -1196,6 +1280,9 @@ void Valvano::controlLoop(float joyH, float joyV, bool btnA, bool btnB, bool shi
 
         frameIndex = 0;
         frameLengthCounter = 0;
+
+        Audio_destroy(&audio1);
+        Audio_play(VALVANO_SOUND_CROUCH, 0.5, &audio1);
     }
         //  resting
     else if(disabledFrames == 0 &&
@@ -1243,6 +1330,7 @@ void Valvano::collide(Hurtbox *hurtbox, Player *otherPlayer) {
             disabledFrames = 6;
             jumpsUsed = 0;
 
+            Audio_destroy(&audio1);
             Audio_play(SOUND_LEDGECATCH, 0.5, &audio1);
         }
         return;
@@ -1269,17 +1357,27 @@ void Valvano::collide(Hurtbox *hurtbox, Player *otherPlayer) {
 
         action = VAL_ACTION_HURT;
 
+        int rand = random(0, 99);
+
         Audio_destroy(&audio1);
         Audio_destroy(&audio2);
+        if(hurtbox->xKnockback * knockbackMultiplier >= 5.0) {
+            Audio_play(SOUND_CROWDCHEER, 0.5, &audio1);
+        }
+        else {
+            if(rand % 2 == 0) {
+                if(audio1 == -1) Audio_play(VALVANO_SOUND_HURT1, 0.5, &audio1);
+            }
+            else {
+                if(audio1 == -1) Audio_play(VALVANO_SOUND_HURT2, 0.5, &audio1);
+            }
+        }
         if(hurtbox->xKnockback * knockbackMultiplier >= 3.0) {
             int rand = random(1, 4);
             if(rand == 1) Audio_play(SOUND_HIT1, 0.5, &audio2);
             else if(rand == 2) Audio_play(SOUND_HIT2, 0.5, &audio2);
             else if(rand == 3) Audio_play(SOUND_HIT3, 0.5, &audio2);
             else if(rand == 4) Audio_play(SOUND_HIT4, 0.5, &audio2);
-        }
-        if(hurtbox->xKnockback * knockbackMultiplier >= 5.0) {
-            Audio_play(SOUND_CROWDCHEER, 0.5, &audio1);
         }
     }
 }

@@ -1905,7 +1905,8 @@ void Kirby::controlLoop(float joyH, float joyV, bool btnA, bool btnB, bool shiel
                action == KIRBY_ACTION_MULTIJUMPING) ||
               (y == floor && (action == KIRBY_ACTION_RESTING || action == KIRBY_ACTION_RUNNING ||
               action == KIRBY_ACTION_CROUCHING)) )
-              && shield && !l_shield && (PLAYER_SHIELD_MAXDAMAGE - shieldDamage > 10)) {
+              && shield && !l_shield && (PLAYER_SHIELD_MAXDAMAGE - shieldDamage > 10)
+              && currentTime - l_shieldFall_t > 300) {
         action = KIRBY_ACTION_SHIELD;
         disabledFrames = 2;
 
@@ -1927,6 +1928,7 @@ void Kirby::controlLoop(float joyH, float joyV, bool btnA, bool btnB, bool shiel
         action = KIRBY_ACTION_JUMPING;
         frameIndex = 0;
         ledgeGrabTime = currentTime;
+
         Audio_destroy(&audio1);
         Audio_play(KIRBY_SOUND_JUMP, 0.5, &audio1);
     }
@@ -1944,6 +1946,7 @@ void Kirby::controlLoop(float joyH, float joyV, bool btnA, bool btnB, bool shiel
 
         if(joyH == 0) mirrored = l_mirrored;
         else mirrored = joyH < 0;
+
         Audio_destroy(&audio1);
         Audio_play(KIRBY_SOUND_JUMP, 0.5, &audio1);
     }
@@ -1952,10 +1955,11 @@ void Kirby::controlLoop(float joyH, float joyV, bool btnA, bool btnB, bool shiel
             && absVal(joyH) > 0) {
         l_action = action;
         action = KIRBY_ACTION_RUNNING;
-        Audio_destroy(&audio1);
-        Audio_play(KIRBY_SOUND_RUNSTART, 0.5, &audio1);
         frameIndex = 0;
         frameLengthCounter = 0;
+
+        Audio_destroy(&audio1);
+        Audio_play(KIRBY_SOUND_RUNSTART, 0.5, &audio1);
     }
         //  crouching
     else if(disabledFrames == 0 &&
@@ -2007,6 +2011,7 @@ void Kirby::collide(Hurtbox *hurtbox, Player *otherPlayer) {
             disabledFrames = 6;
             jumpsUsed = 0;
 
+            Audio_destroy(&audio1);
             Audio_play(SOUND_LEDGECATCH, 0.5, &audio1);
         }
         return;
