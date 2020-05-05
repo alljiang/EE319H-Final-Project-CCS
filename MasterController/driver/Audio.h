@@ -109,6 +109,7 @@ extern "C" {
 #define VALVANO_SOUND_LINE_LETSGOFLYING 91
 #define VALVANO_SOUND_LINE_THEREYOUGO 92
 #define VALVANO_SOUND_LINE_TAKETHIS 93
+#define VALVANO_SOUND_LINE_ENJOY 94
 //#define VALVANO_SOUND_ 94
 //#define VALVANO_SOUND_ 95
 //#define VALVANO_SOUND_ 96
@@ -232,7 +233,7 @@ const char soundNames[200][7] = {
                 {"vlgfl"},
                 {"vtygo"},
                 {"vtkth"},
-                {""},
+                {"venjy"},
                 {""},
                 {""},
                 {""},

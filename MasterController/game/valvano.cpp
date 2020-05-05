@@ -1161,6 +1161,9 @@ void Valvano::controlLoop(float joyH, float joyV, bool btnA, bool btnB, bool shi
 
         Audio_destroy(&audio1);
         Audio_play(VALVANO_SOUND_DROPCAR, 0.5, &audio1);
+
+        Audio_destroy(&audio2);
+        Audio_play(VALVANO_SOUND_LINE_ENJOY, 0.5, &audio2);
     }
         //  up special
     else if(!noJumpsDisabled &&
@@ -1349,7 +1352,7 @@ void Valvano::collide(Hurtbox *hurtbox, Player *otherPlayer) {
         disabledFrames = hurtbox->stunFrames;
         damage += hurtbox->damage;
 
-        float knockbackMultiplier = damage / 130. + 1.0;
+        float knockbackMultiplier = damage / 100. + 1.0;
 //        printf("%0.1f\n", damage);
 
         if (otherPlayer->x < x) xVel = hurtbox->xKnockback * knockbackMultiplier;

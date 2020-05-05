@@ -2029,7 +2029,7 @@ void Kirby::collide(Hurtbox *hurtbox, Player *otherPlayer) {
         disabledFrames = hurtbox->stunFrames;
         damage += hurtbox->damage;
 
-        float knockbackMultiplier = damage / 130. + 1.0;
+        float knockbackMultiplier = damage / 100. + 1.0;
 
         if (otherPlayer->x < x) xVel = hurtbox->xKnockback * knockbackMultiplier;
         else xVel = -hurtbox->xKnockback * knockbackMultiplier;
