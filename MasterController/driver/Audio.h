@@ -104,6 +104,38 @@ extern "C" {
 //#define SOUND_ 85
 //#define SOUND_ 86
 
+#define VALVANO_SOUND_LINE_HIIMJONVALVANO 90
+#define VALVANO_SOUND_LINE_LETSGOFLYING 91
+#define VALVANO_SOUND_LINE_THEREYOUGO 92
+#define VALVANO_SOUND_LINE_TAKETHIS 93
+//#define VALVANO_SOUND_ 94
+//#define VALVANO_SOUND_ 95
+//#define VALVANO_SOUND_ 96
+//#define VALVANO_SOUND_ 97
+//#define VALVANO_SOUND_ 98
+//#define VALVANO_SOUND_ 99
+#define VALVANO_SOUND_CROUCH 100
+#define VALVANO_SOUND_RISE 101
+#define VALVANO_SOUND_STEP 102
+#define VALVANO_SOUND_JUMP 103
+#define VALVANO_SOUND_LANDING 104
+#define VALVANO_SOUND_HURT1 105
+#define VALVANO_SOUND_HURT2 106
+#define VALVANO_SOUND_RUNSTART 107
+#define VALVANO_SOUND_JAB 108
+#define VALVANO_SOUND_FORWARDTILT 109
+#define VALVANO_SOUND_UPTILT 110
+#define VALVANO_SOUND_DOWNTILT 111
+#define VALVANO_SOUND_FORWARDAIR 112
+#define VALVANO_SOUND_NEUTRALAIR 113
+#define VALVANO_SOUND_UPAIR 114
+#define VALVANO_SOUND_DOWNAIR 115
+#define VALVANO_SOUND_DASHATTACK 116
+#define VALVANO_SOUND_LASER 117
+#define VALVANO_SOUND_UPSPECIAL 118
+#define VALVANO_SOUND_DROPCAR 119
+#define VALVANO_SOUND_EXPLOSION 120
+
 const char soundNames[200][7] = {
 /*  0   */      {"menu"},
                 {"321go"},
@@ -205,7 +237,31 @@ const char soundNames[200][7] = {
                 {""},
                 {""},
                 {""},
-/*  100  */      {""},
+/*  100  */     {""},
+                {""},
+                {""},
+                {""},
+                {""},
+                {""},
+                {""},
+                {""},
+                {""},
+                {""},
+/*  110 */      {""},
+                {""},
+                {""},
+                {""},
+                {""},
+                {""},
+                {""},
+                {""},
+                {""},
+                {""},
+/*  120 */      {""},
+                {""},
+                {""},
+                {""},
+                {""},
 };
 
 struct AudioParams {
