@@ -202,13 +202,13 @@ const char animations[CHARACTERS][64][12] = {
                                                 {"ledge"},  //  1
                                                 {"shield"}, //  1
                                                 {"hurt"},   //  2
-                                                {""},
+                                                {"stun"},   //  4
                                                 {""},
                /*   10  */                      {"dashattack"},     //  5
                                                 {"jab"},    //  5 (first jab) + 3 (second jab)
                                                 {"ftilt"},      //  4
                                                 {"dtilt"},  //  2
-                                                {""},
+                                                {"utilt"},  //  5
                                                 {""},
                                                 {""},
                                                 {""},

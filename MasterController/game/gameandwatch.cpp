@@ -1746,6 +1746,8 @@ void GameandWatch::collide(Hurtbox *hurtbox, Player *otherPlayer) {
             y = hurtbox->y;
             disabledFrames = 6;
             jumpsUsed = 0;
+
+            Audio_play(SOUND_LEDGECATCH, 0.5, &audio1);
         }
         return;
     }

@@ -97,7 +97,7 @@ extern "C" {
 #define SOUND_SHIELDDOWN 78
 #define SOUND_SHIELDBREAK 79
 #define SOUND_CROWDCHEER 80
-//#define SOUND_ 81
+#define SOUND_LEDGECATCH 81
 //#define SOUND_ 82
 //#define SOUND_ 83
 //#define SOUND_ 84
@@ -186,7 +186,7 @@ const char soundNames[200][7] = {
                 {"mshdn"},
                 {"mshbk"},
 /*  80  */      {"mcrdc"},
-                {""},
+                {"mldge"},
                 {""},
                 {""},
                 {""},
