@@ -103,7 +103,6 @@ void game_startup() {
     sleep(1000);
 
     //  stop menu music, play stage background music
-    Audio_destroyAudio(&backgroundAudioHandle, true);
     if(stageToPlay == STAGE_FINALDESTINATION)
         Audio_play(STAGE_SOUND_FINALDESTINATION, 0.4, &backgroundAudioHandle, 0, -1, true);
     else if(stageToPlay == STAGE_TOWER)
@@ -293,6 +292,7 @@ void startup() {
         winScreen.start(winner, winningCharacter, english);
     }
     else {
+        Audio_destroyAudio(&backgroundAudioHandle, true);
         game_startup();
     }
 }
