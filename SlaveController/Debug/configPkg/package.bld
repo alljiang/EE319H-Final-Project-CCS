@@ -11,7 +11,7 @@ var makeAssembly = false;
 var Executable = xdc.module('xdc.bld.Executable');
 
 var exeOpts = new Executable.Attrs({
-        cfgScript: 'C:/Users/Allen/Documents/GitHub/EE319H-Final-Project-CCS/SlaveController/SlaveController.cfg',
+        cfgScript: 'C:/Users/Allen/workspace_v9/SlaveController/SlaveController.cfg',
         profile: 'release',
         cfgHome: 'configPkg',
 });
@@ -41,7 +41,7 @@ else {
 
 var thisObj = {
     cfg:        '../SlaveController.cfg',
-    outputPath: 'C:/Users/Allen/Documents/GitHub/EE319H-Final-Project-CCS/SlaveController/Debug/configPkg',
+    outputPath: 'C:/Users/Allen/workspace_v9/SlaveController/Debug/configPkg',
     exeName:    'SlaveController' + suffix,
     exeIntName: 'SlaveController' + suffix.replace('.', '_'),
     targ:       targ,

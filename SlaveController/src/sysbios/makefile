@@ -16,11 +16,11 @@ BIOS_INC  = -I"C:/ti/tirtos_tivac_2_16_00_08/products/bios_6_45_01_29/packages/"
 
 TARGET_INC = -I"C:/ti/tirtos_tivac_2_16_00_08/products/bios_6_45_01_29/packages/"
 
-INCS = $(BIOS_INC) $(TARGET_INC)  --include_path="C:/Users/Allen/Documents/GitHub/EE319H-Final-Project-CCS/SlaveController/driver/" --include_path="C:/Users/Allen/Documents/GitHub/EE319H-Final-Project-CCS/SlaveController" --include_path="C:/Users/Allen/Documents/GitHub/EE319H-Final-Project-CCS/SlaveController" --include_path="C:/ti/tirtos_tivac_2_16_00_08/products/TivaWare_C_Series-2.1.1.71b" --include_path="C:/ti/tirtos_tivac_2_16_00_08/products/bios_6_45_01_29/packages/ti/sysbios/posix" --include_path="C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include" 
+INCS = $(BIOS_INC) $(TARGET_INC)  --include_path="C:/Users/Allen/workspace_v9/SlaveController" --include_path="C:/Users/Allen/workspace_v9/SlaveController/driver" --include_path="C:/Users/Allen/workspace_v9/SlaveController/src" --include_path="C:/Users/Allen/workspace_v9/SlaveController" --include_path="C:/ti/tirtos_tivac_2_16_00_08/products/TivaWare_C_Series-2.1.1.71b" --include_path="C:/ti/tirtos_tivac_2_16_00_08/products/bios_6_45_01_29/packages/ti/sysbios/posix" --include_path="C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_20.2.5.LTS/include" 
 
-CC = C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/bin/armcl -c $(CCOPTS) -I C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include
-ASM = C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/bin/armcl -c $(CCOPTS) -I C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include
-AR = C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/bin/armar rq
+CC = C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_20.2.5.LTS/bin/armcl -c $(CCOPTS) -I C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_20.2.5.LTS/include
+ASM = C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_20.2.5.LTS/bin/armcl -c $(CCOPTS) -I C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_20.2.5.LTS/include
+AR = C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_20.2.5.LTS/bin/armar rq
 
 DEL = C:/ti/ccs930/xdctools_3_60_02_34_core/packages/../bin/rm -f
 CP = C:/ti/ccs930/xdctools_3_60_02_34_core/packages/../bin/cp -f

@@ -1,28 +1,29 @@
 # FIXED
 
 driver/Flash.obj: ../driver/Flash.c
-driver/Flash.obj: C:/Users/Allen/Documents/GitHub/EE319H-Final-Project-CCS/SlaveController/driver/Board.h
-driver/Flash.obj: C:/Users/Allen/Documents/GitHub/EE319H-Final-Project-CCS/SlaveController/driver/EK_TM4C123GXL.h
+driver/Flash.obj: C:/Users/Allen/workspace_v9/SlaveController/driver/Board.h
+driver/Flash.obj: C:/Users/Allen/workspace_v9/SlaveController/driver/EK_TM4C123GXL.h
 driver/Flash.obj: C:/ti/ccs930/xdctools_3_60_02_34_core/packages/xdc/std.h
-driver/Flash.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/stdarg.h
-driver/Flash.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/sys/_types.h
-driver/Flash.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/sys/cdefs.h
-driver/Flash.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/machine/_types.h
-driver/Flash.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/stddef.h
-driver/Flash.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/_ti_config.h
-driver/Flash.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/linkage.h
+driver/Flash.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_20.2.5.LTS/include/stdarg.h
+driver/Flash.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_20.2.5.LTS/include/sys/_types.h
+driver/Flash.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_20.2.5.LTS/include/sys/cdefs.h
+driver/Flash.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_20.2.5.LTS/include/_ti_config.h
+driver/Flash.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_20.2.5.LTS/include/linkage.h
+driver/Flash.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_20.2.5.LTS/include/machine/_types.h
+driver/Flash.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_20.2.5.LTS/include/stddef.h
 driver/Flash.obj: C:/ti/tirtos_tivac_2_16_00_08/products/bios_6_45_01_29/packages/ti/targets/arm/elf/std.h
 driver/Flash.obj: C:/ti/tirtos_tivac_2_16_00_08/products/bios_6_45_01_29/packages/ti/targets/arm/elf/M4F.h
 driver/Flash.obj: C:/ti/tirtos_tivac_2_16_00_08/products/bios_6_45_01_29/packages/ti/targets/std.h
-driver/Flash.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/stdint.h
-driver/Flash.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/_stdint40.h
-driver/Flash.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/sys/stdint.h
-driver/Flash.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/machine/_stdint.h
-driver/Flash.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/sys/_stdint.h
-driver/Flash.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/stdlib.h
-driver/Flash.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/stdio.h
-driver/Flash.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/stdbool.h
-driver/Flash.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/string.h
+driver/Flash.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_20.2.5.LTS/include/stdint.h
+driver/Flash.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_20.2.5.LTS/include/_stdint40.h
+driver/Flash.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_20.2.5.LTS/include/sys/stdint.h
+driver/Flash.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_20.2.5.LTS/include/machine/_stdint.h
+driver/Flash.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_20.2.5.LTS/include/sys/_stdint.h
+driver/Flash.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_20.2.5.LTS/include/stdlib.h
+driver/Flash.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_20.2.5.LTS/include/stdio.h
+driver/Flash.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_20.2.5.LTS/include/stdbool.h
+driver/Flash.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_20.2.5.LTS/include/string.h
+driver/Flash.obj: C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_20.2.5.LTS/include/xlocale/_string.h
 driver/Flash.obj: C:/ti/ccs930/xdctools_3_60_02_34_core/packages/xdc/runtime/Diags.h
 driver/Flash.obj: C:/ti/ccs930/xdctools_3_60_02_34_core/packages/xdc/runtime/xdc.h
 driver/Flash.obj: C:/ti/ccs930/xdctools_3_60_02_34_core/packages/xdc/runtime/Types.h
@@ -118,28 +119,29 @@ driver/Flash.obj: ../driver/Flash.h
 driver/Flash.obj: C:/ti/tirtos_tivac_2_16_00_08/products/tidrivers_tivac_2_16_00_08/packages/ti/drivers/SPI.h
 
 ../driver/Flash.c: 
-C:/Users/Allen/Documents/GitHub/EE319H-Final-Project-CCS/SlaveController/driver/Board.h: 
-C:/Users/Allen/Documents/GitHub/EE319H-Final-Project-CCS/SlaveController/driver/EK_TM4C123GXL.h: 
+C:/Users/Allen/workspace_v9/SlaveController/driver/Board.h: 
+C:/Users/Allen/workspace_v9/SlaveController/driver/EK_TM4C123GXL.h: 
 C:/ti/ccs930/xdctools_3_60_02_34_core/packages/xdc/std.h: 
-C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/stdarg.h: 
-C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/sys/_types.h: 
-C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/sys/cdefs.h: 
-C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/machine/_types.h: 
-C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/stddef.h: 
-C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/_ti_config.h: 
-C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/linkage.h: 
+C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_20.2.5.LTS/include/stdarg.h: 
+C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_20.2.5.LTS/include/sys/_types.h: 
+C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_20.2.5.LTS/include/sys/cdefs.h: 
+C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_20.2.5.LTS/include/_ti_config.h: 
+C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_20.2.5.LTS/include/linkage.h: 
+C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_20.2.5.LTS/include/machine/_types.h: 
+C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_20.2.5.LTS/include/stddef.h: 
 C:/ti/tirtos_tivac_2_16_00_08/products/bios_6_45_01_29/packages/ti/targets/arm/elf/std.h: 
 C:/ti/tirtos_tivac_2_16_00_08/products/bios_6_45_01_29/packages/ti/targets/arm/elf/M4F.h: 
 C:/ti/tirtos_tivac_2_16_00_08/products/bios_6_45_01_29/packages/ti/targets/std.h: 
-C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/stdint.h: 
-C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/_stdint40.h: 
-C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/sys/stdint.h: 
-C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/machine/_stdint.h: 
-C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/sys/_stdint.h: 
-C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/stdlib.h: 
-C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/stdio.h: 
-C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/stdbool.h: 
-C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS/include/string.h: 
+C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_20.2.5.LTS/include/stdint.h: 
+C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_20.2.5.LTS/include/_stdint40.h: 
+C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_20.2.5.LTS/include/sys/stdint.h: 
+C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_20.2.5.LTS/include/machine/_stdint.h: 
+C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_20.2.5.LTS/include/sys/_stdint.h: 
+C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_20.2.5.LTS/include/stdlib.h: 
+C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_20.2.5.LTS/include/stdio.h: 
+C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_20.2.5.LTS/include/stdbool.h: 
+C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_20.2.5.LTS/include/string.h: 
+C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_20.2.5.LTS/include/xlocale/_string.h: 
 C:/ti/ccs930/xdctools_3_60_02_34_core/packages/xdc/runtime/Diags.h: 
 C:/ti/ccs930/xdctools_3_60_02_34_core/packages/xdc/runtime/xdc.h: 
 C:/ti/ccs930/xdctools_3_60_02_34_core/packages/xdc/runtime/Types.h: 

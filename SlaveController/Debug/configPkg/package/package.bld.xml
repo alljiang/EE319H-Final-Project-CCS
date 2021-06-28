@@ -7,7 +7,7 @@
         <srcFile name="package/cfg/SlaveController_pem4f.c"/>
     </sources>
     <configscripts>
-        <srcFile name="C:/Users/Allen/Documents/GitHub/EE319H-Final-Project-CCS/SlaveController/SlaveController.cfg"/>
+        <srcFile name="C:/Users/Allen/workspace_v9/SlaveController/SlaveController.cfg"/>
     </configscripts>
     <makefiles>
         <srcFile name="package.mak" src="package.bld"/>
@@ -20,12 +20,12 @@
     </makefiles>
     <targets>
         <target name="ti.targets.arm.elf.M4F"
-            version="ti.targets.arm.elf.M4F{1,0,19.6,0"
-            rawVersion="19.6.0"
+            version="ti.targets.arm.elf.M4F{1,0,20.2,5"
+            rawVersion="20.2.5"
             platform="ti.platforms.tiva:TM4C1294NCPDT:1"
             isa="v7M4"
             suffix="em4f"
-            rootDir="C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_19.6.0.STS"
+            rootDir="C:/ti/ccs930/ccs/tools/compiler/ti-cgt-arm_20.2.5.LTS"
             os="undefined"
             rts="ti.targets.arm.rtsarm">
             <model endian="little"
@@ -44,7 +44,7 @@
         isPartial="false"
         xCfgScript="package/cfg/SlaveController_pem4f.cfg"
         xCfgPrefix="package/cfg/SlaveController_pem4f"
-        cfgScript="C:/Users/Allen/Documents/GitHub/EE319H-Final-Project-CCS/SlaveController/SlaveController.cfg"
+        cfgScript="C:/Users/Allen/workspace_v9/SlaveController/SlaveController.cfg"
         cfgArgs="null"
         />
     </configurations>
@@ -56,7 +56,7 @@
         profile="release"
         xCfgScript="package/cfg/SlaveController_pem4f.cfg"
         xCfgPrefix="package/cfg/SlaveController_pem4f"
-        cfgScript="C:/Users/Allen/Documents/GitHub/EE319H-Final-Project-CCS/SlaveController/SlaveController.cfg"
+        cfgScript="C:/Users/Allen/workspace_v9/SlaveController/SlaveController.cfg"
         cfgArgs="null"
         />
     </executables>

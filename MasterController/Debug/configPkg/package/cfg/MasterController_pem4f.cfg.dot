@@ -5,7 +5,7 @@ digraph configuration {
     concentrate=true;
     compound=true;
     label="\nConfiguration for configPkg/MasterController.xem4f"
-  node [font=Helvetica, fontsize=14, fontcolor=black];  subgraph cluster0 {label=""; __cfg [label="C:/Users/Allen/Documents/GitHub/EE319H-Final-Project-CCS/MasterController/MasterController.cfg", color=white, fontcolor=blue];
+  node [font=Helvetica, fontsize=14, fontcolor=black];  subgraph cluster0 {label=""; __cfg [label="C:/Users/Allen/workspace_v9/MasterController/MasterController.cfg", color=white, fontcolor=blue];
     node [font=Helvetica, fontsize=10];    subgraph cluster1 {
         label="";
         xdc_services_global__top [shape=box,label="xdc.services.global\n1,0,0,0", color=white];
@@ -452,6 +452,6 @@ digraph configuration {
     ti_sysbios_heaps__bot -> ti_targets_arm_elf_M4F__1_0_5__2_5 [ltail=cluster42];
     ti_targets_arm_elf_M4F__1_0_5__2_5 [shape=record,label="ti.targets.arm.elf.M4F|1,0,5.2,5",style=filled, fillcolor=lightgrey];
     ti_sysbios_utils__bot -> ti_targets_arm_elf_M4F__1_0_5__2_5 [ltail=cluster43];
-    ti_targets_arm_elf_M4F__1_0_19__6_0 [shape=record,label="ti.targets.arm.elf.M4F|1,0,19.6,0",style=filled, fillcolor=lightgrey];
-    configPkg__top -> ti_targets_arm_elf_M4F__1_0_19__6_0 [ltail=cluster44];
+    ti_targets_arm_elf_M4F__1_0_20__2_5 [shape=record,label="ti.targets.arm.elf.M4F|1,0,20.2,5",style=filled, fillcolor=lightgrey];
+    configPkg__top -> ti_targets_arm_elf_M4F__1_0_20__2_5 [ltail=cluster44];
 }
