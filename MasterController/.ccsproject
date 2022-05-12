@@ -12,5 +12,5 @@
 	<templateProperties value="id=com_ti_rtsc_tirtostivac_example_79.projectspec.empty_min_EK_TM4C123GXL_TI,type=rtsc,products=com.ti.rtsc.TIRTOStivac,xdcToolsVersion=3_32_00_06_core,target=ti.targets.arm.elf.M4F,platform=ti.platforms.tiva:TM4C123GH6PM,buildProfile=release,isHybrid=true,configuroOptions= --compileOptions &quot;${COMPILER_FLAGS} &quot;"/>
 	<origin value="C:\ti\tirtos_tivac_2_16_00_08\resources\ek_tm4C123GXLEvaluationKit\driverExamples\tiDriverExamples\emptyExamples\com_ti_rtsc_tirtostivac_example_79.projectspec"/>
 	<filesToOpen value=""/>
-	<isTargetManual value="false"/>
+	<isTargetManual value="true"/>
 </projectOptions>

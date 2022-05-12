@@ -108,7 +108,7 @@ void Controller_updateController(UArg arg0) {
 //    System_printf("%d\t%d\n", adcOut0, adcOut1);
 
     if(adcOut0 >= 2500) joystick1_v = 1;
-    else if(adcOut0 >= 90) joystick1_v = 0.3;
+    else if(adcOut0 >= 130) joystick1_v = 0.3;
     else if(adcOut0 <= 17) joystick1_v = -1;
     else if(adcOut0 <= 30) joystick1_v = -0.3;
     else joystick1_v = 0;
